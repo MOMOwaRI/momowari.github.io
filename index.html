@@ -148,16 +148,34 @@
   #sns-note .pk-dots span.on{background:#fff}
   #sns-note .sns-profile h1{font-size:26px}
 </style>
+<style>
+/* ===== motion-pack ===== */
+/* ===== motion-pack: scroll reveal (OHANAトップ方式) ===== */
+html.js .mrv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+html.js .mrv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){html.js .mrv{opacity:1;transform:none;transition:none}}
+
+@keyframes mfu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.mfu{animation:mfu .85s ease both;animation-delay:var(--md,0s)}
+@media (prefers-reduced-motion: reduce){.mfu{animation:none}}
+
+.mq{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mq-in{display:inline-flex;animation:mqmove 30s linear infinite;will-change:transform}
+.mq-half{padding:.55em 0}
+@keyframes mqmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.mq-in{animation:none}}
+.mq{max-width:720px;margin:20px auto 0;color:#c98a3d;font-weight:800;font-size:14px;letter-spacing:.1em}
+</style>
 </head>
 <body>
 <a id="mypage-btn" href="https://momowari.github.io/OHANA-share/login.html">マイページ</a>
 
 <header class="hero-head" aria-label="MOMOwaRIのご案内">
-  <span class="kick">松山市味酒町｜MAHALOビル</span>
-  <h1>MOMOwaRI</h1>
-  <p class="tag">美容室とまつげパーマ、雑貨と古着、選べる物々交換。</p>
-  <p class="lead">味酒町の小さなビルから、4つの活動をご案内します。</p>
-  <nav class="hero-nav" aria-label="活動へのリンク">
+  <span class="kick mfu" style="--md:0s">松山市味酒町｜MAHALOビル</span>
+  <h1 class="mfu" style="--md:.12s">MOMOwaRI</h1>
+  <p class="tag mfu" style="--md:.24s">美容室とまつげパーマ、雑貨と古着、選べる物々交換。</p>
+  <p class="lead mfu" style="--md:.36s">味酒町の小さなビルから、4つの活動をご案内します。</p>
+  <nav class="hero-nav mfu" style="--md:.5s" aria-label="活動へのリンク">
     <a href="#sns-note">SNS・note</a>
     <a href="#ohana">選べる物々交換</a>
     <a href="#lea">雑貨＆古着</a>
@@ -174,6 +192,7 @@
   <div class="dots"><span class="on"></span><span></span><span></span><span></span></div>
 </div>
 
+<div class="mq" aria-hidden="true"><div class="mq-in"><span class="mq-half">hair ID salon MAHALO　✦　Eyes MAHALO　✦　Lea Mahalo　✦　OHANAシェア＊プロジェクト　✦　<span class="mqdot"></span></span><span class="mq-half">hair ID salon MAHALO　✦　Eyes MAHALO　✦　Lea Mahalo　✦　OHANAシェア＊プロジェクト　✦　<span class="mqdot"></span></span></div></div>
 <div class="w">
   <div class="profile">
     <p>松山市味酒町を拠点に、美容室とまつげパーマ、雑貨と古着、そして選べる物々交換の活動をしています。4つの活動のご案内ページです。</p>
@@ -692,6 +711,21 @@ body.site-editing .card-order-controls{display:flex}
         })
         .catch(function(){ render(null); });
     });
+})();
+</script>
+
+<script>
+/* motion-pack: scroll reveal */
+(function(){
+document.documentElement.classList.add('js');
+if(!('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+var list = Array.prototype.slice.call(document.querySelectorAll('section, footer, .profile'));
+list = list.filter(function(el){ return !list.some(function(o){ return o !== el && el.contains(o); }); });
+list.forEach(function(el){ el.classList.add('mrv'); });
+var io = new IntersectionObserver(function(entries){
+entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold: 0, rootMargin: '0px 0px 15% 0px'});
+list.forEach(function(el){ io.observe(el); });
 })();
 </script>
 </body>
