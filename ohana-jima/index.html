@@ -110,8 +110,8 @@
   #miniMap { position:absolute; right:8px; bottom:8px; z-index:6; width:128px; background:rgba(255,253,247,.94); border:1.5px solid #d9a441; border-radius:12px; padding:5px 5px 3px; box-shadow:0 4px 14px rgba(60,40,10,.3); transition:width .25s ease; }
   #miniMap.big { width:226px; }
   #miniMap .mm-title { font-size:10.5px; color:#8a6a2a; text-align:center; margin-bottom:2px; cursor:pointer; }
-  #miniMap iframe { width:100%; height:96px; border:0; border-radius:8px; display:block; }
-  #miniMap.big iframe { height:190px; }
+  #miniTownMap { width:100%; height:auto; display:block; }
+  #miniTownMap .dot { cursor:pointer; }
 </style>
 </head>
 <body>
@@ -121,14 +121,30 @@
 
   <div class="stage"><div id="panorama"></div><div id="fxLayer"></div>
     <div id="miniMap">
-      <div class="mm-title" id="mmTitle">本物の地図（タップで拡大）</div>
-      <iframe id="gmap" src="https://maps.google.com/maps?q=33.8455583,132.7553375&z=16&output=embed" loading="lazy" title="本物の地図（Googleマップ）"></iframe>
+      <div class="mm-title" id="mmTitle">まちの地図（タップで移動）</div>
+      <svg id="miniTownMap" viewBox="0 0 340 300" role="img" aria-label="まちの地図">
+      <line x1="300" y1="8" x2="300" y2="212" stroke="#d9b96a" stroke-width="10" stroke-linecap="round" opacity=".5"/>
+      <polyline points="242,95 176,113 114,131" fill="none" stroke="#d9b96a" stroke-width="8" stroke-linecap="round" opacity=".5"/>
+      <polyline points="176,113 110,195 40,272" fill="none" stroke="#cbb27f" stroke-width="4" stroke-dasharray="6 5" opacity=".8"/>
+      <g class="dot" data-scene="tamago"><circle cx="295" cy="22" r="17" fill="transparent"/><circle cx="295" cy="22" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="yaoya"><circle cx="304" cy="75" r="17" fill="transparent"/><circle cx="304" cy="75" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="jinja"><circle cx="242" cy="95" r="17" fill="transparent"/><circle cx="242" cy="95" r="9" fill="#b5654d" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="street"><circle cx="176" cy="113" r="15" fill="transparent"/><circle cx="176" cy="113" r="7" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="front"><circle cx="114" cy="131" r="18" fill="transparent"/><circle cx="114" cy="131" r="10" fill="#0068B7" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="kayamachi"><circle cx="304" cy="203" r="17" fill="transparent"/><circle cx="304" cy="203" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="kayamachi2"><circle cx="302" cy="140" r="14" fill="transparent"/><circle cx="302" cy="140" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="street2"><circle cx="145" cy="122" r="14" fill="transparent"/><circle cx="145" cy="122" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="kayamachi3"><circle cx="303" cy="105" r="14" fill="transparent"/><circle cx="303" cy="105" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="pharmacy"><circle cx="102" cy="102" r="16" fill="transparent"/><circle cx="102" cy="102" r="8" fill="#d96a7a" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="koshin1"><circle cx="110" cy="195" r="14" fill="transparent"/><circle cx="110" cy="195" r="6" fill="#a9bd8f" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="koshin"><circle cx="38" cy="275" r="17" fill="transparent"/><circle cx="38" cy="275" r="9" fill="#7a9a5b" stroke="#fff" stroke-width="1.5"/></g>
+      </svg>
     </div>
     </div>
     <div class="panel" id="chat">
       <button id="chatClose" aria-label="閉じる">×</button>
-      <h2>MAHALO美容室 の店員猫</h2>
-      <p class="gnote">※ 公開版では、この回答をGeminiが担当します（試作では定型の受け答えです）</p>
+      <h2 id="chatShopTitle">MAHALO美容室 の店員猫</h2>
+      <p class="gnote">※ AIが答えています。間違うこともあるので、大事なことはお店にご確認ください</p>
       <div id="chatLog"></div>
       <div class="chips" id="chatChips"></div>
       <form id="chatForm">
@@ -164,7 +180,6 @@
       <g class="dot" data-scene="kayamachi2"><circle cx="302" cy="140" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="street2"><circle cx="145" cy="122" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="kayamachi3"><circle cx="303" cy="105" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="approach"><circle cx="129" cy="127" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="pharmacy"><circle cx="102" cy="102" r="8" fill="#d96a7a" stroke="#fff" stroke-width="1.5"/><text x="94" y="106" font-size="11" fill="#a03a4c" text-anchor="end">レデイ薬局</text></g>
       <g class="dot" data-scene="koshin1"><circle cx="110" cy="195" r="6" fill="#a9bd8f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="koshin"><circle cx="38" cy="275" r="9" fill="#7a9a5b" stroke="#fff" stroke-width="1.5"/><text x="53" y="279" font-size="11.5" fill="#5d4212">庚申庵</text></g>
@@ -178,7 +193,7 @@
       <h2 id="postTitle">投稿</h2>
       <p class="src" id="postSrc"></p>
       <p id="postText"></p>
-      <img class="photo" id="postImg" src="post-veg.jpg" alt="投稿の写真">
+      <img class="photo" id="postImg" src="post-veg-w.jpg" alt="投稿の写真">
       <p class="src" id="postCap"></p>
       <div id="postEmbed"></div>
       <div class="btns"><a class="act small" id="postLink" href="#" target="_blank" rel="noopener" style="text-decoration:none">実際の投稿を見る</a></div>
@@ -232,10 +247,10 @@
 <script src="vendor/pannellum.js"></script>
 <script>
 const POSTS = [
-  { id:"veg", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-10, img:"post-veg.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
+  { id:"veg", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-10, img:"post-veg-w.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
   { id:"sky", sns:"Threads", author:"まちの声（サンプル）", text:"雨上がりの通り、空がきれいだった", scene:"street", yaw:44, catName:"しろ", catImg:"cat-white-sit.png", pitch:-6, img:"ohana-island-streetview.jpg", cap:"雨上がりの通り（新海監督風のイメージ）", url:"https://www.threads.com/@momowari/post/Ddh2KEcE4JN" },
-  { id:"nano", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"front", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-10, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
-  { id:"lea", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea、可愛い雑貨がいっぱいだった", scene:"front", yaw:18, catName:"みけ", catImg:"cat-calico-sit.png", pitch:-10, img:"post-lea.jpg", cap:"Lea Mahaloの店内（実際の写真）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
+  { id:"nano", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"front", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-18, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
+  { id:"lea", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea、可愛い雑貨がいっぱいだった", scene:"front", yaw:36, catImg:"cat-calico-sit.png", pitch:-18, img:"post-lea-w.jpg", cap:"Lea Mahaloの店内（実際の写真をもとにした水彩画）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
   { id:"kureha", kind:"real", sns:"Instagram", author:"紅芭（くれは）さん", text:"萱町商店街で「ひっそり昼カフェ」を開いたよ", summary:"自分の店で開く短期営業「ひっそり昼カフェ」の告知（チーズケーキの写真）", scene:"kayamachi", yaw:26, catName:"はな", catImg:"cat-white-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DXzOsJ2EyDP/" },
   { id:"glatt", kind:"real", sns:"Threads", author:"GLATT［グラット］愛媛・松山さん", text:"丸五青果でキャベツと大根、お買い物したよ", summary:"丸五青果でお買い物。キャベツと大根（各138円）などの買い物記録", scene:"yaoya", yaw:55, catName:"くろ", catImg:"cat-black-sit.png", pitch:-10, permalink:"https://www.threads.com/@glatt.mens/post/DfDvMzpj1o0" },
   { id:"okamoto", kind:"real", sns:"Instagram", author:"岡本正美さん", text:"庚申庵の藤まつり、藤棚が見事だったよ", summary:"庚申庵の藤まつり。藤棚と庭園の写真", scene:"koshin", yaw:-48, catName:"こむぎ", catImg:"cat-calico-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DXZH2p6AX7n/" },
@@ -259,7 +274,6 @@ const SCENES = {
   jinja:      { pano:"mahalo-pano-jinja.jpg",      name:"阿沼美神社", yaw:-40, hfov:100 },
   street:     { pano:"mahalo-pano-street.jpg",     name:"味酒町の通り", yaw:-60, hfov:102 },
   street2:    { pano:"mahalo-pano-street2.jpg",    name:"味酒町の通り（MAHALO近く）", yaw:-40, hfov:102 },
-  approach:   { pano:"mahalo-pano-approach.jpg",   name:"通り（MAHALOの角）", yaw:-60, hfov:102 },
   koshin1:    { pano:"mahalo-pano-koshin1.jpg",    name:"庚申庵への路地", yaw:-40, hfov:100 },
   koshin:     { pano:"mahalo-pano-koshin.jpg",     name:"庚申庵", yaw:10, hfov:100 },
   front:      { pano:"mahalo-pano-front.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
@@ -280,12 +294,11 @@ const EXITS = {
   tamago:     [ { to:"yaoya", yaw:175, label:"南へ戻る（八百屋さん）", entry:-10 } ],
   jinja:      [ { to:"street", yaw:-163, label:"西へ（MAHALOの方）", entry:-140 }, { to:"yaoya", yaw:163, label:"東へ戻る（商店街）", entry:-60 } ],
   street:     [ { to:"street2", yaw:-140, label:"西へ進む", entry:-40 }, { to:"jinja", yaw:137, label:"東へ戻る（神社）", entry:165 }, { to:"koshin1", yaw:178, label:"南へ（庚申庵の方）", entry:-30 } ],
-  street2:    [ { to:"approach", yaw:-30, pitch:-9, label:"西へ進む（MAHALOの角）", entry:-60 }, { to:"street", yaw:140, label:"東へ戻る", entry:140 } ],
-  approach:   [ { to:"front", yaw:-115, pitch:-10, label:"MAHALOに着いた（店前へ）", entry:-15 }, { to:"pharmacy", yaw:95, pitch:-12, label:"レデイ薬局の方", entry:150 }, { to:"street2", yaw:35, label:"東へ戻る", entry:130 } ],
+  street2:    [ { to:"front", yaw:-30, pitch:-9, label:"西へ進む（MAHALO店前）", entry:150 }, { to:"street", yaw:140, label:"東へ戻る", entry:140 } ],
   koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"street", yaw:165, label:"北へ戻る（通り）", entry:-20 } ],
   koshin:     [ { to:"koshin1", yaw:170, label:"路地へ戻る", entry:-40 } ],
-  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:-135, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"approach", yaw:150, label:"通りへ戻る", entry:150 } ],
-  pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 }, { to:"approach", yaw:-140, label:"角の方へ", entry:-100 } ],
+  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:-135, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"street2", yaw:150, label:"通りへ戻る", entry:-30 } ],
+  pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 }, { to:"street2", yaw:-140, label:"角の方へ", entry:-100 } ],
   lea:        [ { to:"front", yaw:170, label:"ドアへ出る", entry:-15 } ],
   stairs:     [ { to:"counter", yaw:30, pitch:-4, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-100, pitch:-18, label:"下りる（店前へ）", entry:-15 } ],
   counter:    [ { to:"stairs", yaw:172, label:"外階段へ戻る", entry:-40 } ],
@@ -316,12 +329,12 @@ function shopCat(tag, text, imgSrc, yaw, shop) {
       const t = document.createElement("div"); t.className = "ktag"; t.textContent = tag;
       const b = document.createElement("div"); b.className = "cb"; b.textContent = text;
       const img = document.createElement("img"); img.src = imgSrc; img.alt = tag;
-      if (shop) w.addEventListener("pointerdown", (e) => { e.stopPropagation(); openChat(shop); });
+      if (shop) ["pointerdown","touchstart","click"].forEach(ev => w.addEventListener(ev, (e) => { e.stopPropagation(); openChat(shop); }));
       w.appendChild(t); w.appendChild(b); w.appendChild(img); div.appendChild(w);
     } };
 }
 function eluaCat() { return shopCat("elua 店員さん", "いらっしゃいませ", "cat-calico-sit.png", 28, "elua"); }
-function leaCat() { return shopCat("Lea 店員さん", "いらっしゃいませ", "cat-black-sit.png", -30, "lea"); }
+function leaCat() { return shopCat("Lea 店員さん", "いらっしゃいませ", "cat-white-sit.png", -30, "lea"); }
 
 function catSpot(post) {
   return { pitch: post.pitch, yaw: post.yaw, cssClass: "catspot",
@@ -331,7 +344,7 @@ function catSpot(post) {
       if (Math.random() < 0.35) b.classList.add("off");
       const img = document.createElement("img"); img.src = post.catImg; img.alt = post.catName;
       w.appendChild(b); w.appendChild(img);
-      w.addEventListener("pointerdown", (e) => { e.stopPropagation(); openPost(post); });
+      ["pointerdown","touchstart","click"].forEach(ev => w.addEventListener(ev, (e) => { e.stopPropagation(); openPost(post); }));
       div.appendChild(w);
     } };
 }
@@ -344,7 +357,7 @@ function keeperSpot(big) {
       const img = document.createElement("img");
       img.src = big ? "cat-tabby-walk.png" : "cat-tabby-sit.png"; img.alt = "店員猫";
       w.appendChild(tag); w.appendChild(b); w.appendChild(img);
-      w.addEventListener("pointerdown", (e) => { e.stopPropagation(); openChat(); });
+      ["pointerdown","touchstart","click"].forEach(ev => w.addEventListener(ev, (e) => { e.stopPropagation(); openChat(); }));
       div.appendChild(w);
     } };
 }
@@ -353,7 +366,7 @@ Object.keys(SCENES).forEach(id => {
   const sc = SCENES[id];
   const hs = (EXITS[id] || []).map(ex => ({ pitch: (ex.pitch != null ? ex.pitch : -17), yaw: ex.yaw, type: "info", cssClass: "walkspot",
     clickHandlerFunc: (evt, a) => walkTo(a), clickHandlerArgs: ex,
-    createTooltipFunc: (div, a) => { walkChevron(div, a); div.addEventListener("pointerdown", (e) => { e.stopPropagation(); walkTo(a); }); }, createTooltipArgs: ex }));
+    createTooltipFunc: (div, a) => { walkChevron(div, a); ["pointerdown","touchstart","click"].forEach(ev => div.addEventListener(ev, (e) => { e.stopPropagation(); walkTo(a); })); }, createTooltipArgs: ex }));
   POSTS.filter(p => p.scene === id).forEach(p => hs.push(catSpot(p)));
   if (id === "counter") hs.push(keeperSpot(true));
   if (id === "elua") hs.push(eluaCat());
@@ -380,20 +393,23 @@ function spawnPetal() {
 }
 setInterval(spawnPetal, 2600);
 const ROUTE = [ "front", "stairs", "counter" ];
-const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", approach:"MAHALOの角", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea（1階）", pharmacy:"レデイ薬局" };
+const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea（1階）", pharmacy:"レデイ薬局" };
 let curScene = "front", walkTimer = null;
 const placeBar = document.getElementById("placeBar");
-[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "approach", "street2", "street", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
+[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "street2", "street", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
   const b = document.createElement("button"); b.textContent = SHORT[id]; b.dataset.scene = id;
   b.addEventListener("click", () => { stopWalk(); viewer.loadScene(id); });
   placeBar.appendChild(b);
 });
 placeBar.querySelector('[data-scene="front"]').classList.add("on");
-document.querySelectorAll("#townMap .dot").forEach(g => {
+document.querySelectorAll("#townMap .dot, #miniTownMap .dot").forEach(g => {
   g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); document.querySelector(".stage").scrollIntoView({ behavior:"smooth", block:"center" }); });
   if (g.dataset.scene === "front") { const c = g.querySelector("circle"); c.setAttribute("stroke", "#5d4212"); c.setAttribute("stroke-width", "3"); }
 });
 document.getElementById("mmTitle").addEventListener("click", () => document.getElementById("miniMap").classList.toggle("big"));
+document.querySelectorAll("#miniTownMap .dot").forEach(g => {
+  g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); });
+});
 /* 吹き出しはランダムに出たり消えたりする */
 setInterval(() => {
   document.querySelectorAll(".catspot .cb").forEach(b => { if (Math.random() < 0.3) b.classList.toggle("off"); });
@@ -473,6 +489,8 @@ function openPost(p) {
     if (window.threadsEmbed && threadsEmbed.process) threadsEmbed.process();
   } else {
     img.style.display = ""; img.src = p.img; cap.textContent = p.cap;
+    if (p.id === "lea") { img.style.cursor = "pointer"; img.onclick = () => window.open("https://momowari.github.io/Lea-Mahalo/", "_blank"); cap.textContent = p.cap + "（写真タップでLea Mahaloのページへ）"; }
+    else { img.style.cursor = ""; img.onclick = null; }
   }
   const link = document.getElementById("postLink");
   link.href = p.url || p.permalink; link.textContent = "実際の投稿を見る（" + p.sns + "）";
@@ -491,14 +509,14 @@ const QA = [
 const SHOPCHAT = {
   mahalo: { greet: "いらっしゃいませ。MAHALO美容室へようこそ。黄色と青の椅子が目印のお店です。ご予約や商品のことなど、お気軽にお声がけください。", qa: QA },
   elua: { greet: "いらっしゃいませ。elua Mahaloです。MAHALOと同じ建物の1階にある美容のお店でございます。", qa: [
-    { q:"どんなお店？", a:"MAHALO美容室と同じ建物の1階にある、美容のお店でございます。詳しいメニューはお店でご確認くださいませ。" },
+    { q:"どんなお店？", a:"MAHALO美容室と同じ建物の1階にある、女性限定・完全予約制・マンツーマンの美容のお店でございます。" },
     { q:"100円券は使える？", a:"はい、OHANAの100円券をお使いいただけます。券は無料で配布しているものでございます。" },
-    { q:"営業時間は？", a:"申し訳ございません。営業時間はお店に直接ご確認くださいませ。" }
+    { q:"営業時間は？", a:"水曜日から金曜日は10時から17時、土日祝は9時から18時でございます。月曜日・火曜日と、月に一度の日曜日がお休みでございます。完全予約制でございます。" }
   ] },
   lea: { greet: "いらっしゃいませ。Lea Mahaloです。MAHALOと同じ建物の1階にある雑貨屋でございます。", qa: [
     { q:"どんなお店？", a:"ポーチや小物、アクセサリーなどを扱う雑貨屋でございます。棚の商品を、ゆっくりご覧くださいませ。" },
     { q:"100円券は使える？", a:"はい、OHANAの100円券をお使いいただけます。券は無料で配布しているものでございます。" },
-    { q:"商品を買いたい", a:"ありがとうございます。お買い求めは店頭でお願いしております。価格は店頭でご確認くださいませ。" }
+    { q:"商品を買いたい", a:"ありがとうございます。実店舗は普段は開いておらず、ご来店は予約制でございます。販売は主にメルカリで行っております。" }
   ] }
 };
 let chatShop = null;
@@ -510,6 +528,7 @@ function openChat(shop) {
   const chat = document.getElementById("chat");
   if (chat.style.display === "block" && chatShop === shop && chatLog.children.length) { return; }
   chatShop = shop; chatLog.innerHTML = "";
+  document.getElementById("chatShopTitle").textContent = ({ mahalo: "MAHALO美容室 の店員猫", elua: "elua Mahalo の店員猫", lea: "Lea Mahalo の店員猫" })[shop] || "店員猫";
   chat.style.display = "block";
   addMsg(data.greet, "keeper");
   chatChips.innerHTML = "";
@@ -529,16 +548,32 @@ function freeAnswer(text) {
   if (has("いくら", "価格", "値段", "料金")) return "価格は店頭でご確認いただけますよう、お願いいたします。";
   if (has("商品", "買いたい")) { openShopPanel(); return "かしこまりました。商品の棚をご用意いたします。写真をめくって、カゴに入れられます。"; }
   if (has("ありがとう")) return "こちらこそ、ありがとうございます。またのお越しをお待ちしております。";
-  return "申し訳ございません、そのご質問にはお答えの用意がございません。公開版ではGeminiがお答えしますが、詳しいことは主催のMOMOwaRIへおつなぎいたします。";
+  return "申し訳ございません、そのご質問には分かりかねます。詳しいことは主催のMOMOwaRIへおつなぎいたします。";
 }
-document.getElementById("chatForm").addEventListener("submit", e => {
+function shopFallback(shop, text) {
+  const has = (...ws) => ws.some(w => text.includes(w));
+  if (has("100円券", "券")) return "はい、OHANAの100円券をお使いいただけます。券は無料で配布しているものでございます。";
+  if (shop === "elua" && has("営業時間", "何時", "休み")) return "水曜日から金曜日は10時から17時、土日祝は9時から18時でございます。月曜日・火曜日と、月に一度の日曜日がお休みでございます。";
+  if (shop === "lea" && has("営業時間", "何時", "開いて")) return "実店舗は普段は開いておらず、ご来店は予約制でございます。販売は主にメルカリで行っております。";
+  if (has("ありがとう")) return "こちらこそ、ありがとうございます。またのお越しをお待ちしております。";
+  return "申し訳ございません、そのご質問には分かりかねます。詳しいことは主催のMOMOwaRIへおつなぎいたします。";
+}
+document.getElementById("chatForm").addEventListener("submit", async e => {
   e.preventDefault();
   const input = document.getElementById("chatInput");
   const text = input.value.trim(); if (!text) return;
   input.value = "";
   if (document.getElementById("chat").style.display === "none") openChat();
   addMsg(text, "me");
-  setTimeout(() => addMsg(freeAnswer(text), "keeper"), 400);
+  const shop = chatShop || "mahalo";
+  addMsg("考えています…", "keeper");
+  const thinking = chatLog.lastElementChild;
+  let ans = null;
+  if (window.__geminiAskShop) { try { ans = await window.__geminiAskShop(shop, text); } catch (err) {} }
+  if (ans) { thinking.textContent = ans; return; }
+  const fb = (shop === "mahalo") ? freeAnswer(text) : shopFallback(shop, text);
+  if (window.__logBot) window.__logBot(text, fb, shop);
+  thinking.textContent = fb;
 });
 
 /* 商品スライド＋カゴ */
@@ -578,5 +613,53 @@ document.getElementById("btnClear").addEventListener("click", () => { cart = [];
 </script>
 <script async src="https://www.instagram.com/embed.js"></script>
 <script async src="https://www.threads.net/embed.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
+import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員猫です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・黄色と青の椅子と、森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員猫です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員猫です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。"};
+var LIMIT_MSG = "たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。OHANAの掲示板やLINEオープンチャットからお声がけください。";
+try {
+  var aiApp = initializeApp({ apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0", authDomain: "ohana-share.firebaseapp.com", projectId: "ohana-share", storageBucket: "ohana-share.firebasestorage.app", messagingSenderId: "825904150210", appId: "1:825904150210:web:4ae90f047ac8cc761cad5b" }, 'ohana-ai');
+  initializeAppCheck(aiApp, { provider: new ReCaptchaEnterpriseProvider('6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv'), isTokenAutoRefreshEnabled: true });
+  var aiDb = getFirestore(aiApp);
+  var ai = getAI(aiApp, { backend: new GoogleAIBackend() });
+  var models = {}, chats = {};
+  function modelFor(shop) {
+    if (!models[shop]) models[shop] = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: SYS[shop] || SYS.mahalo });
+    return models[shop];
+  }
+  function kunUsed() {
+    try {
+      var d = new Date();
+      var key = 'island' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var n = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+      localStorage.setItem(key, String(n));
+      return n;
+    } catch (e) { return 1; }
+  }
+  window.__logBot = function(q, a, shop) {
+    try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, site: 'island', shop: shop || 'mahalo', ts: serverTimestamp() }).catch(function(){}); } catch (e) {}
+  };
+  window.__geminiAskShop = function(shop, text) {
+    if (kunUsed() > 20) return Promise.resolve(LIMIT_MSG);
+    function attempt() {
+      if (!chats[shop]) chats[shop] = modelFor(shop).startChat({ history: [] });
+      return chats[shop].sendMessage(text).then(function(res) { return res.response.text(); });
+    }
+    var pr = attempt().catch(function() { chats[shop] = null; return attempt(); });
+    var timeout = new Promise(function(res) { setTimeout(function() { res(null); }, 15000); });
+    return Promise.race([pr, timeout]).then(function(ans) {
+      if (ans) {
+        try { addDoc(collection(aiDb, 'botLogs'), { q: text, a: String(ans).slice(0, 2000), page: location.pathname, site: 'island', shop: shop, ts: serverTimestamp() }).catch(function(){}); } catch (e) {}
+        return String(ans);
+      }
+      return null;
+    }).catch(function() { return null; });
+  };
+} catch (e) {}
+</script>
 </body>
 </html>
