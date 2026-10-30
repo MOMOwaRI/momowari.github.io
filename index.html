@@ -92,6 +92,61 @@
   footer{text-align:center;font-size:12.5px;color:#b0947f;margin-top:30px}
   footer a{color:#b0947f}
   #mypage-btn{position:fixed;top:10px;right:max(10px,calc(50% - 350px));z-index:96;background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-size:.85rem;border-radius:999px;padding:8px 16px;text-decoration:none;box-shadow:0 4px 12px rgba(120,70,10,.18)}
+
+/* merged SNS section (scoped) */
+  #sns-note .avatar{width:104px;height:104px;border-radius:50%;margin:10px auto 10px;background:linear-gradient(180deg,#B79BD8 0%,#E8B7D4 26%,#F5BE8C 42%,#F2C894 48%,#A8C6DE 58%,#4E94C4 76%,#2F6E9E 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -10px rgba(90,90,160,.45);border:3px solid #fff}
+  #sns-note .sns-profile h1{font-size:26px;margin:2px 0 0;font-weight:800;letter-spacing:.02em}
+  #sns-note .sns-profile .place{font-size:12.5px;color:#b0947f;margin:0}
+  #sns-note .sns-profile .bio{font-size:13.5px;margin:8px auto 0;max-width:480px}
+  #sns-note .sns-row{display:flex;justify-content:center;gap:10px;margin:16px 0 4px;flex-wrap:wrap}
+  #sns-note .sns-row a{width:48px;height:48px;border-radius:50%;background:#fff;border:1.5px solid #f0cf9e;box-shadow:0 5px 12px rgba(150,90,40,.16);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#7a4b2a;text-decoration:none;line-height:1.1;text-align:center}
+  #sns-note /* リンクボタン（lit.link風） */
+  .linklist{display:grid;gap:11px;margin:22px 0 4px}
+  #sns-note .linklist a{display:flex;align-items:center;gap:12px;text-decoration:none;color:#5b4a42;background:#fff;border-radius:16px;padding:14px 18px;font-weight:bold;font-size:15px;box-shadow:0 7px 18px -10px rgba(150,90,40,.4)}
+  #sns-note .linklist a .tag{font-size:10.5px;font-weight:800;color:#fff;border-radius:6px;padding:3px 8px;flex:0 0 auto}
+  #sns-note .linklist a span.sub{display:block;font-weight:normal;font-size:12px;color:#b0947f}
+  #sns-note .linklist a .txt{flex:1}
+  #sns-note .t-ig{background:#d1609e}
+  #sns-note .t-th{background:#555}
+  #sns-note .t-x{background:#333}
+  #sns-note .t-note{background:#41c9b4}
+  #sns-note .t-yt{background:#e0564b}
+  #sns-note .t-jm{background:#7fb069}
+  #sns-note .t-lt{background:#c98a3d}
+  #sns-note .pickup{display:block;text-decoration:none;color:#5b4a42;background:#fff;border-radius:22px;overflow:hidden;margin:24px 0 4px;box-shadow:0 12px 26px -14px rgba(150,90,40,.45)}
+  #sns-note .pickup img{width:100%;height:190px;object-fit:cover;display:block}
+  #sns-note .pickup .pk-body{padding:14px 18px 16px}
+  #sns-note .pickup .pk-title{font-weight:800;font-size:16.5px}
+  #sns-note .pickup .pk-sub{font-size:12.5px;color:#b0947f;margin-top:2px}
+  #sns-note .note-frame{width:100%;height:520px;border:0;display:block;background:#fff}
+  #sns-note h2.sec{font-size:18px;margin:34px 0 2px;text-align:center}
+  #sns-note h2.sec+p.lead{text-align:center;font-size:13px;color:#8a6f5c;margin:0 0 6px}
+  #sns-note .post{background:#fff;border-radius:22px;padding:18px 16px 12px;margin-top:16px;box-shadow:0 10px 24px -16px rgba(150,90,40,.35)}
+  #sns-note .post h3{font-size:15.5px;margin:0 0 2px;line-height:1.55}
+  #sns-note .post h3 a{color:#5b4a42;text-decoration:none}
+  #sns-note .post h3 a:hover{text-decoration:underline}
+  #sns-note .post .date{font-size:12px;color:#b0947f;margin:0 0 10px}
+  #sns-note .embed-box{background:#faf3e7;border-radius:14px;min-height:320px;display:flex;justify-content:center;align-items:flex-start;overflow:hidden;padding:6px}
+  #sns-note .embed-box blockquote{margin:0 auto !important;max-width:540px;width:100%}
+  #sns-note .embed-box blockquote a{display:inline-block;background:#fff;border:1.5px solid #f0cf9e;color:#b05e14;font-weight:bold;text-decoration:none;border-radius:999px;padding:9px 18px;margin:14px;font-size:14px}
+  #sns-note .embed-note{font-size:11.5px;color:#c2a68c;margin:10px 0 2px}
+  #sns-note .latest{background:#fff;border-radius:22px;padding:16px 18px 10px;margin-top:22px;box-shadow:0 10px 24px -16px rgba(150,90,40,.35)}
+  #sns-note .latest h2{font-size:16.5px;margin:0 0 4px;text-align:left}
+  #sns-note .latest ul{list-style:none;margin:6px 0 8px;padding:0}
+  #sns-note .latest li{border-top:1px solid #f3e3cb;padding:9px 2px}
+  #sns-note .latest li:first-child{border-top:none}
+  #sns-note .latest a{color:#5b4a42;text-decoration:none;font-weight:bold;font-size:14px;line-height:1.5;display:block}
+  #sns-note .latest a:hover{text-decoration:underline}
+  #sns-note .latest .dt{font-size:11.5px;color:#b0947f}
+  #sns-note .latest .more{font-size:12.5px;text-align:right;margin:2px 0 6px}
+  #sns-note .latest .more a{color:#b05e14;font-size:12.5px}
+  #sns-note .pk-show{position:relative;height:190px;overflow:hidden}
+  #sns-note .pk-show img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.1s ease}
+  #sns-note .pk-show img.on{opacity:1}
+  #sns-note .pk-dots{position:absolute;right:10px;bottom:8px;display:flex;gap:6px;z-index:3}
+  #sns-note .pk-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55)}
+  #sns-note .pk-dots span.on{background:#fff}
+  #sns-note .sns-profile h1{font-size:26px}
 </style>
 </head>
 <body>
@@ -132,20 +187,143 @@
 
   <section class="s-sns" id="sns-note">
     <h2>SNS・note<span class="sub">最新のお知らせと、考え方をまとめた記事</span></h2>
-    <p>イベントのお知らせや募集はSNSに出ます。考え方や記録はnoteにまとめています。</p>
-    <p class="embed-cap"><a href="https://www.instagram.com/p/DeiJEqPkzVl/">参加募集｜無料だから、試してみよう！（OHANA券・100円券の仕組み）</a></p>
-    <p class="embed-date">Instagram｜2026年10月15日</p>
+  <div class="sns-profile">
+    <div class="avatar" aria-hidden="true">
+      <svg width="72" height="72" viewBox="0 0 120 120">
+        <defs><mask id="avcut"><rect x="0" y="0" width="120" height="120" fill="white"/><ellipse cx="60" cy="65" rx="21" ry="29" fill="black" transform="rotate(-10 60 65)"/></mask></defs>
+        <g transform="rotate(10 60 62)">
+        <g fill="#FFFFFF" mask="url(#avcut)">
+          <path d="M42 30 C24 28 8 44 7 62 C6 71 9 78 14 77 C22 75 32 58 40 45 C44 38 45 31 42 30 Z"/>
+          <path d="M78 30 C96 28 112 44 113 62 C114 71 111 78 106 77 C98 75 88 58 80 45 C76 38 75 31 78 30 Z"/>
+          <path d="M41 86 C30 88 21 96 23 102 C25 107 36 102 43 94 C46 90 44 85 41 86 Z"/>
+          <path d="M79 86 C90 88 99 96 97 102 C95 107 84 102 77 94 C74 90 76 85 79 86 Z"/>
+          <path d="M53 100 L67 100 L60 116 Z"/>
+          <ellipse cx="60" cy="14" rx="11" ry="11"/>
+          <path d="M60 20 C79 20 91 41 91 66 C91 91 77 107 60 107 C43 107 29 91 29 66 C29 41 41 20 60 20 Z"/>
+        </g>
+        <rect x="55" y="37" width="11" height="58" rx="5.5" fill="#FFFFFF" transform="rotate(18 60 66)"/>
+        </g>
+      </svg>
+    </div>
+    <h1>MOMOwaRI</h1>
+    <p class="place">松山市味酒町｜MAHALOビル</p>
+    <p class="bio">美容室MAHALO／まつげパーマ Eyes MAHALO／雑貨屋 Lea Mahalo／選べる物々交換 OHANAシェア＊プロジェクト のお知らせをまとめています。</p>
+    <nav class="sns-row" aria-label="SNSアカウント">
+      <a href="https://www.instagram.com/momowari/">IG</a>
+      <a href="https://www.threads.com/@momowari">Th</a>
+      <a href="https://x.com/lea_mahalo">X</a>
+      <a href="https://note.com/momo2025">note</a>
+      <a href="https://www.youtube.com/@00LeaMahalo00">YT</a>
+      <a href="https://lit.link/momowari">lit</a>
+    </nav>
+  </div>
+
+  <div class="linklist">
+    <div class="blk" data-block-id="ig"><a href="https://www.instagram.com/momowari/"><span class="tag t-ig">IG</span><span class="txt"><span class="ttl">Instagram</span><span class="sub">@momowari｜イベントのお知らせや募集</span></span>›</a></div>
+    <div class="blk" data-block-id="th"><a href="https://www.threads.com/@momowari"><span class="tag t-th">Th</span><span class="txt"><span class="ttl">Threads</span><span class="sub">@momowari｜短い近況や呼びかけ</span></span>›</a></div>
+    <div class="blk" data-block-id="x"><a href="https://x.com/lea_mahalo"><span class="tag t-x">X</span><span class="txt"><span class="ttl">X</span><span class="sub">@lea_mahalo｜Lea Mahalo・雑貨の話題</span></span>›</a></div>
+    <div class="blk" data-block-id="note"><a href="https://note.com/momo2025"><span class="tag t-note">note</span><span class="txt"><span class="ttl">note</span><span class="sub">momo2025｜活動の記録</span></span>›</a></div>
+    <div class="blk" data-block-id="yt"><a href="https://www.youtube.com/@00LeaMahalo00"><span class="tag t-yt">YT</span><span class="txt"><span class="ttl">YouTube</span><span class="sub">@00LeaMahalo00｜動画</span></span>›</a></div>
+    <div class="blk" data-block-id="jm"><a href="https://jmty.jp/s/profiles/5c00d902adce5e534b9fee98"><span class="tag t-jm">ジモ</span><span class="txt"><span class="ttl">ジモティー</span><span class="sub">出店募集などのお知らせ</span></span>›</a></div>
+    <div class="blk" data-block-id="lt"><a href="https://lit.link/momowari"><span class="tag t-lt">lit</span><span class="txt"><span class="ttl">lit.link</span><span class="sub">momowari｜リンク集</span></span>›</a></div>
+  </div>
+
+  <a class="pickup" data-block-id="pickup" href="https://momowari.github.io/OHANA-share/ayumi.html">
+    <span class="pk-show" style="display:block">
+      <img class="on" src="img/ohana-2.jpg" alt="フリマでエクスチェンジの衣類ラック">
+      <img src="img/ohana-4.jpg" alt="OHANAの活動の様子" loading="lazy">
+      <img src="img/ohana-5.jpg" alt="OHANAの活動の様子" loading="lazy">
+      <span class="pk-dots" aria-hidden="true"><span class="on"></span><span></span><span></span></span>
+    </span>
+    <span class="pk-body" style="display:block">
+      <span class="pk-title">OHANAのあゆみ</span>
+      <span class="pk-sub" style="display:block">2018年の始まりから今の形まで。考え方とnote記事を年表でまとめています。</span>
+    </span>
+  </a>
+
+  <section class="latest" aria-label="最新情報">
+    <h2>最新情報</h2>
+    <ul id="latest-list"><li><span class="dt">読み込み中…</span></li></ul>
+    <p class="more"><a href="https://note.com/momo2025">noteで全部見る ›</a></p>
+  </section>
+
+  <h2 class="sec">Instagramの投稿</h2>
+  <p class="lead">このページでそのまま読めます。白いままのときは見出しから開けます。</p>
+
+  <article class="post" data-block-id="pig1" data-group="ig">
+    <h3><a href="https://www.instagram.com/p/DeiJEqPkzVl/">参加募集｜無料だから、試してみよう！（OHANA券・100円券の仕組み）</a></h3>
+    <p class="date">2026年10月15日</p>
     <div class="embed-box">
       <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeiJEqPkzVl/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeiJEqPkzVl/">Instagramで見る</a></blockquote>
     </div>
-    <div class="chips">
-      <a href="https://note.com/momo2025/n/nead55ed5b6f4">noteリンク集（全記事案内所）</a>
-      <a href="https://note.com/momo2025/m/m56cc1db4ed1f">マガジン「MOMOwaRI全集」</a>
-      <a href="https://note.com/momo2025/m/mdc77ac7bbdc7">マガジン「OHANAイベント等」</a>
-      <a href="https://momowari.github.io/OHANA-share/ayumi.html">OHANAのあゆみ</a>
+    <p class="embed-note">読み込みに少し時間がかかることがあります。</p>
+  </article>
+
+  <article class="post" data-block-id="pig2" data-group="ig">
+    <h3><a href="https://www.instagram.com/p/DeS325BAdTa/">まつげパーマ（Eyes MAHALO）</a></h3>
+    <p class="date">2026年10月9日</p>
+    <div class="embed-box">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeS325BAdTa/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeS325BAdTa/">Instagramで見る</a></blockquote>
     </div>
-    <ul class="latest-list" id="latest-list"><li><span class="dt">最新情報を読み込み中…</span></li></ul>
-    <a class="btn" href="sns.html">SNS・noteのページへ（投稿まとめ）</a>
+    <p class="embed-note">読み込みに少し時間がかかることがあります。</p>
+  </article>
+
+  <article class="post" data-block-id="pig3" data-group="ig">
+    <h3><a href="https://www.instagram.com/p/DdoOKSsz5wr/">松山市・愛媛イベント｜フリマでエクスチェンジ（物々交換）</a></h3>
+    <p class="date">2026年9月23日</p>
+    <div class="embed-box">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DdoOKSsz5wr/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DdoOKSsz5wr/">Instagramで見る</a></blockquote>
+    </div>
+    <p class="embed-note">読み込みに少し時間がかかることがあります。</p>
+  </article>
+
+  <h2 class="sec">Threadsの投稿</h2>
+  <p class="lead">フリマや物々交換への呼びかけなど、短い投稿はこちらが早めです。</p>
+
+  <article class="post" data-block-id="pth1" data-group="th">
+    <h3><a href="https://www.threads.com/@momowari/post/De5IKVdk_fl">松山周辺で、フリマや物々交換に興味ある方いますか？</a></h3>
+    <p class="date">2026年10月25日</p>
+    <div class="embed-box">
+      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/De5IKVdk_fl"><a href="https://www.threads.com/@momowari/post/De5IKVdk_fl">Threadsで見る</a></blockquote>
+    </div>
+    <p class="embed-note">読み込みに少し時間がかかることがあります。</p>
+  </article>
+
+  <article class="post" data-block-id="pth2" data-group="th">
+    <h3><a href="https://www.threads.com/@momowari/post/DeRiBdZk6ci">フジグラン松山すぐそこ！味酒町・MAHALOの駐車場でフリマ開催</a></h3>
+    <p class="date">2026年10月9日</p>
+    <div class="embed-box">
+      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/DeRiBdZk6ci"><a href="https://www.threads.com/@momowari/post/DeRiBdZk6ci">Threadsで見る</a></blockquote>
+    </div>
+    <p class="embed-note">読み込みに少し時間がかかることがあります。</p>
+  </article>
+
+  <article class="post" data-block-id="pth3" data-group="th">
+    <h3><a href="https://www.threads.com/@momowari/post/Ddh2KEcE4JN">まつげパーマ3000円｜ペア割・モニター募集（Eyes MAHALO）</a></h3>
+    <p class="date">2026年9月21日</p>
+    <div class="embed-box">
+      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/Ddh2KEcE4JN"><a href="https://www.threads.com/@momowari/post/Ddh2KEcE4JN/">Threadsで見る</a></blockquote>
+    </div>
+    <p class="embed-note">読み込みに少し時間がかかることがあります。</p>
+  </article>
+
+  <h2 class="sec">note（まとめページとマガジン）</h2>
+  <p class="lead">考え方や記録はnoteにまとめています。まず読むなら「リンク集（全記事案内所）」からどうぞ。</p>
+
+  <article class="post" data-block-id="pnote">
+    <h3><a href="https://note.com/momo2025/n/nead55ed5b6f4">🍊愛媛【OHANAシェア＊プロジェクト】リンク集｜全記事案内所</a></h3>
+    <p class="date">note｜固定記事</p>
+    <div class="embed-box" style="min-height:520px;padding:0">
+      <iframe class="note-frame" src="https://note.com/embed/notes/nead55ed5b6f4" title="noteリンク集" loading="lazy"></iframe>
+    </div>
+    <p class="embed-note">表示されないときは、見出しから開けます。</p>
+  </article>
+
+  <div class="linklist">
+    <div class="blk" data-block-id="mag-all"><a href="https://note.com/momo2025/m/m56cc1db4ed1f"><span class="tag t-note">誌</span><span class="txt"><span class="ttl">マガジン「MOMOwaRI全集」</span><span class="sub">OHANAシェア＊プロジェクトの記事をまとめた全集</span></span>›</a></div>
+    <div class="blk" data-block-id="mag-ohana"><a href="https://note.com/momo2025/m/mdc77ac7bbdc7"><span class="tag t-note">誌</span><span class="txt"><span class="ttl">マガジン「OHANAイベント等」</span><span class="sub">100円券が使える場所とイベントの記録</span></span>›</a></div>
+    <div class="blk" data-block-id="ayumi-link"><a href="https://momowari.github.io/OHANA-share/ayumi.html"><span class="tag t-note">歩</span><span class="txt"><span class="ttl">OHANAのあゆみ</span><span class="sub">始まりから今までを年表とnote記事で</span></span>›</a></div>
+  </div>
   </section>
 
   <section class="s-ohana" id="ohana" data-card-id="ohana">
@@ -266,6 +444,7 @@
 })();
 </script>
 <script async src="https://www.instagram.com/embed.js"></script>
+<script async src="https://www.threads.net/embed.js"></script>
 
 <!-- site-editor -->
 <style>
@@ -467,7 +646,21 @@ body.site-editing .card-order-controls{display:flex}
 </script>
 
 
+
 <script>
+// pickup slideshow (crossfade)
+(function(){
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.pk-show img'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.pk-dots span'));
+  if(imgs.length < 2) return;
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var i = 0;
+  setInterval(function(){
+    imgs[i].classList.remove('on'); if(dots[i]) dots[i].classList.remove('on');
+    i = (i + 1) % imgs.length;
+    imgs[i].classList.add('on'); if(dots[i]) dots[i].classList.add('on');
+  }, 4200);
+})();
 // latest posts from note RSS (blog-style)
 (function(){
   var ul = document.getElementById('latest-list');
@@ -479,7 +672,7 @@ body.site-editing .card-order-controls{display:flex}
   }
   function render(items){
     if(!items || !items.length){ ul.innerHTML = '<li><a href="https://note.com/momo2025">noteの記事一覧へ</a></li>'; return; }
-    ul.innerHTML = items.slice(0, 3).map(function(it){
+    ul.innerHTML = items.slice(0, 5).map(function(it){
       var t = (it.title || '').replace(/</g, '&lt;');
       return '<li><span class="dt">' + fmt(it.pubDate) + '｜note</span><a href="' + it.link + '">' + t + '</a></li>';
     }).join('');
@@ -487,7 +680,18 @@ body.site-editing .card-order-controls{display:flex}
   fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://note.com/momo2025/rss'))
     .then(function(r){ return r.json(); })
     .then(function(j){ render(j.items); })
-    .catch(function(){ render(null); });
+    .catch(function(){
+      fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://note.com/momo2025/rss'))
+        .then(function(r){ return r.text(); })
+        .then(function(xml){
+          var doc = new DOMParser().parseFromString(xml, 'text/xml');
+          var items = Array.prototype.slice.call(doc.querySelectorAll('item')).map(function(it){
+            return { title: (it.querySelector('title') || {}).textContent || '', link: (it.querySelector('link') || {}).textContent || '', pubDate: (it.querySelector('pubDate') || {}).textContent || '' };
+          });
+          render(items);
+        })
+        .catch(function(){ render(null); });
+    });
 })();
 </script>
 </body>
