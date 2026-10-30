@@ -309,18 +309,19 @@ function walkChevron(div, ex) {
   const l = document.createElement("div"); l.className = "wl"; l.textContent = ex.label;
   w.appendChild(a); w.appendChild(l); div.appendChild(w);
 }
-function shopCat(tag, text, imgSrc, yaw) {
+function shopCat(tag, text, imgSrc, yaw, shop) {
   return { pitch: -9, yaw: yaw, cssClass: "catspot",
     createTooltipFunc: (div) => {
       const w = document.createElement("div"); w.className = "cbwrap";
       const t = document.createElement("div"); t.className = "ktag"; t.textContent = tag;
       const b = document.createElement("div"); b.className = "cb"; b.textContent = text;
       const img = document.createElement("img"); img.src = imgSrc; img.alt = tag;
+      if (shop) w.addEventListener("pointerdown", (e) => { e.stopPropagation(); openChat(shop); });
       w.appendChild(t); w.appendChild(b); w.appendChild(img); div.appendChild(w);
     } };
 }
-function eluaCat() { return shopCat("elua 店員さん", "いらっしゃいませ", "cat-calico-sit.png", 28); }
-function leaCat() { return shopCat("Lea 店員さん", "いらっしゃいませ", "cat-black-sit.png", -30); }
+function eluaCat() { return shopCat("elua 店員さん", "いらっしゃいませ", "cat-calico-sit.png", 28, "elua"); }
+function leaCat() { return shopCat("Lea 店員さん", "いらっしゃいませ", "cat-black-sit.png", -30, "lea"); }
 
 function catSpot(post) {
   return { pitch: post.pitch, yaw: post.yaw, cssClass: "catspot",
@@ -487,15 +488,32 @@ const QA = [
   { q:"100円券は使える？", a:"はい、OHANAの100円券をお使いいただけます。券は無料で配布しているものでございます。" },
   { q:"商品を買いたい", a:"ありがとうございます。棚の商品は写真をめくって、カゴに入れられます。お受け取りは店頭、お支払いはご来店のときで大丈夫です。価格は店頭でご確認くださいませ。", goods:true },
 ];
+const SHOPCHAT = {
+  mahalo: { greet: "いらっしゃいませ。MAHALO美容室へようこそ。黄色と青の椅子が目印のお店です。ご予約や商品のことなど、お気軽にお声がけください。", qa: QA },
+  elua: { greet: "いらっしゃいませ。elua Mahaloです。MAHALOと同じ建物の1階にある美容のお店でございます。", qa: [
+    { q:"どんなお店？", a:"MAHALO美容室と同じ建物の1階にある、美容のお店でございます。詳しいメニューはお店でご確認くださいませ。" },
+    { q:"100円券は使える？", a:"はい、OHANAの100円券をお使いいただけます。券は無料で配布しているものでございます。" },
+    { q:"営業時間は？", a:"申し訳ございません。営業時間はお店に直接ご確認くださいませ。" }
+  ] },
+  lea: { greet: "いらっしゃいませ。Lea Mahaloです。MAHALOと同じ建物の1階にある雑貨屋でございます。", qa: [
+    { q:"どんなお店？", a:"ポーチや小物、アクセサリーなどを扱う雑貨屋でございます。棚の商品を、ゆっくりご覧くださいませ。" },
+    { q:"100円券は使える？", a:"はい、OHANAの100円券をお使いいただけます。券は無料で配布しているものでございます。" },
+    { q:"商品を買いたい", a:"ありがとうございます。お買い求めは店頭でお願いしております。価格は店頭でご確認くださいませ。" }
+  ] }
+};
+let chatShop = null;
 const chatLog = document.getElementById("chatLog"), chatChips = document.getElementById("chatChips");
 function addMsg(text, who) { const d = document.createElement("div"); d.className = "msg " + who; d.textContent = text; chatLog.appendChild(d); chatLog.scrollTop = chatLog.scrollHeight; }
-function openChat() {
+function openChat(shop) {
+  shop = shop || "mahalo";
+  const data = SHOPCHAT[shop] || SHOPCHAT.mahalo;
   const chat = document.getElementById("chat");
-  if (chat.style.display === "block" && chatLog.children.length) { return; }
+  if (chat.style.display === "block" && chatShop === shop && chatLog.children.length) { return; }
+  chatShop = shop; chatLog.innerHTML = "";
   chat.style.display = "block";
-  addMsg("いらっしゃいませ。MAHALO美容室へようこそ。黄色と青の椅子が目印のお店です。ご予約や商品のことなど、お気軽にお声がけください。", "keeper");
+  addMsg(data.greet, "keeper");
   chatChips.innerHTML = "";
-  QA.forEach(item => {
+  data.qa.forEach(item => {
     const c = document.createElement("button"); c.className = "chip"; c.textContent = item.q;
     c.addEventListener("click", () => { addMsg(item.q, "me"); setTimeout(() => { addMsg(item.a, "keeper"); if (item.goods) openShopPanel(); }, 350); });
     chatChips.appendChild(c);
