@@ -21,6 +21,10 @@
   .tick-item { display:inline-block; padding:0 18px; font-size:13px; cursor:pointer; }
   .tick-item .wh { color:#f2c14e; margin-right:6px; font-size:11px; letter-spacing:.08em; }
   .tick-sep { color:#a5711d; }
+  #snsEmbeds { display:block; margin-top:14px; }
+  .embeds { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .embeds blockquote { margin:0 !important; max-width:100%; }
+  .embeds iframe { max-width:100% !important; }
   .post { display:flex; gap:8px; align-items:flex-start; padding:8px 0; border-bottom:1px dashed #e3d2a8; }
   .post:last-child { border-bottom:none; }
   .post .txt { flex:1; font-size:13px; line-height:1.65; }
@@ -135,6 +139,19 @@
     <div id="cartList"></div>
     <p id="cartNote" style="margin-top:6px;font-size:13.5px;line-height:1.8"></p>
     <div class="btns"><button class="act sub" id="btnClear">カゴを空にする</button></div>
+  </div>
+
+  <div class="panel" id="snsEmbeds">
+    <h2>近所のSNS（実際の投稿）</h2>
+    <p class="src">この近所の実際の投稿です。投稿は公式の仕組みで表示しているので、元の投稿が変われば、ここも変わります。</p>
+    <div class="embeds">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeiJEqPkzVl/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeiJEqPkzVl/">Instagramで見る</a></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeS325BAdTa/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeS325BAdTa/">Instagramで見る</a></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DdoOKSsz5wr/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DdoOKSsz5wr/">Instagramで見る</a></blockquote>
+      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/De5IKVdk_fl"><a href="https://www.threads.com/@momowari/post/De5IKVdk_fl">Threadsで見る</a></blockquote>
+      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/DeRiBdZk6ci"><a href="https://www.threads.com/@momowari/post/DeRiBdZk6ci">Threadsで見る</a></blockquote>
+      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/Ddh2KEcE4JN"><a href="https://www.threads.com/@momowari/post/Ddh2KEcE4JN/">Threadsで見る</a></blockquote>
+    </div>
   </div>
 </div>
 
@@ -324,5 +341,7 @@ function renderCart() {
 document.getElementById("btnCart").addEventListener("click", () => { renderCart(); document.getElementById("cartPanel").style.display = "block"; document.getElementById("cartPanel").scrollIntoView({ behavior:"smooth", block:"nearest" }); });
 document.getElementById("btnClear").addEventListener("click", () => { cart = []; updateCartBtn(); renderCart(); });
 </script>
+<script async src="https://www.instagram.com/embed.js"></script>
+<script async src="https://www.threads.net/embed.js"></script>
 </body>
 </html>
