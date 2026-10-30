@@ -48,9 +48,12 @@
   .catspot .cb::after { content:""; position:absolute; left:50%; bottom:-7px; transform:translateX(-50%); border:6px solid transparent; border-top-color:#d9a441; border-bottom:0; }
   .catspot img { width:64px; margin-top:8px; filter:drop-shadow(0 4px 5px rgba(60,40,10,.4)); }
   .keeper-hotspot { background:none !important; }
-  .keeper-hotspot img { width:74px; filter:drop-shadow(0 5px 3px rgba(60,40,10,.30)) sepia(.22) saturate(.85) brightness(1.03); opacity:.97; cursor:pointer; animation:bob 3.2s ease-in-out infinite; }
+  .keeper-hotspot img { width:74px; filter:drop-shadow(0 5px 3px rgba(60,40,10,.30)) sepia(.22) saturate(.85) brightness(1.03); opacity:.97; cursor:pointer; }
   .keeper-hotspot.big img { width:128px; }
-  .catspot img { animation:bob 2.8s ease-in-out infinite; filter:drop-shadow(0 4px 4px rgba(60,40,10,.35)) sepia(.18) saturate(.88); }
+  .catspot img { filter:drop-shadow(0 4px 4px rgba(60,40,10,.35)) sepia(.18) saturate(.88); }
+  .ktag { background:#8a6a2a; color:#fff8ea; font-size:10.5px; padding:1px 9px; border-radius:999px; margin-bottom:3px; letter-spacing:.08em; }
+  .keeper-hotspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-14px); cursor:pointer; }
+  .keeper-hotspot .cb { background:#fffdf7; border:1.5px solid #d9a441; border-radius:12px; padding:5px 9px; font-size:11.5px; line-height:1.5; color:#5d4212; max-width:170px; text-align:center; box-shadow:0 3px 8px rgba(90,60,20,.3); font-family:"Hiragino Mincho ProN",serif; }
   .catspot .cb { animation:cbpop .5s ease; }
   @keyframes bob { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
   @keyframes cbpop { from { transform:scale(.6); opacity:0; } to { transform:scale(1); opacity:1; } }
@@ -107,8 +110,8 @@
   #miniMap { position:absolute; right:8px; bottom:8px; z-index:6; width:128px; background:rgba(255,253,247,.94); border:1.5px solid #d9a441; border-radius:12px; padding:5px 5px 3px; box-shadow:0 4px 14px rgba(60,40,10,.3); transition:width .25s ease; }
   #miniMap.big { width:226px; }
   #miniMap .mm-title { font-size:10.5px; color:#8a6a2a; text-align:center; margin-bottom:2px; cursor:pointer; }
-  #miniTownMap { width:100%; height:auto; display:block; }
-  #miniTownMap .dot { cursor:pointer; }
+  #miniMap iframe { width:100%; height:96px; border:0; border-radius:8px; display:block; }
+  #miniMap.big iframe { height:190px; }
 </style>
 </head>
 <body>
@@ -118,24 +121,9 @@
 
   <div class="stage"><div id="panorama"></div><div id="fxLayer"></div>
     <div id="miniMap">
-      <div class="mm-title" id="mmTitle">まちの地図（タップで移動）</div>
-      <svg id="miniTownMap" viewBox="0 0 340 320" role="img" aria-label="まちの地図">
-        <path d="M304 18 L304 285" stroke="#e3cf9f" stroke-width="13" fill="none"/>
-        <path d="M304 95 L242 95 L176 113 L114 131" stroke="#e3cf9f" stroke-width="11" fill="none"/>
-        <path d="M176 113 L110 195 L38 272" stroke="#cfe0bd" stroke-width="9" stroke-dasharray="6 5" fill="none"/>
-        <g class="dot" data-scene="tamago"><circle cx="304" cy="22" r="11" fill="#d9a441" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="yaoya"><circle cx="304" cy="75" r="12" fill="#c96f2e" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="jinja"><circle cx="242" cy="95" r="12" fill="#b5542d" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="kayamachi3"><circle cx="303" cy="105" r="10" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="kayamachi2"><circle cx="302" cy="140" r="10" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="kayamachi"><circle cx="304" cy="203" r="12" fill="#d9a441" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="street"><circle cx="176" cy="113" r="10" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="street2"><circle cx="145" cy="122" r="10" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="approach"><circle cx="129" cy="127" r="10" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="front"><circle cx="114" cy="131" r="13" fill="#0068B7" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="koshin1"><circle cx="110" cy="195" r="10" fill="#a9bd8f" stroke="#fff" stroke-width="1.5"/></g>
-        <g class="dot" data-scene="koshin"><circle cx="38" cy="272" r="12" fill="#7ba05b" stroke="#fff" stroke-width="1.5"/></g>
-      </svg>
+      <div class="mm-title" id="mmTitle">本物の地図（タップで拡大）</div>
+      <iframe id="gmap" src="https://maps.google.com/maps?q=33.8455583,132.7553375&z=16&output=embed" loading="lazy" title="本物の地図（Googleマップ）"></iframe>
+    </div>
     </div>
     <div class="panel" id="chat">
       <button id="chatClose" aria-label="閉じる">×</button>
@@ -157,7 +145,7 @@
     <button class="act" id="btnGoods">商品を見る</button>
     <button class="act sub" id="btnCart">カゴを見る（0）</button>
   </div>
-  <p class="hint">猫の目線で歩く通りです。進みたい方を向いて地面をタップすると、その方へ歩けます。地面の矢印タップでも進めます。右下の地図の丸タップで、その場所へひとっ飛び。ドラッグで見回せます。</p>
+  <p class="hint">猫の目線で歩く通りです。進みたい方を向いて地面をタップすると、その方へ歩けます。地面の矢印タップでも進めます。下のまちの地図の丸タップで、その場所へひとっ飛び。ドラッグで見回せます。</p>
 
   <div id="mapBox">
     <h2>まちの地図（実際の位置関係）</h2>
@@ -177,10 +165,11 @@
       <g class="dot" data-scene="street2"><circle cx="145" cy="122" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="kayamachi3"><circle cx="303" cy="105" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="approach"><circle cx="129" cy="127" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="pharmacy"><circle cx="102" cy="102" r="8" fill="#d96a7a" stroke="#fff" stroke-width="1.5"/><text x="94" y="106" font-size="11" fill="#a03a4c" text-anchor="end">レデイ薬局</text></g>
       <g class="dot" data-scene="koshin1"><circle cx="110" cy="195" r="6" fill="#a9bd8f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="koshin"><circle cx="38" cy="275" r="9" fill="#7a9a5b" stroke="#fff" stroke-width="1.5"/><text x="53" y="279" font-size="11.5" fill="#5d4212">庚申庵</text></g>
     </svg>
-    <p class="mnote">実際の住所をもとに並べた位置関係です（距離はだいたいです）。萱町商店街の通りを南から北へ歩くと、八百屋さん（丸五青果）、たまご屋さん（平野鶏卵）の順。通りの西側すぐのところに阿沼美神社があり、そこから西へ約110mがMAHALOです。庚申庵は神社から南西へ約300m。MAHALOは外階段を上がった2階、1階の木のドアはelua Mahaloの玄関です。地図の丸をタップすると、その場所へ移動します。</p>
+    <p class="mnote">実際の住所をもとに並べた位置関係です（距離はだいたいです）。萱町商店街の通りを南から北へ歩くと、八百屋さん（丸五青果）、たまご屋さん（平野鶏卵）の順。通りの西側すぐのところに阿沼美神社があり、そこから西へ約110mがMAHALOです。庚申庵は神社から南西へ約300m。MAHALOは外階段を上がった2階、1階の木のドアはelua Mahaloの玄関、その横のドアが雑貨屋Lea Mahaloです。MAHALOの通り向かいにはレデイ薬局 宮西店（調剤併設のドラッグストア、味酒町2-14-21）があります。地図の丸をタップすると、その場所へ移動します。</p>
   </div>
 
   <div id="postModal">
@@ -243,15 +232,15 @@
 <script src="vendor/pannellum.js"></script>
 <script>
 const POSTS = [
-  { id:"veg", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-7, img:"post-veg.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
+  { id:"veg", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-10, img:"post-veg.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
   { id:"sky", sns:"Threads", author:"まちの声（サンプル）", text:"雨上がりの通り、空がきれいだった", scene:"street", yaw:44, catName:"しろ", catImg:"cat-white-sit.png", pitch:-6, img:"ohana-island-streetview.jpg", cap:"雨上がりの通り（新海監督風のイメージ）", url:"https://www.threads.com/@momowari/post/Ddh2KEcE4JN" },
-  { id:"nano", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"front", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-7, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
-  { id:"lea", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea、可愛い雑貨がいっぱいだった", scene:"front", yaw:18, catName:"みけ", catImg:"cat-calico-sit.png", pitch:-7, img:"post-lea.jpg", cap:"Lea Mahaloの店内（実際の写真）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
-  { id:"kureha", kind:"real", sns:"Instagram", author:"紅芭（くれは）さん", text:"萱町商店街で「ひっそり昼カフェ」を開いたよ", scene:"kayamachi", yaw:26, catName:"はな", catImg:"cat-white-sit.png", pitch:-7, permalink:"https://www.instagram.com/p/DXzOsJ2EyDP/" },
-  { id:"glatt", kind:"real", sns:"Threads", author:"GLATT［グラット］愛媛・松山さん", text:"丸五青果でキャベツと大根、お買い物したよ", scene:"yaoya", yaw:55, catName:"くろ", catImg:"cat-black-sit.png", pitch:-7, permalink:"https://www.threads.com/@glatt.mens/post/DfDvMzpj1o0" },
-  { id:"okamoto", kind:"real", sns:"Instagram", author:"岡本正美さん", text:"庚申庵の藤まつり、藤棚が見事だったよ", scene:"koshin", yaw:-48, catName:"こむぎ", catImg:"cat-calico-sit.png", pitch:-7, permalink:"https://www.instagram.com/p/DXZH2p6AX7n/" },
-  { id:"dcity", kind:"real", sns:"Instagram", author:"デジタルシティえひめさん", text:"庚申庵の藤と池の動画を撮ったよ", scene:"koshin", yaw:58, catName:"すみ", catImg:"cat-tabby-sit.png", pitch:-7, permalink:"https://www.instagram.com/reel/DXsv4WfCa1l/" },
-  { id:"morimoto", kind:"real", sns:"Instagram", author:"森本 博志さん", text:"阿沼美神社で御朱印をもらったよ", scene:"jinja", yaw:32, catName:"ふわ", catImg:"cat-white-sit.png", pitch:-7, permalink:"https://www.instagram.com/p/DS1Zr6pkXY8/" },
+  { id:"nano", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"front", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-10, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
+  { id:"lea", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea、可愛い雑貨がいっぱいだった", scene:"front", yaw:18, catName:"みけ", catImg:"cat-calico-sit.png", pitch:-10, img:"post-lea.jpg", cap:"Lea Mahaloの店内（実際の写真）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
+  { id:"kureha", kind:"real", sns:"Instagram", author:"紅芭（くれは）さん", text:"萱町商店街で「ひっそり昼カフェ」を開いたよ", summary:"自分の店で開く短期営業「ひっそり昼カフェ」の告知（チーズケーキの写真）", scene:"kayamachi", yaw:26, catName:"はな", catImg:"cat-white-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DXzOsJ2EyDP/" },
+  { id:"glatt", kind:"real", sns:"Threads", author:"GLATT［グラット］愛媛・松山さん", text:"丸五青果でキャベツと大根、お買い物したよ", summary:"丸五青果でお買い物。キャベツと大根（各138円）などの買い物記録", scene:"yaoya", yaw:55, catName:"くろ", catImg:"cat-black-sit.png", pitch:-10, permalink:"https://www.threads.com/@glatt.mens/post/DfDvMzpj1o0" },
+  { id:"okamoto", kind:"real", sns:"Instagram", author:"岡本正美さん", text:"庚申庵の藤まつり、藤棚が見事だったよ", summary:"庚申庵の藤まつり。藤棚と庭園の写真", scene:"koshin", yaw:-48, catName:"こむぎ", catImg:"cat-calico-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DXZH2p6AX7n/" },
+  { id:"dcity", kind:"real", sns:"Instagram", author:"デジタルシティえひめさん", text:"庚申庵の藤と池の動画を撮ったよ", summary:"庚申庵の藤まつり。満開の藤棚と池の庭園の動画", scene:"koshin", yaw:58, catName:"すみ", catImg:"cat-tabby-sit.png", pitch:-10, permalink:"https://www.instagram.com/reel/DXsv4WfCa1l/" },
+  { id:"morimoto", kind:"real", sns:"Instagram", author:"森本 博志さん", text:"阿沼美神社で御朱印をもらったよ", summary:"阿沼美神社への参拝。御朱印めぐりの記録", scene:"jinja", yaw:32, catName:"ふわ", catImg:"cat-white-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DS1Zr6pkXY8/" },
 ];
 const PRODUCTS = [
   { id:"nano", img:"prod-nano-main.jpg", name:"ナノサプリ クレンジングシャンプー GA", desc:"グリーンアップルの香り。セレクト商品の代表です。（写真は実物です）" },
@@ -275,9 +264,10 @@ const SCENES = {
   koshin:     { pano:"mahalo-pano-koshin.jpg",     name:"庚申庵", yaw:10, hfov:100 },
   front:      { pano:"mahalo-pano-front.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
   stairs:     { pano:"mahalo-pano-stairs.jpg",     name:"MAHALOの外階段", yaw:20, hfov:100 },
-  salonIn:    { pano:"mahalo-pano-entrance.jpg",   name:"MAHALO店内（入口）", yaw:20, hfov:95 },
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:90 },
   elua:       { pano:"mahalo-pano-elua.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
+  lea:        { pano:"mahalo-pano-lea.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:100 },
+  pharmacy:   { pano:"mahalo-pano-pharmacy.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
 };
 const SCENE_NAMES = {};
 Object.keys(SCENES).forEach(id => SCENE_NAMES[id] = SCENES[id].name);
@@ -291,13 +281,14 @@ const EXITS = {
   jinja:      [ { to:"street", yaw:-163, label:"西へ（MAHALOの方）", entry:-140 }, { to:"yaoya", yaw:163, label:"東へ戻る（商店街）", entry:-60 } ],
   street:     [ { to:"street2", yaw:-140, label:"西へ進む", entry:-40 }, { to:"jinja", yaw:137, label:"東へ戻る（神社）", entry:165 }, { to:"koshin1", yaw:178, label:"南へ（庚申庵の方）", entry:-30 } ],
   street2:    [ { to:"approach", yaw:-30, pitch:-9, label:"西へ進む（MAHALOの角）", entry:-60 }, { to:"street", yaw:140, label:"東へ戻る", entry:140 } ],
-  approach:   [ { to:"front", yaw:-115, pitch:-10, label:"MAHALOに着いた（店前へ）", entry:-15 }, { to:"street2", yaw:35, label:"東へ戻る", entry:130 } ],
+  approach:   [ { to:"front", yaw:-115, pitch:-10, label:"MAHALOに着いた（店前へ）", entry:-15 }, { to:"pharmacy", yaw:95, pitch:-12, label:"レデイ薬局の方", entry:150 }, { to:"street2", yaw:35, label:"東へ戻る", entry:130 } ],
   koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"street", yaw:165, label:"北へ戻る（通り）", entry:-20 } ],
   koshin:     [ { to:"koshin1", yaw:170, label:"路地へ戻る", entry:-40 } ],
-  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"approach", yaw:150, label:"通りへ戻る", entry:150 } ],
-  stairs:     [ { to:"salonIn", yaw:30, pitch:-4, label:"2階の入口から中へ", entry:20 }, { to:"front", yaw:-100, pitch:-18, label:"下りる（店前へ）", entry:-15 } ],
-  salonIn:    [ { to:"counter", yaw:0, label:"奥へ（カウンター）", entry:-10 }, { to:"stairs", yaw:178, label:"階段へ出る", entry:-60 } ],
-  counter:    [ { to:"salonIn", yaw:172, label:"入口へ戻る", entry:170 } ],
+  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:-135, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"approach", yaw:150, label:"通りへ戻る", entry:150 } ],
+  pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 }, { to:"approach", yaw:-140, label:"角の方へ", entry:-100 } ],
+  lea:        [ { to:"front", yaw:170, label:"ドアへ出る", entry:-15 } ],
+  stairs:     [ { to:"counter", yaw:30, pitch:-4, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-100, pitch:-18, label:"下りる（店前へ）", entry:-15 } ],
+  counter:    [ { to:"stairs", yaw:172, label:"外階段へ戻る", entry:-40 } ],
   elua:       [ { to:"front", yaw:170, label:"玄関へ出る", entry:-15 } ],
 };
 let walking = false;
@@ -305,10 +296,12 @@ function walkTo(ex, keepTimer) {
   if (walking || !ex || !SCENES[ex.to]) return;
   walking = true; if (!keepTimer) stopWalk();
   const targetYaw = (ex.entry != null) ? ex.entry : SCENES[ex.to].yaw;
-  viewer.lookAt(-8, ex.yaw, 50, 520, () => {
+  viewer.lookAt(-8, ex.yaw, 50, 520);
+  setTimeout(() => {
     viewer.loadScene(ex.to, -2, targetYaw, 116);
-    setTimeout(() => viewer.lookAt(-2, targetYaw, SCENES[ex.to].hfov, 480, () => { walking = false; }), 60);
-  });
+    setTimeout(() => { viewer.lookAt(-2, targetYaw, SCENES[ex.to].hfov, 480); walking = false; }, 150);
+  }, 540);
+  setTimeout(() => { walking = false; }, 3200);
 }
 function walkChevron(div, ex) {
   const w = document.createElement("div"); w.className = "wv";
@@ -316,15 +309,18 @@ function walkChevron(div, ex) {
   const l = document.createElement("div"); l.className = "wl"; l.textContent = ex.label;
   w.appendChild(a); w.appendChild(l); div.appendChild(w);
 }
-function eluaCat() {
-  return { pitch: -6, yaw: 28, cssClass: "catspot",
+function shopCat(tag, text, imgSrc, yaw) {
+  return { pitch: -9, yaw: yaw, cssClass: "catspot",
     createTooltipFunc: (div) => {
       const w = document.createElement("div"); w.className = "cbwrap";
-      const b = document.createElement("div"); b.className = "cb"; b.textContent = "いらっしゃいませ。elua Mahaloです。";
-      const img = document.createElement("img"); img.src = "cat-calico-sit.png"; img.alt = "eluaの店員猫";
-      w.appendChild(b); w.appendChild(img); div.appendChild(w);
+      const t = document.createElement("div"); t.className = "ktag"; t.textContent = tag;
+      const b = document.createElement("div"); b.className = "cb"; b.textContent = text;
+      const img = document.createElement("img"); img.src = imgSrc; img.alt = tag;
+      w.appendChild(t); w.appendChild(b); w.appendChild(img); div.appendChild(w);
     } };
 }
+function eluaCat() { return shopCat("elua 店員さん", "いらっしゃいませ", "cat-calico-sit.png", 28); }
+function leaCat() { return shopCat("Lea 店員さん", "いらっしゃいませ", "cat-black-sit.png", -30); }
 
 function catSpot(post) {
   return { pitch: post.pitch, yaw: post.yaw, cssClass: "catspot",
@@ -334,17 +330,21 @@ function catSpot(post) {
       if (Math.random() < 0.35) b.classList.add("off");
       const img = document.createElement("img"); img.src = post.catImg; img.alt = post.catName;
       w.appendChild(b); w.appendChild(img);
-      w.addEventListener("click", () => openPost(post));
+      w.addEventListener("pointerdown", (e) => { e.stopPropagation(); openPost(post); });
       div.appendChild(w);
     } };
 }
 function keeperSpot(big) {
   return { pitch: big ? -3 : -2, yaw: big ? 40 : 52, cssClass: "keeper-hotspot" + (big ? " big" : ""),
     createTooltipFunc: (div) => {
+      const w = document.createElement("div"); w.className = "cbwrap";
+      const tag = document.createElement("div"); tag.className = "ktag"; tag.textContent = "店員さん";
+      const b = document.createElement("div"); b.className = "cb"; b.textContent = "いらっしゃいませ";
       const img = document.createElement("img");
       img.src = big ? "cat-tabby-walk.png" : "cat-tabby-sit.png"; img.alt = "店員猫";
-      img.addEventListener("click", () => openChat());
-      div.appendChild(img);
+      w.appendChild(tag); w.appendChild(b); w.appendChild(img);
+      w.addEventListener("pointerdown", (e) => { e.stopPropagation(); openChat(); });
+      div.appendChild(w);
     } };
 }
 const scenesCfg = {};
@@ -352,11 +352,11 @@ Object.keys(SCENES).forEach(id => {
   const sc = SCENES[id];
   const hs = (EXITS[id] || []).map(ex => ({ pitch: (ex.pitch != null ? ex.pitch : -17), yaw: ex.yaw, type: "info", cssClass: "walkspot",
     clickHandlerFunc: (evt, a) => walkTo(a), clickHandlerArgs: ex,
-    createTooltipFunc: (div, a) => walkChevron(div, a), createTooltipArgs: ex }));
+    createTooltipFunc: (div, a) => { walkChevron(div, a); div.addEventListener("pointerdown", (e) => { e.stopPropagation(); walkTo(a); }); }, createTooltipArgs: ex }));
   POSTS.filter(p => p.scene === id).forEach(p => hs.push(catSpot(p)));
-  if (id === "salonIn") hs.push(keeperSpot(false));
   if (id === "counter") hs.push(keeperSpot(true));
   if (id === "elua") hs.push(eluaCat());
+  if (id === "lea") hs.push(leaCat());
   scenesCfg[id] = { type: "equirectangular", panorama: sc.pano, yaw: sc.yaw, pitch: -2, hfov: sc.hfov, hotSpots: hs };
 });
 const viewer = pannellum.viewer("panorama", {
@@ -378,11 +378,11 @@ function spawnPetal() {
   if (Math.random() < 0.55) { const s = document.createElement("div"); s.className = "sparkle"; s.style.left = (8 + Math.random() * 84) + "%"; s.style.top = (10 + Math.random() * 55) + "%"; fx.appendChild(s); setTimeout(() => s.remove(), 1700); }
 }
 setInterval(spawnPetal, 2600);
-const ROUTE = [ "front", "stairs", "salonIn", "counter" ];
-const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", approach:"MAHALOの角", front:"店前", stairs:"外階段", salonIn:"店内", counter:"カウンター", elua:"elua" };
+const ROUTE = [ "front", "stairs", "counter" ];
+const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", approach:"MAHALOの角", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea（1階）", pharmacy:"レデイ薬局" };
 let curScene = "front", walkTimer = null;
 const placeBar = document.getElementById("placeBar");
-[ "front", "stairs", "salonIn", "counter", "elua", "approach", "street2", "street", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
+[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "approach", "street2", "street", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
   const b = document.createElement("button"); b.textContent = SHORT[id]; b.dataset.scene = id;
   b.addEventListener("click", () => { stopWalk(); viewer.loadScene(id); });
   placeBar.appendChild(b);
@@ -392,33 +392,32 @@ document.querySelectorAll("#townMap .dot").forEach(g => {
   g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); document.querySelector(".stage").scrollIntoView({ behavior:"smooth", block:"center" }); });
   if (g.dataset.scene === "front") { const c = g.querySelector("circle"); c.setAttribute("stroke", "#5d4212"); c.setAttribute("stroke-width", "3"); }
 });
-document.querySelectorAll("#miniTownMap .dot").forEach(g => {
-  g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); });
-});
 document.getElementById("mmTitle").addEventListener("click", () => document.getElementById("miniMap").classList.toggle("big"));
 /* 吹き出しはランダムに出たり消えたりする */
 setInterval(() => {
   document.querySelectorAll(".catspot .cb").forEach(b => { if (Math.random() < 0.3) b.classList.toggle("off"); });
 }, 4000);
 function stopWalk() { if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 ねこと歩く（自動で進む）"; } }
+function walkStep() {
+  if (walking) return;
+  const i = ROUTE.indexOf(curScene);
+  if (i < 0 || i >= ROUTE.length - 1) { stopWalk(); return; }
+  const ex = (EXITS[curScene] || []).find(e => e.to === ROUTE[i + 1]);
+  if (ex) walkTo(ex, true); else viewer.loadScene(ROUTE[i + 1]);
+}
 document.getElementById("btnWalk").addEventListener("click", () => {
   if (walkTimer) { stopWalk(); return; }
   document.getElementById("btnWalk").textContent = "⏸ とまる";
-  walkTimer = setInterval(() => {
-    if (walking) return;
-    const i = ROUTE.indexOf(curScene);
-    if (i < 0 || i >= ROUTE.length - 1) { stopWalk(); return; }
-    const ex = (EXITS[curScene] || []).find(e => e.to === ROUTE[i + 1]);
-    if (ex) walkTo(ex, true); else viewer.loadScene(ROUTE[i + 1]);
-  }, 5000);
+  walkStep();
+  walkTimer = setInterval(walkStep, 4200);
 });
 viewer.on("scenechange", (id) => {
   curScene = id;
   document.getElementById("sceneName").textContent = SCENE_NAMES[id] || "";
-  document.getElementById("shopBtns").style.display = (id === "salonIn" || id === "counter") ? "flex" : "none";
+  document.getElementById("shopBtns").style.display = (id === "counter") ? "flex" : "none";
   placeBar.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.scene === id));
-  document.querySelectorAll("#townMap .dot, #miniTownMap .dot").forEach(g => { const c = g.querySelector("circle"); if (c) { const on = g.dataset.scene === id; c.setAttribute("stroke", on ? "#5d4212" : "#fff"); c.setAttribute("stroke-width", on ? "3" : "1.5"); } });
-  if (id !== "salonIn" && id !== "counter") document.getElementById("chat").style.display = "none";
+  document.querySelectorAll("#townMap .dot").forEach(g => { const c = g.querySelector("circle"); if (c) { const on = g.dataset.scene === id; c.setAttribute("stroke", on ? "#5d4212" : "#fff"); c.setAttribute("stroke-width", on ? "3" : "1.5"); } });
+  if (id !== "counter") document.getElementById("chat").style.display = "none";
   (EXITS[id] || []).forEach(ex => { const im = new Image(); im.src = SCENES[ex.to].pano; });
   rippleFx();
 });
@@ -445,9 +444,7 @@ panoEl.addEventListener("pointerup", (e) => {
 });
 
 const tickerInner = document.getElementById("tickerInner");
-const TICKS = POSTS.map(p => ({ label: SCENE_NAMES[p.scene], text: p.catName + "：「" + p.text + "」", post: p }))
-  .concat([ { label: "萱町商店街", text: "八百屋さん、今日はじゃがいも1袋100円だったって（まちのうわさ・サンプル）" },
-            { label: "阿沼美神社", text: "朝の神社、木漏れ日がきれいだった（まちのうわさ・サンプル）" } ]);
+const TICKS = POSTS.filter(p => p.kind === "real").map(p => ({ label: SCENE_NAMES[p.scene], text: p.sns + "：" + (p.summary || p.text), post: p }));
 [0, 1].forEach(() => {
   TICKS.forEach(t => {
     const s = document.createElement("span"); s.className = "tick-item";
@@ -459,9 +456,9 @@ const TICKS = POSTS.map(p => ({ label: SCENE_NAMES[p.scene], text: p.catName + "
   });
 });
 function openPost(p) {
-  document.getElementById("postTitle").textContent = "🐱 " + p.catName + "の投稿";
+  document.getElementById("postTitle").textContent = (p.kind === "real") ? p.author + "の投稿" : "🐱 " + p.catName + "の投稿";
   document.getElementById("postSrc").textContent = p.sns + "｜" + p.author;
-  document.getElementById("postText").textContent = "「" + p.text + "」";
+  document.getElementById("postText").textContent = (p.kind === "real" && p.summary) ? "要約：" + p.summary : "「" + p.text + "」";
   const img = document.getElementById("postImg"), cap = document.getElementById("postCap"), emb = document.getElementById("postEmbed");
   emb.innerHTML = "";
   if (p.kind === "real") {
