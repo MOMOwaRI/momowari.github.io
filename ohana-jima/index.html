@@ -100,6 +100,14 @@
   .walkspot .wv { display:flex; flex-direction:column; align-items:center; cursor:pointer; }
   .walkspot .wa { width:42px; height:42px; border-radius:50%; background:rgba(255,253,247,.9); border:2px solid #d9a441; color:#a5711d; font-size:22px; line-height:1; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 9px rgba(60,40,10,.35); animation:wpulse 1.9s ease-in-out infinite; font-family:sans-serif; }
   .walkspot .wl { margin-top:3px; background:rgba(46,32,10,.8); color:#fdf6df; font-size:11px; padding:2px 9px; border-radius:999px; white-space:nowrap; font-family:"Hiragino Mincho ProN",serif; }
+  .walkspot { z-index:30 !important; }
+  .catspot, .keeper-hotspot { z-index:10 !important; }
+  .catspot .cbwrap, .keeper-hotspot .cbwrap { pointer-events:none; transform:translateY(-4px); }
+  .catspot img, .keeper-hotspot img { pointer-events:auto; cursor:pointer; }
+  .walkspot .wv.exit .wa { background:#2e9e5b; border-color:#2e9e5b; color:#fff; }
+  .walkspot .wv.exit .wl { background:#2e9e5b; color:#fff; font-weight:700; }
+  #exitBtn { position:absolute; top:10px; left:10px; z-index:8; display:none; background:#2e9e5b; color:#fff; border:none; font-family:inherit; font-size:14.5px; font-weight:700; padding:11px 18px; border-radius:999px; box-shadow:0 4px 14px rgba(20,80,40,.45); cursor:pointer; }
+  #shopLinkBtn { position:absolute; top:10px; right:10px; z-index:8; display:none; background:#d96c8a; color:#fff; border:none; font-family:inherit; font-size:13.5px; font-weight:700; padding:11px 15px; border-radius:999px; box-shadow:0 4px 14px rgba(120,40,70,.4); cursor:pointer; }
   @keyframes wpulse { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
   #chat.panel { position:absolute; left:8px; right:8px; bottom:8px; z-index:9; margin-top:0; max-height:84%; overflow-y:auto; box-shadow:0 10px 28px rgba(60,40,10,.4); background:rgba(255,253,247,.98); }
   #chatClose { position:absolute; top:6px; right:8px; width:28px; height:28px; border-radius:50%; border:1px solid #cbb27f; background:#fff; font-size:14px; cursor:pointer; line-height:1; }
@@ -120,6 +128,8 @@
   <p class="sub">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。街の猫たちは、SNSの声と連動して話します。</p>
 
   <div class="stage"><div id="panorama"></div><div id="fxLayer"></div>
+    <button id="exitBtn" type="button"></button>
+    <button id="shopLinkBtn" type="button">ネットショップを見る</button>
     <div id="miniMap">
       <div class="mm-title" id="mmTitle">まちの地図（タップで移動）</div>
       <svg id="miniTownMap" viewBox="0 0 340 300" role="img" aria-label="まちの地図">
@@ -254,15 +264,15 @@
 <script src="vendor/pannellum.js"></script>
 <script>
 const POSTS = [
-  { id:"veg", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-10, img:"post-veg-w.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
-  { id:"sky", sns:"Threads", author:"まちの声（サンプル）", text:"雨上がりの通り、空がきれいだった", scene:"street", yaw:44, catName:"しろ", catImg:"cat-white-sit.png", pitch:-6, img:"ohana-island-streetview.jpg", cap:"雨上がりの通り（新海監督風のイメージ）", url:"https://www.threads.com/@momowari/post/Ddh2KEcE4JN" },
-  { id:"nano", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"front", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-18, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
-  { id:"lea", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea Mahalo、可愛い雑貨がいっぱいだった", scene:"front", yaw:36, catImg:"cat-calico-sit.png", pitch:-18, img:"post-lea-w.jpg", cap:"Lea Mahaloの店内（実際の写真をもとにした水彩画）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
-  { id:"kureha", kind:"real", sns:"Instagram", author:"紅芭（くれは）さん", text:"萱町商店街で「ひっそり昼カフェ」を開いたよ", summary:"自分の店で開く短期営業「ひっそり昼カフェ」の告知（チーズケーキの写真）", scene:"kayamachi", yaw:26, catName:"はな", catImg:"cat-white-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DXzOsJ2EyDP/" },
-  { id:"glatt", kind:"real", sns:"Threads", author:"GLATT［グラット］愛媛・松山さん", text:"丸五青果でキャベツと大根、お買い物したよ", summary:"丸五青果でお買い物。キャベツと大根（各138円）などの買い物記録", scene:"yaoya", yaw:55, catName:"くろ", catImg:"cat-black-sit.png", pitch:-10, permalink:"https://www.threads.com/@glatt.mens/post/DfDvMzpj1o0" },
-  { id:"okamoto", kind:"real", sns:"Instagram", author:"岡本正美さん", text:"庚申庵の藤まつり、藤棚が見事だったよ", summary:"庚申庵の藤まつり。藤棚と庭園の写真", scene:"koshin", yaw:-48, catName:"こむぎ", catImg:"cat-calico-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DXZH2p6AX7n/" },
-  { id:"dcity", kind:"real", sns:"Instagram", author:"デジタルシティえひめさん", text:"庚申庵の藤と池の動画を撮ったよ", summary:"庚申庵の藤まつり。満開の藤棚と池の庭園の動画", scene:"koshin", yaw:58, catName:"すみ", catImg:"cat-tabby-sit.png", pitch:-10, permalink:"https://www.instagram.com/reel/DXsv4WfCa1l/" },
-  { id:"morimoto", kind:"real", sns:"Instagram", author:"森本 博志さん", text:"阿沼美神社で御朱印をもらったよ", summary:"阿沼美神社への参拝。御朱印めぐりの記録", scene:"jinja", yaw:32, catName:"ふわ", catImg:"cat-white-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DS1Zr6pkXY8/" },
+  { id:"veg", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-24, img:"post-veg-w.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
+  { id:"sky", sns:"Threads", author:"まちの声（サンプル）", text:"雨上がりの通り、空がきれいだった", scene:"street", yaw:44, catName:"しろ", catImg:"cat-white-sit.png", pitch:-24, img:"ohana-island-streetview.jpg", cap:"雨上がりの通り（新海監督風のイメージ）", url:"https://www.threads.com/@momowari/post/Ddh2KEcE4JN" },
+  { id:"nano", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"front", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-23, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
+  { id:"lea", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea Mahalo、可愛い雑貨がいっぱいだった", scene:"front", yaw:36, catImg:"cat-calico-sit.png", pitch:-23, img:"post-lea-w.jpg", cap:"Lea Mahaloの店内（実際の写真をもとにした水彩画）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
+  { id:"kureha", kind:"real", sns:"Instagram", author:"紅芭（くれは）さん", text:"萱町商店街で「ひっそり昼カフェ」を開いたよ", summary:"自分の店で開く短期営業「ひっそり昼カフェ」の告知（チーズケーキの写真）", scene:"kayamachi", yaw:26, catName:"はな", catImg:"cat-white-sit.png", pitch:-24, permalink:"https://www.instagram.com/p/DXzOsJ2EyDP/" },
+  { id:"glatt", kind:"real", sns:"Threads", author:"GLATT［グラット］愛媛・松山さん", text:"丸五青果でキャベツと大根、お買い物したよ", summary:"丸五青果でお買い物。キャベツと大根（各138円）などの買い物記録", scene:"yaoya", yaw:55, catName:"くろ", catImg:"cat-black-sit.png", pitch:-24, permalink:"https://www.threads.com/@glatt.mens/post/DfDvMzpj1o0" },
+  { id:"okamoto", kind:"real", sns:"Instagram", author:"岡本正美さん", text:"庚申庵の藤まつり、藤棚が見事だったよ", summary:"庚申庵の藤まつり。藤棚と庭園の写真", scene:"koshin", yaw:-48, catName:"こむぎ", catImg:"cat-calico-sit.png", pitch:-24, permalink:"https://www.instagram.com/p/DXZH2p6AX7n/" },
+  { id:"dcity", kind:"real", sns:"Instagram", author:"デジタルシティえひめさん", text:"庚申庵の藤と池の動画を撮ったよ", summary:"庚申庵の藤まつり。満開の藤棚と池の庭園の動画", scene:"koshin", yaw:58, catName:"すみ", catImg:"cat-tabby-sit.png", pitch:-24, permalink:"https://www.instagram.com/reel/DXsv4WfCa1l/" },
+  { id:"morimoto", kind:"real", sns:"Instagram", author:"森本 博志さん", text:"阿沼美神社で御朱印をもらったよ", summary:"阿沼美神社への参拝。御朱印めぐりの記録", scene:"jinja", yaw:32, catName:"ふわ", catImg:"cat-white-sit.png", pitch:-24, permalink:"https://www.instagram.com/p/DS1Zr6pkXY8/" },
 ];
 const PRODUCTS = [
   { id:"nano", img:"prod-nano-main.jpg", name:"ナノサプリ クレンジングシャンプー GA", desc:"グリーンアップルの香り。セレクト商品の代表です。（写真は実物です）" },
@@ -286,8 +296,8 @@ const SCENES = {
   front:      { pano:"mahalo-pano-front2.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
   stairs:     { pano:"mahalo-pano-stairs.jpg",     name:"MAHALOの外階段", yaw:20, hfov:100 },
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:90 },
-  elua:       { pano:"mahalo-pano-elua2.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
-  lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:100 },
+  elua:       { pano:"mahalo-pano-elua3.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
+  lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:124 },
   pharmacy:   { pano:"mahalo-pano-pharmacy.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
   approach:   { pano:"mahalo-pano-approach.jpg",   name:"通り（MAHALOの角）", yaw:40, hfov:102 },
 };
@@ -326,13 +336,13 @@ function walkTo(ex, keepTimer) {
   setTimeout(() => { walking = false; }, 3200);
 }
 function walkChevron(div, ex) {
-  const w = document.createElement("div"); w.className = "wv";
+  const w = document.createElement("div"); w.className = "wv" + ((ex.label || "").indexOf("出口") >= 0 ? " exit" : "");
   const a = document.createElement("div"); a.className = "wa"; a.textContent = "↑";
   const l = document.createElement("div"); l.className = "wl"; l.textContent = ex.label;
   w.appendChild(a); w.appendChild(l); div.appendChild(w);
 }
 function shopCat(tag, text, imgSrc, yaw, shop) {
-  return { pitch: -9, yaw: yaw, cssClass: "catspot",
+  return { pitch: -25, yaw: yaw, cssClass: "catspot",
     createTooltipFunc: (div) => {
       const w = document.createElement("div"); w.className = "cbwrap";
       const t = document.createElement("div"); t.className = "ktag"; t.textContent = tag;
@@ -358,7 +368,7 @@ function catSpot(post) {
     } };
 }
 function keeperSpot(big) {
-  return { pitch: big ? -3 : -2, yaw: big ? 40 : 52, cssClass: "keeper-hotspot" + (big ? " big" : ""),
+  return { pitch: big ? -9 : -7, yaw: big ? 40 : 52, cssClass: "keeper-hotspot" + (big ? " big" : ""),
     createTooltipFunc: (div) => {
       const w = document.createElement("div"); w.className = "cbwrap";
       const tag = document.createElement("div"); tag.className = "ktag"; tag.textContent = "店員さん";
@@ -441,6 +451,11 @@ viewer.on("scenechange", (id) => {
   curScene = id;
   document.getElementById("sceneName").textContent = SCENE_NAMES[id] || "";
   document.getElementById("shopBtns").style.display = (id === "counter") ? "flex" : "none";
+  const exitEx = (EXITS[id] || []).find(e => (e.label || "").indexOf("出口") >= 0);
+  const exitBtn = document.getElementById("exitBtn");
+  if (exitEx) { exitBtn.style.display = "block"; exitBtn.textContent = exitEx.label; exitBtn.onclick = () => walkTo(exitEx); } else { exitBtn.style.display = "none"; }
+  document.getElementById("shopLinkBtn").style.display = (id === "lea") ? "block" : "none";
+  document.getElementById("shopLinkBtn").onclick = () => window.open("https://jp.mercari.com/user/profile/256767561", "_blank");
   placeBar.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.scene === id));
   document.querySelectorAll("#townMap .dot").forEach(g => { const c = g.querySelector("circle"); if (c) { const on = g.dataset.scene === id; c.setAttribute("stroke", on ? "#5d4212" : "#fff"); c.setAttribute("stroke-width", on ? "3" : "1.5"); } });
   if (id !== "counter") document.getElementById("chat").style.display = "none";
