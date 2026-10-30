@@ -36,6 +36,9 @@
   .stage { position:relative; border-radius:18px; overflow:hidden; box-shadow:0 6px 24px rgba(90,60,20,.25); }
   #panorama { width:100%; height:380px; }
   #sceneName { text-align:center; font-size:13px; color:#8a715a; margin-top:8px; }
+  #placeBar { display:flex; gap:6px; overflow-x:auto; padding:8px 2px 2px; -webkit-overflow-scrolling:touch; }
+  #placeBar button { flex:0 0 auto; border:1.5px solid #cbb27f; background:#fffdf7; color:#7a5a17; border-radius:999px; padding:6px 12px; font-size:12.5px; cursor:pointer; font-family:inherit; }
+  #placeBar button.on { background:#d9a441; border-color:#d9a441; color:#fff; font-weight:700; }
   .hint { font-size:12px; color:#97795a; text-align:center; margin-top:6px; line-height:1.7; }
   .catspot { background:none !important; }
   .catspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-18px); cursor:pointer; }
@@ -90,13 +93,15 @@
   <p class="sub">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。街の猫たちは、SNSの声と連動して話します。</p>
 
   <div class="stage"><div id="panorama"></div><div id="fxLayer"></div></div>
-  <div id="sceneName">通り</div>
+  <div id="sceneName">萱町商店街</div>
+  <div id="placeBar"></div>
+  <div class="btns"><button class="act" id="btnWalk">🐾 ねこと歩く（自動で進む）</button></div>
   <div class="btns" id="shopBtns" style="display:none">
     <button class="act" id="btnTalk">店員さんと話す</button>
     <button class="act" id="btnGoods">商品を見る</button>
     <button class="act sub" id="btnCart">カゴを見る（0）</button>
   </div>
-  <p class="hint">ドラッグで見回せます。矢印タップで移動、猫の吹き出しタップで投稿が見られます。</p>
+  <p class="hint">猫の目線で歩く通りです。ドラッグで見回せます。矢印か下の地名タップで移動、猫の吹き出しタップで投稿が見られます。</p>
 
   <div id="postModal">
     <div class="panel card" id="postPanel">
@@ -172,7 +177,7 @@ const PRODUCTS = [
   { id:"aujua", img:"prod-aujua.jpg", name:"オージュア ホームケア", desc:"ご自宅でのケアに。髪の状態に合わせてご案内いたします。（写真はイメージです）" },
   { id:"wig", img:"prod-wig.jpg", name:"WigMAHALO（ウィッグのご相談）", desc:"ウィッグのご相談を承っております。まずはお気軽にどうぞ。（写真はイメージです）" },
 ];
-const SCENE_NAMES = { kayamachi:"萱町商店街", jinja:"阿沼美神社", tamago:"たまご屋さんの前", yaoya:"八百屋の前", street:"通り", front:"MAHALOの店前", salonIn:"店内（入口）", counter:"店内（カウンター前）" };
+const SCENE_NAMES = { kayamachi:"萱町商店街", jinja:"阿沼美神社", koshin:"庚申庵", tamago:"たまご屋さんの前", yaoya:"八百屋の前", street:"通り", front:"MAHALOの店前", salonIn:"店内（入口）", counter:"店内（カウンター前）" };
 
 function catSpot(post) {
   return { pitch: post.pitch, yaw: post.yaw, cssClass: "catspot",
@@ -195,12 +200,14 @@ function keeperSpot(big) {
     } };
 }
 const viewer = pannellum.viewer("panorama", {
-  default: { firstScene: "street", sceneFadeDuration: 900, autoLoad: true },
+  default: { firstScene: "kayamachi", sceneFadeDuration: 1400, autoLoad: true },
   scenes: {
     kayamachi: { type:"equirectangular", panorama:"mahalo-pano-kayamachi.jpg", yaw:0, pitch:-2, hfov:102,
       hotSpots: [ { pitch:-13, yaw:10, type:"scene", sceneId:"jinja", text:"阿沼美神社の方へ進む" } ] },
     jinja: { type:"equirectangular", panorama:"mahalo-pano-jinja.jpg", yaw:0, pitch:-2, hfov:100,
-      hotSpots: [ { pitch:-13, yaw:-15, type:"scene", sceneId:"tamago", text:"たまご屋さんの方へ進む" }, { pitch:-13, yaw:170, type:"scene", sceneId:"kayamachi", text:"商店街へ戻る" } ] },
+      hotSpots: [ { pitch:-13, yaw:-15, type:"scene", sceneId:"tamago", text:"たまご屋さんの方へ進む" }, { pitch:-13, yaw:170, type:"scene", sceneId:"kayamachi", text:"商店街へ戻る" }, { pitch:-13, yaw:55, type:"scene", sceneId:"koshin", text:"庚申庵の方へ" } ] },
+    koshin: { type:"equirectangular", panorama:"mahalo-pano-koshin.jpg", yaw:0, pitch:-2, hfov:100,
+      hotSpots: [ { pitch:-13, yaw:180, type:"scene", sceneId:"jinja", text:"神社へ戻る" } ] },
     tamago: { type:"equirectangular", panorama:"mahalo-pano-tamago.jpg", yaw:0, pitch:-2, hfov:102,
       hotSpots: [ { pitch:-13, yaw:20, type:"scene", sceneId:"yaoya", text:"八百屋さんの方へ進む" }, { pitch:-13, yaw:175, type:"scene", sceneId:"jinja", text:"神社へ戻る" } ] },
     yaoya: { type:"equirectangular", panorama:"mahalo-pano-yaoya.jpg", yaw:0, pitch:-2, hfov:102,
@@ -230,9 +237,31 @@ function spawnPetal() {
   if (Math.random() < 0.55) { const s = document.createElement("div"); s.className = "sparkle"; s.style.left = (8 + Math.random() * 84) + "%"; s.style.top = (10 + Math.random() * 55) + "%"; fx.appendChild(s); setTimeout(() => s.remove(), 1700); }
 }
 setInterval(spawnPetal, 2600);
+const ROUTE = [ "kayamachi", "jinja", "tamago", "yaoya", "street", "front", "salonIn", "counter" ];
+const SHORT = { kayamachi:"萱町商店街", jinja:"神社", koshin:"庚申庵", tamago:"たまご屋", yaoya:"八百屋", street:"通り", front:"店前", salonIn:"店内", counter:"カウンター" };
+let curScene = "kayamachi", walkTimer = null;
+const placeBar = document.getElementById("placeBar");
+[ "kayamachi", "jinja", "koshin", "tamago", "yaoya", "street", "front", "salonIn", "counter" ].forEach(id => {
+  const b = document.createElement("button"); b.textContent = SHORT[id]; b.dataset.scene = id;
+  b.addEventListener("click", () => { stopWalk(); viewer.loadScene(id); });
+  placeBar.appendChild(b);
+});
+placeBar.querySelector('[data-scene="kayamachi"]').classList.add("on");
+function stopWalk() { if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 ねこと歩く（自動で進む）"; } }
+document.getElementById("btnWalk").addEventListener("click", () => {
+  if (walkTimer) { stopWalk(); return; }
+  document.getElementById("btnWalk").textContent = "⏸ とまる";
+  walkTimer = setInterval(() => {
+    const i = ROUTE.indexOf(curScene);
+    if (i < 0 || i >= ROUTE.length - 1) { stopWalk(); return; }
+    viewer.loadScene(ROUTE[i + 1]);
+  }, 4200);
+});
 viewer.on("scenechange", (id) => {
+  curScene = id;
   document.getElementById("sceneName").textContent = SCENE_NAMES[id] || "";
   document.getElementById("shopBtns").style.display = (id === "salonIn" || id === "counter") ? "flex" : "none";
+  placeBar.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.scene === id));
   rippleFx();
 });
 
