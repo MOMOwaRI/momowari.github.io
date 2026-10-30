@@ -222,6 +222,11 @@
     <div class="btns"><button class="act sub" id="btnClear">カゴを空にする</button></div>
   </div>
 
+  <div class="panel" id="joinBlock">
+    <h2>一緒にメタバースを作りませんか</h2>
+    <p>この島は、みなさんの投稿で育ちます。お店の写真や、行ってみた感想の投稿に <b>#愛媛メタバースOHANA島</b> をつけてもらえたら、AI「Muse」が巡回して見つけて、島のお店の絵や、猫の吹き出しに反映していきます。</p>
+    <p>お店の方も、お客さんも、ぜひご参加ください。いただいた写真は、水彩の絵のもとにさせてもらいます。</p>
+  </div>
   <div class="panel" id="snsEmbeds">
     <h2>近所のSNS（実際の投稿）</h2>
     <p class="src">この近所の実際の投稿です。投稿は公式の仕組みで表示しているので、元の投稿が変われば、ここも変わります。</p>
@@ -252,7 +257,7 @@ const POSTS = [
   { id:"veg", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-10, img:"post-veg-w.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
   { id:"sky", sns:"Threads", author:"まちの声（サンプル）", text:"雨上がりの通り、空がきれいだった", scene:"street", yaw:44, catName:"しろ", catImg:"cat-white-sit.png", pitch:-6, img:"ohana-island-streetview.jpg", cap:"雨上がりの通り（新海監督風のイメージ）", url:"https://www.threads.com/@momowari/post/Ddh2KEcE4JN" },
   { id:"nano", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"front", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-18, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
-  { id:"lea", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea、可愛い雑貨がいっぱいだった", scene:"front", yaw:36, catImg:"cat-calico-sit.png", pitch:-18, img:"post-lea-w.jpg", cap:"Lea Mahaloの店内（実際の写真をもとにした水彩画）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
+  { id:"lea", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea Mahalo、可愛い雑貨がいっぱいだった", scene:"front", yaw:36, catImg:"cat-calico-sit.png", pitch:-18, img:"post-lea-w.jpg", cap:"Lea Mahaloの店内（実際の写真をもとにした水彩画）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
   { id:"kureha", kind:"real", sns:"Instagram", author:"紅芭（くれは）さん", text:"萱町商店街で「ひっそり昼カフェ」を開いたよ", summary:"自分の店で開く短期営業「ひっそり昼カフェ」の告知（チーズケーキの写真）", scene:"kayamachi", yaw:26, catName:"はな", catImg:"cat-white-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DXzOsJ2EyDP/" },
   { id:"glatt", kind:"real", sns:"Threads", author:"GLATT［グラット］愛媛・松山さん", text:"丸五青果でキャベツと大根、お買い物したよ", summary:"丸五青果でお買い物。キャベツと大根（各138円）などの買い物記録", scene:"yaoya", yaw:55, catName:"くろ", catImg:"cat-black-sit.png", pitch:-10, permalink:"https://www.threads.com/@glatt.mens/post/DfDvMzpj1o0" },
   { id:"okamoto", kind:"real", sns:"Instagram", author:"岡本正美さん", text:"庚申庵の藤まつり、藤棚が見事だったよ", summary:"庚申庵の藤まつり。藤棚と庭園の写真", scene:"koshin", yaw:-48, catName:"こむぎ", catImg:"cat-calico-sit.png", pitch:-10, permalink:"https://www.instagram.com/p/DXZH2p6AX7n/" },
@@ -278,11 +283,11 @@ const SCENES = {
   street2:    { pano:"mahalo-pano-street2.jpg",    name:"味酒町の通り（MAHALO近く）", yaw:-40, hfov:102 },
   koshin1:    { pano:"mahalo-pano-koshin1.jpg",    name:"庚申庵への路地", yaw:-40, hfov:100 },
   koshin:     { pano:"mahalo-pano-koshin.jpg",     name:"庚申庵", yaw:10, hfov:100 },
-  front:      { pano:"mahalo-pano-front.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
+  front:      { pano:"mahalo-pano-front2.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
   stairs:     { pano:"mahalo-pano-stairs.jpg",     name:"MAHALOの外階段", yaw:20, hfov:100 },
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:90 },
-  elua:       { pano:"mahalo-pano-elua.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
-  lea:        { pano:"mahalo-pano-lea.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:100 },
+  elua:       { pano:"mahalo-pano-elua2.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
+  lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:100 },
   pharmacy:   { pano:"mahalo-pano-pharmacy.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
   approach:   { pano:"mahalo-pano-approach.jpg",   name:"通り（MAHALOの角）", yaw:40, hfov:102 },
 };
@@ -300,13 +305,13 @@ const EXITS = {
   street2:    [ { to:"approach", yaw:-30, pitch:-9, label:"西へ進む（MAHALOの角）", entry:40 }, { to:"street", yaw:140, label:"東へ戻る", entry:140 } ],
   koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"street", yaw:165, label:"北へ戻る（通り）", entry:-20 } ],
   koshin:     [ { to:"koshin1", yaw:170, label:"路地へ戻る", entry:-40 } ],
-  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:-135, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"approach", yaw:150, label:"通りへ戻る", entry:-100 } ],
+  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:175, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"approach", yaw:150, label:"通りへ戻る", entry:-100 } ],
   pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 }, { to:"approach", yaw:-140, label:"角の方へ", entry:40 } ],
   approach:   [ { to:"front", yaw:40, pitch:-10, label:"MAHALOに着いた（店前へ）", entry:-15 }, { to:"pharmacy", yaw:-35, pitch:-12, label:"レデイ薬局の方", entry:150 }, { to:"street2", yaw:-100, label:"東へ戻る", entry:130 } ],
-  lea:        [ { to:"front", yaw:170, label:"ドアへ出る", entry:-15 } ],
+  lea:        [ { to:"front", yaw:170, label:"出口（店前へ出る）", entry:-15 } ],
   stairs:     [ { to:"counter", yaw:30, pitch:-4, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-100, pitch:-18, label:"下りる（店前へ）", entry:-15 } ],
-  counter:    [ { to:"stairs", yaw:172, label:"外階段へ戻る", entry:-40 } ],
-  elua:       [ { to:"front", yaw:170, label:"玄関へ出る", entry:-15 } ],
+  counter:    [ { to:"stairs", yaw:172, label:"出口（外階段へ戻る）", entry:-40 } ],
+  elua:       [ { to:"front", yaw:170, label:"出口（店前へ出る）", entry:-15 } ],
 };
 let walking = false;
 function walkTo(ex, keepTimer) {
@@ -338,7 +343,7 @@ function shopCat(tag, text, imgSrc, yaw, shop) {
     } };
 }
 function eluaCat() { return shopCat("elua 店員さん", "いらっしゃいませ", "cat-calico-sit.png", 28, "elua"); }
-function leaCat() { return shopCat("Lea 店員さん", "いらっしゃいませ", "cat-white-sit.png", -30, "lea"); }
+function leaCat() { return shopCat("Lea Mahalo 店員さん", "いらっしゃいませ", "cat-white-sit.png", -30, "lea"); }
 
 function catSpot(post) {
   return { pitch: post.pitch, yaw: post.yaw, cssClass: "catspot",
@@ -397,7 +402,7 @@ function spawnPetal() {
 }
 setInterval(spawnPetal, 2600);
 const ROUTE = [ "front", "stairs", "counter" ];
-const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea（1階）", pharmacy:"レデイ薬局", approach:"MAHALOの角" };
+const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea Mahalo（1階）", pharmacy:"レデイ薬局", approach:"MAHALOの角" };
 let curScene = "front", walkTimer = null;
 const placeBar = document.getElementById("placeBar");
 [ "front", "stairs", "counter", "elua", "lea", "pharmacy", "approach", "street2", "street", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
