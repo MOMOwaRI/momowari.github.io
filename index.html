@@ -19,26 +19,34 @@
   html{scroll-behavior:smooth}
   body{font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#fff6ec;color:#5b4a42;margin:0;line-height:1.75}
   .w{max-width:720px;margin:0 auto;padding:0 16px 52px}
-  /* ===== hero ===== */
-  .hero{position:relative;max-width:720px;margin:0 auto;height:min(80svh,580px);min-height:460px;overflow:hidden;color:#fff;border-radius:0 0 38px 38px;box-shadow:0 14px 34px -18px rgba(150,90,40,.45)}
+  /* ===== hero（文字と写真は重ねない） ===== */
+  .hero-head{max-width:720px;margin:0 auto;padding:34px 22px 4px;text-align:left}
+  .hero-head .kick{display:inline-block;background:#fff;color:#c2571b;font-weight:bold;font-size:12.5px;letter-spacing:.08em;border-radius:999px;padding:5px 14px;margin-bottom:12px;box-shadow:0 4px 12px rgba(90,50,20,.15)}
+  .hero-head h1{font-size:clamp(42px,11vw,64px);line-height:1.12;margin:0 0 8px;font-weight:800;letter-spacing:.02em;color:#5b4a42}
+  .hero-head .tag{font-size:clamp(14.5px,3.8vw,17px);font-weight:bold;margin:0 0 6px}
+  .hero-head .lead{font-size:13.5px;margin:0 0 16px}
+  .hero-nav{display:flex;flex-wrap:wrap;gap:8px}
+  .hero-nav a{text-decoration:none;background:#fff;color:#7a4b2a;font-weight:bold;font-size:13.5px;border-radius:999px;padding:9px 16px;box-shadow:0 5px 14px rgba(90,50,20,.16);transition:transform .18s}
+  .hero-nav a:hover{transform:translateY(-2px)}
+  .hero{position:relative;max-width:720px;margin:14px auto 0;height:min(62svh,440px);min-height:300px;overflow:hidden;border-radius:30px;box-shadow:0 14px 34px -18px rgba(150,90,40,.45)}
   .hero .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
   .hero .slide.on{opacity:1}
   .hero .slide img{width:100%;height:100%;object-fit:cover;display:block}
   .hero .slide.on img{animation:heroZoom 7s linear forwards}
   @keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.08)}}
-  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(120,60,30,.10) 34%,rgba(110,52,26,.66));pointer-events:none}
-  .hero-in{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 22px 30px;text-align:left}
-  .hero .kick{display:inline-block;background:rgba(255,255,255,.94);color:#c2571b;font-weight:bold;font-size:12.5px;letter-spacing:.08em;border-radius:999px;padding:5px 14px;margin-bottom:12px;box-shadow:0 4px 12px rgba(90,50,20,.25)}
-  .hero h1{font-size:clamp(42px,11vw,64px);line-height:1.12;margin:0 0 8px;font-weight:800;letter-spacing:.02em;text-shadow:0 3px 20px rgba(80,40,10,.45)}
-  .hero .tag{font-size:clamp(14.5px,3.8vw,17px);font-weight:bold;margin:0 0 6px;text-shadow:0 2px 12px rgba(80,40,10,.5)}
-  .hero .lead{font-size:13.5px;margin:0 0 18px;text-shadow:0 2px 10px rgba(80,40,10,.5)}
-  .hero-nav{display:flex;flex-wrap:wrap;gap:8px}
-  .hero-nav a{text-decoration:none;background:rgba(255,255,255,.95);color:#7a4b2a;font-weight:bold;font-size:13.5px;border-radius:999px;padding:9px 16px;box-shadow:0 5px 14px rgba(90,50,20,.28);transition:transform .18s}
-  .hero-nav a:hover{transform:translateY(-2px)}
-  .hero .dots{position:absolute;right:16px;top:16px;z-index:3;display:flex;gap:6px}
-  .hero .dots span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45)}
+  .hero .dots{position:absolute;right:16px;bottom:14px;z-index:3;display:flex;gap:6px}
+  .hero .dots span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45);box-shadow:0 1px 4px rgba(0,0,0,.25)}
   .hero .dots span.on{background:#fff}
-  @media (prefers-reduced-motion:reduce){.hero .slide{transition:none}.hero .slide.on img{animation:none}html{scroll-behavior:auto}}
+  /* ===== 店舗ごとの自動スライドショー ===== */
+  .sshow{position:relative;height:250px;border-radius:18px;overflow:hidden;background:#f7ecdd;margin:4px 0 6px}
+  .sshow .sslide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
+  .sshow .sslide.on{opacity:1}
+  .sshow .sslide img{width:100%;height:100%;object-fit:cover;display:block}
+  .sshow .dots{position:absolute;right:12px;bottom:10px;display:flex;gap:6px;z-index:3}
+  .sshow .dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:0 1px 4px rgba(0,0,0,.25)}
+  .sshow .dots span.on{background:#fff}
+  @media (min-width:560px){.sshow{height:300px}}
+  @media (prefers-reduced-motion:reduce){.hero .slide,.sshow .sslide{transition:none}.hero .slide.on img{animation:none}html{scroll-behavior:auto}}
   /* ===== profile ===== */
   .profile{background:#fff;border:2px dashed #f3cf9f;border-radius:26px;padding:22px 20px 18px;margin:26px 0 24px;text-align:center;box-shadow:0 8px 22px -14px rgba(150,90,40,.35)}
   .profile p{font-size:14px;margin:0 auto;max-width:560px}
@@ -69,30 +77,47 @@
   .s-ohana h2{color:#d97a08;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
   .s-ohana h2::before{background:#ef8f1c}
   .s-ohana .btn{background:#ef8f1c}
+  .s-sns{background:#fdf4ec}.s-sns h2{color:#b3541e}.s-sns h2::before{background:#e07b24}.s-sns .btn{background:#e07b24}.s-sns .chips a{border-color:#f0cf9e;color:#a85d18;background:#fff}
+  .embed-box{background:#faf3e7;border-radius:14px;min-height:320px;display:flex;justify-content:center;align-items:flex-start;overflow:hidden;padding:6px;margin-top:10px}
+  .embed-box blockquote{margin:0 auto !important;max-width:540px;width:100%}
+  .embed-box blockquote a{display:inline-block;background:#fff;border:1.5px solid #f0cf9e;color:#b05e14;font-weight:bold;text-decoration:none;border-radius:999px;padding:9px 18px;margin:14px;font-size:14px}
+  .embed-cap{font-size:13px;font-weight:bold;margin:12px 0 0}
+  .embed-cap a{color:#5b4a42;text-decoration:none}
+  .embed-date{font-size:12px;color:#b0947f;margin:0}
+  .latest-list{list-style:none;margin:14px 0 4px;padding:0;text-align:left}
+  .latest-list li{border-top:1px solid #f0ddc0;padding:8px 2px}
+  .latest-list li:first-child{border-top:none}
+  .latest-list a{color:#5b4a42;text-decoration:none;font-weight:bold;font-size:14px;line-height:1.5}
+  .latest-list .dt{display:block;font-size:11.5px;color:#b0947f;font-weight:normal}
   footer{text-align:center;font-size:12.5px;color:#b0947f;margin-top:30px}
   footer a{color:#b0947f}
+  #mypage-btn{position:fixed;top:10px;right:max(10px,calc(50% - 350px));z-index:96;background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-size:.85rem;border-radius:999px;padding:8px 16px;text-decoration:none;box-shadow:0 4px 12px rgba(120,70,10,.18)}
 </style>
 </head>
 <body>
+<a id="mypage-btn" href="https://momowari.github.io/OHANA-share/login.html">マイページ</a>
 
-<header class="hero" aria-label="MOMOwaRIのご案内">
-  <div class="slide on"><img src="img/mahalo-1.jpg" alt="MAHALOビルの外観"></div>
-  <div class="slide"><img src="img/eyes-2.jpg" alt="Eyes MAHALOの店内" loading="lazy"></div>
-  <div class="slide"><img src="img/lea-3.jpg" alt="Lea Mahaloの店内ディスプレイ" loading="lazy"></div>
-  <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
-  <div class="hero-in">
-    <span class="kick">松山市味酒町｜MAHALOビル</span>
-    <h1>MOMOwaRI</h1>
-    <p class="tag">美容室とまつげパーマ、雑貨と古着、選べる物々交換。</p>
-    <p class="lead">味酒町の小さなビルから、4つの活動をご案内します。</p>
-    <nav class="hero-nav" aria-label="活動へのリンク">
-      <a href="#mahalo">美容室 MAHALO</a>
-      <a href="#eyes">まつげパーマ</a>
-      <a href="#lea">雑貨＆古着</a>
-      <a href="#ohana">選べる物々交換</a>
-    </nav>
-  </div>
+<header class="hero-head" aria-label="MOMOwaRIのご案内">
+  <span class="kick">松山市味酒町｜MAHALOビル</span>
+  <h1>MOMOwaRI</h1>
+  <p class="tag">美容室とまつげパーマ、雑貨と古着、選べる物々交換。</p>
+  <p class="lead">味酒町の小さなビルから、4つの活動をご案内します。</p>
+  <nav class="hero-nav" aria-label="活動へのリンク">
+    <a href="#sns-note">SNS・note</a>
+    <a href="#ohana">選べる物々交換</a>
+    <a href="#lea">雑貨＆古着</a>
+    <a href="#eyes">まつげパーマ</a>
+    <a href="#mahalo">美容室 MAHALO</a>
+  </nav>
 </header>
+
+<div class="hero" aria-hidden="true">
+  <div class="slide on"><img src="img/ohana-2.jpg" alt=""></div>
+  <div class="slide"><img src="img/lea-3.jpg" alt="" loading="lazy"></div>
+  <div class="slide"><img src="img/eyes-2.jpg" alt="" loading="lazy"></div>
+  <div class="slide"><img src="img/mahalo-2.jpg" alt="" loading="lazy"></div>
+  <div class="dots"><span class="on"></span><span></span><span></span><span></span></div>
+</div>
 
 <div class="w">
   <div class="profile">
@@ -105,16 +130,89 @@
     </div>
   </div>
 
+  <section class="s-sns" id="sns-note">
+    <h2>SNS・note<span class="sub">最新のお知らせと、考え方をまとめた記事</span></h2>
+    <p>イベントのお知らせや募集はSNSに出ます。考え方や記録はnoteにまとめています。</p>
+    <p class="embed-cap"><a href="https://www.instagram.com/p/DeiJEqPkzVl/">参加募集｜無料だから、試してみよう！（OHANA券・100円券の仕組み）</a></p>
+    <p class="embed-date">Instagram｜2026年10月15日</p>
+    <div class="embed-box">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeiJEqPkzVl/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeiJEqPkzVl/">Instagramで見る</a></blockquote>
+    </div>
+    <div class="chips">
+      <a href="https://note.com/momo2025/n/nead55ed5b6f4">noteリンク集（全記事案内所）</a>
+      <a href="https://note.com/momo2025/m/m56cc1db4ed1f">マガジン「MOMOwaRI全集」</a>
+      <a href="https://note.com/momo2025/m/mdc77ac7bbdc7">マガジン「OHANAイベント等」</a>
+      <a href="https://momowari.github.io/OHANA-share/ayumi.html">OHANAのあゆみ</a>
+    </div>
+    <ul class="latest-list" id="latest-list"><li><span class="dt">最新情報を読み込み中…</span></li></ul>
+    <a class="btn" href="sns.html">SNS・noteのページへ（投稿まとめ）</a>
+  </section>
+
+  <section class="s-ohana" id="ohana" data-card-id="ohana">
+    <h2>OHANAシェア＊プロジェクト<span class="sub">フリマ型の選べる物々交換</span></h2>
+    <p>ヒトモノコトをつなぐ、フリマ型の選べる物々交換です。眠っている価値を、必要な場所へ。お買い物には、無料でお配りしている100円券が使えます。</p>
+    <div class="sshow">
+      <div class="sslide on"><img src="img/ohana-1.jpg" alt="選べる物々交換OHANAの黒板看板" loading="lazy"></div>
+      <div class="sslide"><img src="img/ohana-2.jpg" alt="エクスチェンジハンガーの衣類ラック" loading="lazy"></div>
+      <div class="sslide"><img src="img/ohana-3.jpg" alt="店頭フリマの子供服と靴" loading="lazy"></div>
+      <div class="sslide"><img src="img/ohana-4.jpg" alt="出店ブースの布とバッグ" loading="lazy"></div>
+      <div class="sslide"><img src="img/ohana-5.jpg" alt="出品物の雑貨" loading="lazy"></div>
+      <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+    </div>
+    <p class="hint">写真は自動で切り替わります</p>
+    <a class="btn" href="https://momowari.github.io/OHANA-share/">OHANAシェア＊プロジェクトのページへ</a>
+    <div class="chips">
+      <a href="https://momowari.github.io/OHANA-share/ayumi.html">OHANAのあゆみ（考え方とnote記事）</a>
+      <a href="https://note.com/momo2025/n/nead55ed5b6f4">noteリンク集（全記事案内所）</a>
+    </div>
+  </section>
+
+  <section class="s-lea" id="lea" data-card-id="lea">
+    <h2>Lea Mahalo<span class="sub">雑貨＆古着｜MAHALOビル1階</span></h2>
+    <p>美容師セレクトの雑貨屋です。アンティーク、アメリカン、子ども服など、レアな雑貨と古着を集めています。商品はメルカリでも販売しています。</p>
+    <div class="sshow">
+      <div class="sslide on"><img src="img/lea-3.jpg" alt="Lea Mahaloの店内ディスプレイ" loading="lazy"></div>
+      <div class="sslide"><img src="img/lea-4.jpg" alt="Lea Mahaloの店内の棚" loading="lazy"></div>
+      <div class="sslide"><img src="img/lea-2.jpg" alt="Lea Mahaloの店頭ワゴン" loading="lazy"></div>
+      <div class="sslide"><img src="img/lea-1.jpg" alt="Lea Mahaloの店舗外観" loading="lazy"></div>
+      <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
+    </div>
+    <p class="hint">写真は自動で切り替わります</p>
+    <a class="btn" href="https://momowari.github.io/Lea-Mahalo/">Lea Mahaloのページへ</a>
+    <div class="chips">
+      <a href="https://www.mercari.com/jp/u/256767561/">メルカリの出品を見る</a>
+    </div>
+  </section>
+
+  <section class="s-eyes" id="eyes" data-card-id="eyes">
+    <h2>Eyes MAHALO<span class="sub">まつげパーマ専門店｜MAHALOビル1階</span></h2>
+    <p>まつげパーマ歴15年以上。遠赤外線と煌水（キラ水）で、根元からしっかり上がるまつげに。基本メニューは4,000円です。古町駅・フジグラン松山から徒歩約3分、駐車場もあります。</p>
+    <div class="sshow">
+      <div class="sslide on"><img src="img/eyes-2.jpg" alt="Eyes MAHALOの店内" loading="lazy"></div>
+      <div class="sslide"><img src="img/eyes-3.jpg" alt="Eyes MAHALOの施術スペース" loading="lazy"></div>
+      <div class="sslide"><img src="img/eyes-5.jpg" alt="Eyes MAHALOの店内の装飾" loading="lazy"></div>
+      <div class="sslide"><img src="img/eyes-4.jpg" alt="Eyes MAHALOの入口" loading="lazy"></div>
+      <div class="sslide"><img src="img/eyes-1.jpg" alt="Eyes MAHALOのあるMAHALOビルの外観" loading="lazy"></div>
+      <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+    </div>
+    <p class="hint">写真は自動で切り替わります</p>
+    <a class="btn" href="https://momowari.github.io/Eyes-MAHALO/">Eyes MAHALOのページへ</a>
+    <div class="chips">
+      <a href="https://lin.ee/q8vBvt1">LINEで相談・予約</a>
+    </div>
+  </section>
+
   <section class="s-mahalo" id="mahalo" data-card-id="mahalo">
     <h2>hair ID salon MAHALO<span class="sub">美容室｜松山市味酒町3-2-29 MAHALOビル2階</span></h2>
     <p>MAHALOビルの2階にある美容室です。1階には、女性限定のelua Mahalo、まつげパーマ専門のEyes MAHALO、雑貨屋Lea Mahaloがあります。</p>
-    <div class="slides">
-      <img src="img/mahalo-1.jpg" alt="MAHALOビルの外観" loading="lazy">
-      <img src="img/mahalo-2.jpg" alt="MAHALO美容室の店内" loading="lazy">
-      <img src="img/mahalo-3.jpg" alt="MAHALO美容室のセット面" loading="lazy">
-      <img src="img/mahalo-4.jpg" alt="MAHALO美容室の店内の様子" loading="lazy">
+    <div class="sshow">
+      <div class="sslide on"><img src="img/mahalo-2.jpg" alt="MAHALO美容室の店内" loading="lazy"></div>
+      <div class="sslide"><img src="img/mahalo-3.jpg" alt="MAHALO美容室のセット面" loading="lazy"></div>
+      <div class="sslide"><img src="img/mahalo-4.jpg" alt="MAHALO美容室の店内の様子" loading="lazy"></div>
+      <div class="sslide"><img src="img/mahalo-1.jpg" alt="MAHALOビルの外観" loading="lazy"></div>
+      <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
     </div>
-    <p class="hint">写真は横にスライドできます</p>
+    <p class="hint">写真は自動で切り替わります</p>
     <a class="btn" href="https://momowari.github.io/MAHALO/">MAHALOのページへ</a>
     <div class="chips">
       <a href="https://momowari.github.io/MAHALO/select.html">セレクト商品</a>
@@ -127,63 +225,17 @@
     <div class="sub-block b-elua">
       <h3>elua Mahalo（1階・女性限定の美容室）</h3>
       <p>eluaは、ハワイ語の「2」という意味のほかに、「さらに、もっと」という思いを込めた名前です。MAHALO（ありがとう）の気持ちをもっと重ねる場所です。</p>
-      <div class="slides">
-        <img src="img/elua-1.jpg" alt="elua Mahaloの店内" loading="lazy">
-        <img src="img/elua-2.jpg" alt="elua Mahaloの受付と店内" loading="lazy">
-        <img src="img/elua-3.jpg" alt="elua Mahaloのセット面" loading="lazy">
+      <div class="sshow">
+        <div class="sslide on"><img src="img/elua-1.jpg" alt="elua Mahaloの店内" loading="lazy"></div>
+        <div class="sslide"><img src="img/elua-2.jpg" alt="elua Mahaloの受付と店内" loading="lazy"></div>
+        <div class="sslide"><img src="img/elua-3.jpg" alt="elua Mahaloのセット面" loading="lazy"></div>
+        <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
       </div>
-      <p class="hint">写真は横にスライドできます</p>
+      <p class="hint">写真は自動で切り替わります</p>
       <div class="chips">
         <a href="https://www.hair-mahalo.com/mahalo-1f">elua Mahaloのご案内（公式HP）</a>
       </div>
     </div>
-  </section>
-
-  <section class="s-eyes" id="eyes" data-card-id="eyes">
-    <h2>Eyes MAHALO<span class="sub">まつげパーマ専門店｜MAHALOビル1階</span></h2>
-    <p>まつげパーマ歴15年以上。遠赤外線と煌水（キラ水）で、根元からしっかり上がるまつげに。基本メニューは4,000円です。古町駅・フジグラン松山から徒歩約3分、駐車場もあります。</p>
-    <div class="slides">
-      <img src="img/eyes-1.jpg" alt="Eyes MAHALOのあるMAHALOビルの外観" loading="lazy">
-      <img src="img/eyes-2.jpg" alt="Eyes MAHALOの店内" loading="lazy">
-      <img src="img/eyes-3.jpg" alt="Eyes MAHALOの施術スペース" loading="lazy">
-      <img src="img/eyes-4.jpg" alt="Eyes MAHALOの入口" loading="lazy">
-      <img src="img/eyes-5.jpg" alt="Eyes MAHALOの店内の装飾" loading="lazy">
-    </div>
-    <p class="hint">写真は横にスライドできます</p>
-    <a class="btn" href="https://momowari.github.io/Eyes-MAHALO/">Eyes MAHALOのページへ</a>
-    <div class="chips">
-      <a href="https://lin.ee/q8vBvt1">LINEで相談・予約</a>
-    </div>
-  </section>
-
-  <section class="s-lea" id="lea" data-card-id="lea">
-    <h2>Lea Mahalo<span class="sub">雑貨＆古着｜MAHALOビル1階</span></h2>
-    <p>美容師セレクトの雑貨屋です。アンティーク、アメリカン、子ども服など、レアな雑貨と古着を集めています。商品はメルカリでも販売しています。</p>
-    <div class="slides">
-      <img src="img/lea-1.jpg" alt="Lea Mahaloの店舗外観" loading="lazy">
-      <img src="img/lea-2.jpg" alt="Lea Mahaloの店頭ワゴン" loading="lazy">
-      <img src="img/lea-3.jpg" alt="Lea Mahaloの店内ディスプレイ" loading="lazy">
-      <img src="img/lea-4.jpg" alt="Lea Mahaloの店内の棚" loading="lazy">
-    </div>
-    <p class="hint">写真は横にスライドできます</p>
-    <a class="btn" href="https://momowari.github.io/Lea-Mahalo/">Lea Mahaloのページへ</a>
-    <div class="chips">
-      <a href="https://www.mercari.com/jp/u/256767561/">メルカリの出品を見る</a>
-    </div>
-  </section>
-
-  <section class="s-ohana" id="ohana" data-card-id="ohana">
-    <h2>OHANAシェア＊プロジェクト<span class="sub">フリマ型の選べる物々交換</span></h2>
-    <p>ヒトモノコトをつなぐ、フリマ型の選べる物々交換です。眠っている価値を、必要な場所へ。お買い物には、無料でお配りしている100円券が使えます。</p>
-    <div class="slides">
-      <img src="img/ohana-1.jpg" alt="選べる物々交換OHANAの黒板看板" loading="lazy">
-      <img src="img/ohana-2.jpg" alt="エクスチェンジハンガーの衣類ラック" loading="lazy">
-      <img src="img/ohana-3.jpg" alt="店頭フリマの子供服と靴" loading="lazy">
-      <img src="img/ohana-4.jpg" alt="出店ブースの布とバッグ" loading="lazy">
-      <img src="img/ohana-5.jpg" alt="出品物の雑貨" loading="lazy">
-    </div>
-    <p class="hint">写真は横にスライドできます</p>
-    <a class="btn" href="https://momowari.github.io/OHANA-share/">OHANAシェア＊プロジェクトのページへ</a>
   </section>
 
   <footer>
@@ -194,19 +246,26 @@
 
 <script>
 (function(){
-  var slides = document.querySelectorAll('.hero .slide');
-  var dots = document.querySelectorAll('.hero .dots span');
-  if(slides.length < 2) return;
-  var i = 0;
-  setInterval(function(){
-    slides[i].classList.remove('on');
-    if(dots[i]) dots[i].classList.remove('on');
-    i = (i + 1) % slides.length;
-    slides[i].classList.add('on');
-    if(dots[i]) dots[i].classList.add('on');
-  }, 5200);
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function run(container, slideSel, interval){
+    if(!container) return;
+    var slides = container.querySelectorAll(slideSel);
+    var dots = container.querySelectorAll('.dots span');
+    if(slides.length < 2) return;
+    var i = 0;
+    setInterval(function(){
+      slides[i].classList.remove('on');
+      if(dots[i]) dots[i].classList.remove('on');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('on');
+      if(dots[i]) dots[i].classList.add('on');
+    }, interval);
+  }
+  run(document.querySelector('.hero'), '.slide', 5200);
+  document.querySelectorAll('.sshow').forEach(function(el){ run(el, '.sslide', 4600); });
 })();
 </script>
+<script async src="https://www.instagram.com/embed.js"></script>
 
 <!-- site-editor -->
 <style>
@@ -215,7 +274,7 @@ body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offs
 body.site-editing .card-order-controls{display:flex}
 .card-order-controls button{width:42px;height:42px;border-radius:50%;border:1.5px solid #d8a15f;background:#fff;color:#a85d18;font-family:inherit;font-size:20px;font-weight:bold;line-height:1;cursor:pointer;box-shadow:0 3px 10px rgba(120,70,10,.16)}
 .card-order-controls button:disabled{opacity:.35;cursor:default;box-shadow:none}
-#site-editbtn{position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:97;background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)}
+#site-editbtn{position:fixed;top:10px;right:calc(max(10px, calc(50% - 350px)) + 128px);z-index:97;background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)}
 #site-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:96;background:#fff;border:1.5px solid #e0a458;border-radius:999px;box-shadow:0 8px 24px rgba(120,70,10,.25);padding:8px 10px;display:none;gap:8px;align-items:center}
 #site-savebar.on{display:flex}
 #site-savebar button{font-family:inherit;font-weight:bold;border-radius:999px;padding:9px 18px;cursor:pointer}
@@ -230,10 +289,10 @@ body.site-editing .card-order-controls{display:flex}
 (function(){
   var PAGE = 'root-top';
   var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
-  var EXCLUDED = '#site-savebar,#site-editbtn,.ied-panel,script,style,textarea,select,.chatpanel,.chatbtn,.card-order-controls';
+  var EXCLUDED = '#latest-list,#site-savebar,#site-editbtn,.ied-panel,script,style,textarea,select,.chatpanel,.chatbtn,.card-order-controls';
   var editing = false;
   var applied = {};
-  var CARD_IDS = ['mahalo', 'eyes', 'lea', 'ohana'];
+  var CARD_IDS = ['ohana', 'lea', 'eyes', 'mahalo'];
   var ORDER_FIELD = '__cardOrder';
   var appliedOrder = CARD_IDS.slice();
   function $(id){ return document.getElementById(id); }
@@ -407,5 +466,29 @@ body.site-editing .card-order-controls{display:flex}
 })();
 </script>
 
+
+<script>
+// latest posts from note RSS (blog-style)
+(function(){
+  var ul = document.getElementById('latest-list');
+  if(!ul) return;
+  function fmt(dstr){
+    var d = new Date(dstr);
+    if(isNaN(d)) return '';
+    return d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+  }
+  function render(items){
+    if(!items || !items.length){ ul.innerHTML = '<li><a href="https://note.com/momo2025">noteの記事一覧へ</a></li>'; return; }
+    ul.innerHTML = items.slice(0, 3).map(function(it){
+      var t = (it.title || '').replace(/</g, '&lt;');
+      return '<li><span class="dt">' + fmt(it.pubDate) + '｜note</span><a href="' + it.link + '">' + t + '</a></li>';
+    }).join('');
+  }
+  fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://note.com/momo2025/rss'))
+    .then(function(r){ return r.json(); })
+    .then(function(j){ render(j.items); })
+    .catch(function(){ render(null); });
+})();
+</script>
 </body>
 </html>
