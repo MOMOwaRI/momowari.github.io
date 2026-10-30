@@ -3,60 +3,409 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MOMOwaRI｜松山市のまつげパーマ・選べる物々交換・雑貨と古着</title>
+<title>MOMOwaRI｜松山市の美容室・まつげパーマ・雑貨と古着・選べる物々交換</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="description" content="松山市味酒町を拠点にするMOMOwaRIのご案内ページ。まつげパーマ専門Eyes MAHALO、フリマ型の選べる物々交換OHANAシェア＊プロジェクト、雑貨＆古着Lea Mahaloへのリンク集です。">
+<meta name="description" content="松山市味酒町を拠点にするMOMOwaRIのご案内ページ。美容室hair ID salon MAHALOとelua Mahalo、まつげパーマ専門Eyes MAHALO、雑貨＆古着Lea Mahalo、フリマ型の選べる物々交換OHANAシェア＊プロジェクトへのリンク集です。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="MOMOwaRI｜松山市のまつげパーマ・選べる物々交換・雑貨と古着">
-<meta property="og:description" content="まつげパーマ専門Eyes MAHALO／選べる物々交換OHANA／雑貨＆古着Lea Mahaloへのリンク集です。">
+<meta property="og:title" content="MOMOwaRI｜松山市の美容室・まつげパーマ・雑貨と古着・選べる物々交換">
+<meta property="og:description" content="美容室MAHALO／まつげパーマ専門Eyes MAHALO／雑貨＆古着Lea Mahalo／選べる物々交換OHANAへのリンク集です。">
 <meta property="og:url" content="https://momowari.github.io/">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://momowari.github.io/">
 <style>
-  body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#fdf8f2;color:#4a3b32;margin:0}
-  .w{max-width:480px;margin:0 auto;padding:36px 20px 48px}
-  header{text-align:center;margin-bottom:28px}
-  header img{width:84px;height:84px;border-radius:20px}
-  h1{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:24px;margin:12px 0 6px}
-  header p{font-size:13.5px;color:#8a7466;margin:0}
-  a.card{display:block;background:#fff;border:1px solid #f0d9d0;border-radius:16px;padding:18px;margin-bottom:14px;text-decoration:none;color:#4a3b32;box-shadow:0 4px 14px -8px rgba(90,66,56,.25)}
-  a.card b{font-size:16.5px;display:block;margin-bottom:4px}
-  a.card span{font-size:13.5px;color:#8a7466}
-  footer{text-align:center;font-size:12px;color:#a68b7a;margin-top:24px}
-  footer a{color:#a68b7a}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#fff6ec;color:#5b4a42;margin:0;line-height:1.75}
+  .w{max-width:720px;margin:0 auto;padding:0 16px 52px}
+  /* ===== hero ===== */
+  .hero{position:relative;max-width:720px;margin:0 auto;height:min(80svh,580px);min-height:460px;overflow:hidden;color:#fff;border-radius:0 0 38px 38px;box-shadow:0 14px 34px -18px rgba(150,90,40,.45)}
+  .hero .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+  .hero .slide.on{opacity:1}
+  .hero .slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero .slide.on img{animation:heroZoom 7s linear forwards}
+  @keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(120,60,30,.10) 34%,rgba(110,52,26,.66));pointer-events:none}
+  .hero-in{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 22px 30px;text-align:left}
+  .hero .kick{display:inline-block;background:rgba(255,255,255,.94);color:#c2571b;font-weight:bold;font-size:12.5px;letter-spacing:.08em;border-radius:999px;padding:5px 14px;margin-bottom:12px;box-shadow:0 4px 12px rgba(90,50,20,.25)}
+  .hero h1{font-size:clamp(42px,11vw,64px);line-height:1.12;margin:0 0 8px;font-weight:800;letter-spacing:.02em;text-shadow:0 3px 20px rgba(80,40,10,.45)}
+  .hero .tag{font-size:clamp(14.5px,3.8vw,17px);font-weight:bold;margin:0 0 6px;text-shadow:0 2px 12px rgba(80,40,10,.5)}
+  .hero .lead{font-size:13.5px;margin:0 0 18px;text-shadow:0 2px 10px rgba(80,40,10,.5)}
+  .hero-nav{display:flex;flex-wrap:wrap;gap:8px}
+  .hero-nav a{text-decoration:none;background:rgba(255,255,255,.95);color:#7a4b2a;font-weight:bold;font-size:13.5px;border-radius:999px;padding:9px 16px;box-shadow:0 5px 14px rgba(90,50,20,.28);transition:transform .18s}
+  .hero-nav a:hover{transform:translateY(-2px)}
+  .hero .dots{position:absolute;right:16px;top:16px;z-index:3;display:flex;gap:6px}
+  .hero .dots span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45)}
+  .hero .dots span.on{background:#fff}
+  @media (prefers-reduced-motion:reduce){.hero .slide{transition:none}.hero .slide.on img{animation:none}html{scroll-behavior:auto}}
+  /* ===== profile ===== */
+  .profile{background:#fff;border:2px dashed #f3cf9f;border-radius:26px;padding:22px 20px 18px;margin:26px 0 24px;text-align:center;box-shadow:0 8px 22px -14px rgba(150,90,40,.35)}
+  .profile p{font-size:14px;margin:0 auto;max-width:560px}
+  .sns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+  .sns a{font-size:13px;font-weight:bold;text-decoration:none;color:#b05e14;background:#fff8ef;border:1.5px solid #f0cf9e;border-radius:999px;padding:7px 15px}
+  /* ===== sections ===== */
+  section{background:#fff;border-radius:26px;padding:24px 20px 22px;margin-bottom:24px;box-shadow:0 10px 26px -16px rgba(150,90,40,.35);scroll-margin-top:14px}
+  section h2{font-size:21px;margin:0 0 2px;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  section h2::before{content:"";flex:0 0 auto;width:13px;height:13px;border-radius:50%;background:#f2b04a;transform:translateY(-1px)}
+  section h2 .sub{display:block;width:100%;font-size:12.5px;font-weight:normal;color:#b0947f;margin-top:2px}
+  section p{font-size:14px;margin:8px 0 12px}
+  .slides{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .slides img{flex:0 0 82%;height:225px;object-fit:cover;border-radius:18px;scroll-snap-align:start;background:#f7ecdd}
+  @media (min-width:560px){.slides img{flex-basis:47%;height:245px}}
+  .hint{font-size:11.5px;color:#c2a68c;margin:0 0 10px;text-align:right}
+  .btn{display:block;text-align:center;text-decoration:none;color:#fff;font-weight:bold;font-size:15.5px;border-radius:999px;padding:14px 10px;margin-top:6px;box-shadow:0 8px 18px -8px rgba(120,70,30,.5);transition:transform .18s}
+  .btn:hover{transform:translateY(-2px)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chips a{font-size:13px;font-weight:bold;text-decoration:none;border:1.5px solid #ddd;border-radius:999px;padding:7px 14px;color:#5a4638;background:#fffdf9}
+  .sub-block{border-radius:20px;padding:16px 16px 14px;margin-top:22px}
+  .sub-block h3{font-size:16.5px;margin:0 0 4px}
+  .sub-block p{font-size:13.5px}
+  .s-mahalo{background:#f2f8fd}.s-mahalo h2{color:#0068B7}.s-mahalo h2::before{background:#0068B7}.s-mahalo .btn{background:#0068B7}.s-mahalo .chips a{border-color:#bcd7ee;color:#00548f;background:#fff}
+  .b-elua{background:#fff3e0}.b-elua h3{color:#c77414}
+  .s-eyes{background:#f7f1fc}.s-eyes h2{color:#7d4ba6}.s-eyes h2::before{background:#7d4ba6}.s-eyes .btn{background:#7d4ba6}.s-eyes .chips a{border-color:#d9c6ec;color:#5f3690;background:#fff}
+  .s-lea{background:#faf3e7}.s-lea h2{color:#7d6242}.s-lea h2::before{background:#a5825f}.s-lea .btn{background:#a5825f}.s-lea .chips a{border-color:#ddcdb4;color:#6d5638;background:#fff}
+  .s-ohana{background:#fff8ec}
+  .s-ohana h2{color:#d97a08;font-family:"Hiragino Mincho ProN","Yu Mincho",serif}
+  .s-ohana h2::before{background:#ef8f1c}
+  .s-ohana .btn{background:#ef8f1c}
+  footer{text-align:center;font-size:12.5px;color:#b0947f;margin-top:30px}
+  footer a{color:#b0947f}
 </style>
 </head>
 <body>
-<div class="w">
-  <header>
-    <img src="favicon.png" alt="みかんのマーク">
+
+<header class="hero" aria-label="MOMOwaRIのご案内">
+  <div class="slide on"><img src="img/mahalo-1.jpg" alt="MAHALOビルの外観"></div>
+  <div class="slide"><img src="img/eyes-2.jpg" alt="Eyes MAHALOの店内" loading="lazy"></div>
+  <div class="slide"><img src="img/lea-3.jpg" alt="Lea Mahaloの店内ディスプレイ" loading="lazy"></div>
+  <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+  <div class="hero-in">
+    <span class="kick">松山市味酒町｜MAHALOビル</span>
     <h1>MOMOwaRI</h1>
-    <p>松山市味酒町から、3つの小さな活動のご案内です</p>
-  </header>
+    <p class="tag">美容室とまつげパーマ、雑貨と古着、選べる物々交換。</p>
+    <p class="lead">味酒町の小さなビルから、4つの活動をご案内します。</p>
+    <nav class="hero-nav" aria-label="活動へのリンク">
+      <a href="#mahalo">美容室 MAHALO</a>
+      <a href="#eyes">まつげパーマ</a>
+      <a href="#lea">雑貨＆古着</a>
+      <a href="#ohana">選べる物々交換</a>
+    </nav>
+  </div>
+</header>
 
-  <a class="card" href="https://momowari.github.io/Eyes-MAHALO/">
-    <b>Eyes MAHALO</b>
-    <span>まつげパーマ専門店（松山市味酒町・古町駅徒歩3分）</span>
-  </a>
+<div class="w">
+  <div class="profile">
+    <p>松山市味酒町を拠点に、美容室とまつげパーマ、雑貨と古着、そして選べる物々交換の活動をしています。4つの活動のご案内ページです。</p>
+    <div class="sns">
+      <a href="https://www.instagram.com/momowari/">SNS（Instagram）</a>
+      <a href="https://note.com/momo2025">note</a>
+      <a href="https://jmty.jp/s/profiles/5c00d902adce5e534b9fee98">ジモティー</a>
+      <a href="https://lit.link/momowari">lit.link</a>
+    </div>
+  </div>
 
-  <a class="card" href="https://momowari.github.io/OHANA-share/">
-    <b>OHANAシェア＊プロジェクト</b>
-    <span>フリマ型の選べる物々交換</span>
-  </a>
+  <section class="s-mahalo" id="mahalo" data-card-id="mahalo">
+    <h2>hair ID salon MAHALO<span class="sub">美容室｜松山市味酒町3-2-29 MAHALOビル2階</span></h2>
+    <p>MAHALOビルの2階にある美容室です。1階には、女性限定のelua Mahalo、まつげパーマ専門のEyes MAHALO、雑貨屋Lea Mahaloがあります。</p>
+    <div class="slides">
+      <img src="img/mahalo-1.jpg" alt="MAHALOビルの外観" loading="lazy">
+      <img src="img/mahalo-2.jpg" alt="MAHALO美容室の店内" loading="lazy">
+      <img src="img/mahalo-3.jpg" alt="MAHALO美容室のセット面" loading="lazy">
+      <img src="img/mahalo-4.jpg" alt="MAHALO美容室の店内の様子" loading="lazy">
+    </div>
+    <p class="hint">写真は横にスライドできます</p>
+    <a class="btn" href="https://momowari.github.io/MAHALO/">MAHALOのページへ</a>
+    <div class="chips">
+      <a href="https://momowari.github.io/MAHALO/select.html">セレクト商品</a>
+      <a href="https://momowari.github.io/MAHALO/diagnosis.html">髪質診断</a>
+      <a href="https://momowari.github.io/MAHALO/movies.html">紹介動画</a>
+      <a href="https://momowari.github.io/MAHALO/mypage.html">お客様マイページ</a>
+      <a href="https://momowari.github.io/MAHALO/community.html">コミュニティ</a>
+    </div>
 
-  <a class="card" href="https://momowari.github.io/Lea-Mahalo/">
-    <b>Lea Mahalo</b>
-    <span>雑貨＆古着のメルカリセレクト</span>
-  </a>
+    <div class="sub-block b-elua">
+      <h3>elua Mahalo（1階・女性限定の美容室）</h3>
+      <p>eluaは、ハワイ語の「2」という意味のほかに、「さらに、もっと」という思いを込めた名前です。MAHALO（ありがとう）の気持ちをもっと重ねる場所です。</p>
+      <div class="slides">
+        <img src="img/elua-1.jpg" alt="elua Mahaloの店内" loading="lazy">
+        <img src="img/elua-2.jpg" alt="elua Mahaloの受付と店内" loading="lazy">
+        <img src="img/elua-3.jpg" alt="elua Mahaloのセット面" loading="lazy">
+      </div>
+      <p class="hint">写真は横にスライドできます</p>
+      <div class="chips">
+        <a href="https://www.hair-mahalo.com/mahalo-1f">elua Mahaloのご案内（公式HP）</a>
+      </div>
+    </div>
+  </section>
 
-  <a class="card" href="https://lit.link/momowari">
-    <b>lit.link</b>
-    <span>最新情報のまとめはこちら</span>
-  </a>
+  <section class="s-eyes" id="eyes" data-card-id="eyes">
+    <h2>Eyes MAHALO<span class="sub">まつげパーマ専門店｜MAHALOビル1階</span></h2>
+    <p>まつげパーマ歴15年以上。遠赤外線と煌水（キラ水）で、根元からしっかり上がるまつげに。基本メニューは4,000円です。古町駅・フジグラン松山から徒歩約3分、駐車場もあります。</p>
+    <div class="slides">
+      <img src="img/eyes-1.jpg" alt="Eyes MAHALOのあるMAHALOビルの外観" loading="lazy">
+      <img src="img/eyes-2.jpg" alt="Eyes MAHALOの店内" loading="lazy">
+      <img src="img/eyes-3.jpg" alt="Eyes MAHALOの施術スペース" loading="lazy">
+      <img src="img/eyes-4.jpg" alt="Eyes MAHALOの入口" loading="lazy">
+      <img src="img/eyes-5.jpg" alt="Eyes MAHALOの店内の装飾" loading="lazy">
+    </div>
+    <p class="hint">写真は横にスライドできます</p>
+    <a class="btn" href="https://momowari.github.io/Eyes-MAHALO/">Eyes MAHALOのページへ</a>
+    <div class="chips">
+      <a href="https://lin.ee/q8vBvt1">LINEで相談・予約</a>
+    </div>
+  </section>
 
-  <footer>© MOMOwaRI</footer>
+  <section class="s-lea" id="lea" data-card-id="lea">
+    <h2>Lea Mahalo<span class="sub">雑貨＆古着｜MAHALOビル1階</span></h2>
+    <p>美容師セレクトの雑貨屋です。アンティーク、アメリカン、子ども服など、レアな雑貨と古着を集めています。商品はメルカリでも販売しています。</p>
+    <div class="slides">
+      <img src="img/lea-1.jpg" alt="Lea Mahaloの店舗外観" loading="lazy">
+      <img src="img/lea-2.jpg" alt="Lea Mahaloの店頭ワゴン" loading="lazy">
+      <img src="img/lea-3.jpg" alt="Lea Mahaloの店内ディスプレイ" loading="lazy">
+      <img src="img/lea-4.jpg" alt="Lea Mahaloの店内の棚" loading="lazy">
+    </div>
+    <p class="hint">写真は横にスライドできます</p>
+    <a class="btn" href="https://momowari.github.io/Lea-Mahalo/">Lea Mahaloのページへ</a>
+    <div class="chips">
+      <a href="https://www.mercari.com/jp/u/256767561/">メルカリの出品を見る</a>
+    </div>
+  </section>
+
+  <section class="s-ohana" id="ohana" data-card-id="ohana">
+    <h2>OHANAシェア＊プロジェクト<span class="sub">フリマ型の選べる物々交換</span></h2>
+    <p>ヒトモノコトをつなぐ、フリマ型の選べる物々交換です。眠っている価値を、必要な場所へ。お買い物には、無料でお配りしている100円券が使えます。</p>
+    <div class="slides">
+      <img src="img/ohana-1.jpg" alt="選べる物々交換OHANAの黒板看板" loading="lazy">
+      <img src="img/ohana-2.jpg" alt="エクスチェンジハンガーの衣類ラック" loading="lazy">
+      <img src="img/ohana-3.jpg" alt="店頭フリマの子供服と靴" loading="lazy">
+      <img src="img/ohana-4.jpg" alt="出店ブースの布とバッグ" loading="lazy">
+      <img src="img/ohana-5.jpg" alt="出品物の雑貨" loading="lazy">
+    </div>
+    <p class="hint">写真は横にスライドできます</p>
+    <a class="btn" href="https://momowari.github.io/OHANA-share/">OHANAシェア＊プロジェクトのページへ</a>
+  </section>
+
+  <footer>
+    <p><a href="https://lit.link/momowari">lit.link のページはこちら</a></p>
+    <p>© MOMOwaRI</p>
+  </footer>
 </div>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.hero .slide');
+  var dots = document.querySelectorAll('.hero .dots span');
+  if(slides.length < 2) return;
+  var i = 0;
+  setInterval(function(){
+    slides[i].classList.remove('on');
+    if(dots[i]) dots[i].classList.remove('on');
+    i = (i + 1) % slides.length;
+    slides[i].classList.add('on');
+    if(dots[i]) dots[i].classList.add('on');
+  }, 5200);
+})();
+</script>
+
+<!-- site-editor -->
+<style>
+body.site-editing [data-tk]{outline:2px dashed rgba(224,123,36,.55);outline-offset:2px}
+.card-order-controls{display:none;justify-content:flex-end;gap:8px;margin:-4px 0 14px}
+body.site-editing .card-order-controls{display:flex}
+.card-order-controls button{width:42px;height:42px;border-radius:50%;border:1.5px solid #d8a15f;background:#fff;color:#a85d18;font-family:inherit;font-size:20px;font-weight:bold;line-height:1;cursor:pointer;box-shadow:0 3px 10px rgba(120,70,10,.16)}
+.card-order-controls button:disabled{opacity:.35;cursor:default;box-shadow:none}
+#site-editbtn{position:fixed;top:10px;right:max(10px, calc(50% - 350px));z-index:97;background:#fff;color:#b3541e;border:2px solid #e07b24;font-weight:bold;font-family:inherit;font-size:.85rem;border-radius:999px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(120,70,10,.18)}
+#site-savebar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:96;background:#fff;border:1.5px solid #e0a458;border-radius:999px;box-shadow:0 8px 24px rgba(120,70,10,.25);padding:8px 10px;display:none;gap:8px;align-items:center}
+#site-savebar.on{display:flex}
+#site-savebar button{font-family:inherit;font-weight:bold;border-radius:999px;padding:9px 18px;cursor:pointer}
+#sb-save{background:#e07b24;color:#fff;border:none}
+#sb-cancel{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
+#sb-msg{font-size:.82rem;color:#8a6a4f}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  var PAGE = 'root-top';
+  var OWNER = 'ELCzyeeoDCU4gveavc077L4jBqE3';
+  var EXCLUDED = '#site-savebar,#site-editbtn,.ied-panel,script,style,textarea,select,.chatpanel,.chatbtn,.card-order-controls';
+  var editing = false;
+  var applied = {};
+  var CARD_IDS = ['mahalo', 'eyes', 'lea', 'ohana'];
+  var ORDER_FIELD = '__cardOrder';
+  var appliedOrder = CARD_IDS.slice();
+  function $(id){ return document.getElementById(id); }
+  function hash(t){ var h = 0; for(var i = 0; i < t.length; i++){ h = (h * 31 + t.charCodeAt(i)) | 0; } return 'k' + (h >>> 0).toString(36); }
+  function ensureApp(){ try{ if(window.firebase && !firebase.apps.length){ firebase.initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+}); } }catch(e){} }
+  function db(){ return firebase.firestore(); }
+  function pureText(el){ for(var i = 0; i < el.childNodes.length; i++){ if(el.childNodes[i].nodeType === 1) return false; } return (el.textContent || '').trim().length > 0; }
+  function excluded(el){ try{ return !!el.closest(EXCLUDED); }catch(e){ return false; } }
+  function targets(){
+    var out = [];
+    document.querySelectorAll('body *').forEach(function(el){
+      var tg = el.tagName;
+      if(tg === 'A' || tg === 'BUTTON' || tg === 'SCRIPT' || tg === 'STYLE' || tg === 'NOSCRIPT' || tg === 'TEXTAREA' || tg === 'SELECT' || tg === 'INPUT' || tg === 'IMG' || tg === 'BR' || tg === 'IFRAME') return;
+      if(el.closest('a')) return;
+      if(!pureText(el)) return;
+      if(excluded(el)) return;
+      out.push(el);
+    });
+    return out;
+  }
+  function cards(){
+    return Array.prototype.slice.call(document.querySelectorAll('section[data-card-id]'));
+  }
+  function normalizeOrder(order){
+    var out = [];
+    if(Array.isArray(order)){
+      order.forEach(function(id){ if(CARD_IDS.indexOf(id) !== -1 && out.indexOf(id) === -1) out.push(id); });
+    }
+    CARD_IDS.forEach(function(id){ if(out.indexOf(id) === -1) out.push(id); });
+    return out;
+  }
+  function currentCardOrder(){
+    return cards().map(function(card){ return card.getAttribute('data-card-id'); });
+  }
+  function updateCardOrderControls(){
+    var orderedCards = cards();
+    orderedCards.forEach(function(card, index){
+      var up = card.querySelector('.card-order-btn[data-card-move="up"]');
+      var down = card.querySelector('.card-order-btn[data-card-move="down"]');
+      if(up) up.disabled = index === 0;
+      if(down) down.disabled = index === orderedCards.length - 1;
+    });
+  }
+  function applyOrder(order){
+    var ordered = normalizeOrder(order);
+    var byId = {};
+    cards().forEach(function(card){ byId[card.getAttribute('data-card-id')] = card; });
+    if(!ordered.length || !byId[ordered[0]]) return;
+    var parent = byId[ordered[0]].parentNode;
+    if(!parent) return;
+    var footer = parent.querySelector('footer');
+    ordered.forEach(function(id){ if(byId[id]) parent.insertBefore(byId[id], footer); });
+    updateCardOrderControls();
+  }
+  function moveCard(id, direction){
+    var order = currentCardOrder();
+    var index = order.indexOf(id);
+    var targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if(index < 0 || targetIndex < 0 || targetIndex >= order.length) return;
+    var tmp = order[index];
+    order[index] = order[targetIndex];
+    order[targetIndex] = tmp;
+    applyOrder(order);
+  }
+  function createCardOrderControls(){
+    cards().forEach(function(card){
+      if(card.querySelector('.card-order-controls')) return;
+      var controls = document.createElement('div');
+      controls.className = 'card-order-controls';
+      controls.setAttribute('aria-label', 'カードの並び替え');
+      [['up', '↑'], ['down', '↓']].forEach(function(spec){
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'card-order-btn';
+        button.setAttribute('data-card-move', spec[0]);
+        button.textContent = spec[1];
+        button.setAttribute('aria-label', spec[0] === 'up' ? 'カードを上へ移動' : 'カードを下へ移動');
+        button.addEventListener('click', function(){ moveCard(card.getAttribute('data-card-id'), spec[0]); });
+        controls.appendChild(button);
+      });
+      card.insertBefore(controls, card.firstChild);
+    });
+    updateCardOrderControls();
+  }
+  function setEdit(on){
+    editing = on;
+    document.body.classList.toggle('site-editing', on);
+    var bar = $('site-savebar');
+    if(bar) bar.classList.toggle('on', on);
+    if($('sb-msg')) $('sb-msg').textContent = '';
+    var btn = $('site-editbtn');
+    if(btn) btn.textContent = on ? '編集を終わる' : '✎ 編集する';
+    targets().forEach(function(el){ el.contentEditable = on ? 'true' : 'false'; });
+    updateCardOrderControls();
+  }
+  function undoEdit(){
+    targets().forEach(function(el){ var k = el.getAttribute('data-tk'); if(k && applied[k] !== undefined) el.textContent = applied[k]; });
+    applyOrder(appliedOrder);
+    if($('sb-msg')) $('sb-msg').textContent = '元に戻しました';
+  }
+  function saveAll(){
+    $('sb-msg').textContent = '保存しています…';
+    var upd = {};
+    targets().forEach(function(el){
+      var k = el.getAttribute('data-tk');
+      if(!k) return;
+      var v = el.textContent.trim();
+      if(applied[k] !== undefined && applied[k] !== v) upd[k] = v;
+      else if(applied[k] === undefined && v) upd[k] = v;
+    });
+    var orderNow = currentCardOrder();
+    if(JSON.stringify(orderNow) !== JSON.stringify(appliedOrder)) upd[ORDER_FIELD] = orderNow.slice();
+    var job = Object.keys(upd).length ? db().collection('siteTexts').doc(PAGE).set(upd, {merge: true}).then(function(){ Object.keys(upd).forEach(function(k){ if(k !== ORDER_FIELD) applied[k] = upd[k]; }); if(upd[ORDER_FIELD]) appliedOrder = upd[ORDER_FIELD].slice(); }) : Promise.resolve();
+    job.then(function(){
+      $('sb-msg').textContent = '保存しました';
+      setTimeout(function(){ setEdit(false); }, 500);
+    }).catch(function(){ $('sb-msg').textContent = '保存できませんでした。時間をおいて試してください。'; });
+  }
+  function init(){
+    if(!window.firebase || !firebase.auth) return;
+    ensureApp();
+    createCardOrderControls();
+    var els = targets();
+    els.forEach(function(el){ el.setAttribute('data-tk', hash(el.textContent.trim())); applied[el.getAttribute('data-tk')] = el.textContent.trim(); });
+    if(firebase.firestore){
+      db().collection('siteTexts').doc(PAGE).get().then(function(doc){
+        if(!doc.exists) return;
+        var data = doc.data() || {};
+        els.forEach(function(el){ var v = data[el.getAttribute('data-tk')]; if(typeof v === 'string'){ el.textContent = v; applied[el.getAttribute('data-tk')] = v; } });
+        els.forEach(function(el){ var k = el.getAttribute('data-tk'); if(applied[k] === undefined) applied[k] = el.textContent.trim(); });
+        appliedOrder = normalizeOrder(data[ORDER_FIELD]);
+        applyOrder(appliedOrder);
+      }).catch(function(){});
+    }
+    var bar = document.createElement('div');
+    bar.id = 'site-savebar';
+    bar.innerHTML = '<span id="sb-msg"></span><button type="button" id="sb-save">保存する</button><button type="button" id="sb-cancel">キャンセル</button>';
+    document.body.appendChild(bar);
+    $('sb-save').addEventListener('click', saveAll);
+    $('sb-cancel').addEventListener('click', function(){ if(confirm('保存していない変更を、元に戻しますか？')){ undoEdit(); setEdit(false); } });
+    window.__toggleSiteEdit = function(){ setEdit(!editing); };
+    window.__isSiteEditing = function(){ return editing; };
+    firebase.auth().onAuthStateChanged(function(u){
+      var btn = $('site-editbtn');
+      if(u && u.uid === OWNER){
+        if(!btn){
+          btn = document.createElement('button');
+          btn.type = 'button';
+          btn.id = 'site-editbtn';
+          btn.textContent = '✎ 編集する';
+          btn.addEventListener('click', function(){ setEdit(!editing); });
+          document.body.appendChild(btn);
+        }
+      } else {
+        if(btn) btn.remove();
+        if(editing) setEdit(false);
+        if(!u && location.hash === '#owner-login'){
+          try{ firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(){}); }catch(e){}
+        }
+      }
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
 </body>
 </html>
