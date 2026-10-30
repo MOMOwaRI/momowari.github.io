@@ -136,6 +136,7 @@
       <g class="dot" data-scene="street2"><circle cx="145" cy="122" r="14" fill="transparent"/><circle cx="145" cy="122" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="kayamachi3"><circle cx="303" cy="105" r="14" fill="transparent"/><circle cx="303" cy="105" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="pharmacy"><circle cx="102" cy="102" r="16" fill="transparent"/><circle cx="102" cy="102" r="8" fill="#d96a7a" stroke="#fff" stroke-width="1.5"/></g>
+      <g class="dot" data-scene="approach"><circle cx="129" cy="127" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="koshin1"><circle cx="110" cy="195" r="14" fill="transparent"/><circle cx="110" cy="195" r="6" fill="#a9bd8f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="koshin"><circle cx="38" cy="275" r="17" fill="transparent"/><circle cx="38" cy="275" r="9" fill="#7a9a5b" stroke="#fff" stroke-width="1.5"/></g>
       </svg>
@@ -181,6 +182,7 @@
       <g class="dot" data-scene="street2"><circle cx="145" cy="122" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="kayamachi3"><circle cx="303" cy="105" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="pharmacy"><circle cx="102" cy="102" r="8" fill="#d96a7a" stroke="#fff" stroke-width="1.5"/><text x="94" y="106" font-size="11" fill="#a03a4c" text-anchor="end">レデイ薬局</text></g>
+      <g class="dot" data-scene="approach"><circle cx="129" cy="127" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="koshin1"><circle cx="110" cy="195" r="6" fill="#a9bd8f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="koshin"><circle cx="38" cy="275" r="9" fill="#7a9a5b" stroke="#fff" stroke-width="1.5"/><text x="53" y="279" font-size="11.5" fill="#5d4212">庚申庵</text></g>
     </svg>
@@ -282,6 +284,7 @@ const SCENES = {
   elua:       { pano:"mahalo-pano-elua.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
   lea:        { pano:"mahalo-pano-lea.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:100 },
   pharmacy:   { pano:"mahalo-pano-pharmacy.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
+  approach:   { pano:"mahalo-pano-approach.jpg",   name:"通り（MAHALOの角）", yaw:40, hfov:102 },
 };
 const SCENE_NAMES = {};
 Object.keys(SCENES).forEach(id => SCENE_NAMES[id] = SCENES[id].name);
@@ -294,11 +297,12 @@ const EXITS = {
   tamago:     [ { to:"yaoya", yaw:175, label:"南へ戻る（八百屋さん）", entry:-10 } ],
   jinja:      [ { to:"street", yaw:-163, label:"西へ（MAHALOの方）", entry:-140 }, { to:"yaoya", yaw:163, label:"東へ戻る（商店街）", entry:-60 } ],
   street:     [ { to:"street2", yaw:-140, label:"西へ進む", entry:-40 }, { to:"jinja", yaw:137, label:"東へ戻る（神社）", entry:165 }, { to:"koshin1", yaw:178, label:"南へ（庚申庵の方）", entry:-30 } ],
-  street2:    [ { to:"front", yaw:-30, pitch:-9, label:"西へ進む（MAHALO店前）", entry:150 }, { to:"street", yaw:140, label:"東へ戻る", entry:140 } ],
+  street2:    [ { to:"approach", yaw:-30, pitch:-9, label:"西へ進む（MAHALOの角）", entry:40 }, { to:"street", yaw:140, label:"東へ戻る", entry:140 } ],
   koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"street", yaw:165, label:"北へ戻る（通り）", entry:-20 } ],
   koshin:     [ { to:"koshin1", yaw:170, label:"路地へ戻る", entry:-40 } ],
-  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:-135, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"street2", yaw:150, label:"通りへ戻る", entry:-30 } ],
-  pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 }, { to:"street2", yaw:-140, label:"角の方へ", entry:-100 } ],
+  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:-135, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"approach", yaw:150, label:"通りへ戻る", entry:-100 } ],
+  pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 }, { to:"approach", yaw:-140, label:"角の方へ", entry:40 } ],
+  approach:   [ { to:"front", yaw:40, pitch:-10, label:"MAHALOに着いた（店前へ）", entry:-15 }, { to:"pharmacy", yaw:-35, pitch:-12, label:"レデイ薬局の方", entry:150 }, { to:"street2", yaw:-100, label:"東へ戻る", entry:130 } ],
   lea:        [ { to:"front", yaw:170, label:"ドアへ出る", entry:-15 } ],
   stairs:     [ { to:"counter", yaw:30, pitch:-4, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-100, pitch:-18, label:"下りる（店前へ）", entry:-15 } ],
   counter:    [ { to:"stairs", yaw:172, label:"外階段へ戻る", entry:-40 } ],
@@ -393,10 +397,10 @@ function spawnPetal() {
 }
 setInterval(spawnPetal, 2600);
 const ROUTE = [ "front", "stairs", "counter" ];
-const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea（1階）", pharmacy:"レデイ薬局" };
+const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea（1階）", pharmacy:"レデイ薬局", approach:"MAHALOの角" };
 let curScene = "front", walkTimer = null;
 const placeBar = document.getElementById("placeBar");
-[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "street2", "street", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
+[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "approach", "street2", "street", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
   const b = document.createElement("button"); b.textContent = SHORT[id]; b.dataset.scene = id;
   b.addEventListener("click", () => { stopWalk(); viewer.loadScene(id); });
   placeBar.appendChild(b);
