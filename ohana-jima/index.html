@@ -46,7 +46,7 @@
   .catspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-18px); cursor:pointer; }
   .catspot .cb { background:#fffdf7; border:1.5px solid #d9a441; border-radius:12px; padding:5px 9px; font-size:11.5px; line-height:1.5; color:#5d4212; max-width:170px; text-align:center; box-shadow:0 3px 8px rgba(90,60,20,.3); position:relative; font-family:"Hiragino Mincho ProN",serif; }
   .catspot .cb::after { content:""; position:absolute; left:50%; bottom:-7px; transform:translateX(-50%); border:6px solid transparent; border-top-color:#d9a441; border-bottom:0; }
-  .catspot img { width:48px; margin-top:8px; filter:drop-shadow(0 4px 5px rgba(60,40,10,.4)); }
+  .catspot img { width:40px; margin-top:8px; filter:drop-shadow(0 4px 5px rgba(60,40,10,.4)); }
   .keeper-hotspot { background:none !important; }
   .keeper-hotspot img { width:74px; filter:drop-shadow(0 5px 3px rgba(60,40,10,.30)) sepia(.22) saturate(.85) brightness(1.03); opacity:.97; cursor:pointer; }
   .keeper-hotspot.big img { width:128px; }
@@ -104,7 +104,7 @@
   .walkspot .wl { margin-top:3px; background:rgba(46,32,10,.8); color:#fdf6df; font-size:11px; padding:2px 9px; border-radius:999px; white-space:nowrap; font-family:"Hiragino Mincho ProN",serif; }
   .walkspot { z-index:30 !important; }
   .catspot, .keeper-hotspot { z-index:10 !important; }
-  .catspot .cbwrap, .keeper-hotspot .cbwrap { pointer-events:none; transform:translateY(-4px); }
+  .catspot .cbwrap, .keeper-hotspot .cbwrap { pointer-events:none; transform:translateY(-50%); }
   .catspot img, .keeper-hotspot img { pointer-events:auto; cursor:pointer; }
   .walkspot .wv.exit .wa { background:#2e9e5b; border-color:#2e9e5b; color:#fff; }
   .walkspot .wv.exit .wl { background:#2e9e5b; color:#fff; font-weight:700; }
@@ -135,12 +135,13 @@
   .mpin .pd { display:block; width:13px; height:13px; margin:0 auto; border-radius:50%; border:2px solid #fff; box-shadow:0 1px 4px rgba(90,60,10,.35); }
   .mpin .pl { display:block; font-size:10.5px; color:#5d4212; background:rgba(255,253,247,.85); border-radius:8px; padding:0 5px; margin-top:1px; white-space:nowrap; }
   .mpin .pb { position:absolute; top:-7px; right:-4px; background:#d96a7a; color:#fff; font-size:9px; border-radius:8px; padding:0 4px; }
-  .mcat { position:absolute; width:36px; pointer-events:none; transform:translate(-50%,-86%); z-index:5; text-align:center; }
+  .mcat { position:absolute; width:32px; pointer-events:none; transform:translate(-50%,-86%); z-index:5; text-align:center; }
   .mcat img { width:100%; display:block; }
+  .mcat::after, #townStage .tcat::after { content:""; position:absolute; left:50%; bottom:-3px; transform:translateX(-50%); width:74%; height:6px; background:rgba(80,55,20,.28); border-radius:50%; filter:blur(2px); z-index:-1; }
   .mcat .mtag { font-size:10px; color:#5d4212; background:rgba(255,253,247,.88); border-radius:8px; padding:0 5px; white-space:nowrap; display:inline-block; }
-  .mcat.player { width:44px; z-index:8; }
+  .mcat.player { width:40px; z-index:8; }
   .mcat.player .mtag { background:#0068B7; color:#fff; font-weight:700; }
-  .mpost { position:absolute; width:29px; pointer-events:none; transform:translate(-50%,-80%); z-index:6; cursor:pointer; text-align:center; }
+  .mpost { position:absolute; width:26px; pointer-events:none; transform:translate(-50%,-80%); z-index:6; cursor:pointer; text-align:center; }
   .mpost img { width:100%; display:block; pointer-events:auto; }
   .mpost .mb { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); width:118px; font-size:10px; line-height:1.45; color:#5d4212; background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:10px; padding:3px 6px; margin-bottom:2px; }
   .mstaff { position:absolute; transform:translate(-50%,-86%); text-align:center; z-index:8; cursor:pointer; }
@@ -154,13 +155,13 @@
   #townStage .tstaff { position:absolute; transform:translate(-50%,-88%); text-align:center; z-index:8; cursor:pointer; }
   #townStage .tstaff img { height:54px; filter:drop-shadow(0 2px 2px rgba(90,50,0,.25)); pointer-events:none; }
   #townStage .tstaff .stag { display:inline-block; margin-top:-4px; background:rgba(255,255,255,.94); color:#8a4b2a; font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:8px; white-space:nowrap; }
-  #townStage .tpost { position:absolute; width:31px; transform:translate(-50%,-80%); z-index:6; cursor:pointer; text-align:center; }
+  #townStage .tpost { position:absolute; width:28px; transform:translate(-50%,-80%); z-index:6; cursor:pointer; text-align:center; }
   #townStage .tpost img { width:100%; display:block; }
   #townStage .tpost .mb { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); width:118px; font-size:10px; line-height:1.45; color:#5d4212; background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:10px; padding:3px 6px; margin-bottom:2px; }
-  #townStage .tcat { position:absolute; width:38px; transform:translate(-50%,-86%); z-index:5; text-align:center; pointer-events:none; }
+  #townStage .tcat { position:absolute; width:34px; transform:translate(-50%,-86%); z-index:5; text-align:center; pointer-events:none; }
   #townStage .tcat img { width:100%; display:block; }
   #townStage .tcat .mtag { font-size:10px; color:#5d4212; background:rgba(255,253,247,.88); border-radius:8px; padding:0 5px; white-space:nowrap; display:inline-block; }
-  #townStage .tcat.tplayer { width:46px; z-index:9; }
+  #townStage .tcat.tplayer { width:42px; z-index:9; }
   #townStage .tcat.tplayer .mtag { background:#0068B7; color:#fff; font-weight:700; }
   #mapCard { position:absolute; left:50%; bottom:12px; transform:translateX(-50%); background:#fffdf7; border:1.5px solid #d9a441; border-radius:14px; padding:10px 14px; z-index:12; display:none; text-align:center; box-shadow:0 4px 14px rgba(90,60,10,.18); max-width:88%; }
   #mapCard h3 { margin:0 0 4px; font-size:15.5px; color:#5d4212; }
@@ -215,7 +216,7 @@
     </div>
     <div class="panel" id="chat">
       <button id="chatClose" aria-label="閉じる">×</button>
-      <h2 id="chatShopTitle">MAHALO美容室 の店員猫</h2>
+      <h2 id="chatShopTitle">MAHALO美容室 の店員さん</h2>
       <p class="gnote">※ AIが答えています。間違うこともあるので、大事なことはお店にご確認ください</p>
       <div id="chatLog"></div>
       <div class="chips" id="chatChips"></div>
@@ -405,11 +406,11 @@ const SCENES = {
   koshin1:    { pano:"mahalo-pano-koshin1.jpg",    name:"庚申庵への路地", yaw:-40, hfov:100 },
   koshin:     { pano:"mahalo-pano-koshin.jpg",     name:"庚申庵", yaw:10, hfov:100 },
   front:      { pano:"mahalo-pano-front3.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
-  stairs:     { pano:"mahalo-pano-stairs2.jpg",     name:"MAHALOの外階段", yaw:20, hfov:100 },
+  stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:20, hfov:100 },
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:90 },
   elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
   lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:124 },
-  pharmacy:   { pano:"mahalo-pano-pharmacy.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
+  pharmacy:   { pano:"mahalo-pano-pharmacy-clean.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
   approach:   { pano:"mahalo-pano-approach.jpg",   name:"通り（MAHALOの角）", yaw:40, hfov:102 },
 };
 const SCENE_NAMES = {};
@@ -634,7 +635,7 @@ function openPost(p) {
 document.getElementById("postClose").addEventListener("click", () => document.getElementById("postModal").classList.remove("open"));
 document.getElementById("postModal").addEventListener("click", (e) => { if (e.target.id === "postModal") e.currentTarget.classList.remove("open"); });
 
-/* 店員猫チャット（敬語／公開版はGemini） */
+/* 店員チャット（敬語／公開版はGemini） */
 const QA = [
   { q:"どんなお店？", a:"松山市の美容室でございます。煌水（キラ水）や、髪と頭皮にやさしいカラーなど、髪のお悩みに合わせたメニューをご用意しております。" },
   { q:"営業時間は？", a:"9時から18時まで、月曜日がお休みでございます。" },
@@ -642,7 +643,7 @@ const QA = [
   { q:"商品を買いたい", a:"ありがとうございます。棚の商品は写真をめくって、カゴに入れられます。お受け取りは店頭、お支払いはご来店のときで大丈夫です。価格は店頭でご確認くださいませ。", goods:true },
 ];
 const SHOPCHAT = {
-  mahalo: { greet: "いらっしゃいませ。MAHALO美容室へようこそ。黄色と青の椅子が目印のお店です。ご予約や商品のことなど、お気軽にお声がけください。", qa: QA },
+  mahalo: { greet: "いらっしゃいませ。MAHALO美容室へようこそ。森の絵が目印のお店です。ご予約や商品のことなど、お気軽にお声がけください。", qa: QA },
   elua: { greet: "いらっしゃいませ。elua Mahaloです。MAHALOと同じ建物の1階にある美容のお店でございます。", qa: [
     { q:"どんなお店？", a:"MAHALO美容室と同じ建物の1階にある、女性限定・完全予約制・マンツーマンの美容のお店でございます。" },
     { q:"100円券は使える？", a:"はい、OHANAの100円券をお使いいただけます。券は無料で配布しているものでございます。" },
@@ -663,7 +664,7 @@ function openChat(shop) {
   const chat = document.getElementById("chat");
   if (chat.style.display === "block" && chatShop === shop && chatLog.children.length) { return; }
   chatShop = shop; chatLog.innerHTML = "";
-  document.getElementById("chatShopTitle").textContent = ({ mahalo: "MAHALO美容室 の店員猫", elua: "elua Mahalo の店員猫", lea: "Lea Mahalo の店員猫" })[shop] || "店員猫";
+  document.getElementById("chatShopTitle").textContent = ({ mahalo: "MAHALO美容室 の店員さん", elua: "elua Mahalo の店員さん", lea: "Lea Mahalo の店員さん" })[shop] || "店員さん";
   chat.style.display = "block";
   addMsg(data.greet, "keeper");
   chatChips.innerHTML = "";
@@ -754,7 +755,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員猫です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・黄色と青の椅子と、森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員猫です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員猫です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。"};
+var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。オーナー（代表）ですかと聞かれたら、自分はオーナーではなく店員だと答えてください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。"};
 var LIMIT_MSG = "たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。OHANAの掲示板やLINEオープンチャットからお声がけください。";
 try {
   var aiApp = initializeApp({ apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0", authDomain: "ohana-share.firebaseapp.com", projectId: "ohana-share", storageBucket: "ohana-share.firebasestorage.app", messagingSenderId: "825904150210", appId: "1:825904150210:web:4ae90f047ac8cc761cad5b" }, 'ohana-ai');
