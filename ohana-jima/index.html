@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OHANA島｜愛媛・松山にそっくりな島</title>
-  <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="vendor/pannellum.css">
@@ -111,6 +110,21 @@
   #talkPanel h3{font-size:14.5px;margin:0 0 4px;color:#7c6642}
   #talkPanel textarea{width:100%;box-sizing:border-box;border:1.5px solid #d9c9a8;border-radius:8px;padding:7px 9px;font-size:14px;font-family:inherit;margin:0 0 8px}
   #talkClose{position:absolute;top:6px;right:8px;background:none;border:none;font-size:18px;cursor:pointer;color:#a5875f}
+  #fixBtns{position:fixed;right:12px;bottom:12px;z-index:79;display:flex;flex-direction:column;gap:7px;align-items:flex-end}
+  #fixBtns button,#fixBtns a{font:inherit;font-size:13.5px;font-weight:700;color:#5d4212;background:#fffdf7;border:1.5px solid #d9a441;border-radius:999px;padding:8px 14px;box-shadow:0 3px 10px rgba(90,60,10,.22);cursor:pointer;text-decoration:none}
+  #fixBtns button{background:#f2a93b;color:#fff;border-color:#f2a93b}
+  #botPanel{display:none;position:fixed;right:12px;bottom:158px;z-index:79;width:min(340px,calc(100vw - 24px));background:#fffdf7;border:1.5px solid #ecd9ae;border-radius:16px;box-shadow:0 10px 30px rgba(90,60,10,.28);padding:10px 12px}
+  #botHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;color:#7c6642}
+  #botHead button{background:none;border:none;font-size:19px;cursor:pointer;color:#a5875f}
+  #botLog{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:2px}
+  .bmsg{max-width:86%;padding:7px 10px;border-radius:12px;font-size:13.5px;line-height:1.55;white-space:pre-wrap}
+  .bmsg.me{align-self:flex-end;background:#f2a93b;color:#fff;border-bottom-right-radius:4px}
+  .bmsg.keeper{align-self:flex-start;background:#f7efdd;color:#4c3d22;border-bottom-left-radius:4px}
+  #botChips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+  #botChips button{font:inherit;font-size:12.5px;background:#fff;border:1.5px solid #d9c9a8;border-radius:999px;padding:5px 10px;cursor:pointer;color:#7c6642}
+  #botRow{display:flex;gap:6px;margin-top:8px}
+  #botRow input{flex:1;border:1.5px solid #d9c9a8;border-radius:8px;padding:8px 9px;font:inherit;font-size:14px}
+  #botRow button{font:inherit;font-weight:700;background:#f2a93b;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer}
   #parkStage{position:relative;height:290px;border-radius:18px;overflow:hidden;background:url("park-bg.jpg") center 62%/cover no-repeat,#a9d18e}
   #parkCastle{position:absolute;top:2px;right:6px;width:190px}
   #parkCats{position:absolute;left:0;right:0;bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;align-items:flex-end;padding:0 14px}
@@ -216,6 +230,7 @@
 <div class="wrap">
   <h1>OHANA島</h1>
   <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。近所のみなさんの投稿も集めています。</p>
+  <p data-ed="disc" style="margin:10px auto 0;max-width:560px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 12px;font-size:13px;color:#7a5a16">※ この島は、水彩の絵で再現したものです。実際のお店や風景とは異なります。</p>
   <div id="authBar"><span class="who" id="authState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button">ログイン</button><button class="act sub small" id="btnProfile" type="button" style="display:none">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none">ログアウト</button></div>
 
 
@@ -366,7 +381,25 @@
   </div>
 </div>
 
-<button id="btnEdit" class="act" type="button" style="display:none;position:fixed;right:12px;bottom:84px;z-index:80">✏️ 編集</button>
+<p class="src" style="text-align:center;margin:18px 12px 90px">※ この島は、水彩の絵で再現したものです。実際のお店や風景とは異なります。</p>
+
+<button id="btnEdit" class="act" type="button" style="display:none;position:fixed;right:12px;bottom:196px;z-index:80">✏️ 編集</button>
+<div id="fixBtns">
+  <button id="btnBot" type="button">💬 OHANAに聞く</button>
+  <a href="https://momowari.github.io/OHANA-share/" target="_blank" rel="noopener">🌺 OHANAのサイト</a>
+  <a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">💚 オープンチャット</a>
+</div>
+<div id="botPanel">
+  <div id="botHead"><b>OHANA</b><button id="botClose" type="button" aria-label="閉じる">×</button></div>
+  <div id="botLog"></div>
+  <div id="botChips">
+    <button type="button" data-q="この島の歩き方を教えて">🚶 歩き方</button>
+    <button type="button" data-q="OHANAって何ですか？">🌺 OHANAって？</button>
+    <button type="button" data-q="100円券って何ですか？">🎫 100円券って？</button>
+  </div>
+  <div id="botRow"><input id="botInput" type="text" placeholder="聞きたいことを書いてね" maxlength="200"><button id="botSend" type="button">聞く</button></div>
+  <p class="src" style="margin:6px 2px 0">※ AIが答えています。間違うこともあるので、大事なことはお店や主催に直接ご確認ください。</p>
+</div>
 <div id="editBar" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:81;background:#fffdf7;border-top:1.5px solid #d9a441;padding:10px;align-items:center;gap:8px;justify-content:center">
   <span style="font-size:12.5px;color:#7a6248">文字をタップして直せます</span>
   <button id="btnEditSave" class="act" type="button">保存する</button>
@@ -749,6 +782,16 @@ function renderCart() {
 }
 document.getElementById("btnCart").addEventListener("click", () => { renderCart(); document.getElementById("cartPanel").style.display = "block"; document.getElementById("cartPanel").scrollIntoView({ behavior:"smooth", block:"nearest" }); });
 document.getElementById("btnClear").addEventListener("click", () => { cart = []; updateCartBtn(); renderCart(); });
+// ===== 右下固定：OHANAボット =====
+const botPanel = document.getElementById("botPanel");
+let botBusy = false, botStarted = false;
+function botMsg(text, who) { const d = document.createElement("div"); d.className = "bmsg " + who; d.textContent = text; const log = document.getElementById("botLog"); log.appendChild(d); log.scrollTop = 1e6; }
+document.getElementById("btnBot").addEventListener("click", () => { const open = botPanel.style.display === "block"; botPanel.style.display = open ? "none" : "block"; if (!open && !botStarted) { botStarted = true; botMsg("こんにちは。OHANAです。この島のことや、OHANAのことを聞いてください。", "keeper"); } });
+document.getElementById("botClose").addEventListener("click", () => { botPanel.style.display = "none"; });
+async function botAsk(text) { if (botBusy || !text) return; botBusy = true; document.getElementById("botChips").style.display = "none"; botMsg(text, "me"); let ans = null; if (window.__geminiAskShop) { try { ans = await window.__geminiAskShop("ohana", text); } catch (e) {} } botMsg(ans || "ごめんなさい、今はうまく答えられませんでした。OHANAの掲示板や、オープンチャットでも聞けます。", "keeper"); botBusy = false; }
+document.getElementById("botSend").addEventListener("click", () => { const i = document.getElementById("botInput"); const t = i.value.trim(); if (t) { i.value = ""; botAsk(t); } });
+document.getElementById("botInput").addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("botSend").click(); });
+document.querySelectorAll("#botChips button").forEach(b => b.addEventListener("click", () => botAsk(b.dataset.q)));
 </script>
 <script async src="https://www.instagram.com/embed.js"></script>
 <script async src="https://www.threads.net/embed.js"></script>
@@ -758,7 +801,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。オーナー（代表）ですかと聞かれたら、自分はオーナーではなく店員だと答えてください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。"};
+var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。オーナー（代表）ですかと聞かれたら、自分はオーナーではなく店員だと答えてください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）", "ohana": "あなたは、愛媛県松山市の「OHANA島」の案内です。名前を聞かれたら「OHANAです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせ（OHANAの掲示板・LINEオープンチャット）を案内してください。料金・在庫・営業時間を推測で断定しないでください（お店のことは、各お店の場所で店員さんに聞けます）。\n・OHANA島は、松山市味酒町・萱町あたりの実在の街を、水彩の絵で再現した島です。実際のお店や風景とは異なります。ストリートビュー式に歩けて、MAPのピンからも移動できます。\n・ログインすると自分の分身が動き出します。城山公園は「みんなの広場」で、分身たちが集まる場所です。\n・OHANAシェア＊プロジェクトは、ヒトモノコトをつなぐ、選べる物々交換のフリマです。100円券は無料配布で、お釣りは出ません。代金は現金との組み合わせも選べます。参加は無料です。"};
 var LIMIT_MSG = "たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。OHANAの掲示板やLINEオープンチャットからお声がけください。";
 try {
   var aiApp = initializeApp({ apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0", authDomain: "ohana-share.firebaseapp.com", projectId: "ohana-share", storageBucket: "ohana-share.firebasestorage.app", messagingSenderId: "825904150210", appId: "1:825904150210:web:4ae90f047ac8cc761cad5b" }, 'ohana-ai');
