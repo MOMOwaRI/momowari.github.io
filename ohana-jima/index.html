@@ -216,7 +216,6 @@
   <h1>OHANA島</h1>
   <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。近所のみなさんの投稿も集めています。</p>
   <div id="authBar"><span class="who" id="authState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button">ログイン</button><button class="act sub small" id="btnProfile" type="button" style="display:none">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none">ログアウト</button></div>
-  <p class="src" style="text-align:center;margin:2px 12px 8px" data-ed="starNote">noteの構想どおり、ログインした記録が星のようにプロフィールに残ります。</p>
 
 
   <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div>
@@ -292,13 +291,11 @@
       <label>いまの分身（猫）</label>
       <div class="catChoices" id="catChoices"></div>
       <label>ログインの星（来た日の記録）</label>
-      <p class="src" style="margin:0 0 6px">noteの構想どおり、ログインした記録が星のようにプロフィールに残ります。</p>
       <div id="starBox"><span class="none">ログインすると、来た日が星になります</span></div>
       <p class="src" id="starCount"></p>
       <label>公園で届いたコメント</label>
       <div id="parkInbox"><span class="none">まだありません</span></div>
       <div class="btns"><button class="act" id="btnProfSave" type="button">保存する</button></div>
-      <p class="hint" style="margin-top:8px">noteの構想どおり、ログインした記録が星のようにプロフィールに残ります。</p>
     </div>
   </div>
 
@@ -413,7 +410,7 @@ const SCENES = {
   yaoya:      { pano:"mahalo-pano-yaoya.jpg",      name:"八百屋の前（丸五青果）", yaw:-10, hfov:102 },
   tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:102 },
   jinja:      { pano:"mahalo-pano-jinja2.jpg",      name:"阿沼美神社", yaw:-40, hfov:100 },
-  koshin:     { pano:"mahalo-pano-koshin.jpg",     name:"庚申庵（イメージ）", yaw:10, hfov:100 },
+  koshin:     { pano:"mahalo-pano-koshin2.jpg",     name:"庚申庵", yaw:10, hfov:100 },
   front:      { pano:"mahalo-pano-front4.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
   stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:100 },
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:90 },
@@ -823,12 +820,11 @@ const PLACE_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshi
 window.__youScene = "front";
 window.syncYou = function(id) { window.__youScene = id; if (window.__youMarker && window.__PLACE_LL) { const key = window.__PLACE_LL[id] ? id : "front"; window.__youMarker.setLatLng(window.__PLACE_LL[key]); } };
 window.goScene = function(id) { stopWalk(); viewer.loadScene(id); document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "center" }); };
-let bigMap = null, islOverlay = null;
+let bigMap = null;
 function initBigMap() {
   if (!window.L || bigMap) return;
   bigMap = L.map("bigMap", { scrollWheelZoom: false }).setView([33.84556, 132.75534], 15);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(bigMap);
-  islOverlay = L.imageOverlay("map-island.jpg", [[33.8428, 132.7528], [33.8478, 132.7588]], { opacity: 0.96 }).addTo(bigMap);
   Object.keys(PLACE_LL).forEach(id => {
     const label = PIN_LABELS[id]; const col = PIN_COLORS[id] || "#cbb27f";
     const html = '<span style="display:block;width:14px;height:14px;margin:0 auto;border-radius:50%;background:' + col + ';border:2px solid #fff;box-shadow:0 1px 4px rgba(90,60,10,.4)"></span>' + (label ? '<span style="display:block;font-size:10.5px;color:#5d4212;background:rgba(255,253,247,.88);border-radius:8px;padding:0 5px;margin-top:1px;white-space:nowrap;text-align:center">' + label + '</span>' : '');
@@ -839,11 +835,9 @@ function initBigMap() {
   window.__youMarker = L.marker(PLACE_LL[window.__youScene] || PLACE_LL.front, { icon: L.divIcon({ className: "zpost", html: '<img src="av-player.png" style="width:34px;display:block" alt="">', iconSize: [34, 46], iconAnchor: [17, 42] }), zIndexOffset: 1000 }).addTo(bigMap);
   POSTS.forEach(post => {
     const ll = PLACE_LL[post.scene]; if (!ll) return;
-    const mk = L.marker([ll[0] - 0.00012, ll[1] + 0.00012], { icon: L.divIcon({ className: "zpost", html: '<img src="' + post.catImg + '" style="width:30px;display:block" alt="">', iconSize: [30, 30], iconAnchor: [15, 26] }) }).addTo(bigMap);
+    const mk = L.marker([ll[0] - 0.00012, ll[1] + 0.00012], { icon: L.divIcon({ className: "zpost", html: '<span style="position:relative;display:block;width:30px"><img src="' + post.catImg + '" style="width:30px;display:block" alt=""><span style="position:absolute;right:-9px;top:-9px;font-size:13px;line-height:1">💬</span></span>', iconSize: [38, 38], iconAnchor: [19, 30] }) }).addTo(bigMap);
     mk.on("click", () => openPost(post));
   });
-  function upd() { const z = bigMap.getZoom(); islOverlay.setOpacity(z <= 15 ? 0.96 : (z === 16 ? 0.45 : 0)); }
-  bigMap.on("zoomend", upd); upd();
 }
 function openMap() { document.getElementById("bigMapSec").scrollIntoView({ behavior: "smooth" }); setTimeout(() => { initBigMap(); if (bigMap) bigMap.invalidateSize(); }, 400); }
 function closeMap() { window.scrollTo({ top: 0, behavior: "smooth" }); }
