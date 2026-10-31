@@ -117,6 +117,22 @@
   #fixBtns button,#fixBtns a{font:inherit;font-size:13.5px;font-weight:700;color:#5d4212;background:#fffdf7;border:1.5px solid #d9a441;border-radius:999px;padding:8px 14px;box-shadow:0 3px 10px rgba(90,60,10,.22);cursor:pointer;text-decoration:none}
   #fixBtns button{background:#f2a93b;color:#fff;border-color:#f2a93b}
   #botPanel{display:none;position:fixed;right:max(14px, calc(50% - 394px));bottom:158px;z-index:79;width:min(340px,calc(100vw - 24px));background:#fffdf7;border:1.5px solid #ecd9ae;border-radius:16px;box-shadow:0 10px 30px rgba(90,60,10,.28);padding:10px 12px}
+  #chatPanel{display:none;position:fixed;right:max(14px, calc(50% - 394px));bottom:158px;z-index:80;width:min(340px,calc(100vw - 24px));background:#fffdf7;border:1.5px solid #ecd9ae;border-radius:16px;box-shadow:0 10px 30px rgba(90,60,10,.28);padding:10px 12px}
+  #chatHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;color:#7c6642}
+  #chatHead button{background:none;border:none;font-size:19px;cursor:pointer;color:#a5875f}
+  #chatOnline{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:8px}
+  .chip-on{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #e3d5b5;border-radius:999px;padding:2px 9px 2px 3px;font-size:12px;color:#5d4a26}
+  .chip-on img{width:22px;height:22px;border-radius:50%;object-fit:cover}
+  .chip-on i{font-style:normal;color:#a5875f;font-size:11px}
+  #chatLog{max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:7px;padding:2px}
+  .cmsg{max-width:88%}
+  .cmsg .cmeta{font-size:11px;color:#a5875f;margin:0 2px 2px}
+  .cmsg .cbub{display:inline-block;background:#f7efdd;color:#4c3d22;padding:7px 10px;border-radius:12px;border-bottom-left-radius:4px;font-size:13.5px;line-height:1.55;white-space:pre-wrap;text-align:left}
+  .cmsg.mine{align-self:flex-end;text-align:right}
+  .cmsg.mine .cbub{background:#f2a93b;color:#fff;border-bottom-left-radius:12px;border-bottom-right-radius:4px}
+  #chatRow{display:flex;gap:6px;margin-top:8px}
+  #chatRow input{flex:1;border:1.5px solid #d9c9a8;border-radius:8px;padding:8px 9px;font:inherit;font-size:14px}
+  #chatRow button{font:inherit;font-weight:700;background:#f2a93b;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer}
   #botHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;color:#7c6642}
   #botHead button{background:none;border:none;font-size:19px;cursor:pointer;color:#a5875f}
   #botLog{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:2px}
@@ -269,7 +285,7 @@
   </div>
   <div id="sceneName">MAHALOの店前</div>
   <div id="placeBar"><label for="placeSel" data-i18n="selLabel">📍 場所を選ぶ</label><select id="placeSel" aria-label="場所を選ぶ"></select></div>
-  <div class="btns"><button class="act" id="btnWalk" data-i18n="walk">🐾 アバターと歩く（自動で進む）</button><button class="act" id="btnMap" type="button" data-i18n="mapBtn">🗺 MAPを見る</button></div>
+  <div class="btns"><button class="act" id="btnWalk" data-i18n="walk">🐾 アバターと歩く（自動で進む）</button><button class="act" id="btnMap" type="button" data-i18n="mapBtn">🗺 MAPを見る</button><button class="act sub" id="btnGuide" type="button" data-i18n="guideBtn">🧭 ガイド</button></div>
   <div class="btns" id="shopBtns" style="display:none">
     <button class="act" id="btnTalk">店員さんと話す</button>
     <button class="act" id="btnGoods">商品を見る</button>
@@ -316,6 +332,22 @@
       <div style="display:flex;gap:8px;margin-top:12px">
         <button class="act" id="joinGo" type="button" data-i18n="joinGo">Googleでログイン</button>
         <button class="act sub" id="joinCancel" type="button" data-i18n="joinCancel">やめておく</button>
+      </div>
+    </div>
+  </div>
+  <div id="guideModal" style="display:none;position:fixed;inset:0;background:rgba(60,40,10,.45);z-index:200;align-items:center;justify-content:center">
+    <div style="background:#fffdf7;border-radius:16px;padding:18px;max-width:340px;width:calc(100% - 40px);box-shadow:0 12px 40px rgba(60,40,10,.35);max-height:86vh;overflow-y:auto">
+      <h2 style="font-size:17px;margin-bottom:8px" data-i18n="guideTitle">島のガイド</h2>
+      <p style="font-size:13.5px;line-height:1.75;white-space:pre-line" data-i18n="guideBody">・🐾 アバターと歩く（自動で進む）：島の中を自動で歩いて案内します。もう一度押すと止まります
+・ドラッグで周りを見渡せます。地面の矢印を押すと、隣の場所へ歩けます
+・📍 場所を選ぶ／MAP：行きたい場所へ直接行けます。ピンを押すと、その場所へ
+・お店の中では、店員のアバターを押すと話しかけられます
+・👋 みんなのチャット（右下）：今いる人と話せます。同じ場所で出会うと、分身が横に並びます
+・🌳 城山公園（みんなの広場）：MAPの公園ピンから、みんなの分身にコメントを残せます
+・ログインすると、自分の分身で歩けます。写真からアバターも作れます（プロフィールから）</p>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button class="act" id="guideWalk" type="button" data-i18n="guideWalk">🐾 アバターと歩くを始める</button>
+        <button class="act sub" id="guideClose" type="button" data-i18n="guideClose">閉じる</button>
       </div>
     </div>
   </div>
@@ -417,6 +449,7 @@
 
 <button id="btnEdit" class="act" type="button" style="display:none;position:fixed;top:10px;right:10px;z-index:80">✏️ 編集</button>
 <div id="fixBtns">
+  <button id="btnIslandChat" type="button" data-i18n="fixEveryone" style="background:#fffdf7;color:#5d4212;border-color:#d9a441">👋 みんなのチャット</button>
   <button id="btnBot" type="button" data-i18n="fixBot">💬 質問</button>
   <a href="https://momowari.github.io/OHANA-share/" target="_blank" rel="noopener" data-i18n="fixSite">🌺 OHANAのサイト</a>
 </div>
@@ -430,6 +463,13 @@
   </div>
   <div id="botRow"><input id="botInput" type="text" placeholder="聞きたいことを書いてね" maxlength="200" data-i18n-ph="botPh"><button id="botSend" type="button" data-i18n="botSend">聞く</button></div>
   <p class="src" style="margin:6px 2px 0"><span data-i18n="botNote">※ AIが答えています。間違うこともあるので、大事なことはお店や主催に直接ご確認ください。</span></p>
+</div>
+<div id="chatPanel">
+  <div id="chatHead"><b data-i18n="chatTitle">みんなのチャット</b><button id="chatClose" type="button" aria-label="閉じる">×</button></div>
+  <div id="chatOnline"></div>
+  <div id="chatLog"></div>
+  <div id="chatRow"><input id="chatInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div>
+  <p id="chatGuestNote" class="src" style="display:none;margin:8px 2px 0">書くにはログインしてね。上の「OHANAメンバーになる」から参加できます。</p>
 </div>
 <div id="editBar" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:81;background:#fffdf7;border-top:1.5px solid #d9a441;padding:10px;align-items:center;gap:8px;justify-content:center">
   <span style="font-size:12.5px;color:#7a6248">文字をタップして直せます</span>
@@ -566,7 +606,7 @@ Object.keys(SCENES).forEach(id => {
 });
 // ===== 多言語 =====
 window.__lang = (function() { try { return localStorage.getItem("islandLang") || "ja"; } catch (e) { return "ja"; } })();
-window.__I18N = {"en": {"walk": "🐾 Walk with your avatar (auto)", "mapBtn": "🗺 Open the MAP", "selLabel": "📍 Choose a place", "login": "Join OHANA", "profileBtn": "Profile", "logout": "Log out", "guestState": "🐾 Strolling as a guest", "parkTitle": "🌳 Shiroyama Park (Everyone's Plaza)", "parkPh": "A short note (up to 200 characters)", "parkSend": "💬 Leave a note", "profH2": "Your profile", "profNick": "Nickname", "profAvatar": "Your avatar", "profCat": "Your stand-in for now (cat)", "profInbox": "Notes received at the park", "save": "Save", "snsH2": "Posts from the neighborhood", "fixBot": "💬 Questions", "fixSite": "🌺 OHANA website", "fixChat": "💚 Open chat", "botPh": "Type your question", "botSend": "Ask", "chip1": "🚶 How to walk", "chip2": "🌺 About OHANA", "chip3": "🎫 The 100-yen ticket", "botNote": "* Answers come from AI and may be wrong. For anything important, please check with the shop or the organizer directly.", "postLink": "See the original post", "shopH2": "Selected products", "joinTitle": "Join OHANA?", "joinBody": "・Walk the island with your avatar (a cat at first; an avatar can be made from your photo)\n・Leave notes for others at Shiroyama Park, everyone's plaza\n・Signing in here also registers you as a member of the OHANA matching site. Sign in with your Google account (free).", "joinGo": "Continue with Google", "joinCancel": "Not now", "joinLink": "🌺 See the OHANA website"}, "zh": {"walk": "🐾 和分身一起走（自动前进）", "mapBtn": "🗺 查看MAP", "selLabel": "📍 选择地点", "login": "成为OHANA成员", "profileBtn": "个人资料", "logout": "退出", "guestState": "🐾 以访客身份散步中", "parkTitle": "🌳 城山公园（大家的广场）", "parkPh": "一句话（200字以内）", "parkSend": "💬 留言", "profH2": "你的个人资料", "profNick": "昵称", "profAvatar": "你的分身（头像）", "profCat": "现在的分身（猫）", "profInbox": "在公园收到的留言", "save": "保存", "snsH2": "附近大家的帖子", "fixBot": "💬 提问", "fixSite": "🌺 OHANA网站", "fixChat": "💚 开放聊天", "botPh": "写下你想问的", "botSend": "提问", "chip1": "🚶 怎么走", "chip2": "🌺 关于OHANA", "chip3": "🎫 关于100日元券", "botNote": "※ 回答由AI提供，可能有误。重要的事请直接向店铺或主办方确认。", "postLink": "查看原帖", "shopH2": "店内精选商品", "joinTitle": "要成为OHANA成员吗？", "joinBody": "・可以用分身在岛上散步（开始是猫，也可以从照片制作头像）\n・可以在城山公园（大家的广场）给别人留言\n・在这里登录，也就同时注册成为OHANA匹配网站的会员。用Google账号登录（免费）", "joinGo": "用Google登录", "joinCancel": "以后再说", "joinLink": "🌺 查看OHANA网站"}, "ko": {"walk": "🐾 아바타와 걷기 (자동 진행)", "mapBtn": "🗺 MAP 보기", "selLabel": "📍 장소 선택", "login": "OHANA 멤버 되기", "profileBtn": "프로필", "logout": "로그아웃", "guestState": "🐾 게스트로 산책 중", "parkTitle": "🌳 시로야마 공원 (모두의 광장)", "parkPh": "한마디 (200자까지)", "parkSend": "💬 남기기", "profH2": "내 프로필", "profNick": "닉네임", "profAvatar": "나의 아바타", "profCat": "지금의 분신 (고양이)", "profInbox": "공원에서 받은 댓글", "save": "저장", "snsH2": "동네 여러분의 게시물", "fixBot": "💬 질문", "fixSite": "🌺 OHANA 사이트", "fixChat": "💚 오픈채팅", "botPh": "궁금한 것을 적어주세요", "botSend": "묻기", "chip1": "🚶 걷는 법", "chip2": "🌺 OHANA란?", "chip3": "🎫 100엔 쿠폰이란?", "botNote": "※ AI가 답하고 있어 틀릴 수 있습니다. 중요한 것은 가게나 주최 측에 직접 확인해 주세요.", "postLink": "원본 게시물 보기", "shopH2": "매장 추천 상품", "joinTitle": "OHANA 멤버가 되시겠어요?", "joinBody": "・아바타로 섬을 걸을 수 있어요 (처음에는 고양이, 사진으로 아바타도 만들 수 있어요)\n・시로야마 공원(모두의 광장)에서 다른 아바타에게 댓글을 남길 수 있어요\n・여기서 로그인하면 OHANA 매칭 사이트의 멤버 등록도 함께 됩니다. Google 계정으로 로그인합니다 (무료)", "joinGo": "Google로 로그인", "joinCancel": "나중에", "joinLink": "🌺 OHANA 사이트 보기"}};
+window.__I18N = {"en": {"walk": "🐾 Walk with your avatar (auto)", "mapBtn": "🗺 Open the MAP", "selLabel": "📍 Choose a place", "login": "Join OHANA", "profileBtn": "Profile", "logout": "Log out", "guestState": "🐾 Strolling as a guest", "parkTitle": "🌳 Shiroyama Park (Everyone's Plaza)", "parkPh": "A short note (up to 200 characters)", "parkSend": "💬 Leave a note", "profH2": "Your profile", "profNick": "Nickname", "profAvatar": "Your avatar", "profCat": "Your stand-in for now (cat)", "profInbox": "Notes received at the park", "save": "Save", "snsH2": "Posts from the neighborhood", "fixBot": "💬 Questions", "fixSite": "🌺 OHANA website", "fixChat": "💚 Open chat", "fixEveryone": "👋 Everyone chat", "chatTitle": "Everyone chat", "chatPh": "Write a message", "chatSend": "Send", "botPh": "Type your question", "botSend": "Ask", "chip1": "🚶 How to walk", "chip2": "🌺 About OHANA", "chip3": "🎫 The 100-yen ticket", "botNote": "* Answers come from AI and may be wrong. For anything important, please check with the shop or the organizer directly.", "postLink": "See the original post", "shopH2": "Selected products", "joinTitle": "Join OHANA?", "joinBody": "・Walk the island with your avatar (a cat at first; an avatar can be made from your photo)\n・Leave notes for others at Shiroyama Park, everyone's plaza\n・Signing in here also registers you as a member of the OHANA matching site. Sign in with your Google account (free).", "joinGo": "Continue with Google", "joinCancel": "Not now", "joinLink": "🌺 See the OHANA website", "guideBtn": "🧭 Guide", "guideTitle": "Island guide", "guideBody": "・🐾 Walk with your avatar (auto): strolls around the island for you. Press again to stop\n・Drag to look around. Tap an arrow on the ground to walk to the next place\n・📍 Choose a place / MAP: jump straight to a place. Tap a pin to go there\n・Inside a shop, tap a staff avatar to talk\n・👋 Everyone chat (bottom right): talk with people who are here now. When you meet in the same place, avatars line up beside you\n・🌳 Shiroyama Park (Everyone's Plaza): from the park pin on the MAP, leave notes for everyone's avatars\n・Sign in to walk with your own avatar. You can also make an avatar from your photo (in your profile)", "guideWalk": "🐾 Start walking with your avatar", "guideClose": "Close"}, "zh": {"walk": "🐾 和分身一起走（自动前进）", "mapBtn": "🗺 查看MAP", "selLabel": "📍 选择地点", "login": "成为OHANA成员", "profileBtn": "个人资料", "logout": "退出", "guestState": "🐾 以访客身份散步中", "parkTitle": "🌳 城山公园（大家的广场）", "parkPh": "一句话（200字以内）", "parkSend": "💬 留言", "profH2": "你的个人资料", "profNick": "昵称", "profAvatar": "你的分身（头像）", "profCat": "现在的分身（猫）", "profInbox": "在公园收到的留言", "save": "保存", "snsH2": "附近大家的帖子", "fixBot": "💬 提问", "fixSite": "🌺 OHANA网站", "fixChat": "💚 开放聊天", "fixEveryone": "👋 大家聊天", "chatTitle": "大家聊天", "chatPh": "写一句话", "chatSend": "发送", "botPh": "写下你想问的", "botSend": "提问", "chip1": "🚶 怎么走", "chip2": "🌺 关于OHANA", "chip3": "🎫 关于100日元券", "botNote": "※ 回答由AI提供，可能有误。重要的事请直接向店铺或主办方确认。", "postLink": "查看原帖", "shopH2": "店内精选商品", "joinTitle": "要成为OHANA成员吗？", "joinBody": "・可以用分身在岛上散步（开始是猫，也可以从照片制作头像）\n・可以在城山公园（大家的广场）给别人留言\n・在这里登录，也就同时注册成为OHANA匹配网站的会员。用Google账号登录（免费）", "joinGo": "用Google登录", "joinCancel": "以后再说", "joinLink": "🌺 查看OHANA网站", "guideBtn": "🧭 指南", "guideTitle": "岛屿指南", "guideBody": "・🐾 和分身一起走（自动前进）：自动在岛上散步带你参观。再按一次就停下\n・拖动可以环顾四周。点地上的箭头可以走到旁边的地方\n・📍 选择地点／MAP：可以直接去想去的地方。点图钉就能过去\n・在店里，点店员的分身可以说话\n・👋 大家聊天（右下）：可以和现在在岛上的人说话。在同一个地方相遇时，分身会并排出现\n・🌳 城山公园（大家的广场）：从MAP的公园图钉，可以给大家的分身留言\n・登录后可以用自己的分身散步。也可以从照片制作分身（在个人资料里）", "guideWalk": "🐾 开始和分身一起走", "guideClose": "关闭"}, "ko": {"walk": "🐾 아바타와 걷기 (자동 진행)", "mapBtn": "🗺 MAP 보기", "selLabel": "📍 장소 선택", "login": "OHANA 멤버 되기", "profileBtn": "프로필", "logout": "로그아웃", "guestState": "🐾 게스트로 산책 중", "parkTitle": "🌳 시로야마 공원 (모두의 광장)", "parkPh": "한마디 (200자까지)", "parkSend": "💬 남기기", "profH2": "내 프로필", "profNick": "닉네임", "profAvatar": "나의 아바타", "profCat": "지금의 분신 (고양이)", "profInbox": "공원에서 받은 댓글", "save": "저장", "snsH2": "동네 여러분의 게시물", "fixBot": "💬 질문", "fixSite": "🌺 OHANA 사이트", "fixChat": "💚 오픈채팅", "fixEveryone": "👋 모두의 채팅", "chatTitle": "모두의 채팅", "chatPh": "한마디 쓰기", "chatSend": "보내기", "botPh": "궁금한 것을 적어주세요", "botSend": "묻기", "chip1": "🚶 걷는 법", "chip2": "🌺 OHANA란?", "chip3": "🎫 100엔 쿠폰이란?", "botNote": "※ AI가 답하고 있어 틀릴 수 있습니다. 중요한 것은 가게나 주최 측에 직접 확인해 주세요.", "postLink": "원본 게시물 보기", "shopH2": "매장 추천 상품", "joinTitle": "OHANA 멤버가 되시겠어요?", "joinBody": "・아바타로 섬을 걸을 수 있어요 (처음에는 고양이, 사진으로 아바타도 만들 수 있어요)\n・시로야마 공원(모두의 광장)에서 다른 아바타에게 댓글을 남길 수 있어요\n・여기서 로그인하면 OHANA 매칭 사이트의 멤버 등록도 함께 됩니다. Google 계정으로 로그인합니다 (무료)", "joinGo": "Google로 로그인", "joinCancel": "나중에", "joinLink": "🌺 OHANA 사이트 보기", "guideBtn": "🧭 가이드", "guideTitle": "섬 가이드", "guideBody": "・🐾 아바타와 걷기 (자동 진행): 섬 안을 자동으로 걸으며 안내해요. 다시 누르면 멈춰요\n・드래그하면 주위를 둘러볼 수 있어요. 바닥의 화살표를 누르면 옆 장소로 걸어가요\n・📍 장소 선택／MAP: 가고 싶은 곳으로 바로 갈 수 있어요. 핀을 누르면 그 장소로 가요\n・가게 안에서는 점원 아바타를 누르면 말을 걸 수 있어요\n・👋 모두의 채팅 (오른쪽 아래): 지금 있는 사람과 이야기할 수 있어요. 같은 장소에서 만나면 아바타가 옆에 나란히 서요\n・🌳 시로야마 공원 (모두의 광장): MAP의 공원 핀에서 모두의 아바타에게 댓글을 남길 수 있어요\n・로그인하면 내 아바타로 걸을 수 있어요. 사진으로 아바타도 만들 수 있어요 (프로필에서)", "guideWalk": "🐾 아바타와 걷기 시작", "guideClose": "닫기"}};
 window.__placeNames = {"en": {"front": "MAHALO Building", "stairs": "MAHALO Bldg. Outer Stairs", "counter": "MAHALO (2F Hair Salon)", "elua": "elua Mahalo (1F)", "lea": "Lea Mahalo (1F Zakka)", "pharmacy": "Lady Pharmacy Miyanishi", "jinja": "Anumi Shrine", "koshin": "Koshin-an Hermitage", "yaoya": "Marugo Seika (Greengrocer)", "tamago": "Hirano Keiran (Egg Shop)", "kayamachi3": "Kayamachi Shopping St. (North)", "kayamachi2": "Kayamachi Shopping St. (Middle)", "kayamachi": "Kayamachi Shopping Street", "fuji": "Fuji Grand Matsuyama", "furumachi": "Komachi Station (Iyotetsu)"}, "zh": {"front": "MAHALO大楼", "stairs": "MAHALO大楼 外楼梯", "counter": "MAHALO（2楼·美发）", "elua": "elua Mahalo（1楼）", "lea": "Lea Mahalo（1楼·杂货）", "pharmacy": "Lady药局 宫西店", "jinja": "阿沼美神社", "koshin": "庚申庵", "yaoya": "丸五青果（蔬菜水果店）", "tamago": "平野鸡蛋（鸡蛋店）", "kayamachi3": "萱町商店街（北）", "kayamachi2": "萱町商店街（中）", "kayamachi": "萱町商店街", "fuji": "富士Grand松山", "furumachi": "古町站"}, "ko": {"front": "MAHALO 빌딩", "stairs": "MAHALO 빌딩 외부 계단", "counter": "MAHALO (2층·미용실)", "elua": "elua Mahalo (1층)", "lea": "Lea Mahalo (1층·잡화)", "pharmacy": "레데이 약국 미야니시점", "jinja": "아누미 신사", "koshin": "코신안", "yaoya": "마루고 청과 (야채가게)", "tamago": "히라노 계란 (달걀가게)", "kayamachi3": "카야마치 상점가 (북)", "kayamachi2": "카야마치 상점가 (중간)", "kayamachi": "카야마치 상점가", "fuji": "후지 그랜드 마쓰야마", "furumachi": "코마치역"}};
 window.__pinNames = {"en": {"jinja": "Anumi Shrine", "koshin": "Koshin-an", "yaoya": "Marugo Seika", "tamago": "Hirano Keiran", "pharmacy": "Lady Pharmacy", "kayamachi": "Kayamachi St.", "park": "Shiroyama Park", "fuji": "Fuji Grand", "furumachi": "Komachi Sta."}, "zh": {"jinja": "阿沼美神社", "koshin": "庚申庵", "yaoya": "丸五青果", "tamago": "平野鸡蛋", "pharmacy": "Lady药局", "kayamachi": "萱町商店街", "park": "城山公园", "fuji": "富士Grand", "furumachi": "古町站"}, "ko": {"jinja": "아누미 신사", "koshin": "코신안", "yaoya": "마루고 청과", "tamago": "히라노 계란", "pharmacy": "레데이 약국", "kayamachi": "카야마치 상점가", "park": "시로야마 공원", "fuji": "후지 그랜드", "furumachi": "코마치역"}};
 window.__exitNames = {"en": {"北へ進む": "Go north", "南へ進む": "Go south", "東へ進む": "Go east", "西へ進む": "Go west", "南西へ進む": "Go southwest", "北東へ進む": "Go northeast", "出口": "Exit", "出口（階段を下りる）": "Exit (down the stairs)", "eluaの玄関（1階）": "elua entrance (1F)", "横のドア（雑貨屋Lea Mahalo・1階）": "Side door (Lea Mahalo, 1F)", "外階段を上がる（2階）": "Up the outer stairs (2F)", "2階の入口から中へ（カウンター前）": "Enter from the 2F entrance"}, "zh": {"北へ進む": "向北走", "南へ進む": "向南走", "東へ進む": "向东走", "西へ進む": "向西走", "南西へ進む": "向西南走", "北東へ進む": "向东北走", "出口": "出口", "出口（階段を下りる）": "出口（下楼梯）", "eluaの玄関（1階）": "elua玄关（1楼）", "横のドア（雑貨屋Lea Mahalo・1階）": "侧门（Lea Mahalo·1楼）", "外階段を上がる（2階）": "上外楼梯（2楼）", "2階の入口から中へ（カウンター前）": "从2楼入口进去"}, "ko": {"北へ進む": "북쪽으로 가기", "南へ進む": "남쪽으로 가기", "東へ進む": "동쪽으로 가기", "西へ進む": "서쪽으로 가기", "南西へ進む": "남서쪽으로 가기", "北東へ進む": "북동쪽으로 가기", "出口": "출구", "出口（階段を下りる）": "출구 (계단 내려가기)", "eluaの玄関（1階）": "elua 현관 (1층)", "横のドア（雑貨屋Lea Mahalo・1階）": "옆문 (Lea Mahalo·1층)", "外階段を上がる（2階）": "외부 계단 오르기 (2층)", "2階の入口から中へ（カウンター前）": "2층 입구로 들어가기"}};
@@ -597,6 +637,7 @@ let curScene = "front", walkTimer = null;
 if (window.__lang !== "ja") { const PN2 = window.__placeNames[window.__lang] || {}; for (const k2 in PN2) if (SHORT[k2]) SHORT[k2] = PN2[k2]; const D = window.__I18N[window.__lang] || {}; document.querySelectorAll("[data-i18n]").forEach(el => { const t = D[el.getAttribute("data-i18n")]; if (t) el.textContent = t; }); document.querySelectorAll("[data-i18n-ph]").forEach(el => { const t = D[el.getAttribute("data-i18n-ph")]; if (t) el.placeholder = t; }); document.documentElement.lang = window.__lang; }
 const langSelEl = document.getElementById("langSel"); if (langSelEl) { langSelEl.value = window.__lang; langSelEl.addEventListener("change", () => { try { localStorage.setItem("islandLang", langSelEl.value); } catch (e) {} location.reload(); }); }
 const placeSel = document.getElementById("placeSel");
+window.__shortName = (id) => SHORT[id] || id;
 [ "front", "stairs", "counter", "elua", "lea", "pharmacy", "fuji", "furumachi", "jinja", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
   const o = document.createElement("option"); o.value = id; o.textContent = SHORT[id] || SCENES[id].name;
   placeSel.appendChild(o);
@@ -637,6 +678,11 @@ document.getElementById("btnWalk").addEventListener("click", () => {
   walkStep();
   walkTimer = setInterval(walkStep, 4200);
 });
+const guideModal = document.getElementById("guideModal");
+document.getElementById("btnGuide").addEventListener("click", () => { guideModal.style.display = "flex"; });
+document.getElementById("guideClose").addEventListener("click", () => { guideModal.style.display = "none"; });
+guideModal.addEventListener("click", (e) => { if (e.target === guideModal) guideModal.style.display = "none"; });
+document.getElementById("guideWalk").addEventListener("click", () => { guideModal.style.display = "none"; if (!walkTimer) document.getElementById("btnWalk").click(); });
 viewer.on("scenechange", (id) => {
   const pn = document.getElementById("placeName"); if (pn) pn.textContent = "📍 " + (SHORT[id] || "");
   const ss = document.getElementById("sceneSns");
@@ -985,7 +1031,7 @@ window.addEventListener("load", () => setTimeout(initBigMap, 900));
 <script type="module">
 import { getApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, query, where, orderBy, limit, serverTimestamp, documentId } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, query, where, orderBy, limit, serverTimestamp, documentId, onSnapshot } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 const $ = id => document.getElementById(id);
 let auth = null, db = null, me = null, profile = null;
 let myPhotoUrl = null;
@@ -1177,6 +1223,57 @@ $("parkSend").addEventListener("click", async () => {
     msg.textContent = parkTarget.name + "さんに残しました 🌸";
   } catch (e) { msg.textContent = "送れませんでした"; }
 });
+/* ===== みんなのチャット ===== */
+let chatStarted = false;
+function renderChatOnline() {
+  const box = $("chatOnline"); if (!box) return;
+  fetchUsers(true).then((users) => {
+    const on = users.filter((u) => isOutWalking(u));
+    if (!on.length) { box.innerHTML = '<span class="src">今いる人：まだいません</span>'; return; }
+    box.innerHTML = '<span class="src" style="margin-right:2px">今いる人：</span>' + on.map((u) => '<span class="chip-on"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '" alt="">' + escP(u.nickname || "島の人") + (u.at && window.__shortName ? '<i>' + escP(window.__shortName(u.at)) + '</i>' : '') + '</span>').join("");
+  }).catch(() => {});
+}
+function renderChatMsgs(msgs) {
+  const log = $("chatLog"); if (!log) return;
+  if (!msgs.length) { log.innerHTML = '<div class="src" style="padding:4px 2px">まだメッセージがありません。最初のひとことをどうぞ。</div>'; return; }
+  log.innerHTML = msgs.map((m) => {
+    const dt = m.ts && m.ts.toDate ? m.ts.toDate() : null;
+    const tm = dt ? (dt.getMonth() + 1) + "/" + dt.getDate() + " " + String(dt.getHours()).padStart(2, "0") + ":" + String(dt.getMinutes()).padStart(2, "0") : "";
+    const mine = me && m.uid === me.uid;
+    return '<div class="cmsg' + (mine ? " mine" : "") + '"><div class="cmeta">' + escP(m.nickname || "島の人") + (tm ? " ・ " + tm : "") + '</div><div class="cbub">' + escP(m.text || "") + '</div></div>';
+  }).join("");
+  log.scrollTop = log.scrollHeight;
+}
+function startChat() {
+  if (chatStarted || !db) return; chatStarted = true;
+  try {
+    const q = query(collection(db, "islandChat"), orderBy("ts", "desc"), limit(50));
+    onSnapshot(q, (snap) => { const msgs = []; snap.forEach((d) => msgs.push(d.data())); msgs.reverse(); renderChatMsgs(msgs); }, () => {});
+  } catch (e) {}
+}
+function refreshChatAuth() {
+  const row = $("chatRow"), note = $("chatGuestNote");
+  if (!row || !note) return;
+  if (me && profile) { row.style.display = ""; note.style.display = "none"; }
+  else { row.style.display = "none"; note.style.display = ""; }
+}
+$("btnIslandChat").addEventListener("click", () => {
+  const p = $("chatPanel"); const open = p.style.display === "block";
+  p.style.display = open ? "none" : "block";
+  const bp = $("botPanel"); if (bp) bp.style.display = "none";
+  if (!open) { refreshChatAuth(); startChat(); renderChatOnline(); }
+});
+$("chatClose").addEventListener("click", () => { $("chatPanel").style.display = "none"; });
+$("btnBot").addEventListener("click", () => { $("chatPanel").style.display = "none"; });
+async function sendIslandChat() {
+  const inp = $("chatInput"); const text = inp.value.trim(); if (!text) return;
+  if (!me || !profile) { refreshChatAuth(); return; }
+  inp.value = "";
+  try { await addDoc(collection(db, "islandChat"), { uid: me.uid, nickname: (profile.nickname || "島の人").slice(0, 30), text: text.slice(0, 200), ts: serverTimestamp() }); }
+  catch (e) { inp.value = text; }
+}
+$("chatSend").addEventListener("click", sendIslandChat);
+$("chatInput").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendIslandChat(); } });
 } catch (e) { $("btnLogin").style.display = "none"; $("authState").textContent = "🐾 ゲストとして散歩中（ログインは準備中）"; }
 function renderMyPhoto() { const av = profile && profile.avaUrl; const has = (profile && profile.photoReady) || myPhotoUrl; $("myPhotoImg").style.display = (av || has) ? "" : "none"; if (av) { $("myPhotoImg").src = av; $("myPhotoState").textContent = "アバターができました"; } else if (has) { if (myPhotoUrl) $("myPhotoImg").src = myPhotoUrl; $("myPhotoState").textContent = "写真を受け取りました。アバターを作成中です（できたら差し替わります）"; } else { $("myPhotoState").textContent = "まだ写真がありません"; } }
 async function loadMyPhotoPreview() { if (!me || myPhotoUrl || (profile && profile.avaUrl)) return; try { const snap = await getDoc(doc(db, "islandPhotos", me.uid)); if (snap.exists() && snap.data().photoData) { myPhotoUrl = snap.data().photoData; renderMyPhoto(); } } catch (e) {} }
