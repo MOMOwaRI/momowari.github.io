@@ -529,7 +529,7 @@ function spawnPetal() {
   if (Math.random() < 0.55) { const s = document.createElement("div"); s.className = "sparkle"; s.style.left = (8 + Math.random() * 84) + "%"; s.style.top = (10 + Math.random() * 55) + "%"; fx.appendChild(s); setTimeout(() => s.remove(), 1700); }
 }
 setInterval(spawnPetal, 2600);
-const ROUTE = [ "front", "stairs", "counter" ];
+const ROUTE = [ "front", "stairs", "counter", "stairs", "front", "elua", "front", "lea", "front", "pharmacy", "front", "koshin1", "koshin", "koshin1", "front", "jinja", "yaoya", "tamago", "yaoya", "kayamachi3", "kayamachi2", "kayamachi", "kayamachi2", "kayamachi3", "yaoya", "jinja", "front" ];
 const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea Mahalo（1階）", pharmacy:"レデイ薬局" };
 let curScene = "front", walkTimer = null;
 const placeSel = document.getElementById("placeSel");
@@ -554,17 +554,23 @@ setInterval(() => {
 }, 4000);
 let meTimer = null;
 function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); if (walk && !meTimer) { let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? "av-player-wf.png" : "av-player.png"; img.style.transform = f ? "translateY(-3px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.src = "av-player.png"; img.style.transform = ""; } }
-function stopWalk() { if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 アバターと歩く（自動で進む）"; } meSet(false); }
+let walkIdx = -1;
+function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 アバターと歩く（自動で進む）"; } meSet(false); }
 function walkStep() {
   if (walking) return;
-  const i = ROUTE.indexOf(curScene);
-  if (i < 0 || i >= ROUTE.length - 1) { stopWalk(); return; }
-  const ex = (EXITS[curScene] || []).find(e => e.to === ROUTE[i + 1]);
-  if (ex) walkTo(ex, true); else viewer.loadScene(ROUTE[i + 1]);
+  if (walkIdx < 0) walkIdx = ROUTE.indexOf(curScene);
+  if (walkIdx < 0) { walkIdx = 0; if (curScene !== ROUTE[0]) { viewer.loadScene(ROUTE[0]); return; } }
+  if (walkIdx >= ROUTE.length - 1) { stopWalk(); return; }
+  walkIdx++;
+  const target = ROUTE[walkIdx];
+  if (target === curScene) return;
+  const ex = (EXITS[curScene] || []).find(e => e.to === target);
+  if (ex) walkTo(ex, true); else viewer.loadScene(target);
 }
 document.getElementById("btnWalk").addEventListener("click", () => {
   if (walkTimer) { stopWalk(); return; }
   document.getElementById("btnWalk").textContent = "⏸ とまる";
+  walkIdx = -1;
   walkStep();
   walkTimer = setInterval(walkStep, 4200);
 });
