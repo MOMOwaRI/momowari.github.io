@@ -321,6 +321,7 @@
       <label>ログインの星（来た日の記録）</label>
       <div id="starBox"><span class="none">まだ星がありません</span></div>
       <p class="src" id="starCount"></p>
+      <div id="ohanaLinkBox" style="display:none;background:#fdf3e3;border:1.5px solid #eec27f;border-radius:10px;padding:8px 10px;font-size:13.5px;line-height:1.6;margin:2px 0 8px"></div>
       <label data-i18n="profInbox">公園で届いたコメント</label>
       <div id="parkInbox"><span class="none">まだありません</span></div>
       <div class="btns"><button class="act" id="btnProfSave" type="button" data-i18n="save">保存する</button></div>
@@ -857,6 +858,7 @@ try {
   window.__logBot = function(q, a, shop) {
     try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, site: 'island', shop: shop || 'mahalo', ts: serverTimestamp() }).catch(function(){}); } catch (e) {}
   };
+
   window.__fetchReplies = function(shop) {
     try {
       return getDocs(query(collection(aiDb, 'botReplies'), where('shop', '==', shop))).then(function(snap) {
@@ -935,10 +937,11 @@ window.renderParkResidents = function(users) {
     const a = (i / Math.max(1, window.__parkUsers.length)) * Math.PI * 2;
     const ll = [c[0] + Math.sin(a) * 0.00055, c[1] + Math.cos(a) * 0.00075];
     const cat = '<img src="cat-' + (["muse","tabby","white","black","calico"].includes(u.cat) ? u.cat : "muse") + '-sit.png" style="width:34px;display:block;margin:0 auto" alt="">';
-    const name = '<span style="display:block;font-size:10px;color:#4c5b35;background:rgba(255,253,247,.9);border-radius:8px;padding:0 5px;white-space:nowrap;text-align:center">' + String(u.nickname || "島の人").replace(/[<>&"]/g, "") + '</span>';
+    const name = '<span data-ouid="' + u.uid + '" style="display:block;font-size:10px;color:#4c5b35;background:rgba(255,253,247,.9);border-radius:8px;padding:0 5px;white-space:nowrap;text-align:center">' + String(u.nickname || "島の人").replace(/[<>&"]/g, "") + '</span>';
     const mk = L.marker(ll, { icon: L.divIcon({ className: "zpost", html: cat + name, iconSize: [54, 48], iconAnchor: [27, 40] }) }).addTo(window.__parkLayer);
     mk.on("click", () => { if (window.__onParkCat) window.__onParkCat(u.uid, u.nickname || "島の人"); });
   });
+  setTimeout(() => { if (window.__markOhana) window.__markOhana(); }, 300);
 };
 window.openPlaza = function() {
   const card = document.getElementById("parkTalk");
@@ -954,7 +957,7 @@ window.addEventListener("load", () => setTimeout(initBigMap, 900));
 <script type="module">
 import { getApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, query, where, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, query, where, orderBy, limit, serverTimestamp, documentId } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 const $ = id => document.getElementById(id);
 let auth = null, db = null, me = null, profile = null;
 const CAT_TYPES = ["muse", "tabby", "white", "black", "calico"];
@@ -1031,12 +1034,45 @@ window.islandScene = async (id) => {
   }
   renderOthers();
 };
+/* ===== OHANA連携: 同じIDのOHANA会員ページ(profiles)を表示 ===== */
+const ohanaCache = {};
+async function fetchOhanaPages(uid) {
+  if (ohanaCache[uid]) return ohanaCache[uid];
+  const out = [];
+  try {
+    const slots = [uid, uid + "__hito", uid + "__mono", uid + "__koto"];
+    await Promise.all(slots.map(async (id) => { try { const d = await getDoc(doc(db, "profiles", id)); if (d.exists() && !d.data().deleted) out.push({ id, data: d.data() }); } catch (e) {} }));
+    try { const q = query(collection(db, "profiles"), where(documentId(), ">=", uid + "__p"), where(documentId(), "<", uid + "__p\uf8ff")); const snap = await getDocs(q); snap.forEach((d) => { if (!d.data().deleted) out.push({ id: d.id, data: d.data() }); }); } catch (e) {}
+  } catch (e) {}
+  ohanaCache[uid] = out; return out;
+}
+function ohanaHref(id, uid) {
+  if (uid === OWNER_UID) { const M = { "": "members/momowari.html", "__mono": "members/lea-mahalo.html", "__koto": "members/eyes-mahalo.html", "__pelua01": "members/elua-mahalo.html", "__pmahalo01": "members/mahalo.html" }; const suf = id.slice(uid.length); if (M[suf]) return "https://momowari.github.io/OHANA-share/" + M[suf]; }
+  return "https://momowari.github.io/OHANA-share/member.html?id=" + encodeURIComponent(id);
+}
+async function renderOhanaLink() {
+  const box = document.getElementById("ohanaLinkBox"); if (!box) return;
+  if (!me) { box.style.display = "none"; return; }
+  const pages = await fetchOhanaPages(me.uid);
+  if (!pages.length) { box.style.display = "none"; return; }
+  const esc = (t) => String(t || "").replace(/[<>&"]/g, "");
+  box.innerHTML = "<b>🌺 OHANAメンバー</b><br>" + pages.map((pg) => { const cats = (pg.data.categories || (pg.data.category ? [pg.data.category] : [])).join("・"); return '<a href="' + ohanaHref(pg.id, me.uid) + '" target="_blank" rel="noopener" style="color:#b3541e;font-weight:700">' + esc(pg.data.nickname || "OHANAのページ") + (cats ? "（" + esc(cats) + "）" : "") + "</a>"; }).join("<br>");
+  box.style.display = "";
+}
+window.__markOhana = async () => {
+  const targets = [];
+  document.querySelectorAll("[data-ouid]").forEach((e) => targets.push({ uid: e.getAttribute("data-ouid"), el: e }));
+  document.querySelectorAll(".otherAv").forEach((b) => { const sp = b.querySelector("span"); if (sp) targets.push({ uid: b.dataset.uid, el: sp }); });
+  const uids = [...new Set(targets.map((t) => t.uid).filter(Boolean))];
+  for (const uid of uids) { const pages = await fetchOhanaPages(uid); if (pages.length) targets.forEach((t) => { if (t.uid === uid && !t.el.dataset.ob) { t.el.dataset.ob = "1"; t.el.textContent += " 🌺"; } }); }
+};
 async function renderOthers() {
   const box = $("othersAv"); if (!box) return;
   try {
     const users = await fetchUsers(false);
     const here = users.filter((u) => (!me || u.uid !== me.uid) && u.at === curSceneId && isOutWalking(u));
     box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="cat-' + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + '-sit.png" alt=""><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
+    if (window.__markOhana) setTimeout(() => window.__markOhana(), 200);
     box.querySelectorAll(".otherAv").forEach((b) => b.addEventListener("click", () => {
       const u = here.find((x) => x.uid === b.dataset.uid);
       talkTarget = { uid: b.dataset.uid, name: (u && u.nickname) || "島の人" };
@@ -1099,7 +1135,7 @@ $("parkSend").addEventListener("click", async () => {
 });
 } catch (e) { $("btnLogin").style.display = "none"; $("authState").textContent = "🐾 ゲストとして散歩中（ログインは準備中）"; }
 function renderMyPhoto() { const has = profile && profile.photoData; $("myPhotoImg").style.display = has ? "" : "none"; if (has) $("myPhotoImg").src = profile.photoData; $("myPhotoState").textContent = has ? "この写真でキャラを作成します（差し替えもできます）" : "まだ写真がありません"; }
-function openProf() { if (!profile) return; $("profName").value = profile.nickname || ""; buildCatChoices(); renderStars(); renderMyPhoto(); loadParkInbox(); $("profModal").classList.add("open"); }
+function openProf() { if (!profile) return; $("profName").value = profile.nickname || ""; buildCatChoices(); renderStars(); renderMyPhoto(); loadParkInbox(); renderOhanaLink(); $("profModal").classList.add("open"); }
 $("myPhotoInput").addEventListener("change", async (e) => {
   const f = e.target.files && e.target.files[0]; if (!f || !me) return;
   try {
