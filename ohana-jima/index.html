@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OHANA島｜愛媛・松山にそっくりな島</title>
 <link rel="stylesheet" href="vendor/pannellum.css">
+<link rel="stylesheet" href="vendor/leaflet.css">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   body { font-family:"Hiragino Mincho ProN","Yu Mincho",serif; background:#fdf6ec; color:#4a3826; }
@@ -96,6 +97,9 @@
   #mapBox h2 { font-size:14px; text-align:center; letter-spacing:.06em; }
   #mapBox .mnote { font-size:11.5px; color:#97795a; line-height:1.75; margin-top:2px; }
   #townMap { width:100%; height:auto; display:block; }
+  #bigMapSec { background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:16px; padding:4px 0 8px; margin:14px 0; }
+  #bigMap { height:440px; margin:6px 10px; border:1.5px solid #ecd9ae; border-radius:16px; z-index:0; }
+  .zpin, .zpost { background:none; border:none; }
   #townMap .dot { cursor:pointer; }
   #townMap text { font-family:"Hiragino Mincho ProN","Yu Mincho",serif; }
   .walkspot { background:none !important; }
@@ -242,52 +246,13 @@
       <svg id="townGroundSvg" viewBox="0 0 680 600" style="position:absolute; inset:0; width:100%; height:100%;" aria-hidden="true"></svg>
       <div id="townBldgs"></div><div id="townCats"></div>
     </div>
-    <p class="hint" style="margin:2px 12px 12px">まちの中を、猫で歩けます。地面をタップすると歩いていきます。建物をタップすると猫が向かって、その場所のストリートビューに入ります。お店の前には店員さんのアバターが立っています（タップでお店へ）。配置は実際の松山です。</p>
+    <p class="hint" style="margin:2px 12px 12px">まちの中を、あなたのアバターで歩けます。地面をタップすると歩いていきます。建物をタップするとアバターが向かって、その場所のストリートビューに入ります。お店の前には店員さんのアバターが立っています（タップでお店へ）。配置は実際の松山です。</p>
   </div>
-  <div id="mapView">
-    <div id="mapHead"><h2>島マップ（全体・実際の位置関係）</h2></div>
-    <div id="mapStage">
-      <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 340 300" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="305" y1="12" x2="306" y2="168" stroke="#d9b96a" stroke-width="10" stroke-linecap="round" opacity=".18"/>
-        <polyline points="246,87 190,106 155,118 128,127 112,132" fill="none" stroke="#d9b96a" stroke-width="8" stroke-linecap="round" opacity=".18"/>
-        <polyline points="112,132 103,151" fill="none" stroke="#d9b96a" stroke-width="8" stroke-linecap="round" opacity=".18"/>
-        <polyline points="112,132 75,195 30,272" fill="none" stroke="#cbb27f" stroke-width="4" stroke-dasharray="6 5" opacity=".8"/>
-      </svg>
-      <div id="mapPins"></div><div id="mapCats"></div>
-      <div id="mapCard"><h3 id="mapCardName"></h3><p id="mapCardDesc"></p><div class="btns" style="margin:0"><button class="act small" id="btnMapEnter" type="button">ストリートビューで見る</button><button class="act sub small" id="btnMapCardClose" type="button">閉じる</button></div></div>
-    </div>
-    <p class="hint" style="margin:2px 12px 12px">地図をタップすると、あなたの猫が歩いていきます。場所のピンをタップすると、猫が歩いていって、その場所のストリートビューに切り替わります。住人の猫たちも歩いています。周りの海とヤシの木は飾りで、街の配置は実際の松山です。</p>
+  <div id="bigMapSec">
+    <div id="mapHead"><h2>&#x1F5FA; MAP（拡大すると島になります）</h2></div>
+    <div id="bigMap"></div>
+    <p class="hint" style="margin:2px 12px 12px">指や＋−ボタンで拡大・縮小できます。縮小すると、いつもの松山の地図。ぐっと拡大すると、OHANA島が見えてきます。島のピンをタップすると、その場所のストリートビューへ行けます。</p>
   </div>
-
-
-
-  <div id="mapBox">
-    <h2>まちの地図（実際の位置関係）</h2>
-    <svg id="townMap" viewBox="0 0 340 300" role="img" aria-label="実際の位置関係の地図">
-      <line x1="305" y1="12" x2="306" y2="168" stroke="#d9b96a" stroke-width="10" stroke-linecap="round" opacity=".5"/>
-      <polyline points="246,87 190,106 155,118 128,127 112,132" fill="none" stroke="#d9b96a" stroke-width="8" stroke-linecap="round" opacity=".5"/>
-      <polyline points="112,132 103,151" fill="none" stroke="#d9b96a" stroke-width="8" stroke-linecap="round" opacity=".5"/>
-      <polyline points="112,132 75,195 30,272" fill="none" stroke="#cbb27f" stroke-width="4" stroke-dasharray="6 5" opacity=".8"/>
-      <text x="14" y="24" font-size="13" fill="#8a715a">北 ↑</text>
-      <text x="318" y="118" font-size="10.5" fill="#a5875f" transform="rotate(90 318 118)">萱町商店街の通り</text>
-      <g class="dot" data-scene="tamago"><circle cx="298" cy="24" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/><text x="287" y="28" font-size="11.5" fill="#5d4212" text-anchor="end">たまご屋（平野鶏卵）</text></g>
-      <g class="dot" data-scene="yaoya"><circle cx="307" cy="77" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/><text x="296" y="81" font-size="11.5" fill="#5d4212" text-anchor="end">八百屋（丸五青果）</text></g>
-      <g class="dot" data-scene="jinja"><circle cx="246" cy="87" r="9" fill="#b5654d" stroke="#fff" stroke-width="1.5"/><text x="238" y="104" font-size="11.5" fill="#5d4212" text-anchor="end">阿沼美神社</text></g>
-      <g class="dot" data-scene="street"><circle cx="190" cy="106" r="7" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/><text x="190" y="129" font-size="11" fill="#5d4212" text-anchor="middle">味酒町の通り</text></g>
-      <g class="dot" data-scene="front"><circle cx="112" cy="132" r="10" fill="#0068B7" stroke="#fff" stroke-width="1.5"/><text x="112" y="113" font-size="12" fill="#0068B7" text-anchor="middle" font-weight="700">MAHALO</text></g>
-      <g class="dot" data-scene="kayamachi"><circle cx="306" cy="158" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/><text x="295" y="162" font-size="11.5" fill="#5d4212" text-anchor="end">萱町商店街</text></g>
-      <g class="dot" data-scene="kayamachi2"><circle cx="305" cy="106" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="street2"><circle cx="155" cy="118" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="kayamachi3"><circle cx="303" cy="50" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="pharmacy"><circle cx="103" cy="151" r="8" fill="#e59a8a" stroke="#fff" stroke-width="1.5"/><text x="94" y="169" font-size="11" fill="#b06a58" text-anchor="end">レデイ薬局</text></g>
-      <g class="dot" data-scene="approach"><circle cx="128" cy="127" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="koshin1"><circle cx="75" cy="195" r="6" fill="#a9bd8f" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="koshin"><circle cx="30" cy="272" r="9" fill="#7a9a5b" stroke="#fff" stroke-width="1.5"/><text x="45" y="276" font-size="11.5" fill="#5d4212">庚申庵</text></g>
-    </svg>
-    <p class="mnote">実際の住所をもとに並べた位置関係です（距離はだいたいです）。萱町商店街の通りを南から北へ歩くと、八百屋さん（丸五青果）、たまご屋さん（平野鶏卵）の順。通りの西側すぐのところに阿沼美神社があり、そこから西へ約120mがMAHALOです。庚申庵は神社から南西へ約300m。MAHALOは外階段を上がった2階、1階の木のドアはelua Mahaloの玄関、その横のドアが雑貨屋Lea Mahaloです。MAHALOの通り向かいにはレデイ薬局 宮西店（調剤併設のドラッグストア、味酒町2-14-21）があります。地図の丸をタップすると、その場所へ移動します。</p>
-  </div>
-
-
   <div id="profModal">
     <div id="profPanel">
       <button id="profClose" aria-label="閉じる" style="position:absolute;top:8px;right:10px;background:none;border:none;font-size:20px;cursor:pointer;color:#a5875f">×</button>
@@ -367,6 +332,7 @@
 
 <div class="ticker" aria-label="近所のSNS情報"><div class="ticker-inner" id="tickerInner"></div></div>
 <script src="vendor/pannellum.js"></script>
+<script src="vendor/leaflet.js"></script>
 <script>
 const POSTS = [
   { id:"veg", handle:"momowari", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-24, img:"post-veg-w.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
@@ -530,6 +496,7 @@ document.querySelectorAll("#townMap .dot, #miniTownMap .dot").forEach(g => {
   g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); document.querySelector(".stage").scrollIntoView({ behavior:"smooth", block:"center" }); });
   if (g.dataset.scene === "front") { const c = g.querySelector("circle"); c.setAttribute("stroke", "#5d4212"); c.setAttribute("stroke-width", "3"); }
 });
+document.querySelectorAll(".mapgo").forEach(b => { b.addEventListener("click", () => { stopWalk(); viewer.loadScene(b.dataset.scene); document.querySelector(".stage").scrollIntoView({ behavior:"smooth", block:"center" }); }); });
 document.getElementById("mmTitle").addEventListener("click", () => document.getElementById("miniMap").classList.toggle("big"));
 document.querySelectorAll("#miniTownMap .dot").forEach(g => {
   g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); });
@@ -796,76 +763,34 @@ try {
 const MAP_POS = { tamago:[298,24], yaoya:[307,77], jinja:[246,87], street:[190,106], street2:[155,118], approach:[128,127], front:[112,132], pharmacy:[103,151], kayamachi3:[303,50], kayamachi2:[305,106], kayamachi:[306,158], koshin1:[75,195], koshin:[30,272] };
 const PIN_COLORS = { tamago:"#d9a441", yaoya:"#d9a441", jinja:"#b5654d", street:"#cbb27f", front:"#0068B7", kayamachi:"#d9a441", kayamachi2:"#e8c877", street2:"#cbb27f", kayamachi3:"#e8c877", pharmacy:"#e59a8a", approach:"#cbb27f", koshin1:"#a9bd8f", koshin:"#7a9a5b" };
 const PIN_LABELS = { front:"MAHALO", tamago:"平野鶏卵", yaoya:"丸五青果", jinja:"阿沼美神社", pharmacy:"レデイ薬局", kayamachi:"萱町商店街", koshin:"庚申庵" };
-const mapStage = document.getElementById("mapStage");
-const mapPins = document.getElementById("mapPins");
-const mapCats = document.getElementById("mapCats");
-const mapCard = document.getElementById("mapCard");
-let mapOpen = false, mapRaf = null, lastTs = 0;
 let myProfile = { nickname: "ゲスト", cat: "muse" };
-window.setIslandProfile = function(pr) { if (pr && pr.nickname) myProfile.nickname = pr.nickname; if (pr && pr.cat) myProfile.cat = pr.cat; if (player.el) { player.el.querySelector("img").src = "cat-" + myProfile.cat + (player.moving ? "-walk.png" : "-sit.png"); player.el.querySelector(".mtag").textContent = myProfile.nickname; } };
-function mkCat(cls, type, name) { const d = document.createElement("div"); d.className = "mcat " + (cls || ""); d.innerHTML = '<img src="cat-' + type + '-sit.png" alt=""><span class="mtag">' + name + "</span>"; mapCats.appendChild(d); return d; }
-const player = { x: 114, y: 131, tx: 114, ty: 131, moving: false, el: null, targetScene: null };
-function placeEl(el, x, y, flip) { el.style.left = (x / 340 * 100) + "%"; el.style.top = (y / 300 * 100) + "%"; el.querySelector("img").style.transform = flip ? "scaleX(-1)" : ""; }
-const residents = [];
-const RES_DEFS = [ { name: "しろ", type: "white" }, { name: "くろ", type: "black" }, { name: "みけ", type: "calico" }, { name: "こむぎ", type: "tabby" }, { name: "すみ", type: "muse" } ];
-function buildMap() {
-  mapPins.innerHTML = ""; mapCats.innerHTML = ""; residents.length = 0;
-  Object.keys(MAP_POS).forEach(id => {
-    const b = document.createElement("button"); b.type = "button"; b.className = "mpin";
-    b.style.left = (MAP_POS[id][0] / 340 * 100) + "%"; b.style.top = (MAP_POS[id][1] / 300 * 100) + "%";
-    const n = POSTS.filter(pp => pp.scene === id).length;
-    b.innerHTML = '<span class="pd" style="background:' + (PIN_COLORS[id] || "#cbb27f") + '"></span>' + (PIN_LABELS[id] ? '<span class="pl">' + PIN_LABELS[id] + "</span>" : "") + (n ? '<span class="pb">投稿' + n + "</span>" : "");
-    b.addEventListener("click", (e) => { e.stopPropagation(); walkPlayerTo(MAP_POS[id][0], MAP_POS[id][1], id); });
-    mapPins.appendChild(b);
+window.setIslandProfile = function(pr) { if (pr && pr.nickname) myProfile.nickname = pr.nickname; if (pr && pr.cat) myProfile.cat = pr.cat; if (window.townSetName) window.townSetName(myProfile.nickname); };
+const PLACE_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], approach:[33.84563,132.75547], street2:[33.84575,132.75568], street:[33.84590,132.75596], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687], koshin1:[33.84471,132.75504] };
+window.goScene = function(id) { stopWalk(); viewer.loadScene(id); document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "center" }); };
+let bigMap = null, islOverlay = null;
+function initBigMap() {
+  if (!window.L || bigMap) return;
+  bigMap = L.map("bigMap", { scrollWheelZoom: false }).setView([33.84556, 132.75534], 17);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(bigMap);
+  islOverlay = L.imageOverlay("map-island.jpg", [[33.8428, 132.7528], [33.8478, 132.7588]], { opacity: 0.96 }).addTo(bigMap);
+  Object.keys(PLACE_LL).forEach(id => {
+    const label = PIN_LABELS[id]; const col = PIN_COLORS[id] || "#cbb27f";
+    const html = '<span style="display:block;width:14px;height:14px;margin:0 auto;border-radius:50%;background:' + col + ';border:2px solid #fff;box-shadow:0 1px 4px rgba(90,60,10,.4)"></span>' + (label ? '<span style="display:block;font-size:10.5px;color:#5d4212;background:rgba(255,253,247,.88);border-radius:8px;padding:0 5px;margin-top:1px;white-space:nowrap;text-align:center">' + label + '</span>' : '');
+    const mk = L.marker(PLACE_LL[id], { icon: L.divIcon({ className: "zpin", html: html, iconSize: label ? [70, 32] : [14, 14], iconAnchor: label ? [35, 8] : [7, 7] }) }).addTo(bigMap);
+    mk.on("click", () => { if (bigMap.getZoom() >= 16) window.goScene(id); });
   });
   POSTS.forEach(post => {
-    if (!MAP_POS[post.scene]) return;
-    const base = MAP_POS[post.scene];
-    const d = document.createElement("div"); d.className = "mpost";
-    d.style.left = ((base[0] + 26) / 340 * 100) + "%"; d.style.top = ((base[1] + 16) / 300 * 100) + "%";
-    d.innerHTML = '<span class="mb">' + post.text.slice(0, 20) + '</span><img src="' + post.catImg + '" alt="">';
-    d.addEventListener("click", (e) => { e.stopPropagation(); openPost(post); });
-    mapCats.appendChild(d);
+    const ll = PLACE_LL[post.scene]; if (!ll) return;
+    const mk = L.marker([ll[0] - 0.00012, ll[1] + 0.00012], { icon: L.divIcon({ className: "zpost", html: '<img src="' + post.catImg + '" style="width:30px;display:block" alt="">', iconSize: [30, 30], iconAnchor: [15, 26] }) }).addTo(bigMap);
+    mk.on("click", () => openPost(post));
   });
-  RES_DEFS.forEach((rd, i) => {
-    const keys = Object.keys(MAP_POS); const k = MAP_POS[keys[(i * 3 + 2) % keys.length]];
-    const r = { x: k[0] + 10, y: k[1] + 12, tx: k[0] + 10, ty: k[1] + 12, moving: false, wait: 1000 + i * 1400, type: rd.type, el: mkCat("", rd.type, rd.name) };
-    placeEl(r.el, r.x, r.y, false); residents.push(r);
-  });
-  player.el = mkCat("player", myProfile.cat, myProfile.nickname);
-  placeEl(player.el, player.x, player.y, false);
+  function upd() { const z = bigMap.getZoom(); islOverlay.setOpacity(z >= 17 ? 0.96 : (z === 16 ? 0.55 : 0)); }
+  bigMap.on("zoomend", upd); upd();
 }
-function showMapCard(id) {
-  document.getElementById("mapCardName").textContent = PIN_LABELS[id] || SCENE_NAMES[id] || id;
-  const n = POSTS.filter(pp => pp.scene === id).length;
-  document.getElementById("mapCardDesc").textContent = n ? ("この場所の投稿が" + n + "件あります。猫の吹き出しタップで読めます。") : "ストリートビューで、この場所の景色を見られます。";
-  document.getElementById("btnMapEnter").onclick = () => { window.scrollTo({ top: 0, behavior: "smooth" }); viewer.loadScene(id); };
-  mapCard.style.display = "block";
-}
-function walkPlayerTo(x, y, sceneId) { player.tx = Math.max(8, Math.min(332, x)); player.ty = Math.max(10, Math.min(292, y)); player.moving = true; player.targetScene = sceneId || null; mapCard.style.display = "none"; }
-function stepCat(c, dt, speed) {
-  const dx = c.tx - c.x, dy = c.ty - c.y, dist = Math.hypot(dx, dy);
-  if (dist < 2) { if (c.moving) { c.moving = false; c.el.querySelector("img").src = "cat-" + (c.type || myProfile.cat) + "-sit.png"; } return true; }
-  const v = Math.min(dist, speed * dt / 1000); c.x += dx / dist * v; c.y += dy / dist * v;
-  if (!c.moving) { c.moving = true; c.el.querySelector("img").src = "cat-" + (c.type || myProfile.cat) + "-walk.png"; }
-  placeEl(c.el, c.x, c.y, dx < 0); return false;
-}
-function mapLoop(ts) {
-  if (!mapOpen) return;
-  const dt = Math.min(80, ts - lastTs); lastTs = ts;
-  if (stepCat(player, dt, 62) && player.targetScene) { const dest = player.targetScene; player.targetScene = null; window.scrollTo({ top: 0, behavior: "smooth" }); viewer.loadScene(dest); }
-  residents.forEach(r => {
-    if (r.moving) { stepCat(r, dt, 30); if (!r.moving) r.wait = 2500 + Math.random() * 4500; }
-    else { r.wait -= dt; if (r.wait <= 0) { const keys = Object.keys(MAP_POS); const k = MAP_POS[keys[Math.floor(Math.random() * keys.length)]]; r.tx = k[0] + (Math.random() * 22 - 11); r.ty = k[1] + (Math.random() * 18 - 4); r.moving = true; } }
-  });
-  mapRaf = requestAnimationFrame(mapLoop);
-}
-function openMap() { document.getElementById("mapView").scrollIntoView({ behavior: "smooth" }); }
+function openMap() { document.getElementById("bigMapSec").scrollIntoView({ behavior: "smooth" }); setTimeout(() => { initBigMap(); if (bigMap) bigMap.invalidateSize(); }, 400); }
 function closeMap() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 document.getElementById("btnMap").addEventListener("click", openMap);
-
-document.getElementById("btnMapCardClose").addEventListener("click", () => { mapCard.style.display = "none"; });
-buildMap(); mapOpen = true;
+window.addEventListener("load", () => setTimeout(initBigMap, 900));
 /* ==== town walk (gogo-ichi mode) ==== */
 const TOWN_POS = {}; Object.keys(MAP_POS).forEach(k => { TOWN_POS[k] = [MAP_POS[k][0] * 2, MAP_POS[k][1] * 2]; });
 const BLDGS = [
@@ -888,12 +813,14 @@ const townCatsEl = document.getElementById('townCats');
 const townRes = [];
 const tPlayer = { x: 228, y: 306, tx: 228, ty: 306, moving: false, targetScene: null, type: null, el: null };
 function tPlace(el, x, y, flip) { el.style.left = (x / 680 * 100) + '%'; el.style.top = (y / 600 * 100) + '%'; el.querySelector('img').style.transform = flip ? 'scaleX(-1)' : ''; }
+function tMkAvatar(name) { const d = document.createElement('div'); d.className = 'tcat tplayer'; d.innerHTML = '<img src="av-player.png" alt="">' + (name ? '<br><span class="mtag">' + name + '</span>' : ''); townCatsEl.appendChild(d); return d; }
+window.townSetName = function(n) { if (tPlayer.el) { const t = tPlayer.el.querySelector('.mtag'); if (t) t.textContent = n; } };
 function tMkCat(cls, type, name) { const d = document.createElement('div'); d.className = 'tcat ' + cls; d.innerHTML = '<img src="cat-' + type + '-sit.png" alt="">' + (name ? '<br><span class="mtag">' + name + '</span>' : ''); townCatsEl.appendChild(d); return d; }
 function tStep(c, dt, speed) {
   const dx = c.tx - c.x, dy = c.ty - c.y, dist = Math.hypot(dx, dy);
-  if (dist < 3) { if (c.moving) { c.moving = false; c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-sit.png'; } return true; }
+  if (dist < 3) { if (c.moving) { c.moving = false; if (!c.isAvatar) c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-sit.png'; } return true; }
   const v = Math.min(dist, speed * dt / 1000); c.x += dx / dist * v; c.y += dy / dist * v;
-  if (!c.moving) { c.moving = true; c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-walk.png'; }
+  if (!c.moving) { c.moving = true; if (!c.isAvatar) c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-walk.png'; }
   tPlace(c.el, c.x, c.y, dx < 0); return false;
 }
 
@@ -955,22 +882,13 @@ function buildTown() {
     d.addEventListener('click', (e) => { e.stopPropagation(); openPost(post); });
     townCatsEl.appendChild(d);
   });
-  RES_DEFS.forEach((rd, i) => {
-    const keys = Object.keys(TOWN_POS); const k = TOWN_POS[keys[(i * 3 + 2) % keys.length]];
-    const r = { x: k[0] + 14, y: k[1] + 16, tx: k[0] + 14, ty: k[1] + 16, moving: false, wait: 1200 + i * 1300, type: rd.type, el: tMkCat('', rd.type, rd.name) };
-    tPlace(r.el, r.x, r.y, false); townRes.push(r);
-  });
-  tPlayer.el = tMkCat('tplayer', myProfile.cat, myProfile.nickname);
+  tPlayer.el = tMkAvatar(myProfile.nickname); tPlayer.isAvatar = true;
   tPlace(tPlayer.el, tPlayer.x, tPlayer.y, false);
 }
 let townLast = performance.now();
 function townLoop(ts) {
   const dt = Math.min(80, ts - townLast); townLast = ts;
   if (tStep(tPlayer, dt, 125) && tPlayer.targetScene) { const dest = tPlayer.targetScene; tPlayer.targetScene = null; window.scrollTo({ top: 0, behavior: 'smooth' }); viewer.loadScene(dest); }
-  townRes.forEach(r => {
-    if (r.moving) { tStep(r, dt, 42); if (!r.moving) r.wait = 2500 + Math.random() * 4500; }
-    else { r.wait -= dt; if (r.wait <= 0) { const keys = Object.keys(TOWN_POS); const k = TOWN_POS[keys[Math.floor(Math.random() * keys.length)]]; r.tx = k[0] + (Math.random() * 30 - 15); r.ty = k[1] + (Math.random() * 24 - 6); r.moving = true; } }
-  });
   requestAnimationFrame(townLoop);
 }
 buildTown(); requestAnimationFrame(townLoop);
@@ -982,13 +900,6 @@ townStage.addEventListener('click', (e) => {
   tPlayer.moving = true; tPlayer.targetScene = null;
 });
 viewer.on('scenechange', function(id) { const t = TOWN_POS[id]; if (t) { tPlayer.tx = t[0]; tPlayer.ty = Math.min(592, t[1] + 40); tPlayer.moving = true; tPlayer.targetScene = null; } });
- lastTs = performance.now(); mapRaf = requestAnimationFrame(mapLoop);
-viewer.on("scenechange", function(id) { var t = MAP_POS[id] || ([ "stairs", "counter", "elua", "lea" ].indexOf(id) >= 0 ? MAP_POS.front : null); if (t) walkPlayerTo(t[0], t[1], null); });
-mapStage.addEventListener("click", (e) => {
-  if (e.target.closest(".mpin,.mpost,.mcat,#mapCard,svg")) { if (e.target === mapStage || e.target.tagName === "svg" || e.target.tagName === "DIV") {} else return; }
-  const r = mapStage.getBoundingClientRect();
-  walkPlayerTo((e.clientX - r.left) / r.width * 340, (e.clientY - r.top) / r.height * 300, null);
-});
 </script>
 
 
