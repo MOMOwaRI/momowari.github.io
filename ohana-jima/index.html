@@ -159,6 +159,9 @@
   .walkspot .wv.exit .wa { background:#2e9e5b; border-color:#2e9e5b; color:#fff; }
   .walkspot .wv.exit .wl { background:#2e9e5b; color:#fff; font-weight:700; }
   #exitBtn { position:absolute; top:10px; left:62px; z-index:8; display:none; background:#2e9e5b; color:#fff; border:none; font-family:inherit; font-size:14.5px; font-weight:700; padding:11px 18px; border-radius:999px; box-shadow:0 4px 14px rgba(20,80,40,.45); cursor:pointer; }
+  #placeName { position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:8; background:rgba(255,253,247,.93); color:#4c3d22; font-size:13.5px; font-weight:700; padding:7px 14px; border-radius:999px; box-shadow:0 3px 10px rgba(90,60,10,.25); pointer-events:none; white-space:nowrap; max-width:56%; overflow:hidden; text-overflow:ellipsis; }
+  #sceneSns { position:absolute; left:10px; bottom:12px; z-index:7; display:flex; gap:8px; }
+  #sceneSns button { width:38px; height:38px; border-radius:50%; border:2px solid #fff; background:#fff; box-shadow:0 3px 10px rgba(90,60,10,.35); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; }
   #shopLinkBtn { position:absolute; top:10px; right:10px; z-index:8; display:none; background:#d96c8a; color:#fff; border:none; font-family:inherit; font-size:13.5px; font-weight:700; padding:11px 15px; border-radius:999px; box-shadow:0 4px 14px rgba(120,40,70,.4); cursor:pointer; }
   @keyframes wpulse { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
   #chat.panel { position:absolute; left:8px; right:8px; bottom:8px; z-index:9; margin-top:0; max-height:84%; overflow-y:auto; box-shadow:0 10px 28px rgba(60,40,10,.4); background:rgba(255,253,247,.98); }
@@ -240,7 +243,7 @@
   <div id="authBar"><span class="who" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">ログイン</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="sceneSns"></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -446,9 +449,9 @@ const SCENES = {
   kayamachi3: { pano:"mahalo-pano-kayamachi3.jpg", name:"萱町商店街（北寄り）", yaw:20, hfov:134 },
   yaoya:      { pano:"mahalo-pano-yaoya2.jpg",      name:"八百屋の前（丸五青果）", yaw:-10, hfov:134 },
   tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:134 },
-  jinja:      { pano:"mahalo-pano-jinja2.jpg",      name:"阿沼美神社", yaw:-40, hfov:134 },
+  jinja:      { pano:"mahalo-pano-jinja3.jpg",      name:"阿沼美神社", yaw:-40, hfov:134 },
   koshin:     { pano:"mahalo-pano-koshin2.jpg",     name:"庚申庵", yaw:10, hfov:134 },
-  front:      { pano:"mahalo-pano-front4.jpg",      name:"MAHALOの店前", yaw:-15, hfov:134 },
+  front:      { pano:"mahalo-pano-front5.jpg",      name:"MAHALOの店前", yaw:-15, hfov:134 },
   stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:134 },
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:134 },
   elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:134 },
@@ -619,6 +622,9 @@ document.getElementById("btnWalk").addEventListener("click", () => {
   walkTimer = setInterval(walkStep, 4200);
 });
 viewer.on("scenechange", (id) => {
+  const pn = document.getElementById("placeName"); if (pn) pn.textContent = "📍 " + (SHORT[id] || "");
+  const ss = document.getElementById("sceneSns");
+  if (ss) { ss.innerHTML = ""; POSTS.filter((pp) => pp.scene === id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => openPost(pp)); ss.appendChild(b); }); }
   curScene = id;
   if (window.syncYou) window.syncYou(id);
   if (window.islandScene) window.islandScene(id);
