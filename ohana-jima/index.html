@@ -993,7 +993,7 @@ function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null;
   if (me && profile) {
     $("authState").innerHTML = "";
     const img = document.createElement("img"); img.src = "cat-" + profile.cat + "-sit.png"; img.alt = "";
-    const sp = document.createElement("span"); sp.textContent = profile.nickname + " さん（星" + (profile.days ? profile.days.length : 0) + "個）";
+    const sp = document.createElement("span"); sp.textContent = profile.nickname + " さん";
     $("authState").appendChild(img); $("authState").appendChild(sp);
     $("btnLogin").style.display = "none"; $("btnProfile").style.display = ""; $("btnLogout").style.display = "";
     if (window.setIslandProfile) window.setIslandProfile(profile);
