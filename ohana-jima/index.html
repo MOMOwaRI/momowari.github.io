@@ -102,10 +102,10 @@
   #mapBox .mnote { font-size:11.5px; color:#97795a; line-height:1.75; margin-top:2px; }
   #townMap { width:100%; height:auto; display:block; }
   #meAv { position:absolute; left:50%; bottom:5%; transform:translateX(-50%); z-index:5; pointer-events:none; }
-  #meAv img { height:96px; display:block; filter:drop-shadow(0 6px 6px rgba(60,40,10,.35)); }
+  #meAv img { height:64px; display:block; filter:drop-shadow(0 6px 6px rgba(60,40,10,.35)); }
   #othersAv{position:absolute;left:calc(50% + 52px);bottom:5%;z-index:5;display:flex;gap:14px;align-items:flex-end}
   .otherAv{background:none;border:none;cursor:pointer;text-align:center;padding:0}
-  .otherAv img{height:80px;display:block;margin:0 auto;filter:drop-shadow(0 5px 5px rgba(60,40,10,.3))}
+  .otherAv img{height:56px;display:block;margin:0 auto;filter:drop-shadow(0 5px 5px rgba(60,40,10,.3))}
   .otherAv span{display:block;font-size:11px;background:#fffdf8;border:1px solid #e3d5b5;border-radius:999px;padding:1px 8px;margin-top:2px;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #talkPanel{position:absolute;left:10px;bottom:10px;z-index:9;width:min(330px,86vw);background:rgba(255,253,248,.97);border:1.5px solid #d9c9a8;border-radius:14px;padding:12px 14px;display:none;box-shadow:0 8px 24px rgba(90,70,30,.25)}
   #talkPanel.open{display:block}
@@ -616,7 +616,7 @@ setInterval(() => {
   document.querySelectorAll(".catspot .cb").forEach(b => { if (Math.random() < 0.3) b.classList.toggle("off"); });
 }, 4000);
 let meTimer = null;
-function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); if (window.__myAvaUrl) { if (img.getAttribute("src") !== window.__myAvaUrl) { img.src = window.__myAvaUrl; img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "92px"; img.style.height = "92px"; } if (walk && !meTimer) { let up = false; meTimer = setInterval(() => { up = !up; img.style.transform = up ? "translateY(-4px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.style.transform = ""; } return; } if (walk && !meTimer) { let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? "av-player-wf.png" : "av-player.png"; img.style.transform = f ? "translateY(-3px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.src = "av-player.png"; img.style.transform = ""; } }
+function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); if (window.__myAvaUrl) { if (img.getAttribute("src") !== window.__myAvaUrl) { img.src = window.__myAvaUrl; img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "62px"; img.style.height = "62px"; } if (walk && !meTimer) { let up = false; meTimer = setInterval(() => { up = !up; img.style.transform = up ? "translateY(-4px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.style.transform = ""; } return; } if (walk && !meTimer) { let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? "av-player-wf.png" : "av-player.png"; img.style.transform = f ? "translateY(-3px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.src = "av-player.png"; img.style.transform = ""; } }
 let walkIdx = -1;
 function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 アバターと歩く（自動で進む）"; } meSet(false); }
 function walkStep() {
@@ -1115,7 +1115,7 @@ async function renderOthers() {
   try {
     const users = await fetchUsers(false);
     const here = users.filter((u) => (!me || u.uid !== me.uid) && u.at === curSceneId && isOutWalking(u));
-    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '" alt=""' + (u.avaUrl ? ' style="border-radius:50%;object-fit:cover;width:80px;height:80px"' : '') + '><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
+    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '" alt=""' + (u.avaUrl ? ' style="border-radius:50%;object-fit:cover;width:56px;height:56px"' : '') + '><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
     if (window.__markOhana) setTimeout(() => window.__markOhana(), 200);
     box.querySelectorAll(".otherAv").forEach((b) => b.addEventListener("click", () => {
       const u = here.find((x) => x.uid === b.dataset.uid);
