@@ -434,21 +434,21 @@ const PRODUCTS = [
   { id:"wig", img:"prod-wig.jpg", name:"WigMAHALO（ウィッグのご相談）", desc:"ウィッグのご相談を承っております。まずはお気軽にどうぞ。（写真はイメージです）" },
 ];
 const SCENES = {
-  kayamachi:  { pano:"mahalo-pano-kayamachi.jpg",  name:"萱町商店街", yaw:0, hfov:118 },
-  kayamachi2: { pano:"mahalo-pano-kayamachi2.jpg", name:"萱町商店街（なかほど）", yaw:0, hfov:118 },
-  kayamachi3: { pano:"mahalo-pano-kayamachi3.jpg", name:"萱町商店街（北寄り）", yaw:20, hfov:118 },
-  yaoya:      { pano:"mahalo-pano-yaoya2.jpg",      name:"八百屋の前（丸五青果）", yaw:-10, hfov:118 },
-  tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:118 },
-  jinja:      { pano:"mahalo-pano-jinja2.jpg",      name:"阿沼美神社", yaw:-40, hfov:118 },
-  koshin:     { pano:"mahalo-pano-koshin2.jpg",     name:"庚申庵", yaw:10, hfov:118 },
-  front:      { pano:"mahalo-pano-front4.jpg",      name:"MAHALOの店前", yaw:-15, hfov:118 },
-  stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:118 },
-  counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:118 },
-  elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:118 },
-  lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:124 },
-  pharmacy:   { pano:"mahalo-pano-pharmacy4.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:118 },
-  fuji:       { pano:"mahalo-pano-fuji.jpg",       name:"フジグラン松山", yaw:-10, hfov:118 },
-  furumachi:  { pano:"mahalo-pano-furumachi.jpg",  name:"古町駅", yaw:0, hfov:118 },
+  kayamachi:  { pano:"mahalo-pano-kayamachi.jpg",  name:"萱町商店街", yaw:0, hfov:134 },
+  kayamachi2: { pano:"mahalo-pano-kayamachi2.jpg", name:"萱町商店街（なかほど）", yaw:0, hfov:134 },
+  kayamachi3: { pano:"mahalo-pano-kayamachi3.jpg", name:"萱町商店街（北寄り）", yaw:20, hfov:134 },
+  yaoya:      { pano:"mahalo-pano-yaoya2.jpg",      name:"八百屋の前（丸五青果）", yaw:-10, hfov:134 },
+  tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:134 },
+  jinja:      { pano:"mahalo-pano-jinja2.jpg",      name:"阿沼美神社", yaw:-40, hfov:134 },
+  koshin:     { pano:"mahalo-pano-koshin2.jpg",     name:"庚申庵", yaw:10, hfov:134 },
+  front:      { pano:"mahalo-pano-front4.jpg",      name:"MAHALOの店前", yaw:-15, hfov:134 },
+  stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:134 },
+  counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:134 },
+  elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:134 },
+  lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:140 },
+  pharmacy:   { pano:"mahalo-pano-pharmacy4.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:134 },
+  fuji:       { pano:"mahalo-pano-fuji.jpg",       name:"フジグラン松山", yaw:-10, hfov:134 },
+  furumachi:  { pano:"mahalo-pano-furumachi.jpg",  name:"古町駅", yaw:0, hfov:134 },
 };
 const SCENE_NAMES = {};
 Object.keys(SCENES).forEach(id => SCENE_NAMES[id] = SCENES[id].name);
@@ -536,7 +536,7 @@ Object.keys(SCENES).forEach(id => {
   if (id === "counter") { hs.push(keeperSpot(true)); hs.push(shopCat("MAHALO 店員さん", "いらっしゃいませ", "av-yuki.png", -38, "mahalo", true)); }
   if (id === "elua") hs.push(eluaCat());
   if (id === "lea") hs.push(leaCat());
-  scenesCfg[id] = { type: "equirectangular", panorama: sc.pano, yaw: sc.yaw, pitch: -2, hfov: sc.hfov, hotSpots: hs };
+  scenesCfg[id] = { type: "equirectangular", panorama: sc.pano, yaw: sc.yaw, pitch: -2, hfov: sc.hfov, minHfov: 35, maxHfov: 165, hotSpots: hs };
 });
 // ===== 多言語 =====
 window.__lang = (function() { try { return localStorage.getItem("islandLang") || "ja"; } catch (e) { return "ja"; } })();
