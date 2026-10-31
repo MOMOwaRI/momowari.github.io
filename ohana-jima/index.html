@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OHANA島｜愛媛・松山にそっくりな島</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="vendor/pannellum.css">
 <link rel="stylesheet" href="vendor/leaflet.css">
 <style>
@@ -39,9 +41,9 @@
   .stage { position:relative; border-radius:18px; overflow:hidden; box-shadow:0 6px 24px rgba(90,60,20,.25); }
   #panorama { width:100%; height:380px; }
   #sceneName { text-align:center; font-size:13px; color:#8a715a; margin-top:8px; }
-  #placeBar { display:flex; gap:6px; overflow-x:auto; padding:8px 2px 2px; -webkit-overflow-scrolling:touch; }
-  #placeBar button { flex:0 0 auto; border:1.5px solid #cbb27f; background:#fffdf7; color:#7a5a17; border-radius:999px; padding:6px 12px; font-size:12.5px; cursor:pointer; font-family:inherit; }
-  #placeBar button.on { background:#d9a441; border-color:#d9a441; color:#fff; font-weight:700; }
+  #placeBar { display:flex; gap:8px; align-items:center; padding:8px 2px 2px; }
+  #placeBar label { font-size:12.5px; color:#7a5a17; font-weight:700; white-space:nowrap; }
+  #placeSel { flex:1; max-width:340px; border:1.5px solid #cbb27f; background:#fffdf7; color:#7a5a17; border-radius:999px; padding:7px 12px; font-size:13.5px; font-family:inherit; cursor:pointer; }
   .hint { font-size:12px; color:#97795a; text-align:center; margin-top:6px; line-height:1.7; }
   .catspot { background:none !important; }
   .catspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-18px); cursor:pointer; }
@@ -212,7 +214,7 @@
 <body>
 <div class="wrap">
   <h1>OHANA島</h1>
-  <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。街の猫たちは、SNSの声と連動して話します。</p>
+  <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。近所のみなさんの投稿も集めています。</p>
   <div id="authBar"><span class="who" id="authState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button">ログイン</button><button class="act sub small" id="btnProfile" type="button" style="display:none">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none">ログアウト</button></div>
   <p class="src" style="text-align:center;margin:2px 12px 8px" data-ed="starNote">noteの構想どおり、ログインした記録が星のようにプロフィールに残ります。</p>
 
@@ -237,14 +239,11 @@
       <g class="dot" data-scene="tamago"><circle cx="298" cy="24" r="17" fill="transparent"/><circle cx="298" cy="24" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="yaoya"><circle cx="307" cy="77" r="17" fill="transparent"/><circle cx="307" cy="77" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="jinja"><circle cx="246" cy="87" r="17" fill="transparent"/><circle cx="246" cy="87" r="9" fill="#b5654d" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="street"><circle cx="190" cy="106" r="15" fill="transparent"/><circle cx="190" cy="106" r="7" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="front"><circle cx="112" cy="132" r="18" fill="transparent"/><circle cx="112" cy="132" r="10" fill="#0068B7" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="kayamachi"><circle cx="306" cy="158" r="17" fill="transparent"/><circle cx="306" cy="158" r="9" fill="#d9a441" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="kayamachi2"><circle cx="305" cy="106" r="14" fill="transparent"/><circle cx="305" cy="106" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="street2"><circle cx="155" cy="118" r="14" fill="transparent"/><circle cx="155" cy="118" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="kayamachi3"><circle cx="303" cy="50" r="14" fill="transparent"/><circle cx="303" cy="50" r="6" fill="#e8c877" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="pharmacy"><circle cx="103" cy="151" r="16" fill="transparent"/><circle cx="103" cy="151" r="8" fill="#e59a8a" stroke="#fff" stroke-width="1.5"/></g>
-      <g class="dot" data-scene="approach"><circle cx="128" cy="127" r="6" fill="#cbb27f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="koshin1"><circle cx="75" cy="195" r="14" fill="transparent"/><circle cx="75" cy="195" r="6" fill="#a9bd8f" stroke="#fff" stroke-width="1.5"/></g>
       <g class="dot" data-scene="koshin"><circle cx="30" cy="272" r="17" fill="transparent"/><circle cx="30" cy="272" r="9" fill="#7a9a5b" stroke="#fff" stroke-width="1.5"/></g>
       </svg>
@@ -263,14 +262,14 @@
     </div>
   </div>
   <div id="sceneName">MAHALOの店前</div>
-  <div id="placeBar"></div>
+  <div id="placeBar"><label for="placeSel">📍 場所を選ぶ</label><select id="placeSel" aria-label="場所を選ぶ"></select></div>
   <div class="btns"><button class="act" id="btnWalk">🐾 アバターと歩く（自動で進む）</button><button class="act" id="btnMap" type="button">🗺 MAPを見る</button></div>
   <div class="btns" id="shopBtns" style="display:none">
     <button class="act" id="btnTalk">店員さんと話す</button>
     <button class="act" id="btnGoods">商品を見る</button>
     <button class="act sub" id="btnCart">カゴを見る（0）</button>
   </div>
-  <p class="hint" data-ed="streetHint">アバターの目線で歩く通りです。進みたい方を向いて地面をタップすると、その方へ歩けます。地面の矢印タップでも進めます。下のまちの地図の丸タップで、その場所へひとっ飛び。ドラッグで見回せます。</p>
+  <p class="hint" data-ed="streetHint">アバターの目線で歩く通りです。進みたい方を向いて地面をタップすると、その方へ歩けます。地面の矢印タップでも進めます。下の場所えらびや、MAPのピンからも移動できます。ドラッグで見回せます。</p>
 
   <div id="bigMapSec">
     <div id="mapHead"><h2 data-ed="mapH">&#x1F5FA; MAP</h2></div>
@@ -339,7 +338,7 @@
 
   <div class="panel" id="joinBlock">
     <h2 data-ed="joinH">一緒にメタバースを作りませんか</h2>
-    <p data-ed="joinP">この島は、みなさんの投稿で育ちます。お店の写真や、行ってみた感想の投稿に <b>#愛媛メタバースOHANA島</b> をつけてもらえたら、AI「Muse」が巡回して見つけて、島のお店の絵や、猫の吹き出しに反映していきます。</p>
+    <p data-ed="joinP">この島は、みなさんの投稿で育ちます。お店の写真や、行ってみた感想の投稿に <b>#愛媛メタバースOHANA島</b> をつけてもらえたら、AI「Muse」が巡回して見つけて、島のMAPと、投稿の紹介に反映していきます。</p>
     <p>お店の方も、お客さんも、ぜひご参加ください。いただいた写真は、水彩の絵のもとにさせてもらいます。</p>
   </div>
   <!-- 城山公園 -->
@@ -391,7 +390,7 @@
 <script>
 const POSTS = [
   { id:"veg", handle:"momowari", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"yaoya", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-24, img:"post-veg-w.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
-  { id:"sky", handle:"momowari", sns:"Threads", author:"まちの声（サンプル）", text:"雨上がりの通り、空がきれいだった", scene:"street", yaw:44, catName:"しろ", catImg:"cat-white-sit.png", pitch:-24, img:"ohana-island-streetview.jpg", cap:"雨上がりの通り（新海監督風のイメージ）", url:"https://www.threads.com/@momowari/post/Ddh2KEcE4JN" },
+  { id:"sky", handle:"momowari", sns:"Threads", author:"まちの声（サンプル）", text:"雨上がりの通り、空がきれいだった", scene:"front", yaw:44, catName:"しろ", catImg:"cat-white-sit.png", pitch:-24, img:"ohana-island-streetview.jpg", cap:"雨上がりの通り（新海監督風のイメージ）", url:"https://www.threads.com/@momowari/post/Ddh2KEcE4JN" },
   { id:"nano", handle:"momowari", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"front", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-23, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
   { id:"lea", handle:"momowari", sns:"Threads", author:"まちの声（サンプル）", text:"1階のLea Mahalo、可愛い雑貨がいっぱいだった", scene:"front", yaw:36, catImg:"cat-calico-sit.png", pitch:-23, img:"post-lea-w.jpg", cap:"Lea Mahaloの店内（実際の写真をもとにした水彩画）", url:"https://www.threads.com/@momowari/post/De5IKVdk_fl" },
   { id:"kureha", handle:"kureha_kitchen", kind:"real", sns:"Instagram", author:"紅芭（くれは）さん", text:"萱町商店街で「ひっそり昼カフェ」を開いたよ", summary:"自分の店で開く短期営業「ひっそり昼カフェ」の告知（チーズケーキの写真）", scene:"kayamachi", yaw:26, catName:"はな", catImg:"cat-white-sit.png", pitch:-24, permalink:"https://www.instagram.com/p/DXzOsJ2EyDP/" },
@@ -412,20 +411,17 @@ const SCENES = {
   kayamachi:  { pano:"mahalo-pano-kayamachi.jpg",  name:"萱町商店街", yaw:0, hfov:102 },
   kayamachi2: { pano:"mahalo-pano-kayamachi2.jpg", name:"萱町商店街（なかほど）", yaw:0, hfov:102 },
   kayamachi3: { pano:"mahalo-pano-kayamachi3.jpg", name:"萱町商店街（北寄り）", yaw:20, hfov:102 },
-  yaoya:      { pano:"mahalo-pano-yaoya.jpg",      name:"八百屋の前（丸五青果）", yaw:-10, hfov:102 },
+  yaoya:      { pano:"mahalo-pano-yaoya.jpg",      name:"八百屋の前（丸五青果）（イメージ）", yaw:-10, hfov:102 },
   tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:102 },
-  jinja:      { pano:"mahalo-pano-jinja.jpg",      name:"阿沼美神社", yaw:-40, hfov:100 },
-  street:     { pano:"mahalo-pano-street.jpg",     name:"味酒町の通り", yaw:-60, hfov:102 },
-  street2:    { pano:"mahalo-pano-street2.jpg",    name:"味酒町の通り（MAHALO近く）", yaw:-40, hfov:102 },
+  jinja:      { pano:"mahalo-pano-jinja.jpg",      name:"阿沼美神社（イメージ）", yaw:-40, hfov:100 },
   koshin1:    { pano:"mahalo-pano-koshin1.jpg",    name:"庚申庵への路地", yaw:-40, hfov:100 },
   koshin:     { pano:"mahalo-pano-koshin.jpg",     name:"庚申庵", yaw:10, hfov:100 },
-  front:      { pano:"mahalo-pano-front3.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
+  front:      { pano:"mahalo-pano-front4.jpg",      name:"MAHALOの店前", yaw:-15, hfov:100 },
   stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:100 },
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:90 },
   elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
   lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:124 },
-  pharmacy:   { pano:"mahalo-pano-pharmacy2.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
-  approach:   { pano:"mahalo-pano-approach.jpg",   name:"通り（MAHALOの角）", yaw:40, hfov:102 },
+  pharmacy:   { pano:"mahalo-pano-pharmacy4.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
 };
 const SCENE_NAMES = {};
 Object.keys(SCENES).forEach(id => SCENE_NAMES[id] = SCENES[id].name);
@@ -436,14 +432,11 @@ const EXITS = {
   kayamachi3: [ { to:"yaoya", yaw:105, label:"北へ（八百屋さん）", entry:-10 }, { to:"kayamachi2", yaw:-95, label:"南へ戻る", entry:180 } ],
   yaoya:      [ { to:"tamago", yaw:100, label:"北へ（たまご屋さん）", entry:-20 }, { to:"jinja", yaw:-100, label:"西へ（阿沼美神社）", entry:-40 }, { to:"kayamachi3", yaw:175, label:"南へ戻る", entry:-120 } ],
   tamago:     [ { to:"yaoya", yaw:175, label:"南へ戻る（八百屋さん）", entry:-10 } ],
-  jinja:      [ { to:"street", yaw:-163, label:"西へ（MAHALOの方）", entry:-140 }, { to:"yaoya", yaw:163, label:"東へ戻る（商店街）", entry:-60 } ],
-  street:     [ { to:"street2", yaw:-140, label:"西へ進む", entry:-40 }, { to:"jinja", yaw:137, label:"東へ戻る（神社）", entry:165 }, { to:"koshin1", yaw:178, label:"南へ（庚申庵の方）", entry:-30 } ],
-  street2:    [ { to:"approach", yaw:-30, pitch:-9, label:"西へ進む（MAHALOの角）", entry:40 }, { to:"street", yaw:140, label:"東へ戻る", entry:140 } ],
-  koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"street", yaw:165, label:"北へ戻る（通り）", entry:-20 } ],
+  jinja:      [ { to:"front", yaw:-163, label:"西へ（MAHALOの方）", entry:-15 }, { to:"yaoya", yaw:163, label:"東へ戻る（商店街）", entry:-60 } ],
+  koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"front", yaw:165, label:"北へ戻る（MAHALOの方）", entry:-15 } ],
   koshin:     [ { to:"koshin1", yaw:170, label:"路地へ戻る", entry:-40 } ],
-  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:-60 }, { to:"pharmacy", yaw:175, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"approach", yaw:88, pitch:-12, label:"東へ進む（神社・商店街方面）", entry:-100 } ],
-  pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 } ],
-  approach:   [ { to:"front", yaw:40, pitch:-10, label:"MAHALOに着いた（店前へ）", entry:-15 }, { to:"street2", yaw:-100, label:"東へ戻る", entry:130 } ],
+  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:-60 }, { to:"pharmacy", yaw:175, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"jinja", yaw:88, pitch:-12, label:"東へ進む（阿沼美神社・商店街方面）", entry:-40 }, { to:"koshin1", yaw:140, pitch:-14, label:"南へ（庚申庵の方）", entry:-30 } ],
+  pharmacy:   [ { to:"front", yaw:168, pitch:-10, label:"通り向かい（MAHALO）", entry:-15 } ],
   lea:        [ { to:"front", yaw:170, label:"出口（店前へ出る）", entry:-15 } ],
   stairs:     [ { to:"counter", yaw:-82, pitch:-2, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-120, pitch:-36, label:"出口（階段を下りる）", entry:-15 } ],
   counter:    [ { to:"stairs", yaw:172, label:"出口（階段を降りる）", entry:-115 } ],
@@ -537,15 +530,15 @@ function spawnPetal() {
 }
 setInterval(spawnPetal, 2600);
 const ROUTE = [ "front", "stairs", "counter" ];
-const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", street:"通り", street2:"通り（西）", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea Mahalo（1階）", pharmacy:"レデイ薬局", approach:"MAHALOの角" };
+const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea Mahalo（1階）", pharmacy:"レデイ薬局" };
 let curScene = "front", walkTimer = null;
-const placeBar = document.getElementById("placeBar");
-[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "approach", "street2", "street", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
-  const b = document.createElement("button"); b.textContent = SHORT[id]; b.dataset.scene = id;
-  b.addEventListener("click", () => { stopWalk(); viewer.loadScene(id); });
-  placeBar.appendChild(b);
+const placeSel = document.getElementById("placeSel");
+[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
+  const o = document.createElement("option"); o.value = id; o.textContent = SHORT[id] || SCENES[id].name;
+  placeSel.appendChild(o);
 });
-placeBar.querySelector('[data-scene="front"]').classList.add("on");
+placeSel.value = "front";
+placeSel.addEventListener("change", () => { if (SCENES[placeSel.value]) { stopWalk(); viewer.loadScene(placeSel.value); } });
 document.querySelectorAll("#townMap .dot, #miniTownMap .dot").forEach(g => {
   g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); document.querySelector(".stage").scrollIntoView({ behavior:"smooth", block:"center" }); });
   if (g.dataset.scene === "front") { const c = g.querySelector("circle"); c.setAttribute("stroke", "#5d4212"); c.setAttribute("stroke-width", "3"); }
@@ -586,7 +579,7 @@ viewer.on("scenechange", (id) => {
   if (exitEx) { exitBtn.style.display = "block"; exitBtn.textContent = exitEx.label; exitBtn.onclick = () => walkTo(exitEx); } else { exitBtn.style.display = "none"; }
   document.getElementById("shopLinkBtn").style.display = (id === "lea") ? "block" : "none";
   document.getElementById("shopLinkBtn").onclick = () => window.open("https://momowari.github.io/Lea-Mahalo/", "_blank");
-  placeBar.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.scene === id));
+  if (placeSel && SCENES[id]) placeSel.value = id;
   document.querySelectorAll("#townMap .dot").forEach(g => { const c = g.querySelector("circle"); if (c) { const on = g.dataset.scene === id; c.setAttribute("stroke", on ? "#5d4212" : "#fff"); c.setAttribute("stroke-width", on ? "3" : "1.5"); } });
   if (id !== "counter") document.getElementById("chat").style.display = "none";
   (EXITS[id] || []).forEach(ex => { const im = new Image(); im.src = SCENES[ex.to].pano; });
@@ -818,12 +811,12 @@ try {
 
 <script>
 // ===== まちマップ（ゴゴ市モード） =====
-const MAP_POS = { tamago:[298,24], yaoya:[307,77], jinja:[246,87], street:[190,106], street2:[155,118], approach:[128,127], front:[112,132], pharmacy:[103,151], kayamachi3:[303,50], kayamachi2:[305,106], kayamachi:[306,158], koshin1:[75,195], koshin:[30,272] };
-const PIN_COLORS = { tamago:"#d9a441", yaoya:"#d9a441", jinja:"#b5654d", street:"#cbb27f", front:"#0068B7", kayamachi:"#d9a441", kayamachi2:"#e8c877", street2:"#cbb27f", kayamachi3:"#e8c877", pharmacy:"#e59a8a", approach:"#cbb27f", koshin1:"#a9bd8f", koshin:"#7a9a5b" };
+const MAP_POS = { tamago:[298,24], yaoya:[307,77], jinja:[246,87], approach:[128,127], front:[112,132], pharmacy:[103,151], kayamachi3:[303,50], kayamachi2:[305,106], kayamachi:[306,158], koshin1:[75,195], koshin:[30,272] };
+const PIN_COLORS = { tamago:"#d9a441", yaoya:"#d9a441", jinja:"#b5654d", front:"#0068B7", kayamachi:"#d9a441", kayamachi2:"#e8c877", kayamachi3:"#e8c877", pharmacy:"#e59a8a", koshin1:"#a9bd8f", koshin:"#7a9a5b" };
 const PIN_LABELS = { front:"MAHALO", tamago:"平野鶏卵", yaoya:"丸五青果", jinja:"阿沼美神社", pharmacy:"レデイ薬局", kayamachi:"萱町商店街", koshin:"庚申庵" };
 let myProfile = { nickname: "ゲスト", cat: "muse" };
 window.setIslandProfile = function(pr) { if (pr && pr.nickname) myProfile.nickname = pr.nickname; if (pr && pr.cat) myProfile.cat = pr.cat; if (window.townSetName) window.townSetName(myProfile.nickname); };
-const PLACE_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], approach:[33.84563,132.75547], street2:[33.84575,132.75568], street:[33.84590,132.75596], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687], koshin1:[33.84471,132.75504] };
+const PLACE_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687], koshin1:[33.84471,132.75504] };
 window.__youScene = "front";
 window.syncYou = function(id) { window.__youScene = id; if (window.__youMarker && window.__PLACE_LL) { const key = window.__PLACE_LL[id] ? id : "front"; window.__youMarker.setLatLng(window.__PLACE_LL[key]); } };
 window.goScene = function(id) { stopWalk(); viewer.loadScene(id); document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "center" }); };
