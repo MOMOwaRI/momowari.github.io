@@ -442,6 +442,7 @@ const SCENES = {
   elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
   lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:124 },
   pharmacy:   { pano:"mahalo-pano-pharmacy4.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
+  fuji:       { pano:"mahalo-pano-fuji.jpg",       name:"フジグラン松山", yaw:-10, hfov:106 },
 };
 const SCENE_NAMES = {};
 Object.keys(SCENES).forEach(id => SCENE_NAMES[id] = SCENES[id].name);
@@ -454,8 +455,9 @@ const EXITS = {
   tamago:     [ { to:"yaoya", yaw:175, label:"出口（南へ進む・八百屋さん）", entry:-10 } ],
   jinja:      [ { to:"front", yaw:-163, label:"西へ（MAHALOの方）", entry:-15 }, { to:"yaoya", yaw:163, label:"東へ進む（商店街）", entry:-60 } ],
   koshin:     [ { to:"front", yaw:170, label:"出口（MAHALOビルへ）", entry:-15 } ],
-  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:-60 }, { to:"pharmacy", yaw:-177, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"jinja", yaw:88, pitch:-12, label:"東へ進む（阿沼美神社・商店街方面）", entry:-40 }, { to:"koshin", yaw:-162, pitch:-14, label:"南西へ進む（庚申庵）", entry:10 } ],
+  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:-60 }, { to:"pharmacy", yaw:-177, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"jinja", yaw:88, pitch:-12, label:"東へ進む（阿沼美神社・商店街方面）", entry:-40 }, { to:"koshin", yaw:-162, pitch:-14, label:"南西へ進む（庚申庵）", entry:10 }, { to:"fuji", yaw:-118, pitch:-12, label:"西へ進む（フジグラン松山）", entry:-10 } ],
   pharmacy:   [ { to:"front", yaw:168, pitch:-10, label:"通り向かい（MAHALO）", entry:-15 } ],
+  fuji:       [ { to:"front", yaw:150, label:"東へ進む（MAHALOビルの方）", entry:-15 } ],
   lea:        [ { to:"front", yaw:170, label:"出口（店前へ出る）", entry:-15 } ],
   stairs:     [ { to:"counter", yaw:-82, pitch:-2, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-120, pitch:-36, label:"出口（階段を下りる）", entry:-15 } ],
   counter:    [ { to:"stairs", yaw:172, label:"出口（階段を降りる）", entry:-115 } ],
@@ -548,11 +550,11 @@ function spawnPetal() {
   if (Math.random() < 0.55) { const s = document.createElement("div"); s.className = "sparkle"; s.style.left = (8 + Math.random() * 84) + "%"; s.style.top = (10 + Math.random() * 55) + "%"; fx.appendChild(s); setTimeout(() => s.remove(), 1700); }
 }
 setInterval(spawnPetal, 2600);
-const ROUTE = [ "front", "stairs", "counter", "stairs", "front", "elua", "front", "lea", "front", "pharmacy", "front", "koshin", "front", "jinja", "yaoya", "tamago", "yaoya", "kayamachi3", "kayamachi2", "kayamachi", "kayamachi2", "kayamachi3", "yaoya", "jinja", "front" ];
-const SHORT = { kayamachi:"萱町商店街", kayamachi2:"萱町商店街（なか）", kayamachi3:"萱町商店街（北）", jinja:"阿沼美神社", koshin:"庚申庵", tamago:"平野鶏卵（たまご屋）", yaoya:"丸五青果（八百屋）", front:"MAHALOビル", stairs:"MAHALOビル 外階段", counter:"MAHALO（2階・美容室）", elua:"elua Mahalo（1階）", lea:"Lea Mahalo（1階・雑貨）", pharmacy:"レデイ薬局 宮西店" };
+const ROUTE = [ "front", "stairs", "counter", "stairs", "front", "elua", "front", "lea", "front", "pharmacy", "front", "fuji", "front", "koshin", "front", "jinja", "yaoya", "tamago", "yaoya", "kayamachi3", "kayamachi2", "kayamachi", "kayamachi2", "kayamachi3", "yaoya", "jinja", "front" ];
+const SHORT = { kayamachi:"萱町商店街", kayamachi2:"萱町商店街（なか）", kayamachi3:"萱町商店街（北）", jinja:"阿沼美神社", koshin:"庚申庵", tamago:"平野鶏卵（たまご屋）", yaoya:"丸五青果（八百屋）", front:"MAHALOビル", stairs:"MAHALOビル 外階段", counter:"MAHALO（2階・美容室）", elua:"elua Mahalo（1階）", lea:"Lea Mahalo（1階・雑貨）", pharmacy:"レデイ薬局 宮西店", fuji:"フジグラン松山" };
 let curScene = "front", walkTimer = null;
 const placeSel = document.getElementById("placeSel");
-[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "jinja", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
+[ "front", "stairs", "counter", "elua", "lea", "pharmacy", "fuji", "jinja", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
   const o = document.createElement("option"); o.value = id; o.textContent = SHORT[id] || SCENES[id].name;
   placeSel.appendChild(o);
 });
@@ -847,11 +849,11 @@ try {
 <script>
 // ===== まちマップ（ゴゴ市モード） =====
 const MAP_POS = { tamago:[298,24], yaoya:[307,77], jinja:[246,87], approach:[128,127], front:[112,132], pharmacy:[103,151], kayamachi3:[303,50], kayamachi2:[305,106], kayamachi:[306,158], koshin:[30,272] };
-const PIN_COLORS = { tamago:"#d9a441", yaoya:"#d9a441", jinja:"#b5654d", front:"#0068B7", kayamachi:"#d9a441", kayamachi2:"#e8c877", kayamachi3:"#e8c877", pharmacy:"#e59a8a", koshin:"#7a9a5b", park:"#5b8a4d" };
-const PIN_LABELS = { park:"城山公園", front:"MAHALO", tamago:"平野鶏卵", yaoya:"丸五青果", jinja:"阿沼美神社", pharmacy:"レデイ薬局", kayamachi:"萱町商店街", koshin:"庚申庵" };
+const PIN_COLORS = { tamago:"#d9a441", yaoya:"#d9a441", jinja:"#b5654d", front:"#0068B7", kayamachi:"#d9a441", kayamachi2:"#e8c877", kayamachi3:"#e8c877", pharmacy:"#e59a8a", fuji:"#4a90c2", koshin:"#7a9a5b", park:"#5b8a4d" };
+const PIN_LABELS = { park:"城山公園", front:"MAHALO", tamago:"平野鶏卵", yaoya:"丸五青果", jinja:"阿沼美神社", pharmacy:"レデイ薬局", fuji:"フジグラン", kayamachi:"萱町商店街", koshin:"庚申庵" };
 let myProfile = { nickname: "ゲスト", cat: "muse" };
 window.setIslandProfile = function(pr) { if (pr && pr.nickname) myProfile.nickname = pr.nickname; if (pr && pr.cat) myProfile.cat = pr.cat; if (window.townSetName) window.townSetName(myProfile.nickname); };
-const PLACE_LL = { park:[33.84170,132.76510], front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687] };
+const PLACE_LL = { park:[33.84170,132.76510], front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], fuji:[33.84492,132.75328], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687] };
 window.__youScene = "park";
 window.syncYou = function(id) { if (id) window.__youScene = id; if (window.__youMarker && window.__PLACE_LL) { const home = window.__youUid ? (window.__PLACE_LL[window.__youScene] ? window.__youScene : "front") : "park"; window.__youMarker.setLatLng(window.__PLACE_LL[home]); } };
 window.goScene = function(id) { stopWalk(); viewer.loadScene(id); document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "center" }); };
@@ -863,7 +865,7 @@ const SNS_PATH = {
 let bigMap = null;
 function initBigMap() {
   if (!window.L || bigMap) return;
-  bigMap = L.map("bigMap", { scrollWheelZoom: false }).fitBounds([[33.8409, 132.7539], [33.8476, 132.7660]], { padding: [18, 18] });
+  bigMap = L.map("bigMap", { scrollWheelZoom: false }).fitBounds([[33.8409, 132.7503], [33.8476, 132.7660]], { padding: [18, 18] });
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(bigMap);
   Object.keys(PLACE_LL).forEach(id => {
     const label = PIN_LABELS[id]; const col = PIN_COLORS[id] || "#cbb27f";
