@@ -620,8 +620,10 @@ viewer.on("scenechange", (id) => {
   const exitEx = (EXITS[id] || []).find(e => (e.label || "").indexOf("出口") >= 0);
   const exitBtn = document.getElementById("exitBtn");
   if (exitEx) { exitBtn.style.display = "block"; exitBtn.textContent = exitEx.label; exitBtn.onclick = () => walkTo(exitEx); } else { exitBtn.style.display = "none"; }
-  document.getElementById("shopLinkBtn").style.display = (id === "lea") ? "block" : "none";
-  document.getElementById("shopLinkBtn").onclick = () => window.open("https://momowari.github.io/Lea-Mahalo/", "_blank");
+  const OFFICIAL_LINKS = { lea: ["ネットショップを見る", "https://momowari.github.io/Lea-Mahalo/"], counter: ["公式サイトを見る", "https://www.hair-mahalo.com/"], elua: ["公式サイトを見る", "https://www.hair-mahalo.com/"], pharmacy: ["公式サイトを見る", "https://www.lady-drug.co.jp/"], fuji: ["公式サイトを見る", "https://www.the-fuji.com/fuji/store/shop/ehime/grand_matsuyama.php"], jinja: ["公式ページを見る", "https://ehime-jinjacho.jp/jinja/?p=7188"], koshin: ["公式ページを見る", "https://www.city.matsuyama.ehime.jp/shisetsu/bunka/koushinan.html"], furumachi: ["公式サイトを見る", "https://www.iyotetsu.co.jp/"] };
+  const slb = document.getElementById("shopLinkBtn"); const olink = OFFICIAL_LINKS[id];
+  slb.style.display = olink ? "block" : "none";
+  if (olink) { slb.textContent = olink[0]; slb.onclick = () => window.open(olink[1], "_blank"); }
   if (placeSel && SCENES[id]) placeSel.value = id;
   document.querySelectorAll("#townMap .dot").forEach(g => { const c = g.querySelector("circle"); if (c) { const on = g.dataset.scene === id; c.setAttribute("stroke", on ? "#5d4212" : "#fff"); c.setAttribute("stroke-width", on ? "3" : "1.5"); } });
   if (id !== "counter") document.getElementById("chat").style.display = "none";
