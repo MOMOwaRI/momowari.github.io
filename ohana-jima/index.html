@@ -99,6 +99,15 @@
   #townMap { width:100%; height:auto; display:block; }
   #meAv { position:absolute; left:50%; bottom:5%; transform:translateX(-50%); z-index:5; pointer-events:none; }
   #meAv img { height:96px; display:block; filter:drop-shadow(0 6px 6px rgba(60,40,10,.35)); }
+  #othersAv{position:absolute;left:calc(50% + 52px);bottom:5%;z-index:5;display:flex;gap:14px;align-items:flex-end}
+  .otherAv{background:none;border:none;cursor:pointer;text-align:center;padding:0}
+  .otherAv img{height:80px;display:block;margin:0 auto;filter:drop-shadow(0 5px 5px rgba(60,40,10,.3))}
+  .otherAv span{display:block;font-size:11px;background:#fffdf8;border:1px solid #e3d5b5;border-radius:999px;padding:1px 8px;margin-top:2px;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #talkPanel{position:absolute;left:10px;bottom:10px;z-index:9;width:min(330px,86vw);background:rgba(255,253,248,.97);border:1.5px solid #d9c9a8;border-radius:14px;padding:12px 14px;display:none;box-shadow:0 8px 24px rgba(90,70,30,.25)}
+  #talkPanel.open{display:block}
+  #talkPanel h3{font-size:14.5px;margin:0 0 4px;color:#7c6642}
+  #talkPanel textarea{width:100%;box-sizing:border-box;border:1.5px solid #d9c9a8;border-radius:8px;padding:7px 9px;font-size:14px;font-family:inherit;margin:0 0 8px}
+  #talkClose{position:absolute;top:6px;right:8px;background:none;border:none;font-size:18px;cursor:pointer;color:#a5875f}
   #parkStage{position:relative;height:290px;border-radius:18px;overflow:hidden;background:linear-gradient(#bfe3f2 0 46%,#a9d18e 46% 100%)}
   #parkCastle{position:absolute;top:2px;right:6px;width:190px}
   #parkCats{position:absolute;left:0;right:0;bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;align-items:flex-end;padding:0 14px}
@@ -208,7 +217,14 @@
   <p class="src" style="text-align:center;margin:2px 12px 8px" data-ed="starNote">noteの構想どおり、ログインした記録が星のようにプロフィールに残ります。</p>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div>
+    <div id="talkPanel">
+      <button id="talkClose" type="button" aria-label="閉じる">×</button>
+      <h3 id="talkTitle">話しかける</h3>
+      <p class="src" id="talkHint" style="margin:0 0 6px"></p>
+      <textarea id="talkText" maxlength="200" rows="2" placeholder="ひとこと（200字まで）"></textarea>
+      <div><button class="act small" id="talkSend" type="button">💬 話しかける</button><span class="src" id="talkMsg" style="margin-left:8px"></span></div>
+    </div>
     <button id="exitBtn" type="button"></button>
     <button id="shopLinkBtn" type="button">ネットショップを見る</button>
     <div id="miniMap">
@@ -429,7 +445,7 @@ const EXITS = {
   pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 }, { to:"approach", yaw:-140, label:"角の方へ", entry:40 } ],
   approach:   [ { to:"front", yaw:40, pitch:-10, label:"MAHALOに着いた（店前へ）", entry:-15 }, { to:"pharmacy", yaw:-35, pitch:-12, label:"レデイ薬局の方", entry:150 }, { to:"street2", yaw:-100, label:"東へ戻る", entry:130 } ],
   lea:        [ { to:"front", yaw:170, label:"出口（店前へ出る）", entry:-15 } ],
-  stairs:     [ { to:"counter", yaw:-82, pitch:-2, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-125, pitch:-22, label:"出口（階段を下りる）", entry:-15 } ],
+  stairs:     [ { to:"counter", yaw:-82, pitch:-2, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-120, pitch:-36, label:"出口（階段を下りる）", entry:-15 } ],
   counter:    [ { to:"stairs", yaw:172, label:"出口（階段を降りる）", entry:-115 } ],
   elua:       [ { to:"front", yaw:170, label:"出口（店前へ出る）", entry:-15 } ],
 };
@@ -562,6 +578,7 @@ document.getElementById("btnWalk").addEventListener("click", () => {
 viewer.on("scenechange", (id) => {
   curScene = id;
   if (window.syncYou) window.syncYou(id);
+  if (window.islandScene) window.islandScene(id);
   document.getElementById("sceneName").textContent = SCENE_NAMES[id] || "";
   document.getElementById("shopBtns").style.display = (id === "counter") ? "flex" : "none";
   const exitEx = (EXITS[id] || []).find(e => (e.label || "").indexOf("出口") >= 0);
@@ -898,15 +915,60 @@ try {
     renderAuth();
   });
   $("btnLogin").addEventListener("click", async () => { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { alert("ログインできませんでした。通信環境をご確認のうえ、もう一度お試しください。"); } });
-  $("btnLogout").addEventListener("click", async () => { await signOut(auth); });
+  $("btnLogout").addEventListener("click", async () => { try { if (me) await setDoc(doc(db, "islandUsers", me.uid), { at: null, atTs: null }, { merge: true }); } catch (e) {} await signOut(auth); });
 const escP = (t) => String(t == null ? "" : t).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let parkTarget = null;
+let usersCache = null, usersCacheAt = 0, curSceneId = "front", lastAtWrite = 0, talkTarget = null;
+const FRESH_MS = 15 * 60 * 1000;
+function isOutWalking(u) { if (!u || !u.at || !u.atTs) return false; const t = Date.parse(u.atTs); return !isNaN(t) && (Date.now() - t) < FRESH_MS; }
+async function fetchUsers(force) {
+  if (!force && usersCache && (Date.now() - usersCacheAt) < 60000) return usersCache;
+  const snap = await getDocs(collection(db, "islandUsers"));
+  const users = []; snap.forEach((d) => users.push(Object.assign({ uid: d.id }, d.data())));
+  usersCache = users; usersCacheAt = Date.now();
+  return users;
+}
+window.islandScene = async (id) => {
+  curSceneId = id;
+  if (me && profile) {
+    const now = Date.now();
+    if (profile.at !== id || (now - lastAtWrite) > 60000) { lastAtWrite = now; try { await saveProfileDoc({ at: id, atTs: new Date().toISOString() }); } catch (e) {} }
+  }
+  renderOthers();
+};
+async function renderOthers() {
+  const box = $("othersAv"); if (!box) return;
+  try {
+    const users = await fetchUsers(false);
+    const here = users.filter((u) => (!me || u.uid !== me.uid) && u.at === curSceneId && isOutWalking(u));
+    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="cat-' + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + '-sit.png" alt=""><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
+    box.querySelectorAll(".otherAv").forEach((b) => b.addEventListener("click", () => {
+      const u = here.find((x) => x.uid === b.dataset.uid);
+      talkTarget = { uid: b.dataset.uid, name: (u && u.nickname) || "島の人" };
+      $("talkTitle").textContent = talkTarget.name + "さんに話しかける";
+      $("talkHint").textContent = "同じ場所で鉢合わせしました。コメントは相手のプロフィールに届きます。";
+      $("talkMsg").textContent = "";
+      $("talkPanel").classList.add("open");
+    }));
+  } catch (e) {}
+}
+$("talkClose").addEventListener("click", () => $("talkPanel").classList.remove("open"));
+$("talkSend").addEventListener("click", async () => {
+  const msg = $("talkMsg");
+  if (!talkTarget) return;
+  const text = $("talkText").value.trim(); if (!text) { msg.textContent = "ひとこと書いてください"; return; }
+  const fromName = (profile && profile.nickname) || "ゲスト";
+  try {
+    await addDoc(collection(db, "parkNotes"), { toUid: talkTarget.uid, toName: talkTarget.name, fromName, text, ts: serverTimestamp() });
+    $("talkText").value = "";
+    msg.textContent = "話しかけました 🌸";
+  } catch (e) { msg.textContent = "送れませんでした"; }
+});
 async function renderPark() {
   const box = $("parkCats"); if (!box) return;
   try {
-    const snap = await getDocs(collection(db, "islandUsers"));
-    const users = []; snap.forEach((d) => users.push(Object.assign({ uid: d.id }, d.data())));
-    const others = users.filter((u) => !me || u.uid !== me.uid);
+    const users = await fetchUsers(true);
+    const others = users.filter((u) => (!me || u.uid !== me.uid) && !isOutWalking(u));
     box._users = users;
     box.innerHTML = others.length ? others.map((u) => '<button type="button" class="parkCat' + (parkTarget && parkTarget.uid === u.uid ? " sel" : "") + '" data-uid="' + u.uid + '"><img src="cat-' + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + '-sit.png" alt=""><span>' + escP(u.nickname || "島の人") + '</span></button>').join("") : '<p class="src">まだ誰もいません</p>';
     box.querySelectorAll(".parkCat").forEach((b) => b.addEventListener("click", () => {
