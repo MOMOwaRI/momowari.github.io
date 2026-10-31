@@ -240,7 +240,7 @@
   <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。近所のみなさんの投稿も集めています。</p>
   <p data-ed="disc" style="margin:10px auto 0;max-width:560px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 12px;font-size:13px;color:#7a5a16">※ この島は、水彩の絵で再現したものです。実際のお店や風景とは異なります。</p>
   <p style="text-align:center;margin:10px 0 0"><label style="font-size:13px;color:#7c6642">🌐 Language <select id="langSel" style="font:inherit;font-size:13.5px;border:1.5px solid #cbb27f;border-radius:999px;padding:5px 10px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label></p>
-  <div id="authBar"><span class="who" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">OHANAメンバーになる</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
+  <div id="authBar"><span class="who" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">OHANAメンバーになる</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
 
 
   <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="sceneSns"></div>
@@ -309,7 +309,6 @@
     <div style="background:#fffdf7;border-radius:16px;padding:18px;max-width:340px;width:calc(100% - 40px);box-shadow:0 12px 40px rgba(60,40,10,.35)">
       <h2 style="font-size:17px;margin-bottom:8px" data-i18n="joinTitle">OHANAメンバーになりませんか</h2>
       <p style="font-size:13.5px;line-height:1.7;white-space:pre-line" data-i18n="joinBody">・分身で島を歩けます（最初は猫です。写真からアバターも作れます）
-・島に来た日の星が、プロフィールに貯まります
 ・城山公園（みんなの広場）で、ほかの分身にコメントを残せます
 ・OHANAマッチングサイトと同じメンバー登録です。Googleアカウントでログインします（無料）</p>
       <div style="display:flex;gap:8px;margin-top:12px">
@@ -325,7 +324,7 @@
       <label for="profName" data-i18n="profNick">ニックネーム</label>
       <input id="profName" type="text" maxlength="20" placeholder="島での名前">
       <label data-i18n="profAvatar">あなたの分身（アバター）</label>
-      <p class="src" style="margin:0 0 6px">基本は、自分の写真をアップロードしてもらって、キャラを作成します。写真はその場でアップロードできます。</p>
+      <p class="src" style="margin:0 0 6px">写真をアップすると、その写真からアバターを作成します。できたら、自動で差し替わります。</p>
       <div id="photoUpBox" style="margin:0 0 4px">
         <img id="myPhotoImg" alt="" style="display:none;width:88px;height:88px;object-fit:cover;border-radius:12px;border:1.5px solid #d9c9a8">
         <p class="src" id="myPhotoState" style="margin:4px 0">まだ写真がありません</p>
@@ -340,9 +339,11 @@
       </div>
       <label data-i18n="profCat">いまの分身（猫）</label>
       <div class="catChoices" id="catChoices"></div>
+      <div style="display:none">
       <label>ログインの星（来た日の記録）</label>
       <div id="starBox"><span class="none">まだ星がありません</span></div>
       <p class="src" id="starCount"></p>
+      </div>
       <div id="ohanaLinkBox" style="display:none;background:#fdf3e3;border:1.5px solid #eec27f;border-radius:10px;padding:8px 10px;font-size:13.5px;line-height:1.6;margin:2px 0 8px"></div>
       <label data-i18n="profInbox">公園で届いたコメント</label>
       <div id="parkInbox"><span class="none">まだありません</span></div>
@@ -464,8 +465,8 @@ const SCENES = {
   tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:134 },
   jinja:      { pano:"mahalo-pano-jinja3.jpg",      name:"阿沼美神社", yaw:-40, hfov:134 },
   koshin:     { pano:"mahalo-pano-koshin2.jpg",     name:"庚申庵", yaw:10, hfov:134 },
-  front:      { pano:"mahalo-pano-front5.jpg",      name:"MAHALOの店前", yaw:-15, hfov:134 },
-  stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:134 },
+  front:      { pano:"mahalo-pano-front6.jpg",      name:"MAHALOの店前", yaw:-15, hfov:134 },
+  stairs:     { pano:"mahalo-pano-stairs4.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:134 },
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:134 },
   elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:134 },
   lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:140 },
@@ -563,7 +564,7 @@ Object.keys(SCENES).forEach(id => {
 });
 // ===== 多言語 =====
 window.__lang = (function() { try { return localStorage.getItem("islandLang") || "ja"; } catch (e) { return "ja"; } })();
-window.__I18N = {"en": {"walk": "🐾 Walk with your avatar (auto)", "mapBtn": "🗺 Open the MAP", "selLabel": "📍 Choose a place", "login": "Join OHANA", "profileBtn": "Profile (stars)", "logout": "Log out", "guestState": "🐾 Strolling as a guest", "parkTitle": "🌳 Shiroyama Park (Everyone's Plaza)", "parkPh": "A short note (up to 200 characters)", "parkSend": "💬 Leave a note", "profH2": "Your profile", "profNick": "Nickname", "profAvatar": "Your avatar", "profCat": "Your stand-in for now (cat)", "profInbox": "Notes received at the park", "save": "Save", "snsH2": "Posts from the neighborhood", "fixBot": "💬 Ask OHANA", "fixSite": "🌺 OHANA website", "fixChat": "💚 Open chat", "botPh": "Type your question", "botSend": "Ask", "chip1": "🚶 How to walk", "chip2": "🌺 About OHANA", "chip3": "🎫 The 100-yen ticket", "botNote": "* Answers come from AI and may be wrong. For anything important, please check with the shop or the organizer directly.", "postLink": "See the original post", "shopH2": "Selected products", "joinTitle": "Join OHANA?", "joinBody": "・Walk the island with your avatar (a cat at first; an avatar can be made from your photo)\n・A star is added to your profile for each day you visit\n・Leave notes for others at Shiroyama Park, everyone's plaza\n・This is the same membership as the OHANA matching site. Sign in with your Google account (free).", "joinGo": "Continue with Google", "joinCancel": "Not now"}, "zh": {"walk": "🐾 和分身一起走（自动前进）", "mapBtn": "🗺 查看MAP", "selLabel": "📍 选择地点", "login": "成为OHANA成员", "profileBtn": "个人资料（星星）", "logout": "退出", "guestState": "🐾 以访客身份散步中", "parkTitle": "🌳 城山公园（大家的广场）", "parkPh": "一句话（200字以内）", "parkSend": "💬 留言", "profH2": "你的个人资料", "profNick": "昵称", "profAvatar": "你的分身（头像）", "profCat": "现在的分身（猫）", "profInbox": "在公园收到的留言", "save": "保存", "snsH2": "附近大家的帖子", "fixBot": "💬 问问OHANA", "fixSite": "🌺 OHANA网站", "fixChat": "💚 开放聊天", "botPh": "写下你想问的", "botSend": "提问", "chip1": "🚶 怎么走", "chip2": "🌺 关于OHANA", "chip3": "🎫 关于100日元券", "botNote": "※ 回答由AI提供，可能有误。重要的事请直接向店铺或主办方确认。", "postLink": "查看原帖", "shopH2": "店内精选商品", "joinTitle": "要成为OHANA成员吗？", "joinBody": "・可以用分身在岛上散步（开始是猫，也可以从照片制作头像）\n・来岛的日子会变成星星，留在个人资料里\n・可以在城山公园（大家的广场）给别人留言\n・和OHANA匹配网站是同一个会员注册。用Google账号登录（免费）", "joinGo": "用Google登录", "joinCancel": "以后再说"}, "ko": {"walk": "🐾 아바타와 걷기 (자동 진행)", "mapBtn": "🗺 MAP 보기", "selLabel": "📍 장소 선택", "login": "OHANA 멤버 되기", "profileBtn": "프로필 (별)", "logout": "로그아웃", "guestState": "🐾 게스트로 산책 중", "parkTitle": "🌳 시로야마 공원 (모두의 광장)", "parkPh": "한마디 (200자까지)", "parkSend": "💬 남기기", "profH2": "내 프로필", "profNick": "닉네임", "profAvatar": "나의 아바타", "profCat": "지금의 분신 (고양이)", "profInbox": "공원에서 받은 댓글", "save": "저장", "snsH2": "동네 여러분의 게시물", "fixBot": "💬 OHANA에게 묻기", "fixSite": "🌺 OHANA 사이트", "fixChat": "💚 오픈채팅", "botPh": "궁금한 것을 적어주세요", "botSend": "묻기", "chip1": "🚶 걷는 법", "chip2": "🌺 OHANA란?", "chip3": "🎫 100엔 쿠폰이란?", "botNote": "※ AI가 답하고 있어 틀릴 수 있습니다. 중요한 것은 가게나 주최 측에 직접 확인해 주세요.", "postLink": "원본 게시물 보기", "shopH2": "매장 추천 상품", "joinTitle": "OHANA 멤버가 되시겠어요?", "joinBody": "・아바타로 섬을 걸을 수 있어요 (처음에는 고양이, 사진으로 아바타도 만들 수 있어요)\n・섬에 온 날의 별이 프로필에 쌓여요\n・시로야마 공원(모두의 광장)에서 다른 아바타에게 댓글을 남길 수 있어요\n・OHANA 매칭 사이트와 같은 멤버 등록이에요. Google 계정으로 로그인합니다 (무료)", "joinGo": "Google로 로그인", "joinCancel": "나중에"}};
+window.__I18N = {"en": {"walk": "🐾 Walk with your avatar (auto)", "mapBtn": "🗺 Open the MAP", "selLabel": "📍 Choose a place", "login": "Join OHANA", "profileBtn": "Profile", "logout": "Log out", "guestState": "🐾 Strolling as a guest", "parkTitle": "🌳 Shiroyama Park (Everyone's Plaza)", "parkPh": "A short note (up to 200 characters)", "parkSend": "💬 Leave a note", "profH2": "Your profile", "profNick": "Nickname", "profAvatar": "Your avatar", "profCat": "Your stand-in for now (cat)", "profInbox": "Notes received at the park", "save": "Save", "snsH2": "Posts from the neighborhood", "fixBot": "💬 Ask OHANA", "fixSite": "🌺 OHANA website", "fixChat": "💚 Open chat", "botPh": "Type your question", "botSend": "Ask", "chip1": "🚶 How to walk", "chip2": "🌺 About OHANA", "chip3": "🎫 The 100-yen ticket", "botNote": "* Answers come from AI and may be wrong. For anything important, please check with the shop or the organizer directly.", "postLink": "See the original post", "shopH2": "Selected products", "joinTitle": "Join OHANA?", "joinBody": "・Walk the island with your avatar (a cat at first; an avatar can be made from your photo)\n・Leave notes for others at Shiroyama Park, everyone's plaza\n・This is the same membership as the OHANA matching site. Sign in with your Google account (free).", "joinGo": "Continue with Google", "joinCancel": "Not now"}, "zh": {"walk": "🐾 和分身一起走（自动前进）", "mapBtn": "🗺 查看MAP", "selLabel": "📍 选择地点", "login": "成为OHANA成员", "profileBtn": "个人资料", "logout": "退出", "guestState": "🐾 以访客身份散步中", "parkTitle": "🌳 城山公园（大家的广场）", "parkPh": "一句话（200字以内）", "parkSend": "💬 留言", "profH2": "你的个人资料", "profNick": "昵称", "profAvatar": "你的分身（头像）", "profCat": "现在的分身（猫）", "profInbox": "在公园收到的留言", "save": "保存", "snsH2": "附近大家的帖子", "fixBot": "💬 问问OHANA", "fixSite": "🌺 OHANA网站", "fixChat": "💚 开放聊天", "botPh": "写下你想问的", "botSend": "提问", "chip1": "🚶 怎么走", "chip2": "🌺 关于OHANA", "chip3": "🎫 关于100日元券", "botNote": "※ 回答由AI提供，可能有误。重要的事请直接向店铺或主办方确认。", "postLink": "查看原帖", "shopH2": "店内精选商品", "joinTitle": "要成为OHANA成员吗？", "joinBody": "・可以用分身在岛上散步（开始是猫，也可以从照片制作头像）\n・可以在城山公园（大家的广场）给别人留言\n・和OHANA匹配网站是同一个会员注册。用Google账号登录（免费）", "joinGo": "用Google登录", "joinCancel": "以后再说"}, "ko": {"walk": "🐾 아바타와 걷기 (자동 진행)", "mapBtn": "🗺 MAP 보기", "selLabel": "📍 장소 선택", "login": "OHANA 멤버 되기", "profileBtn": "프로필", "logout": "로그아웃", "guestState": "🐾 게스트로 산책 중", "parkTitle": "🌳 시로야마 공원 (모두의 광장)", "parkPh": "한마디 (200자까지)", "parkSend": "💬 남기기", "profH2": "내 프로필", "profNick": "닉네임", "profAvatar": "나의 아바타", "profCat": "지금의 분신 (고양이)", "profInbox": "공원에서 받은 댓글", "save": "저장", "snsH2": "동네 여러분의 게시물", "fixBot": "💬 OHANA에게 묻기", "fixSite": "🌺 OHANA 사이트", "fixChat": "💚 오픈채팅", "botPh": "궁금한 것을 적어주세요", "botSend": "묻기", "chip1": "🚶 걷는 법", "chip2": "🌺 OHANA란?", "chip3": "🎫 100엔 쿠폰이란?", "botNote": "※ AI가 답하고 있어 틀릴 수 있습니다. 중요한 것은 가게나 주최 측에 직접 확인해 주세요.", "postLink": "원본 게시물 보기", "shopH2": "매장 추천 상품", "joinTitle": "OHANA 멤버가 되시겠어요?", "joinBody": "・아바타로 섬을 걸을 수 있어요 (처음에는 고양이, 사진으로 아바타도 만들 수 있어요)\n・시로야마 공원(모두의 광장)에서 다른 아바타에게 댓글을 남길 수 있어요\n・OHANA 매칭 사이트와 같은 멤버 등록이에요. Google 계정으로 로그인합니다 (무료)", "joinGo": "Google로 로그인", "joinCancel": "나중에"}};
 window.__placeNames = {"en": {"front": "MAHALO Building", "stairs": "MAHALO Bldg. Outer Stairs", "counter": "MAHALO (2F Hair Salon)", "elua": "elua Mahalo (1F)", "lea": "Lea Mahalo (1F Zakka)", "pharmacy": "Lady Pharmacy Miyanishi", "jinja": "Anumi Shrine", "koshin": "Koshin-an Hermitage", "yaoya": "Marugo Seika (Greengrocer)", "tamago": "Hirano Keiran (Egg Shop)", "kayamachi3": "Kayamachi Shopping St. (North)", "kayamachi2": "Kayamachi Shopping St. (Middle)", "kayamachi": "Kayamachi Shopping Street", "fuji": "Fuji Grand Matsuyama", "furumachi": "Komachi Station (Iyotetsu)"}, "zh": {"front": "MAHALO大楼", "stairs": "MAHALO大楼 外楼梯", "counter": "MAHALO（2楼·美发）", "elua": "elua Mahalo（1楼）", "lea": "Lea Mahalo（1楼·杂货）", "pharmacy": "Lady药局 宫西店", "jinja": "阿沼美神社", "koshin": "庚申庵", "yaoya": "丸五青果（蔬菜水果店）", "tamago": "平野鸡蛋（鸡蛋店）", "kayamachi3": "萱町商店街（北）", "kayamachi2": "萱町商店街（中）", "kayamachi": "萱町商店街", "fuji": "富士Grand松山", "furumachi": "古町站"}, "ko": {"front": "MAHALO 빌딩", "stairs": "MAHALO 빌딩 외부 계단", "counter": "MAHALO (2층·미용실)", "elua": "elua Mahalo (1층)", "lea": "Lea Mahalo (1층·잡화)", "pharmacy": "레데이 약국 미야니시점", "jinja": "아누미 신사", "koshin": "코신안", "yaoya": "마루고 청과 (야채가게)", "tamago": "히라노 계란 (달걀가게)", "kayamachi3": "카야마치 상점가 (북)", "kayamachi2": "카야마치 상점가 (중간)", "kayamachi": "카야마치 상점가", "fuji": "후지 그랜드 마쓰야마", "furumachi": "코마치역"}};
 window.__pinNames = {"en": {"jinja": "Anumi Shrine", "koshin": "Koshin-an", "yaoya": "Marugo Seika", "tamago": "Hirano Keiran", "pharmacy": "Lady Pharmacy", "kayamachi": "Kayamachi St.", "park": "Shiroyama Park", "fuji": "Fuji Grand", "furumachi": "Komachi Sta."}, "zh": {"jinja": "阿沼美神社", "koshin": "庚申庵", "yaoya": "丸五青果", "tamago": "平野鸡蛋", "pharmacy": "Lady药局", "kayamachi": "萱町商店街", "park": "城山公园", "fuji": "富士Grand", "furumachi": "古町站"}, "ko": {"jinja": "아누미 신사", "koshin": "코신안", "yaoya": "마루고 청과", "tamago": "히라노 계란", "pharmacy": "레데이 약국", "kayamachi": "카야마치 상점가", "park": "시로야마 공원", "fuji": "후지 그랜드", "furumachi": "코마치역"}};
 window.__exitNames = {"en": {"北へ進む": "Go north", "南へ進む": "Go south", "東へ進む": "Go east", "西へ進む": "Go west", "南西へ進む": "Go southwest", "北東へ進む": "Go northeast", "出口": "Exit", "出口（階段を下りる）": "Exit (down the stairs)", "eluaの玄関（1階）": "elua entrance (1F)", "横のドア（雑貨屋Lea Mahalo・1階）": "Side door (Lea Mahalo, 1F)", "外階段を上がる（2階）": "Up the outer stairs (2F)", "2階の入口から中へ（カウンター前）": "Enter from the 2F entrance"}, "zh": {"北へ進む": "向北走", "南へ進む": "向南走", "東へ進む": "向东走", "西へ進む": "向西走", "南西へ進む": "向西南走", "北東へ進む": "向东北走", "出口": "出口", "出口（階段を下りる）": "出口（下楼梯）", "eluaの玄関（1階）": "elua玄关（1楼）", "横のドア（雑貨屋Lea Mahalo・1階）": "侧门（Lea Mahalo·1楼）", "外階段を上がる（2階）": "上外楼梯（2楼）", "2階の入口から中へ（カウンター前）": "从2楼入口进去"}, "ko": {"北へ進む": "북쪽으로 가기", "南へ進む": "남쪽으로 가기", "東へ進む": "동쪽으로 가기", "西へ進む": "서쪽으로 가기", "南西へ進む": "남서쪽으로 가기", "北東へ進む": "북동쪽으로 가기", "出口": "출구", "出口（階段を下りる）": "출구 (계단 내려가기)", "eluaの玄関（1階）": "elua 현관 (1층)", "横のドア（雑貨屋Lea Mahalo・1階）": "옆문 (Lea Mahalo·1층)", "外階段を上がる（2階）": "외부 계단 오르기 (2층)", "2階の入口から中へ（カウンター前）": "2층 입구로 들어가기"}};
@@ -613,7 +614,7 @@ setInterval(() => {
   document.querySelectorAll(".catspot .cb").forEach(b => { if (Math.random() < 0.3) b.classList.toggle("off"); });
 }, 4000);
 let meTimer = null;
-function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); if (walk && !meTimer) { let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? "av-player-wf.png" : "av-player.png"; img.style.transform = f ? "translateY(-3px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.src = "av-player.png"; img.style.transform = ""; } }
+function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); if (window.__myAvaUrl) { if (img.getAttribute("src") !== window.__myAvaUrl) { img.src = window.__myAvaUrl; img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "92px"; img.style.height = "92px"; } if (walk && !meTimer) { let up = false; meTimer = setInterval(() => { up = !up; img.style.transform = up ? "translateY(-4px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.style.transform = ""; } return; } if (walk && !meTimer) { let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? "av-player-wf.png" : "av-player.png"; img.style.transform = f ? "translateY(-3px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.src = "av-player.png"; img.style.transform = ""; } }
 let walkIdx = -1;
 function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 アバターと歩く（自動で進む）"; } meSet(false); }
 function walkStep() {
@@ -961,7 +962,7 @@ window.renderParkResidents = function(users) {
   window.__parkUsers.forEach((u, i) => {
     const a = (i / Math.max(1, window.__parkUsers.length)) * Math.PI * 2;
     const ll = [c[0] + Math.sin(a) * 0.00055, c[1] + Math.cos(a) * 0.00075];
-    const cat = '<img src="cat-' + (["muse","tabby","white","black","calico"].includes(u.cat) ? u.cat : "muse") + '-sit.png" style="width:34px;display:block;margin:0 auto" alt="">';
+    const cat = u.avaUrl ? '<img src="' + u.avaUrl + '" style="width:34px;height:34px;object-fit:cover;border-radius:50%;display:block;margin:0 auto" alt="">' : '<img src="cat-' + (["muse","tabby","white","black","calico"].includes(u.cat) ? u.cat : "muse") + '-sit.png" style="width:34px;display:block;margin:0 auto" alt="">';
     const name = '<span data-ouid="' + u.uid + '" style="display:block;font-size:10px;color:#4c5b35;background:rgba(255,253,247,.9);border-radius:8px;padding:0 5px;white-space:nowrap;text-align:center">' + String(u.nickname || "島の人").replace(/[<>&"]/g, "") + '</span>';
     const mk = L.marker(ll, { icon: L.divIcon({ className: "zpost", html: cat + name, iconSize: [54, 48], iconAnchor: [27, 40] }) }).addTo(window.__parkLayer);
     mk.on("click", () => { if (window.__onParkCat) window.__onParkCat(u.uid, u.nickname || "島の人"); });
@@ -986,8 +987,9 @@ import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, query, 
 const $ = id => document.getElementById(id);
 let auth = null, db = null, me = null, profile = null;
 const CAT_TYPES = ["muse", "tabby", "white", "black", "calico"];
+const CAT_KINDS = CAT_TYPES;
 function todayJST() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo" }).format(new Date()); }
-function renderAuth() { refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark();
+function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark();
   if (me && profile) {
     $("authState").innerHTML = "";
     const img = document.createElement("img"); img.src = "cat-" + profile.cat + "-sit.png"; img.alt = "";
@@ -1110,7 +1112,7 @@ async function renderOthers() {
   try {
     const users = await fetchUsers(false);
     const here = users.filter((u) => (!me || u.uid !== me.uid) && u.at === curSceneId && isOutWalking(u));
-    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="cat-' + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + '-sit.png" alt=""><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
+    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '" alt=""' + (u.avaUrl ? ' style="border-radius:50%;object-fit:cover;width:80px;height:80px"' : '') + '><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
     if (window.__markOhana) setTimeout(() => window.__markOhana(), 200);
     box.querySelectorAll(".otherAv").forEach((b) => b.addEventListener("click", () => {
       const u = here.find((x) => x.uid === b.dataset.uid);
@@ -1173,8 +1175,8 @@ $("parkSend").addEventListener("click", async () => {
   } catch (e) { msg.textContent = "送れませんでした"; }
 });
 } catch (e) { $("btnLogin").style.display = "none"; $("authState").textContent = "🐾 ゲストとして散歩中（ログインは準備中）"; }
-function renderMyPhoto() { const has = profile && profile.photoData; $("myPhotoImg").style.display = has ? "" : "none"; if (has) $("myPhotoImg").src = profile.photoData; $("myPhotoState").textContent = has ? "この写真でキャラを作成します（差し替えもできます）" : "まだ写真がありません"; }
-function openProf() { if (!profile) return; $("profName").value = profile.nickname || ""; buildCatChoices(); renderStars(); renderMyPhoto(); loadParkInbox(); renderOhanaLink(); renderAvaLog(); $("profModal").classList.add("open"); }
+function renderMyPhoto() { const av = profile && profile.avaUrl; const has = profile && profile.photoData; $("myPhotoImg").style.display = (av || has) ? "" : "none"; if (av) { $("myPhotoImg").src = av; $("myPhotoState").textContent = "アバターができました"; } else if (has) { $("myPhotoImg").src = has; $("myPhotoState").textContent = "写真を受け取りました。アバターを作成中です（できたら差し替わります）"; } else { $("myPhotoState").textContent = "まだ写真がありません"; } }
+function openProf() { if (!profile) return; $("profModal").classList.add("open"); try { $("profName").value = profile.nickname || ""; buildCatChoices(); } catch (e) {} try { renderStars(); } catch (e) {} try { renderMyPhoto(); } catch (e) {} try { loadParkInbox(); } catch (e) {} try { renderOhanaLink(); } catch (e) {} try { renderAvaLog(); } catch (e) {} }
 $("myPhotoInput").addEventListener("change", async (e) => {
   const f = e.target.files && e.target.files[0]; if (!f || !me) return;
   try {
