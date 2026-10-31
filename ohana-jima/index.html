@@ -316,6 +316,12 @@
         <label class="act small" style="display:inline-block;cursor:pointer">写真を選ぶ<input id="myPhotoInput" type="file" accept="image/*" style="display:none"></label>
       </div>
       <p class="src" style="margin:6px 0 0">キャラができるまでは、猫があなたの分身です。</p>
+      <div id="avaChatBox" style="margin-top:10px;background:#f7fbff;border:1.5px solid #bcd6ee;border-radius:10px;padding:8px 10px">
+        <b style="font-size:13.5px">アバターの相談</b>
+        <p class="src" style="margin:2px 0 6px">どんなキャラにしたいか、チャットで相談できます。希望は保存されて、作り直しのときに反映します。</p>
+        <div id="avaLog" style="max-height:150px;overflow:auto;font-size:13px;line-height:1.55"></div>
+        <form id="avaForm" style="display:flex;gap:6px;margin-top:6px"><input id="avaInput" type="text" maxlength="200" placeholder="例：メガネは細い丸で" style="flex:1;min-width:0"><button class="act small" type="submit">送る</button></form>
+      </div>
       <label data-i18n="profCat">いまの分身（猫）</label>
       <div class="catChoices" id="catChoices"></div>
       <label>ログインの星（来た日の記録）</label>
@@ -834,7 +840,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
 import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。オーナー（代表）ですかと聞かれたら、自分はオーナーではなく店員だと答えてください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）", "ohana": "あなたは、愛媛県松山市の「OHANA島」の案内です。名前を聞かれたら「OHANAです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせ（OHANAの掲示板・LINEオープンチャット）を案内してください。料金・在庫・営業時間を推測で断定しないでください（お店のことは、各お店の場所で店員さんに聞けます）。\n・OHANA島は、松山市味酒町・萱町あたりの実在の街を、水彩の絵で再現した島です。実際のお店や風景とは異なります。ストリートビュー式に歩けて、MAPのピンからも移動できます。\n・ログインすると自分の分身が動き出します。城山公園は「みんなの広場」で、分身たちが集まる場所です。\n・OHANAシェア＊プロジェクトは、ヒトモノコトをつなぐ、選べる物々交換のフリマです。100円券は無料配布で、お釣りは出ません。代金は現金との組み合わせも選べます。参加は無料です。"};
+var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。オーナー（代表）ですかと聞かれたら、自分はオーナーではなく店員だと答えてください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）", "ohana": "あなたは、愛媛県松山市の「OHANA島」の案内です。名前を聞かれたら「OHANAです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせ（OHANAの掲示板・LINEオープンチャット）を案内してください。料金・在庫・営業時間を推測で断定しないでください（お店のことは、各お店の場所で店員さんに聞けます）。\n・OHANA島は、松山市味酒町・萱町あたりの実在の街を、水彩の絵で再現した島です。実際のお店や風景とは異なります。ストリートビュー式に歩けて、MAPのピンからも移動できます。\n・ログインすると自分の分身が動き出します。城山公園は「みんなの広場」で、分身たちが集まる場所です。\n・OHANAシェア＊プロジェクトは、ヒトモノコトをつなぐ、選べる物々交換のフリマです。100円券は無料配布で、お釣りは出ません。代金は現金との組み合わせも選べます。参加は無料です。", "ava": "あなたは、OHANA島のアバター相談の担当です。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。島の利用者が、自分の写真から作る水彩キャラ（アバター）の希望を相談しています。髪型・メガネ・服装・雰囲気・ポーズなどの希望を聞き取り、短く復唱して確認してください。キャラは自動でその場に作られるのではなく、希望をもとに主催側が作り直して差し替えます。聞かれたら、そのことを正直に伝えてください。希望はこのプロフィールに保存され、作り直しのときに反映されます。写真がまだ無い人には、先に上の欄から写真のアップロードを案内してください。"};
 var LIMIT_MSG = "たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。OHANAの掲示板やLINEオープンチャットからお声がけください。";
 try {
   var aiApp = initializeApp({ apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0", authDomain: "ohana-share.firebaseapp.com", projectId: "ohana-share", storageBucket: "ohana-share.firebasestorage.app", messagingSenderId: "825904150210", appId: "1:825904150210:web:4ae90f047ac8cc761cad5b" }, 'ohana-ai');
@@ -1066,6 +1072,18 @@ window.__markOhana = async () => {
   const uids = [...new Set(targets.map((t) => t.uid).filter(Boolean))];
   for (const uid of uids) { const pages = await fetchOhanaPages(uid); if (pages.length) targets.forEach((t) => { if (t.uid === uid && !t.el.dataset.ob) { t.el.dataset.ob = "1"; t.el.textContent += " 🌺"; } }); }
 };
+
+/* ===== アバター相談チャット ===== */
+function avaMsg(t, who) { const log = $("avaLog"); if (!log) return; const d = document.createElement("div"); d.style.margin = "3px 0"; d.textContent = (who === "me" ? "🙂 " : "🎨 ") + t; log.appendChild(d); log.scrollTop = log.scrollHeight; }
+function renderAvaLog() { const log = $("avaLog"); if (!log) return; log.innerHTML = ""; const hist = (profile && profile.avaChat) || []; if (!hist.length) { avaMsg("こんにちは。アバターの希望があれば聞かせてください。髪型やメガネ、雰囲気のことなど、何でもどうぞ。", "bot"); return; } hist.slice(-10).forEach((m) => avaMsg(m.t, "me")); }
+$("avaForm").addEventListener("submit", async (e) => {
+  e.preventDefault(); const inp = $("avaInput"); const text = inp.value.trim(); if (!text || !me || !profile) return; inp.value = "";
+  avaMsg(text, "me");
+  profile.avaChat = [...(profile.avaChat || []), { t: text, ts: new Date().toISOString() }].slice(-30);
+  try { await saveProfileDoc({ avaChat: profile.avaChat, avaReqTs: new Date().toISOString() }); } catch (err) {}
+  let ans = null; if (window.__geminiAskShop) { try { ans = await window.__geminiAskShop("ava", text); } catch (err) {} }
+  avaMsg(ans || "受け取りました。作り直しのときに反映しますね。", "bot");
+});
 async function renderOthers() {
   const box = $("othersAv"); if (!box) return;
   try {
@@ -1135,7 +1153,7 @@ $("parkSend").addEventListener("click", async () => {
 });
 } catch (e) { $("btnLogin").style.display = "none"; $("authState").textContent = "🐾 ゲストとして散歩中（ログインは準備中）"; }
 function renderMyPhoto() { const has = profile && profile.photoData; $("myPhotoImg").style.display = has ? "" : "none"; if (has) $("myPhotoImg").src = profile.photoData; $("myPhotoState").textContent = has ? "この写真でキャラを作成します（差し替えもできます）" : "まだ写真がありません"; }
-function openProf() { if (!profile) return; $("profName").value = profile.nickname || ""; buildCatChoices(); renderStars(); renderMyPhoto(); loadParkInbox(); renderOhanaLink(); $("profModal").classList.add("open"); }
+function openProf() { if (!profile) return; $("profName").value = profile.nickname || ""; buildCatChoices(); renderStars(); renderMyPhoto(); loadParkInbox(); renderOhanaLink(); renderAvaLog(); $("profModal").classList.add("open"); }
 $("myPhotoInput").addEventListener("change", async (e) => {
   const f = e.target.files && e.target.files[0]; if (!f || !me) return;
   try {
