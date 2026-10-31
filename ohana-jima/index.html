@@ -194,6 +194,7 @@
   <h1>OHANA島</h1>
   <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。街の猫たちは、SNSの声と連動して話します。</p>
   <div id="authBar"><span class="who" id="authState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button">ログイン</button><button class="act sub small" id="btnProfile" type="button" style="display:none">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none">ログアウト</button></div>
+  <p class="src" style="text-align:center;margin:2px 12px 8px" data-ed="starNote">noteの構想どおり、ログインした記録が星のようにプロフィールに残ります。</p>
 
 
   <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div>
@@ -255,9 +256,18 @@
       <h2>あなたのプロフィール</h2>
       <label for="profName">ニックネーム</label>
       <input id="profName" type="text" maxlength="20" placeholder="島での名前">
-      <label>あなたの猫</label>
+      <label>あなたの分身（アバター）</label>
+      <p class="src" style="margin:0 0 6px">基本は、自分の写真をアップロードしてもらって、キャラを作成します。写真はその場でアップロードできます。</p>
+      <div id="photoUpBox" style="margin:0 0 4px">
+        <img id="myPhotoImg" alt="" style="display:none;width:88px;height:88px;object-fit:cover;border-radius:12px;border:1.5px solid #d9c9a8">
+        <p class="src" id="myPhotoState" style="margin:4px 0">まだ写真がありません</p>
+        <label class="act small" style="display:inline-block;cursor:pointer">写真を選ぶ<input id="myPhotoInput" type="file" accept="image/*" style="display:none"></label>
+      </div>
+      <p class="src" style="margin:6px 0 0">キャラができるまでは、猫があなたの分身です。</p>
+      <label>いまの分身（猫）</label>
       <div class="catChoices" id="catChoices"></div>
       <label>ログインの星（来た日の記録）</label>
+      <p class="src" style="margin:0 0 6px">noteの構想どおり、ログインした記録が星のようにプロフィールに残ります。</p>
       <div id="starBox"><span class="none">ログインすると、来た日が星になります</span></div>
       <p class="src" id="starCount"></p>
       <div class="btns"><button class="act" id="btnProfSave" type="button">保存する</button></div>
@@ -859,7 +869,22 @@ try {
   $("btnLogin").addEventListener("click", async () => { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { alert("ログインできませんでした。通信環境をご確認のうえ、もう一度お試しください。"); } });
   $("btnLogout").addEventListener("click", async () => { await signOut(auth); });
 } catch (e) { $("btnLogin").style.display = "none"; $("authState").textContent = "🐾 ゲストとして散歩中（ログインは準備中）"; }
-function openProf() { if (!profile) return; $("profName").value = profile.nickname || ""; buildCatChoices(); renderStars(); $("profModal").classList.add("open"); }
+function renderMyPhoto() { const has = profile && profile.photoData; $("myPhotoImg").style.display = has ? "" : "none"; if (has) $("myPhotoImg").src = profile.photoData; $("myPhotoState").textContent = has ? "この写真でキャラを作成します（差し替えもできます）" : "まだ写真がありません"; }
+function openProf() { if (!profile) return; $("profName").value = profile.nickname || ""; buildCatChoices(); renderStars(); renderMyPhoto(); $("profModal").classList.add("open"); }
+$("myPhotoInput").addEventListener("change", async (e) => {
+  const f = e.target.files && e.target.files[0]; if (!f || !me) return;
+  try {
+    const url = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(f); });
+    const img = new Image();
+    await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+    const sc = Math.min(1, 600 / Math.max(img.width, img.height));
+    const cv = document.createElement("canvas"); cv.width = Math.round(img.width * sc); cv.height = Math.round(img.height * sc);
+    cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+    await saveProfileDoc({ photoData: cv.toDataURL("image/jpeg", 0.8) });
+    renderMyPhoto();
+    $("myPhotoState").textContent = "受け付けました。この写真でキャラを作成します。";
+  } catch (err) { alert("アップロードできませんでした"); }
+});
 $("btnProfile").addEventListener("click", openProf);
 $("profClose").addEventListener("click", () => $("profModal").classList.remove("open"));
 $("btnProfSave").addEventListener("click", async () => {
