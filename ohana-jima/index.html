@@ -492,7 +492,7 @@ Object.keys(SCENES).forEach(id => {
     clickHandlerFunc: (evt, a) => walkTo(a), clickHandlerArgs: ex,
     createTooltipFunc: (div, a) => { walkChevron(div, a); ["pointerdown","touchstart","click"].forEach(ev => div.addEventListener(ev, (e) => { e.stopPropagation(); walkTo(a); })); }, createTooltipArgs: ex }));
   POSTS.filter(p => p.scene === id).forEach(p => hs.push(catSpot(p)));
-  if (id === "counter") hs.push(keeperSpot(true));
+  if (id === "counter") { hs.push(keeperSpot(true)); hs.push(shopCat("MAHALO 店員さん", "いらっしゃいませ", "av-yuki.png", -38, "mahalo", true)); }
   if (id === "elua") hs.push(eluaCat());
   if (id === "lea") hs.push(leaCat());
   scenesCfg[id] = { type: "equirectangular", panorama: sc.pano, yaw: sc.yaw, pitch: -2, hfov: sc.hfov, hotSpots: hs };
@@ -879,6 +879,7 @@ const BLDGS = [
 ];
 const TOWN_STAFF = [
   { img: 'av-mahalo.png', tag: 'MAHALO\u306e\u5e97\u54e1\u3055\u3093', x: 282, y: 250, dest: 'stairs' },
+  { img: 'av-yuki.png', tag: 'MAHALO\u306e\u5e97\u54e1\u3055\u3093', x: 322, y: 262, dest: 'counter' },
   { img: 'av-elua.png', tag: 'elua\u306e\u5e97\u54e1\u3055\u3093', x: 182, y: 292, dest: 'elua' },
   { img: 'av-yuri.png', tag: 'MOMOwaRI', x: 238, y: 298, dest: 'lea' }
 ];
