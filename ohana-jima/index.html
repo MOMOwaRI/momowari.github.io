@@ -427,15 +427,15 @@ const SCENE_NAMES = {};
 Object.keys(SCENES).forEach(id => SCENE_NAMES[id] = SCENES[id].name);
 /* 出口（yawはその地点の絵の中での方角、entryは着いた先で向く方角）。配置は実際の地図に合わせた */
 const EXITS = {
-  kayamachi:  [ { to:"kayamachi2", yaw:0, label:"北へ進む", entry:0 } ],
+  kayamachi:  [ { to:"kayamachi2", yaw:0, label:"出口（北へ戻る）", entry:0 } ],
   kayamachi2: [ { to:"kayamachi3", yaw:0, label:"北へ進む", entry:20 }, { to:"kayamachi", yaw:178, label:"南へ戻る", entry:180 } ],
   kayamachi3: [ { to:"yaoya", yaw:105, label:"北へ（八百屋さん）", entry:-10 }, { to:"kayamachi2", yaw:-95, label:"南へ戻る", entry:180 } ],
   yaoya:      [ { to:"tamago", yaw:100, label:"北へ（たまご屋さん）", entry:-20 }, { to:"jinja", yaw:-100, label:"西へ（阿沼美神社）", entry:-40 }, { to:"kayamachi3", yaw:175, label:"南へ戻る", entry:-120 } ],
-  tamago:     [ { to:"yaoya", yaw:175, label:"南へ戻る（八百屋さん）", entry:-10 } ],
+  tamago:     [ { to:"yaoya", yaw:175, label:"出口（南へ戻る・八百屋さん）", entry:-10 } ],
   jinja:      [ { to:"front", yaw:-163, label:"西へ（MAHALOの方）", entry:-15 }, { to:"yaoya", yaw:163, label:"東へ戻る（商店街）", entry:-60 } ],
-  koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"front", yaw:165, label:"北へ戻る（MAHALOの方）", entry:-15 } ],
-  koshin:     [ { to:"koshin1", yaw:170, label:"路地へ戻る", entry:-40 } ],
-  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:-60 }, { to:"pharmacy", yaw:175, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"jinja", yaw:88, pitch:-12, label:"東へ進む（阿沼美神社・商店街方面）", entry:-40 }, { to:"koshin1", yaw:140, pitch:-14, label:"南へ（庚申庵の方）", entry:-30 } ],
+  koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"front", yaw:165, label:"出口（北へ・MAHALOの方へ戻る）", entry:-15 } ],
+  koshin:     [ { to:"koshin1", yaw:170, label:"出口（路地へ戻る）", entry:-40 } ],
+  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:-60 }, { to:"pharmacy", yaw:-177, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"jinja", yaw:88, pitch:-12, label:"東へ進む（阿沼美神社・商店街方面）", entry:-40 }, { to:"koshin1", yaw:-150, pitch:-14, label:"南へ（庚申庵の方）", entry:-30 } ],
   pharmacy:   [ { to:"front", yaw:168, pitch:-10, label:"通り向かい（MAHALO）", entry:-15 } ],
   lea:        [ { to:"front", yaw:170, label:"出口（店前へ出る）", entry:-15 } ],
   stairs:     [ { to:"counter", yaw:-82, pitch:-2, label:"2階の入口から中へ（カウンター前）", entry:40 }, { to:"front", yaw:-120, pitch:-36, label:"出口（階段を下りる）", entry:-15 } ],
