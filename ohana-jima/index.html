@@ -898,28 +898,33 @@ function tStep(c, dt, speed) {
 
 function buildTownGround() {
   const svg = document.getElementById('townGroundSvg');
-  let seed = 12345; const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
-  const T = 20, COLS = 34, ROWS = 30;
-  const segs = [
-    [[590,44],[608,150],[606,210],[604,280],[608,406], 27],
-    [[484,190],[352,226],[290,244],[258,254],[228,262], 27],
-    [[228,262],[148,192], 27],
-    [[290,244],[220,390],[76,550], 13]
-  ];
-  function dSeg(px, py, a, b) { const vx = b[0]-a[0], vy = b[1]-a[1]; const L2 = vx*vx+vy*vy; let t = L2 ? ((px-a[0])*vx+(py-a[1])*vy)/L2 : 0; t = Math.max(0, Math.min(1, t)); const dx = px-(a[0]+vx*t), dy = py-(a[1]+vy*t); return Math.hypot(dx, dy); }
-  function onPath(px, py) { for (const sg of segs) { const w = sg[sg.length-1]; for (let i = 0; i < sg.length - 2; i++) { if (dSeg(px, py, sg[i], sg[i+1]) < w) return true; } } return false; }
   let out = '';
-  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
-    const x = c*T, y = r*T, cx = x+10, cy = y+10;
-    let fill;
-    if (cx > 168 && cx < 336 && cy > 236 && cy < 336) fill = ((c+r) % 2) ? '#eae3d0' : '#e2dac4';
-    else if (onPath(cx, cy)) fill = ((c*7+r*13) % 5 === 0) ? '#d9b96a' : '#e3c078';
-    else fill = ((c+r) % 2) ? '#bcd491' : '#b2cb85';
-    out += '<rect x="' + x + '" y="' + y + '" width="20" height="20" fill="' + fill + '"/>';
-    if (!onPath(cx, cy) && rnd() < 0.10) out += '<circle cx="' + (x + 4 + rnd()*12) + '" cy="' + (y + 4 + rnd()*12) + '" r="1.6" fill="#a9c184"/>';
+  out += '<rect x="0" y="0" width="680" height="600" fill="#f3ecd7"/>';
+  out += '<rect x="0" y="0" width="680" height="600" fill="#e9dfc2" opacity="0.35"/>';
+  // city blocks (soft washes)
+  const blocks = [[20,20,250,140],[300,20,200,120],[520,20,140,120],[20,180,120,150],[300,160,160,110],[520,300,140,160],[20,360,150,220],[200,360,220,120],[460,480,200,100],[200,500,220,80]];
+  blocks.forEach((b, i) => { out += '<rect x="' + b[0] + '" y="' + b[1] + '" width="' + b[2] + '" height="' + b[3] + '" rx="14" fill="' + (i % 2 ? '#eee5cb' : '#e7dcbd') + '" opacity="0.55"/>'; });
+  // green areas: shrine grounds + koshin garden
+  out += '<ellipse cx="492" cy="182" rx="86" ry="58" fill="#b9cf9a" opacity="0.5"/>';
+  out += '<ellipse cx="84" cy="540" rx="90" ry="56" fill="#b9cf9a" opacity="0.45"/>';
+  // streets of the real map (soft watercolor bands)
+  function band(pts, w, col, op, dash) {
+    const pl = pts.map(q => q[0] + ',' + q[1]).join(' ');
+    return '<polyline points="' + pl + '" fill="none" stroke="' + col + '" stroke-width="' + (w + 10) + '" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>'
+         + '<polyline points="' + pl + '" fill="none" stroke="' + col + '" stroke-width="' + w + '" stroke-linecap="round" stroke-linejoin="round" opacity="' + op + '"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>';
   }
-  const trees = [[60,80],[110,120],[420,90],[520,120],[640,520],[60,470],[150,540],[560,560],[400,470],[90,300],[640,90],[480,300],[380,540],[260,470],[640,180],[40,200],[520,340],[180,90],[440,150],[520,160],[40,500],[120,580],[660,300],[330,90]];
-  trees.forEach(t => { out += '<g><rect x="' + (t[0]-2) + '" y="' + (t[1]+6) + '" width="4" height="8" fill="#8a6d4b"/><circle cx="' + t[0] + '" cy="' + t[1] + '" r="18" fill="#8fb869"/><circle cx="' + (t[0]-5) + '" cy="' + (t[1]-5) + '" r="11" fill="#a5cc82"/></g>'; });
+  out += band([[606,8],[608,150],[606,210],[604,280],[608,470]], 30, '#f7efdb', 0.95);           // Kayamachi street (N-S)
+  out += band([[500,186],[352,226],[290,244],[258,254],[228,262],[170,268]], 28, '#f7efdb', 0.95); // street past the shrine to MAHALO
+  out += band([[228,262],[186,228],[148,192],[128,160]], 24, '#f7efdb', 0.95);                      // road across to the pharmacy
+  out += band([[290,244],[220,390],[76,550]], 7, '#e8d9ae', 0.9, '12 9');                           // path to Koshin-an
+  // MAHALO plaza
+  out += '<rect x="168" y="238" width="168" height="100" rx="16" fill="#f7efdb" opacity="0.8"/>';
+  // watercolor trees
+  const trees = [[452,148],[528,158],[470,214],[540,206],[52,506],[120,566],[60,580],[140,520],[420,96],[520,120],[90,300],[640,520],[400,470],[260,470],[180,96],[646,300],[330,96],[646,96]];
+  trees.forEach(t => { out += '<g opacity="0.9"><circle cx="' + t[0] + '" cy="' + t[1] + '" r="15" fill="#a9c184"/><circle cx="' + (t[0]-5) + '" cy="' + (t[1]-5) + '" r="10" fill="#b9cf9a"/><circle cx="' + (t[0]+6) + '" cy="' + (t[1]+3) + '" r="8" fill="#9abd76"/></g>'; });
+  // street labels (real names)
+  out += '<text x="618" y="330" font-size="11" fill="#a08c5a" transform="rotate(90 618 330)">萱町通り</text>';
+  out += '<text x="330" y="212" font-size="11" fill="#a08c5a">味酒町の通り</text>';
   svg.innerHTML = out;
 }
 function buildTown() {
