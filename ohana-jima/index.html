@@ -272,7 +272,14 @@
   <div id="bigMapSec">
     <div id="mapHead"><h2 data-ed="mapH">&#x1F5FA; MAP</h2></div>
     <div id="bigMap"></div>
-    <p class="hint" style="margin:2px 12px 12px" data-ed="mapHint">ピンをタップすると、その場所のストリートビューへ行けます。</p>
+    <p class="hint" style="margin:2px 12px 12px" data-ed="mapHint">ピンをタップすると、その場所のストリートビューへ行けます。城山公園は、みんなの広場です。</p>
+  </div>
+  <div id="parkTalk" style="display:none;background:#fffdf8;border:1.5px dashed #b7cf9e;border-radius:12px;padding:10px 12px;margin:0 0 14px">
+    <h3 id="parkFormTitle" style="font-size:14px;margin:0 0 8px;color:#5b7040">🌳 城山公園（みんなの広場）</h3>
+    <input id="parkFrom" placeholder="あなたの名前" maxlength="30" style="width:100%;box-sizing:border-box;border:1.5px solid #cfdabb;border-radius:8px;padding:7px 9px;font-size:14px;margin:0 0 8px;font-family:inherit">
+    <textarea id="parkText" maxlength="200" rows="2" placeholder="ひとこと（200字まで）" style="width:100%;box-sizing:border-box;border:1.5px solid #cfdabb;border-radius:8px;padding:7px 9px;font-size:14px;margin:0 0 8px;font-family:inherit"></textarea>
+    <button class="act small" id="parkSend" type="button">💬 残す</button>
+    <span class="src" id="parkMsg" style="margin-left:8px"></span>
   </div>
   <div id="profModal">
     <div id="profPanel">
@@ -338,21 +345,6 @@
     <p>お店の方も、お客さんも、ぜひご参加ください。いただいた写真は、水彩の絵のもとにさせてもらいます。</p>
   </div>
   <!-- 城山公園 -->
-  <section id="parkSec">
-    <h2 style="font-size:19px;margin:26px 4px 4px;color:#7c6642">🌳 城山公園</h2>
-    <p class="src" style="margin:0 4px 10px" data-ed="parkP">みんなの分身は、普段ここにいます。ログインすると動き出します。公園にいる子をタップすると、コメントを残せます。</p>
-    <div id="parkStage">
-      <div id="parkCats"><p class="src">読み込み中…</p></div>
-    </div>
-    <p class="src" id="parkYou" style="text-align:center;margin:8px 0 0"></p>
-    <div id="parkForm">
-      <h3 id="parkFormTitle">コメントを残す（公園の子をタップして選んでください）</h3>
-      <input id="parkFrom" placeholder="あなたの名前" maxlength="30">
-      <textarea id="parkText" maxlength="200" rows="2" placeholder="ひとこと（200字まで）"></textarea>
-      <button class="act small" id="parkSend" type="button">💬 残す</button>
-      <span class="src" id="parkMsg" style="margin-left:8px"></span>
-    </div>
-  </section>
 
   <div class="panel" id="snsEmbeds">
     <h2>近所のみなさんの投稿</h2>
@@ -406,7 +398,7 @@ const SCENES = {
   kayamachi:  { pano:"mahalo-pano-kayamachi.jpg",  name:"萱町商店街", yaw:0, hfov:102 },
   kayamachi2: { pano:"mahalo-pano-kayamachi2.jpg", name:"萱町商店街（なかほど）", yaw:0, hfov:102 },
   kayamachi3: { pano:"mahalo-pano-kayamachi3.jpg", name:"萱町商店街（北寄り）", yaw:20, hfov:102 },
-  yaoya:      { pano:"mahalo-pano-yaoya.jpg",      name:"八百屋の前（丸五青果）", yaw:-10, hfov:102 },
+  yaoya:      { pano:"mahalo-pano-yaoya2.jpg",      name:"八百屋の前（丸五青果）", yaw:-10, hfov:102 },
   tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:102 },
   jinja:      { pano:"mahalo-pano-jinja2.jpg",      name:"阿沼美神社", yaw:-40, hfov:100 },
   koshin:     { pano:"mahalo-pano-koshin2.jpg",     name:"庚申庵", yaw:10, hfov:100 },
@@ -811,13 +803,13 @@ try {
 <script>
 // ===== まちマップ（ゴゴ市モード） =====
 const MAP_POS = { tamago:[298,24], yaoya:[307,77], jinja:[246,87], approach:[128,127], front:[112,132], pharmacy:[103,151], kayamachi3:[303,50], kayamachi2:[305,106], kayamachi:[306,158], koshin:[30,272] };
-const PIN_COLORS = { tamago:"#d9a441", yaoya:"#d9a441", jinja:"#b5654d", front:"#0068B7", kayamachi:"#d9a441", kayamachi2:"#e8c877", kayamachi3:"#e8c877", pharmacy:"#e59a8a", koshin:"#7a9a5b" };
-const PIN_LABELS = { front:"MAHALO", tamago:"平野鶏卵", yaoya:"丸五青果", jinja:"阿沼美神社", pharmacy:"レデイ薬局", kayamachi:"萱町商店街", koshin:"庚申庵" };
+const PIN_COLORS = { tamago:"#d9a441", yaoya:"#d9a441", jinja:"#b5654d", front:"#0068B7", kayamachi:"#d9a441", kayamachi2:"#e8c877", kayamachi3:"#e8c877", pharmacy:"#e59a8a", koshin:"#7a9a5b", park:"#5b8a4d" };
+const PIN_LABELS = { park:"城山公園", front:"MAHALO", tamago:"平野鶏卵", yaoya:"丸五青果", jinja:"阿沼美神社", pharmacy:"レデイ薬局", kayamachi:"萱町商店街", koshin:"庚申庵" };
 let myProfile = { nickname: "ゲスト", cat: "muse" };
 window.setIslandProfile = function(pr) { if (pr && pr.nickname) myProfile.nickname = pr.nickname; if (pr && pr.cat) myProfile.cat = pr.cat; if (window.townSetName) window.townSetName(myProfile.nickname); };
-const PLACE_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687] };
-window.__youScene = "front";
-window.syncYou = function(id) { window.__youScene = id; if (window.__youMarker && window.__PLACE_LL) { const key = window.__PLACE_LL[id] ? id : "front"; window.__youMarker.setLatLng(window.__PLACE_LL[key]); } };
+const PLACE_LL = { park:[33.84170,132.76510], front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687] };
+window.__youScene = "park";
+window.syncYou = function(id) { if (id) window.__youScene = id; if (window.__youMarker && window.__PLACE_LL) { const home = window.__youUid ? (window.__PLACE_LL[window.__youScene] ? window.__youScene : "front") : "park"; window.__youMarker.setLatLng(window.__PLACE_LL[home]); } };
 window.goScene = function(id) { stopWalk(); viewer.loadScene(id); document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "center" }); };
 const SNS_PATH = {
   instagram: "M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077",
@@ -827,16 +819,17 @@ const SNS_PATH = {
 let bigMap = null;
 function initBigMap() {
   if (!window.L || bigMap) return;
-  bigMap = L.map("bigMap", { scrollWheelZoom: false }).setView([33.84556, 132.75534], 14);
+  bigMap = L.map("bigMap", { scrollWheelZoom: false }).fitBounds([[33.8409, 132.7539], [33.8476, 132.7660]], { padding: [18, 18] });
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(bigMap);
   Object.keys(PLACE_LL).forEach(id => {
     const label = PIN_LABELS[id]; const col = PIN_COLORS[id] || "#cbb27f";
     const html = '<span style="display:block;width:14px;height:14px;margin:0 auto;border-radius:50%;background:' + col + ';border:2px solid #fff;box-shadow:0 1px 4px rgba(90,60,10,.4)"></span>' + (label ? '<span style="display:block;font-size:10.5px;color:#5d4212;background:rgba(255,253,247,.88);border-radius:8px;padding:0 5px;margin-top:1px;white-space:nowrap;text-align:center">' + label + '</span>' : '');
     const mk = L.marker(PLACE_LL[id], { icon: L.divIcon({ className: "zpin", html: html, iconSize: label ? [70, 32] : [14, 14], iconAnchor: label ? [35, 8] : [7, 7] }) }).addTo(bigMap);
-    mk.on("click", () => { window.goScene(id); });
+    if (id === "park") { mk.on("click", () => { if (window.openPlaza) window.openPlaza(); }); } else { mk.on("click", () => { window.goScene(id); }); }
   });
   window.__PLACE_LL = PLACE_LL;
-  window.__youMarker = L.marker(PLACE_LL[window.__youScene] || PLACE_LL.front, { icon: L.divIcon({ className: "zpost", html: '<img src="av-player.png" style="width:34px;display:block" alt="">', iconSize: [34, 46], iconAnchor: [17, 42] }), zIndexOffset: 1000 }).addTo(bigMap);
+  if (window.__parkUsers) window.renderParkResidents(window.__parkUsers);
+  window.__youMarker = L.marker(PLACE_LL[window.__youScene] || PLACE_LL.park, { icon: L.divIcon({ className: "zpost", html: '<img src="av-player.png" style="width:34px;display:block" alt="">', iconSize: [34, 46], iconAnchor: [17, 42] }), zIndexOffset: 1000 }).addTo(bigMap);
   POSTS.forEach(post => {
     const ll = PLACE_LL[post.scene]; if (!ll) return;
     const key = post.sns === "Instagram" ? "instagram" : (post.sns === "Threads" ? "threads" : "x");
@@ -844,6 +837,26 @@ function initBigMap() {
     mk.on("click", () => openPost(post));
   });
 }
+window.__parkLayer = null;
+window.renderParkResidents = function(users) {
+  window.__parkUsers = users || [];
+  if (!bigMap || !window.L) return;
+  if (window.__parkLayer) { bigMap.removeLayer(window.__parkLayer); }
+  window.__parkLayer = L.layerGroup().addTo(bigMap);
+  const c = PLACE_LL.park;
+  window.__parkUsers.forEach((u, i) => {
+    const a = (i / Math.max(1, window.__parkUsers.length)) * Math.PI * 2;
+    const ll = [c[0] + Math.sin(a) * 0.00055, c[1] + Math.cos(a) * 0.00075];
+    const cat = '<img src="cat-' + (["muse","tabby","white","black","calico"].includes(u.cat) ? u.cat : "muse") + '-sit.png" style="width:34px;display:block;margin:0 auto" alt="">';
+    const name = '<span style="display:block;font-size:10px;color:#4c5b35;background:rgba(255,253,247,.9);border-radius:8px;padding:0 5px;white-space:nowrap;text-align:center">' + String(u.nickname || "島の人").replace(/[<>&"]/g, "") + '</span>';
+    const mk = L.marker(ll, { icon: L.divIcon({ className: "zpost", html: cat + name, iconSize: [54, 48], iconAnchor: [27, 40] }) }).addTo(window.__parkLayer);
+    mk.on("click", () => { if (window.__onParkCat) window.__onParkCat(u.uid, u.nickname || "島の人"); });
+  });
+};
+window.openPlaza = function() {
+  const card = document.getElementById("parkTalk");
+  if (card) { card.style.display = ""; card.scrollIntoView({ behavior: "smooth", block: "center" }); }
+};
 function openMap() { document.getElementById("bigMapSec").scrollIntoView({ behavior: "smooth" }); setTimeout(() => { initBigMap(); if (bigMap) bigMap.invalidateSize(); }, 400); }
 function closeMap() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 document.getElementById("btnMap").addEventListener("click", openMap);
@@ -960,23 +973,21 @@ $("talkSend").addEventListener("click", async () => {
   } catch (e) { msg.textContent = "送れませんでした"; }
 });
 async function renderPark() {
-  const box = $("parkCats"); if (!box) return;
+  window.__youUid = me ? me.uid : null;
+  if (window.syncYou) window.syncYou(null);
   try {
     const users = await fetchUsers(true);
     const others = users.filter((u) => (!me || u.uid !== me.uid) && !isOutWalking(u));
-    box._users = users;
-    box.innerHTML = others.length ? others.map((u) => '<button type="button" class="parkCat' + (parkTarget && parkTarget.uid === u.uid ? " sel" : "") + '" data-uid="' + u.uid + '"><img src="cat-' + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + '-sit.png" alt=""><span>' + escP(u.nickname || "島の人") + '</span></button>').join("") : '<p class="src">まだ誰もいません</p>';
-    box.querySelectorAll(".parkCat").forEach((b) => b.addEventListener("click", () => {
-      const u = (box._users || []).find((x) => x.uid === b.dataset.uid);
-      parkTarget = { uid: b.dataset.uid, name: (u && u.nickname) || "島の人" };
-      box.querySelectorAll(".parkCat").forEach((x) => x.classList.toggle("sel", x.dataset.uid === parkTarget.uid));
-      $("parkFormTitle").textContent = parkTarget.name + "さんへコメントを残す";
-    }));
-    const note = $("parkYou");
-    if (note) note.textContent = me ? "あなたは今、島を散歩中です（ログイン中は公園を離れます）" : "ログインすると、あなたの分身が動き出します";
+    if (window.renderParkResidents) window.renderParkResidents(others);
     if (me && profile && !$("parkFrom").value) $("parkFrom").value = profile.nickname || "";
   } catch (e) {}
 }
+window.__onParkCat = function(uid, name) {
+  parkTarget = { uid: uid, name: name };
+  $("parkFormTitle").textContent = name + "さんへコメントを残す";
+  const card = $("parkTalk");
+  if (card) { card.style.display = ""; card.scrollIntoView({ behavior: "smooth", block: "center" }); }
+};
 async function loadParkInbox() {
   const box = $("parkInbox"); if (!box || !me) return;
   try {
@@ -990,7 +1001,7 @@ async function loadParkInbox() {
 }
 $("parkSend").addEventListener("click", async () => {
   const msg = $("parkMsg");
-  if (!parkTarget) { msg.textContent = "先に公園の子をタップしてください"; return; }
+  if (!parkTarget) { msg.textContent = "先に、MAPの城山公園で相手を選んでください"; return; }
   const text = $("parkText").value.trim(); if (!text) { msg.textContent = "ひとこと書いてください"; return; }
   const fromName = ($("parkFrom").value || "").trim() || (profile && profile.nickname) || "ゲスト";
   try {
