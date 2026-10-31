@@ -97,6 +97,10 @@
   #mapBox h2 { font-size:14px; text-align:center; letter-spacing:.06em; }
   #mapBox .mnote { font-size:11.5px; color:#97795a; line-height:1.75; margin-top:2px; }
   #townMap { width:100%; height:auto; display:block; }
+  #meAv { position:absolute; left:50%; bottom:5%; transform:translateX(-50%); z-index:5; pointer-events:none; }
+  #meAv img { height:96px; display:block; filter:drop-shadow(0 6px 6px rgba(60,40,10,.35)); }
+  #meAv::after { content:""; position:absolute; left:50%; bottom:-4px; transform:translateX(-50%); width:56px; height:10px; background:rgba(80,55,20,.25); border-radius:50%; filter:blur(2px); z-index:-1; }
+  body.editing [data-ed] { outline:2px dashed #d9a441; outline-offset:2px; }
   #bigMapSec { background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:16px; padding:4px 0 8px; margin:14px 0; }
   #bigMap { height:440px; margin:6px 10px; border:1.5px solid #ecd9ae; border-radius:16px; z-index:0; }
   .zpin, .zpost { background:none; border:none; }
@@ -188,11 +192,11 @@
 <body>
 <div class="wrap">
   <h1>OHANA島</h1>
-  <p class="sub">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。街の猫たちは、SNSの声と連動して話します。</p>
+  <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。街の猫たちは、SNSの声と連動して話します。</p>
   <div id="authBar"><span class="who" id="authState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button">ログイン</button><button class="act sub small" id="btnProfile" type="button" style="display:none">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none">ログアウト</button></div>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div>
     <button id="exitBtn" type="button"></button>
     <button id="shopLinkBtn" type="button">ネットショップを見る</button>
     <div id="miniMap">
@@ -232,26 +236,18 @@
   </div>
   <div id="sceneName">MAHALOの店前</div>
   <div id="placeBar"></div>
-  <div class="btns"><button class="act" id="btnWalk">🐾 ねこと歩く（自動で進む）</button><button class="act" id="btnMap" type="button">🗺 まちマップを歩く</button></div>
+  <div class="btns"><button class="act" id="btnWalk">🐾 アバターと歩く（自動で進む）</button><button class="act" id="btnMap" type="button">🗺 MAPを見る</button></div>
   <div class="btns" id="shopBtns" style="display:none">
     <button class="act" id="btnTalk">店員さんと話す</button>
     <button class="act" id="btnGoods">商品を見る</button>
     <button class="act sub" id="btnCart">カゴを見る（0）</button>
   </div>
-  <p class="hint">猫の目線で歩く通りです。進みたい方を向いて地面をタップすると、その方へ歩けます。地面の矢印タップでも進めます。下のまちの地図の丸タップで、その場所へひとっ飛び。ドラッグで見回せます。</p>
+  <p class="hint" data-ed="streetHint">アバターの目線で歩く通りです。進みたい方を向いて地面をタップすると、その方へ歩けます。地面の矢印タップでも進めます。下のまちの地図の丸タップで、その場所へひとっ飛び。ドラッグで見回せます。</p>
 
-  <div class="card" id="townView">
-    <h2>&#x1F43E; まちを歩く</h2>
-    <div id="townStage">
-      <svg id="townGroundSvg" viewBox="0 0 680 600" style="position:absolute; inset:0; width:100%; height:100%;" aria-hidden="true"></svg>
-      <div id="townBldgs"></div><div id="townCats"></div>
-    </div>
-    <p class="hint" style="margin:2px 12px 12px">まちの中を、あなたのアバターで歩けます。地面をタップすると歩いていきます。建物をタップするとアバターが向かって、その場所のストリートビューに入ります。お店の前には店員さんのアバターが立っています（タップでお店へ）。配置は実際の松山です。</p>
-  </div>
   <div id="bigMapSec">
-    <div id="mapHead"><h2>&#x1F5FA; MAP（拡大すると島になります）</h2></div>
+    <div id="mapHead"><h2 data-ed="mapH">&#x1F5FA; MAP</h2></div>
     <div id="bigMap"></div>
-    <p class="hint" style="margin:2px 12px 12px">指や＋−ボタンで拡大・縮小できます。縮小すると、いつもの松山の地図。ぐっと拡大すると、OHANA島が見えてきます。島のピンをタップすると、その場所のストリートビューへ行けます。</p>
+    <p class="hint" style="margin:2px 12px 12px" data-ed="mapHint">ピンをタップすると、その場所のストリートビューへ行けます。</p>
   </div>
   <div id="profModal">
     <div id="profPanel">
@@ -303,33 +299,35 @@
   </div>
 
   <div class="panel" id="joinBlock">
-    <h2>一緒にメタバースを作りませんか</h2>
-    <p>この島は、みなさんの投稿で育ちます。お店の写真や、行ってみた感想の投稿に <b>#愛媛メタバースOHANA島</b> をつけてもらえたら、AI「Muse」が巡回して見つけて、島のお店の絵や、猫の吹き出しに反映していきます。</p>
+    <h2 data-ed="joinH">一緒にメタバースを作りませんか</h2>
+    <p data-ed="joinP">この島は、みなさんの投稿で育ちます。お店の写真や、行ってみた感想の投稿に <b>#愛媛メタバースOHANA島</b> をつけてもらえたら、AI「Muse」が巡回して見つけて、島のお店の絵や、猫の吹き出しに反映していきます。</p>
     <p>お店の方も、お客さんも、ぜひご参加ください。いただいた写真は、水彩の絵のもとにさせてもらいます。</p>
   </div>
   <div class="panel" id="snsEmbeds">
-    <h2>近所のSNS（実際の投稿）</h2>
-    <p class="src">この近所の実際の投稿です。投稿は公式の仕組みで表示しているので、元の投稿が変われば、ここも変わります。</p>
-    <div class="embeds">
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeiJEqPkzVl/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeiJEqPkzVl/">Instagramで見る</a></blockquote>
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeS325BAdTa/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeS325BAdTa/">Instagramで見る</a></blockquote>
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DdoOKSsz5wr/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DdoOKSsz5wr/">Instagramで見る</a></blockquote>
-      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/De5IKVdk_fl"><a href="https://www.threads.com/@momowari/post/De5IKVdk_fl">Threadsで見る</a></blockquote>
-      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/DeRiBdZk6ci"><a href="https://www.threads.com/@momowari/post/DeRiBdZk6ci">Threadsで見る</a></blockquote>
-      <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/Ddh2KEcE4JN"><a href="https://www.threads.com/@momowari/post/Ddh2KEcE4JN/">Threadsで見る</a></blockquote>
-    </div>
-    <h2 style="margin-top:22px;">近所のみなさんの投稿</h2>
-    <p class="src">この近所のお店や場所について、近所のみなさんが実際に投稿したものです（公式の仕組みで表示）。</p>
+    <h2>近所のみなさんの投稿</h2>
+    <p class="src">この近所のお店や場所について、近所のみなさんとMOMOwaRIが実際に投稿したものです（公式の仕組みで表示）。</p>
     <div class="embeds">
       <div class="embedwrap"><p class="embedlabel">萱町商店街｜紅芭（くれは）さん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DXzOsJ2EyDP/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DXzOsJ2EyDP/">Instagramで見る</a></blockquote></div>
+      <div class="embedwrap"><p class="embedlabel">MAHALO｜MOMOwaRIさん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeiJEqPkzVl/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeiJEqPkzVl/">Instagramで見る</a></blockquote></div>
       <div class="embedwrap"><p class="embedlabel">丸五青果｜GLATT［グラット］愛媛・松山さん</p><blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@glatt.mens/post/DfDvMzpj1o0"><a href="https://www.threads.com/@glatt.mens/post/DfDvMzpj1o0">Threadsで見る</a></blockquote></div>
-      <div class="embedwrap"><p class="embedlabel">庚申庵｜デジタルシティえひめさん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DXsv4WfCa1l/" data-instgrm-version="14"><a href="https://www.instagram.com/reel/DXsv4WfCa1l/">Instagramで見る</a></blockquote></div>
+      <div class="embedwrap"><p class="embedlabel">味酒町の通り｜MOMOwaRIさん</p><blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/Ddh2KEcE4JN"><a href="https://www.threads.com/@momowari/post/Ddh2KEcE4JN">Threadsで見る</a></blockquote></div>
       <div class="embedwrap"><p class="embedlabel">庚申庵｜岡本正美さん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DXZH2p6AX7n/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DXZH2p6AX7n/">Instagramで見る</a></blockquote></div>
+      <div class="embedwrap"><p class="embedlabel">Lea Mahalo｜MOMOwaRIさん</p><blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/De5IKVdk_fl"><a href="https://www.threads.com/@momowari/post/De5IKVdk_fl">Threadsで見る</a></blockquote></div>
+      <div class="embedwrap"><p class="embedlabel">庚申庵｜デジタルシティえひめさん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DXsv4WfCa1l/" data-instgrm-version="14"><a href="https://www.instagram.com/reel/DXsv4WfCa1l/">Instagramで見る</a></blockquote></div>
+      <div class="embedwrap"><p class="embedlabel">丸五青果｜MOMOwaRIさん</p><blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/@momowari/post/DeRiBdZk6ci"><a href="https://www.threads.com/@momowari/post/DeRiBdZk6ci">Threadsで見る</a></blockquote></div>
       <div class="embedwrap"><p class="embedlabel">阿沼美神社｜森本 博志さん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DS1Zr6pkXY8/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DS1Zr6pkXY8/">Instagramで見る</a></blockquote></div>
+      <div class="embedwrap"><p class="embedlabel">Eyes MAHALO｜MAHALOさん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeS325BAdTa/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DeS325BAdTa/">Instagramで見る</a></blockquote></div>
+      <div class="embedwrap"><p class="embedlabel">Lea Mahalo｜MOMOwaRIさん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DdoOKSsz5wr/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DdoOKSsz5wr/">Instagramで見る</a></blockquote></div>
     </div>
   </div>
 </div>
 
+<button id="btnEdit" class="act" type="button" style="display:none;position:fixed;right:12px;bottom:84px;z-index:80">✏️ 編集</button>
+<div id="editBar" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:81;background:#fffdf7;border-top:1.5px solid #d9a441;padding:10px;align-items:center;gap:8px;justify-content:center">
+  <span style="font-size:12.5px;color:#7a6248">文字をタップして直せます</span>
+  <button id="btnEditSave" class="act" type="button">保存する</button>
+  <button id="btnEditCancel" class="act sub" type="button">やめる</button>
+</div>
 <div class="ticker" aria-label="近所のSNS情報"><div class="ticker-inner" id="tickerInner"></div></div>
 <script src="vendor/pannellum.js"></script>
 <script src="vendor/leaflet.js"></script>
@@ -369,7 +367,7 @@ const SCENES = {
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:90 },
   elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
   lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:124 },
-  pharmacy:   { pano:"mahalo-pano-pharmacy-clean.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
+  pharmacy:   { pano:"mahalo-pano-pharmacy2.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
   approach:   { pano:"mahalo-pano-approach.jpg",   name:"通り（MAHALOの角）", yaw:40, hfov:102 },
 };
 const SCENE_NAMES = {};
@@ -386,7 +384,7 @@ const EXITS = {
   street2:    [ { to:"approach", yaw:-30, pitch:-9, label:"西へ進む（MAHALOの角）", entry:40 }, { to:"street", yaw:140, label:"東へ戻る", entry:140 } ],
   koshin1:    [ { to:"koshin", yaw:-60, label:"庵の方へ", entry:10 }, { to:"street", yaw:165, label:"北へ戻る（通り）", entry:-20 } ],
   koshin:     [ { to:"koshin1", yaw:170, label:"路地へ戻る", entry:-40 } ],
-  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:175, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"approach", yaw:150, label:"通りへ戻る", entry:-100 } ],
+  front:      [ { to:"elua", yaw:-25, pitch:-8, label:"eluaの玄関（1階）", entry:0 }, { to:"lea", yaw:8, pitch:-8, label:"横のドア（雑貨屋Lea Mahalo・1階）", entry:0 }, { to:"stairs", yaw:58, pitch:-10, label:"外階段を上がる（2階）", entry:20 }, { to:"pharmacy", yaw:175, pitch:-12, label:"通り向かい（レデイ薬局）", entry:-20 }, { to:"approach", yaw:88, pitch:-12, label:"東へ進む（神社・商店街方面）", entry:-100 } ],
   pharmacy:   [ { to:"front", yaw:115, pitch:-12, label:"通り向かい（MAHALO）", entry:-15 }, { to:"approach", yaw:-140, label:"角の方へ", entry:40 } ],
   approach:   [ { to:"front", yaw:40, pitch:-10, label:"MAHALOに着いた（店前へ）", entry:-15 }, { to:"pharmacy", yaw:-35, pitch:-12, label:"レデイ薬局の方", entry:150 }, { to:"street2", yaw:-100, label:"東へ戻る", entry:130 } ],
   lea:        [ { to:"front", yaw:170, label:"出口（店前へ出る）", entry:-15 } ],
@@ -397,12 +395,12 @@ const EXITS = {
 let walking = false;
 function walkTo(ex, keepTimer) {
   if (walking || !ex || !SCENES[ex.to]) return;
-  walking = true; if (!keepTimer) stopWalk();
+  walking = true; if (!keepTimer) stopWalk(); meSet(true);
   const targetYaw = (ex.entry != null) ? ex.entry : SCENES[ex.to].yaw;
   viewer.lookAt(-8, ex.yaw, 50, 520);
   setTimeout(() => {
     viewer.loadScene(ex.to, -2, targetYaw, 116);
-    setTimeout(() => { viewer.lookAt(-2, targetYaw, SCENES[ex.to].hfov, 480); walking = false; }, 150);
+    setTimeout(() => { viewer.lookAt(-2, targetYaw, SCENES[ex.to].hfov, 480); walking = false; if (!walkTimer) meSet(false); }, 150);
   }, 540);
   setTimeout(() => { walking = false; }, 3200);
 }
@@ -457,7 +455,6 @@ Object.keys(SCENES).forEach(id => {
   const hs = (EXITS[id] || []).map(ex => ({ pitch: (ex.pitch != null ? ex.pitch : -17), yaw: ex.yaw, type: "info", cssClass: "walkspot",
     clickHandlerFunc: (evt, a) => walkTo(a), clickHandlerArgs: ex,
     createTooltipFunc: (div, a) => { walkChevron(div, a); ["pointerdown","touchstart","click"].forEach(ev => div.addEventListener(ev, (e) => { e.stopPropagation(); walkTo(a); })); }, createTooltipArgs: ex }));
-  POSTS.filter(p => p.scene === id).forEach(p => hs.push(catSpot(p)));
   if (id === "counter") { hs.push(keeperSpot(true)); hs.push(shopCat("MAHALO 店員さん", "いらっしゃいませ", "av-yuki.png", -38, "mahalo", true)); }
   if (id === "elua") hs.push(eluaCat());
   if (id === "lea") hs.push(leaCat());
@@ -505,7 +502,9 @@ document.querySelectorAll("#miniTownMap .dot").forEach(g => {
 setInterval(() => {
   document.querySelectorAll(".catspot .cb").forEach(b => { if (Math.random() < 0.3) b.classList.toggle("off"); });
 }, 4000);
-function stopWalk() { if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 ねこと歩く（自動で進む）"; } }
+let meTimer = null;
+function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); if (walk && !meTimer) { let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? "av-player-wf.png" : "av-player.png"; img.style.transform = f ? "translateY(-3px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.src = "av-player.png"; img.style.transform = ""; } }
+function stopWalk() { if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 アバターと歩く（自動で進む）"; } meSet(false); }
 function walkStep() {
   if (walking) return;
   const i = ROUTE.indexOf(curScene);
@@ -521,13 +520,14 @@ document.getElementById("btnWalk").addEventListener("click", () => {
 });
 viewer.on("scenechange", (id) => {
   curScene = id;
+  if (window.syncYou) window.syncYou(id);
   document.getElementById("sceneName").textContent = SCENE_NAMES[id] || "";
   document.getElementById("shopBtns").style.display = (id === "counter") ? "flex" : "none";
   const exitEx = (EXITS[id] || []).find(e => (e.label || "").indexOf("出口") >= 0);
   const exitBtn = document.getElementById("exitBtn");
   if (exitEx) { exitBtn.style.display = "block"; exitBtn.textContent = exitEx.label; exitBtn.onclick = () => walkTo(exitEx); } else { exitBtn.style.display = "none"; }
   document.getElementById("shopLinkBtn").style.display = (id === "lea") ? "block" : "none";
-  document.getElementById("shopLinkBtn").onclick = () => window.open("https://jp.mercari.com/user/profile/256767561", "_blank");
+  document.getElementById("shopLinkBtn").onclick = () => window.open("https://momowari.github.io/Lea-Mahalo/", "_blank");
   placeBar.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.scene === id));
   document.querySelectorAll("#townMap .dot").forEach(g => { const c = g.querySelector("circle"); if (c) { const on = g.dataset.scene === id; c.setAttribute("stroke", on ? "#5d4212" : "#fff"); c.setAttribute("stroke-width", on ? "3" : "1.5"); } });
   if (id !== "counter") document.getElementById("chat").style.display = "none";
@@ -766,140 +766,35 @@ const PIN_LABELS = { front:"MAHALO", tamago:"平野鶏卵", yaoya:"丸五青果"
 let myProfile = { nickname: "ゲスト", cat: "muse" };
 window.setIslandProfile = function(pr) { if (pr && pr.nickname) myProfile.nickname = pr.nickname; if (pr && pr.cat) myProfile.cat = pr.cat; if (window.townSetName) window.townSetName(myProfile.nickname); };
 const PLACE_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], approach:[33.84563,132.75547], street2:[33.84575,132.75568], street:[33.84590,132.75596], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687], koshin1:[33.84471,132.75504] };
+window.__youScene = "front";
+window.syncYou = function(id) { window.__youScene = id; if (window.__youMarker && window.__PLACE_LL) { const key = window.__PLACE_LL[id] ? id : "front"; window.__youMarker.setLatLng(window.__PLACE_LL[key]); } };
 window.goScene = function(id) { stopWalk(); viewer.loadScene(id); document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "center" }); };
 let bigMap = null, islOverlay = null;
 function initBigMap() {
   if (!window.L || bigMap) return;
-  bigMap = L.map("bigMap", { scrollWheelZoom: false }).setView([33.84556, 132.75534], 17);
+  bigMap = L.map("bigMap", { scrollWheelZoom: false }).setView([33.84556, 132.75534], 15);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(bigMap);
   islOverlay = L.imageOverlay("map-island.jpg", [[33.8428, 132.7528], [33.8478, 132.7588]], { opacity: 0.96 }).addTo(bigMap);
   Object.keys(PLACE_LL).forEach(id => {
     const label = PIN_LABELS[id]; const col = PIN_COLORS[id] || "#cbb27f";
     const html = '<span style="display:block;width:14px;height:14px;margin:0 auto;border-radius:50%;background:' + col + ';border:2px solid #fff;box-shadow:0 1px 4px rgba(90,60,10,.4)"></span>' + (label ? '<span style="display:block;font-size:10.5px;color:#5d4212;background:rgba(255,253,247,.88);border-radius:8px;padding:0 5px;margin-top:1px;white-space:nowrap;text-align:center">' + label + '</span>' : '');
     const mk = L.marker(PLACE_LL[id], { icon: L.divIcon({ className: "zpin", html: html, iconSize: label ? [70, 32] : [14, 14], iconAnchor: label ? [35, 8] : [7, 7] }) }).addTo(bigMap);
-    mk.on("click", () => { if (bigMap.getZoom() >= 16) window.goScene(id); });
+    mk.on("click", () => { window.goScene(id); });
   });
+  window.__PLACE_LL = PLACE_LL;
+  window.__youMarker = L.marker(PLACE_LL[window.__youScene] || PLACE_LL.front, { icon: L.divIcon({ className: "zpost", html: '<img src="av-player.png" style="width:34px;display:block" alt="">', iconSize: [34, 46], iconAnchor: [17, 42] }), zIndexOffset: 1000 }).addTo(bigMap);
   POSTS.forEach(post => {
     const ll = PLACE_LL[post.scene]; if (!ll) return;
     const mk = L.marker([ll[0] - 0.00012, ll[1] + 0.00012], { icon: L.divIcon({ className: "zpost", html: '<img src="' + post.catImg + '" style="width:30px;display:block" alt="">', iconSize: [30, 30], iconAnchor: [15, 26] }) }).addTo(bigMap);
     mk.on("click", () => openPost(post));
   });
-  function upd() { const z = bigMap.getZoom(); islOverlay.setOpacity(z >= 17 ? 0.96 : (z === 16 ? 0.55 : 0)); }
+  function upd() { const z = bigMap.getZoom(); islOverlay.setOpacity(z <= 15 ? 0.96 : (z === 16 ? 0.45 : 0)); }
   bigMap.on("zoomend", upd); upd();
 }
 function openMap() { document.getElementById("bigMapSec").scrollIntoView({ behavior: "smooth" }); setTimeout(() => { initBigMap(); if (bigMap) bigMap.invalidateSize(); }, 400); }
 function closeMap() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 document.getElementById("btnMap").addEventListener("click", openMap);
 window.addEventListener("load", () => setTimeout(initBigMap, 900));
-/* ==== town walk (gogo-ichi mode) ==== */
-const TOWN_POS = {}; Object.keys(MAP_POS).forEach(k => { TOWN_POS[k] = [MAP_POS[k][0] * 2, MAP_POS[k][1] * 2]; });
-const BLDGS = [
-  { scene: 'front', w: 128, label: 'MAHALO\u30d3\u30eb', art: '<svg width="128" height="86" viewBox="0 0 128 86"><rect x="14" y="18" width="100" height="64" rx="4" fill="#f7ead2" stroke="#d9c9a8"/><rect x="14" y="18" width="100" height="14" fill="#0068B7"/><rect x="86" y="40" width="24" height="42" fill="#e8dcc0" stroke="#cbb27f"/><path d="M86 82 l24 -42 M92 82 l24 -42 M98 82 l24 -42" stroke="#cbb27f" stroke-width="2"/><rect x="24" y="44" width="26" height="38" fill="#a9743f"/><rect x="56" y="44" width="20" height="38" fill="#fdfbef" stroke="#cbb27f"/><rect x="8" y="8" width="112" height="10" rx="4" fill="#b5654d"/></svg>' },
-  { scene: 'jinja', w: 96, label: '\u963f\u6cbc\u7f8e\u795e\u793e', art: '<svg width="96" height="78" viewBox="0 0 96 78"><rect x="30" y="34" width="36" height="26" fill="#fdfbef" stroke="#d9c9a8"/><path d="M24 36 L48 22 L72 36 Z" fill="#8a6d4b"/><rect x="14" y="14" width="68" height="7" rx="3" fill="#c25b4a"/><rect x="20" y="26" width="56" height="5" rx="2" fill="#c25b4a"/><rect x="18" y="14" width="6" height="52" fill="#c25b4a"/><rect x="72" y="14" width="6" height="52" fill="#c25b4a"/><rect x="44" y="46" width="8" height="14" fill="#a9743f"/></svg>' },
-  { scene: 'pharmacy', o: [-70, 36], w: 96, label: '\u30ec\u30c7\u30a4\u85ac\u5c40', art: '<svg width="96" height="74" viewBox="0 0 96 74"><rect x="12" y="16" width="72" height="52" rx="4" fill="#ffffff" stroke="#d9d2c4"/><rect x="12" y="16" width="72" height="13" fill="#e59a8a"/><circle cx="48" cy="46" r="10" fill="#e59a8a"/><path d="M48 40 v12 M42 46 h12" stroke="#fff" stroke-width="4"/><rect x="6" y="6" width="84" height="10" rx="4" fill="#b9b0a0"/></svg>' },
-  { scene: 'yaoya', w: 92, label: '\u4e38\u4e94\u9752\u679c', art: '<svg width="92" height="72" viewBox="0 0 92 72"><rect x="14" y="20" width="64" height="46" fill="#fdfbef" stroke="#d9c9a8"/><path d="M8 22 L84 22 L76 36 L16 36 Z" fill="#7a9a5b"/><rect x="24" y="44" width="18" height="10" fill="#e8a13c"/><rect x="48" y="44" width="18" height="10" fill="#c25b4a"/><rect x="8" y="10" width="76" height="10" rx="4" fill="#b5654d"/></svg>' },
-  { scene: 'tamago', o: [0, 40], w: 92, label: '\u5e73\u91ce\u9d8f\u5375', art: '<svg width="92" height="72" viewBox="0 0 92 72"><rect x="14" y="20" width="64" height="46" fill="#fdfbef" stroke="#d9c9a8"/><path d="M8 22 L84 22 L76 36 L16 36 Z" fill="#e8c877"/><ellipse cx="36" cy="50" rx="8" ry="6" fill="#fff" stroke="#d9c9a8"/><ellipse cx="56" cy="50" rx="8" ry="6" fill="#fff" stroke="#d9c9a8"/><rect x="8" y="10" width="76" height="10" rx="4" fill="#b5654d"/></svg>' },
-  { scene: 'koshin', w: 96, label: '\u5e9a\u7533\u5eb5', art: '<svg width="96" height="76" viewBox="0 0 96 76"><rect x="26" y="30" width="44" height="32" fill="#f7ead2" stroke="#d9c9a8"/><path d="M20 32 L48 14 L76 32 Z" fill="#8a6d4b"/><rect x="43" y="44" width="10" height="18" fill="#a9743f"/><rect x="8" y="58" width="80" height="5" fill="#a9bd8f"/><circle cx="16" cy="46" r="9" fill="#a9bd8f"/><circle cx="82" cy="44" r="8" fill="#a9bd8f"/></svg>' },
-  { scene: 'kayamachi', w: 84, label: '\u8431\u753a\u5546\u5e97\u8857', art: '<svg width="84" height="78" viewBox="0 0 84 78"><rect x="39" y="8" width="6" height="62" fill="#8a6d4b"/><rect x="14" y="12" width="56" height="20" rx="4" fill="#fdfbef" stroke="#d9a441" stroke-width="2"/><circle cx="42" cy="22" r="6" fill="#e8a13c"/></svg>' }
-];
-const TOWN_STAFF = [
-  { img: 'av-mahalo.png', tag: 'MAHALO\u306e\u5e97\u54e1\u3055\u3093', x: 286, y: 246, dest: 'stairs' },
-  { img: 'av-yuki.png', tag: 'MAHALO\u306e\u5e97\u54e1\u3055\u3093', x: 326, y: 258, dest: 'counter' },
-  { img: 'av-elua.png', tag: 'elua\u306e\u5e97\u54e1\u3055\u3093', x: 176, y: 300, dest: 'elua' },
-  { img: 'av-yuri.png', tag: 'MOMOwaRI', x: 234, y: 306, dest: 'lea' }
-];
-const townStage = document.getElementById('townStage');
-const townCatsEl = document.getElementById('townCats');
-const townRes = [];
-const tPlayer = { x: 228, y: 306, tx: 228, ty: 306, moving: false, targetScene: null, type: null, el: null };
-function tPlace(el, x, y, flip) { el.style.left = (x / 680 * 100) + '%'; el.style.top = (y / 600 * 100) + '%'; el.querySelector('img').style.transform = flip ? 'scaleX(-1)' : ''; }
-function tMkAvatar(name) { const d = document.createElement('div'); d.className = 'tcat tplayer'; d.innerHTML = '<img src="av-player.png" alt="">' + (name ? '<br><span class="mtag">' + name + '</span>' : ''); townCatsEl.appendChild(d); return d; }
-window.townSetName = function(n) { if (tPlayer.el) { const t = tPlayer.el.querySelector('.mtag'); if (t) t.textContent = n; } };
-function tMkCat(cls, type, name) { const d = document.createElement('div'); d.className = 'tcat ' + cls; d.innerHTML = '<img src="cat-' + type + '-sit.png" alt="">' + (name ? '<br><span class="mtag">' + name + '</span>' : ''); townCatsEl.appendChild(d); return d; }
-function tStep(c, dt, speed) {
-  const dx = c.tx - c.x, dy = c.ty - c.y, dist = Math.hypot(dx, dy);
-  if (dist < 3) { if (c.moving) { c.moving = false; if (!c.isAvatar) c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-sit.png'; } return true; }
-  const v = Math.min(dist, speed * dt / 1000); c.x += dx / dist * v; c.y += dy / dist * v;
-  if (!c.moving) { c.moving = true; if (!c.isAvatar) c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-walk.png'; }
-  tPlace(c.el, c.x, c.y, dx < 0); return false;
-}
-
-function buildTownGround() {
-  const svg = document.getElementById('townGroundSvg');
-  let out = '';
-  out += '<rect x="0" y="0" width="680" height="600" fill="#f3ecd7"/>';
-  out += '<rect x="0" y="0" width="680" height="600" fill="#e9dfc2" opacity="0.35"/>';
-  // city blocks (soft washes)
-  const blocks = [[20,20,250,140],[300,20,200,120],[520,20,140,120],[20,180,120,150],[300,160,160,110],[520,300,140,160],[20,360,150,220],[200,360,220,120],[460,480,200,100],[200,500,220,80]];
-  blocks.forEach((b, i) => { out += '<rect x="' + b[0] + '" y="' + b[1] + '" width="' + b[2] + '" height="' + b[3] + '" rx="14" fill="' + (i % 2 ? '#eee5cb' : '#e7dcbd') + '" opacity="0.55"/>'; });
-  // green areas: shrine grounds + koshin garden
-  out += '<ellipse cx="492" cy="168" rx="86" ry="54" fill="#b9cf9a" opacity="0.5"/>';
-  out += '<ellipse cx="70" cy="536" rx="88" ry="52" fill="#b9cf9a" opacity="0.45"/>';
-  // streets of the real map (soft watercolor bands)
-  function band(pts, w, col, op, dash) {
-    const pl = pts.map(q => q[0] + ',' + q[1]).join(' ');
-    return '<polyline points="' + pl + '" fill="none" stroke="' + col + '" stroke-width="' + (w + 10) + '" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>'
-         + '<polyline points="' + pl + '" fill="none" stroke="' + col + '" stroke-width="' + w + '" stroke-linecap="round" stroke-linejoin="round" opacity="' + op + '"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>';
-  }
-  out += band([[602,14],[610,110],[606,220],[610,330],[606,470]], 30, '#f7efdb', 0.95);           // Kayamachi street (N-S)
-  out += band([[492,174],[380,212],[310,236],[256,254],[224,264]], 28, '#f7efdb', 0.95); // street past the shrine to MAHALO
-  out += band([[224,264],[206,302]], 22, '#f7efdb', 0.95);                      // road across to the pharmacy
-  out += band([[224,264],[150,390],[60,544]], 7, '#e8d9ae', 0.9, '12 9');                           // path to Koshin-an
-  // MAHALO plaza
-  out += '<rect x="150" y="232" width="170" height="104" rx="16" fill="#f7efdb" opacity="0.8"/>';
-  // watercolor trees
-  const trees = [[452,148],[528,158],[470,214],[540,206],[52,506],[120,566],[60,580],[140,520],[420,96],[520,120],[90,300],[640,520],[400,470],[260,470],[180,96],[646,300],[330,96],[646,96]];
-  trees.forEach(t => { out += '<g opacity="0.9"><circle cx="' + t[0] + '" cy="' + t[1] + '" r="15" fill="#a9c184"/><circle cx="' + (t[0]-5) + '" cy="' + (t[1]-5) + '" r="10" fill="#b9cf9a"/><circle cx="' + (t[0]+6) + '" cy="' + (t[1]+3) + '" r="8" fill="#9abd76"/></g>'; });
-  // street labels (real names)
-  out += '<text x="618" y="330" font-size="11" fill="#a08c5a" transform="rotate(90 618 330)">萱町通り</text>';
-  out += '<text x="322" y="200" font-size="11" fill="#a08c5a">味酒町の通り</text>';
-  svg.innerHTML = out;
-}
-function buildTown() {
-  buildTownGround();
-  const bg = document.getElementById('townBldgs');
-  BLDGS.forEach(b => {
-    const pos = TOWN_POS[b.scene]; const ip = b.o ? [pos[0] + b.o[0], pos[1] + b.o[1]] : pos;
-    const d = document.createElement('div'); d.className = 'bldg';
-    d.style.left = (ip[0] / 680 * 100) + '%'; d.style.top = (ip[1] / 600 * 100) + '%';
-    d.innerHTML = b.art + '<br><span class="bl">' + b.label + '</span>';
-    d.addEventListener('click', (e) => { e.stopPropagation(); tPlayer.tx = pos[0]; tPlayer.ty = Math.min(592, pos[1] + 40); tPlayer.moving = true; tPlayer.targetScene = b.scene; });
-    bg.appendChild(d);
-  });
-  TOWN_STAFF.forEach(sf => {
-    const d = document.createElement('div'); d.className = 'tstaff';
-    d.style.left = (sf.x / 680 * 100) + '%'; d.style.top = (sf.y / 600 * 100) + '%';
-    d.innerHTML = '<img src="' + sf.img + '" alt=""><br><span class="stag">' + sf.tag + '</span>';
-    d.addEventListener('click', (e) => { e.stopPropagation(); window.scrollTo({ top: 0, behavior: 'smooth' }); viewer.loadScene(sf.dest); });
-    townCatsEl.appendChild(d);
-  });
-  POSTS.forEach(post => {
-    if (!TOWN_POS[post.scene]) return;
-    const base = TOWN_POS[post.scene];
-    const d = document.createElement('div'); d.className = 'tpost';
-    d.style.left = ((base[0] + 54) / 680 * 100) + '%'; d.style.top = ((base[1] + 34) / 600 * 100) + '%';
-    d.innerHTML = '<span class="mb">' + post.text.slice(0, 20) + '</span><img src="' + post.catImg + '" alt="">';
-    d.addEventListener('click', (e) => { e.stopPropagation(); openPost(post); });
-    townCatsEl.appendChild(d);
-  });
-  tPlayer.el = tMkAvatar(myProfile.nickname); tPlayer.isAvatar = true;
-  tPlace(tPlayer.el, tPlayer.x, tPlayer.y, false);
-}
-let townLast = performance.now();
-function townLoop(ts) {
-  const dt = Math.min(80, ts - townLast); townLast = ts;
-  if (tStep(tPlayer, dt, 125) && tPlayer.targetScene) { const dest = tPlayer.targetScene; tPlayer.targetScene = null; window.scrollTo({ top: 0, behavior: 'smooth' }); viewer.loadScene(dest); }
-  requestAnimationFrame(townLoop);
-}
-buildTown(); requestAnimationFrame(townLoop);
-townStage.addEventListener('click', (e) => {
-  if (e.target.closest('.bldg,.tstaff,.tpost')) return;
-  const r = townStage.getBoundingClientRect();
-  tPlayer.tx = Math.max(10, Math.min(670, (e.clientX - r.left) / r.width * 680));
-  tPlayer.ty = Math.max(12, Math.min(592, (e.clientY - r.top) / r.height * 600));
-  tPlayer.moving = true; tPlayer.targetScene = null;
-});
-viewer.on('scenechange', function(id) { const t = TOWN_POS[id]; if (t) { tPlayer.tx = t[0]; tPlayer.ty = Math.min(592, t[1] + 40); tPlayer.moving = true; tPlayer.targetScene = null; } });
 </script>
 
 
@@ -911,7 +806,7 @@ const $ = id => document.getElementById(id);
 let auth = null, db = null, me = null, profile = null;
 const CAT_TYPES = ["muse", "tabby", "white", "black", "calico"];
 function todayJST() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo" }).format(new Date()); }
-function renderAuth() {
+function renderAuth() { refreshEditBtn(); loadEd();
   if (me && profile) {
     $("authState").innerHTML = "";
     const img = document.createElement("img"); img.src = "cat-" + profile.cat + "-sit.png"; img.alt = "";
@@ -925,6 +820,15 @@ function renderAuth() {
     if (window.setIslandProfile) window.setIslandProfile({ nickname: "ゲスト", cat: "muse" });
   }
 }
+const OWNER_UID = "ELCzyeeoDCU4gveavc077L4jBqE3";
+let edCache = {}, edLoaded = false, editing = false;
+function applyEd(data) { if (!data) return; edCache = data; document.querySelectorAll("[data-ed]").forEach(el => { const k = el.dataset.ed; if (data[k] != null) el.innerHTML = data[k]; }); }
+async function loadEd() { if (edLoaded || !db) return; edLoaded = true; try { const snap = await getDoc(doc(db, "siteTexts", "island-page")); if (snap.exists()) applyEd(snap.data()); } catch (e) {} }
+function refreshEditBtn() { const be = $("btnEdit"); if (be) be.style.display = (!editing && me && me.uid === OWNER_UID) ? "" : "none"; }
+function setEditing(on) { editing = on; document.body.classList.toggle("editing", on); document.querySelectorAll("[data-ed]").forEach(el => { el.contentEditable = on ? "true" : "false"; }); $("editBar").style.display = on ? "flex" : "none"; refreshEditBtn(); }
+$("btnEdit").addEventListener("click", () => setEditing(true));
+$("btnEditCancel").addEventListener("click", () => { applyEd(edCache); setEditing(false); });
+$("btnEditSave").addEventListener("click", async () => { const data = {}; document.querySelectorAll("[data-ed]").forEach(el => { data[el.dataset.ed] = el.innerHTML.trim(); }); try { await setDoc(doc(db, "siteTexts", "island-page"), data, { merge: true }); edCache = Object.assign({}, edCache, data); setEditing(false); alert("保存しました"); } catch (e) { alert("保存できませんでした"); } });
 function renderStars() {
   const box = $("starBox"); box.innerHTML = "";
   const days = profile && profile.days ? profile.days : [];
