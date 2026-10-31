@@ -141,6 +141,9 @@
   .mpost { position:absolute; width:38px; pointer-events:none; transform:translate(-50%,-80%); z-index:6; cursor:pointer; text-align:center; }
   .mpost img { width:100%; display:block; pointer-events:auto; }
   .mpost .mb { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); width:118px; font-size:10px; line-height:1.45; color:#5d4212; background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:10px; padding:3px 6px; margin-bottom:2px; }
+  .mstaff { position:absolute; transform:translate(-50%,-86%); text-align:center; z-index:8; cursor:pointer; }
+  .mstaff img { height:56px; filter:drop-shadow(0 2px 2px rgba(90,50,0,.25)); pointer-events:none; }
+  .mstaff .stag { display:inline-block; margin-top:-4px; background:rgba(255,255,255,.94); color:#8a4b2a; font-size:9px; font-weight:700; padding:1px 6px; border-radius:8px; white-space:nowrap; }
   #mapCard { position:absolute; left:50%; bottom:12px; transform:translateX(-50%); background:#fffdf7; border:1.5px solid #d9a441; border-radius:14px; padding:10px 14px; z-index:12; display:none; text-align:center; box-shadow:0 4px 14px rgba(90,60,10,.18); max-width:88%; }
   #mapCard h3 { margin:0 0 4px; font-size:15.5px; color:#5d4212; }
   #mapCard p { margin:0 0 8px; font-size:12.5px; color:#7a6248; }
@@ -223,7 +226,7 @@
       <div id="mapPins"></div><div id="mapCats"></div>
       <div id="mapCard"><h3 id="mapCardName"></h3><p id="mapCardDesc"></p><div class="btns" style="margin:0"><button class="act small" id="btnMapEnter" type="button">ストリートビューで見る</button><button class="act sub small" id="btnMapCardClose" type="button">閉じる</button></div></div>
     </div>
-    <p class="hint" style="margin:2px 12px 12px">地図をタップすると、あなたの猫が歩いていきます。場所のピンをタップすると、猫が歩いていって、その場所のストリートビューに切り替わります。住人の猫たちも歩いています。周りの海とヤシの木は飾りで、街の配置は実際の松山です。</p>
+    <p class="hint" style="margin:2px 12px 12px">地図をタップすると、あなたの猫が歩いていきます。場所のピンをタップすると、猫が歩いていって、その場所のストリートビューに切り替わります。お店の前にはスタッフのアバターが立っています（タップでお店に入れます）。住人の猫たちも歩いています。周りの海とヤシの木は飾りで、街の配置は実際の松山です。</p>
   </div>
 
 
@@ -792,6 +795,20 @@ function buildMap() {
     d.innerHTML = '<span class="mb">' + post.text.slice(0, 20) + '</span><img src="' + post.catImg + '" alt="">';
     d.addEventListener("click", (e) => { e.stopPropagation(); openPost(post); });
     mapCats.appendChild(d);
+  });
+  const STAFF = [
+    { img: "av-mahalo.png", tag: "MAHALO 店員さん", x: 82, y: 170, dest: "stairs" },
+    { img: "av-elua.png", tag: "elua 店員さん", x: 114, y: 174, dest: "elua" },
+    { img: "av-yuri.png", tag: "有里さん", x: 146, y: 170, dest: "lea" }
+  ];
+  STAFF.forEach(sf => {
+    const dv = document.createElement("div");
+    dv.className = "mstaff";
+    dv.style.left = (sf.x / 340 * 100) + "%";
+    dv.style.top = (sf.y / 300 * 100) + "%";
+    dv.innerHTML = '<img src="' + sf.img + '" alt=""><br><span class="stag">' + sf.tag + "</span>";
+    dv.addEventListener("click", (e) => { e.stopPropagation(); window.scrollTo({ top: 0, behavior: "smooth" }); viewer.loadScene(sf.dest); });
+    mapCats.appendChild(dv);
   });
   RES_DEFS.forEach((rd, i) => {
     const keys = Object.keys(MAP_POS); const k = MAP_POS[keys[(i * 3 + 2) % keys.length]];
