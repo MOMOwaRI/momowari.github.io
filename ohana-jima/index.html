@@ -530,7 +530,7 @@ function spawnPetal() {
 }
 setInterval(spawnPetal, 2600);
 const ROUTE = [ "front", "stairs", "counter", "stairs", "front", "elua", "front", "lea", "front", "pharmacy", "front", "koshin1", "koshin", "koshin1", "front", "jinja", "yaoya", "tamago", "yaoya", "kayamachi3", "kayamachi2", "kayamachi", "kayamachi2", "kayamachi3", "yaoya", "jinja", "front" ];
-const SHORT = { kayamachi:"萱町商店街", kayamachi2:"商店街なか", kayamachi3:"商店街北", jinja:"神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"たまご屋", yaoya:"八百屋", front:"店前", stairs:"外階段", counter:"MAHALO（2階）", elua:"elua（1階）", lea:"Lea Mahalo（1階）", pharmacy:"レデイ薬局" };
+const SHORT = { kayamachi:"萱町商店街", kayamachi2:"萱町商店街（なか）", kayamachi3:"萱町商店街（北）", jinja:"阿沼美神社", koshin:"庚申庵", koshin1:"庚申庵への道", tamago:"平野鶏卵（たまご屋）", yaoya:"丸五青果（八百屋）", front:"MAHALOビル", stairs:"MAHALOビル 外階段", counter:"MAHALO（2階・美容室）", elua:"elua Mahalo（1階）", lea:"Lea Mahalo（1階・雑貨）", pharmacy:"レデイ薬局 宮西店" };
 let curScene = "front", walkTimer = null;
 const placeSel = document.getElementById("placeSel");
 [ "front", "stairs", "counter", "elua", "lea", "pharmacy", "jinja", "koshin1", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
