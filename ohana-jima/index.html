@@ -239,14 +239,7 @@
   <div class="card" id="townView">
     <h2>&#x1F43E; まちを歩く（ゴゴ市モード）</h2>
     <div id="townStage">
-      <svg viewBox="0 0 680 600" style="position:absolute; inset:0; width:100%; height:100%;" aria-hidden="true">
-        <line x1="606" y1="16" x2="606" y2="440" stroke="#e8dcc0" stroke-width="30" stroke-linecap="round"/>
-        <polyline points="484,190 352,226 258,254 228,262" fill="none" stroke="#e8dcc0" stroke-width="26" stroke-linecap="round"/>
-        <polyline points="228,262 192,228 148,192" fill="none" stroke="#e8dcc0" stroke-width="20" stroke-linecap="round"/>
-        <polyline points="352,226 220,390 76,550" fill="none" stroke="#ddd2ae" stroke-width="7" stroke-dasharray="10 8" stroke-linecap="round"/>
-        <g fill="#b9cf9a"><circle cx="420" cy="300" r="16"/><circle cx="452" cy="330" r="12"/><circle cx="540" cy="250" r="14"/><circle cx="300" cy="420" r="15"/><circle cx="520" cy="470" r="16"/><circle cx="130" cy="330" r="13"/><circle cx="90" cy="430" r="12"/><circle cx="400" cy="120" r="13"/><circle cx="250" cy="90" r="15"/></g>
-        <g fill="#a5c48c"><circle cx="560" cy="540" r="14"/><circle cx="180" cy="500" r="14"/><circle cx="620" cy="330" r="11"/></g>
-      </svg>
+      <svg id="townGroundSvg" viewBox="0 0 680 600" style="position:absolute; inset:0; width:100%; height:100%;" aria-hidden="true"></svg>
       <div id="townBldgs"></div><div id="townCats"></div>
     </div>
     <p class="hint" style="margin:2px 12px 12px">まちの中を、猫で歩けます。地面をタップすると歩いていきます。建物をタップすると猫が向かって、その場所のストリートビューに入ります。お店の前には店員さんのアバターが立っています（タップでお店へ）。配置は実際の松山です。</p>
@@ -902,7 +895,35 @@ function tStep(c, dt, speed) {
   if (!c.moving) { c.moving = true; c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-walk.png'; }
   tPlace(c.el, c.x, c.y, dx < 0); return false;
 }
+
+function buildTownGround() {
+  const svg = document.getElementById('townGroundSvg');
+  let seed = 12345; const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+  const T = 20, COLS = 34, ROWS = 30;
+  const segs = [
+    [[590,44],[608,150],[606,210],[604,280],[608,406], 27],
+    [[484,190],[352,226],[290,244],[258,254],[228,262], 27],
+    [[228,262],[148,192], 27],
+    [[290,244],[220,390],[76,550], 13]
+  ];
+  function dSeg(px, py, a, b) { const vx = b[0]-a[0], vy = b[1]-a[1]; const L2 = vx*vx+vy*vy; let t = L2 ? ((px-a[0])*vx+(py-a[1])*vy)/L2 : 0; t = Math.max(0, Math.min(1, t)); const dx = px-(a[0]+vx*t), dy = py-(a[1]+vy*t); return Math.hypot(dx, dy); }
+  function onPath(px, py) { for (const sg of segs) { const w = sg[sg.length-1]; for (let i = 0; i < sg.length - 2; i++) { if (dSeg(px, py, sg[i], sg[i+1]) < w) return true; } } return false; }
+  let out = '';
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+    const x = c*T, y = r*T, cx = x+10, cy = y+10;
+    let fill;
+    if (cx > 168 && cx < 336 && cy > 236 && cy < 336) fill = ((c+r) % 2) ? '#eae3d0' : '#e2dac4';
+    else if (onPath(cx, cy)) fill = ((c*7+r*13) % 5 === 0) ? '#d9b96a' : '#e3c078';
+    else fill = ((c+r) % 2) ? '#bcd491' : '#b2cb85';
+    out += '<rect x="' + x + '" y="' + y + '" width="20" height="20" fill="' + fill + '"/>';
+    if (!onPath(cx, cy) && rnd() < 0.10) out += '<circle cx="' + (x + 4 + rnd()*12) + '" cy="' + (y + 4 + rnd()*12) + '" r="1.6" fill="#a9c184"/>';
+  }
+  const trees = [[60,80],[110,120],[420,90],[520,120],[640,520],[60,470],[150,540],[560,560],[400,470],[90,300],[640,90],[480,300],[380,540],[260,470],[640,180],[40,200],[520,340],[180,90],[440,150],[520,160],[40,500],[120,580],[660,300],[330,90]];
+  trees.forEach(t => { out += '<g><rect x="' + (t[0]-2) + '" y="' + (t[1]+6) + '" width="4" height="8" fill="#8a6d4b"/><circle cx="' + t[0] + '" cy="' + t[1] + '" r="18" fill="#8fb869"/><circle cx="' + (t[0]-5) + '" cy="' + (t[1]-5) + '" r="11" fill="#a5cc82"/></g>'; });
+  svg.innerHTML = out;
+}
 function buildTown() {
+  buildTownGround();
   const bg = document.getElementById('townBldgs');
   BLDGS.forEach(b => {
     const pos = TOWN_POS[b.scene];
