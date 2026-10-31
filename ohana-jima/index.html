@@ -46,10 +46,12 @@
   .catspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-18px); cursor:pointer; }
   .catspot .cb { background:#fffdf7; border:1.5px solid #d9a441; border-radius:12px; padding:5px 9px; font-size:11.5px; line-height:1.5; color:#5d4212; max-width:170px; text-align:center; box-shadow:0 3px 8px rgba(90,60,20,.3); position:relative; font-family:"Hiragino Mincho ProN",serif; }
   .catspot .cb::after { content:""; position:absolute; left:50%; bottom:-7px; transform:translateX(-50%); border:6px solid transparent; border-top-color:#d9a441; border-bottom:0; }
-  .catspot img { width:64px; margin-top:8px; filter:drop-shadow(0 4px 5px rgba(60,40,10,.4)); }
+  .catspot img { width:48px; margin-top:8px; filter:drop-shadow(0 4px 5px rgba(60,40,10,.4)); }
   .keeper-hotspot { background:none !important; }
   .keeper-hotspot img { width:74px; filter:drop-shadow(0 5px 3px rgba(60,40,10,.30)) sepia(.22) saturate(.85) brightness(1.03); opacity:.97; cursor:pointer; }
   .keeper-hotspot.big img { width:128px; }
+  .catspot.staff img { width:auto; height:112px; }
+  .keeper-hotspot.staff img { width:auto; height:148px; }
   .catspot img { filter:drop-shadow(0 4px 4px rgba(60,40,10,.35)) sepia(.18) saturate(.88); }
   .ktag { background:#8a6a2a; color:#fff8ea; font-size:10.5px; padding:1px 9px; border-radius:999px; margin-bottom:3px; letter-spacing:.08em; }
   .keeper-hotspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-14px); cursor:pointer; }
@@ -133,17 +135,33 @@
   .mpin .pd { display:block; width:13px; height:13px; margin:0 auto; border-radius:50%; border:2px solid #fff; box-shadow:0 1px 4px rgba(90,60,10,.35); }
   .mpin .pl { display:block; font-size:10.5px; color:#5d4212; background:rgba(255,253,247,.85); border-radius:8px; padding:0 5px; margin-top:1px; white-space:nowrap; }
   .mpin .pb { position:absolute; top:-7px; right:-4px; background:#d96a7a; color:#fff; font-size:9px; border-radius:8px; padding:0 4px; }
-  .mcat { position:absolute; width:50px; pointer-events:none; transform:translate(-50%,-86%); z-index:5; text-align:center; }
+  .mcat { position:absolute; width:36px; pointer-events:none; transform:translate(-50%,-86%); z-index:5; text-align:center; }
   .mcat img { width:100%; display:block; }
   .mcat .mtag { font-size:10px; color:#5d4212; background:rgba(255,253,247,.88); border-radius:8px; padding:0 5px; white-space:nowrap; display:inline-block; }
-  .mcat.player { width:62px; z-index:8; }
+  .mcat.player { width:44px; z-index:8; }
   .mcat.player .mtag { background:#0068B7; color:#fff; font-weight:700; }
-  .mpost { position:absolute; width:38px; pointer-events:none; transform:translate(-50%,-80%); z-index:6; cursor:pointer; text-align:center; }
+  .mpost { position:absolute; width:29px; pointer-events:none; transform:translate(-50%,-80%); z-index:6; cursor:pointer; text-align:center; }
   .mpost img { width:100%; display:block; pointer-events:auto; }
   .mpost .mb { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); width:118px; font-size:10px; line-height:1.45; color:#5d4212; background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:10px; padding:3px 6px; margin-bottom:2px; }
   .mstaff { position:absolute; transform:translate(-50%,-86%); text-align:center; z-index:8; cursor:pointer; }
   .mstaff img { height:56px; filter:drop-shadow(0 2px 2px rgba(90,50,0,.25)); pointer-events:none; }
   .mstaff .stag { display:inline-block; margin-top:-4px; background:rgba(255,255,255,.94); color:#8a4b2a; font-size:9px; font-weight:700; padding:1px 6px; border-radius:8px; white-space:nowrap; }
+
+  #townStage { position:relative; aspect-ratio:680/600; max-height:640px; margin:6px 10px; border:1.5px solid #d9e2c4; border-radius:16px; background:linear-gradient(180deg,#f7f3df,#eef0d8); overflow:hidden; touch-action:none; }
+  #townStage .bldg { position:absolute; transform:translate(-50%,-94%); text-align:center; z-index:4; cursor:pointer; }
+  #townStage .bldg svg { display:block; margin:0 auto; filter:drop-shadow(0 2px 2px rgba(90,60,10,.18)); pointer-events:none; }
+  #townStage .bl { display:inline-block; margin-top:1px; background:rgba(255,255,255,.94); color:#5d4212; font-size:10.5px; font-weight:700; padding:1px 7px; border-radius:8px; white-space:nowrap; }
+  #townStage .tstaff { position:absolute; transform:translate(-50%,-88%); text-align:center; z-index:8; cursor:pointer; }
+  #townStage .tstaff img { height:54px; filter:drop-shadow(0 2px 2px rgba(90,50,0,.25)); pointer-events:none; }
+  #townStage .tstaff .stag { display:inline-block; margin-top:-4px; background:rgba(255,255,255,.94); color:#8a4b2a; font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:8px; white-space:nowrap; }
+  #townStage .tpost { position:absolute; width:31px; transform:translate(-50%,-80%); z-index:6; cursor:pointer; text-align:center; }
+  #townStage .tpost img { width:100%; display:block; }
+  #townStage .tpost .mb { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); width:118px; font-size:10px; line-height:1.45; color:#5d4212; background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:10px; padding:3px 6px; margin-bottom:2px; }
+  #townStage .tcat { position:absolute; width:38px; transform:translate(-50%,-86%); z-index:5; text-align:center; pointer-events:none; }
+  #townStage .tcat img { width:100%; display:block; }
+  #townStage .tcat .mtag { font-size:10px; color:#5d4212; background:rgba(255,253,247,.88); border-radius:8px; padding:0 5px; white-space:nowrap; display:inline-block; }
+  #townStage .tcat.tplayer { width:46px; z-index:9; }
+  #townStage .tcat.tplayer .mtag { background:#0068B7; color:#fff; font-weight:700; }
   #mapCard { position:absolute; left:50%; bottom:12px; transform:translateX(-50%); background:#fffdf7; border:1.5px solid #d9a441; border-radius:14px; padding:10px 14px; z-index:12; display:none; text-align:center; box-shadow:0 4px 14px rgba(90,60,10,.18); max-width:88%; }
   #mapCard h3 { margin:0 0 4px; font-size:15.5px; color:#5d4212; }
   #mapCard p { margin:0 0 8px; font-size:12.5px; color:#7a6248; }
@@ -216,8 +234,24 @@
     <button class="act sub" id="btnCart">カゴを見る（0）</button>
   </div>
   <p class="hint">猫の目線で歩く通りです。進みたい方を向いて地面をタップすると、その方へ歩けます。地面の矢印タップでも進めます。下のまちの地図の丸タップで、その場所へひとっ飛び。ドラッグで見回せます。</p>
+
+  <div class="card" id="townView">
+    <h2>&#x1F43E; まちを歩く（ゴゴ市モード）</h2>
+    <div id="townStage">
+      <svg viewBox="0 0 680 600" style="position:absolute; inset:0; width:100%; height:100%;" aria-hidden="true">
+        <line x1="606" y1="16" x2="606" y2="440" stroke="#e8dcc0" stroke-width="30" stroke-linecap="round"/>
+        <polyline points="484,190 352,226 258,254 228,262" fill="none" stroke="#e8dcc0" stroke-width="26" stroke-linecap="round"/>
+        <polyline points="228,262 192,228 148,192" fill="none" stroke="#e8dcc0" stroke-width="20" stroke-linecap="round"/>
+        <polyline points="352,226 220,390 76,550" fill="none" stroke="#ddd2ae" stroke-width="7" stroke-dasharray="10 8" stroke-linecap="round"/>
+        <g fill="#b9cf9a"><circle cx="420" cy="300" r="16"/><circle cx="452" cy="330" r="12"/><circle cx="540" cy="250" r="14"/><circle cx="300" cy="420" r="15"/><circle cx="520" cy="470" r="16"/><circle cx="130" cy="330" r="13"/><circle cx="90" cy="430" r="12"/><circle cx="400" cy="120" r="13"/><circle cx="250" cy="90" r="15"/></g>
+        <g fill="#a5c48c"><circle cx="560" cy="540" r="14"/><circle cx="180" cy="500" r="14"/><circle cx="620" cy="330" r="11"/></g>
+      </svg>
+      <div id="townBldgs"></div><div id="townCats"></div>
+    </div>
+    <p class="hint" style="margin:2px 12px 12px">まちの中を、猫で歩けます。地面をタップすると歩いていきます。建物をタップすると猫が向かって、その場所のストリートビューに入ります。お店の前には店員さんのアバターが立っています（タップでお店へ）。配置は実際の松山です。</p>
+  </div>
   <div id="mapView">
-    <div id="mapHead"><h2>まちマップ（ゴゴ市モード・実際の位置関係）</h2></div>
+    <div id="mapHead"><h2>島マップ（全体・実際の位置関係）</h2></div>
     <div id="mapStage">
       <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 340 300" preserveAspectRatio="none" aria-hidden="true">
         <line x1="300" y1="8" x2="300" y2="212" stroke="#d9b96a" stroke-width="10" stroke-linecap="round" opacity=".18"/>
@@ -228,7 +262,7 @@
       <div id="mapPins"></div><div id="mapCats"></div>
       <div id="mapCard"><h3 id="mapCardName"></h3><p id="mapCardDesc"></p><div class="btns" style="margin:0"><button class="act small" id="btnMapEnter" type="button">ストリートビューで見る</button><button class="act sub small" id="btnMapCardClose" type="button">閉じる</button></div></div>
     </div>
-    <p class="hint" style="margin:2px 12px 12px">地図をタップすると、あなたの猫が歩いていきます。場所のピンをタップすると、猫が歩いていって、その場所のストリートビューに切り替わります。お店の前にはスタッフのアバターが立っています（タップでお店に入れます）。住人の猫たちも歩いています。周りの海とヤシの木は飾りで、街の配置は実際の松山です。</p>
+    <p class="hint" style="margin:2px 12px 12px">地図をタップすると、あなたの猫が歩いていきます。場所のピンをタップすると、猫が歩いていって、その場所のストリートビューに切り替わります。住人の猫たちも歩いています。周りの海とヤシの木は飾りで、街の配置は実際の松山です。</p>
   </div>
 
 
@@ -375,7 +409,7 @@ const SCENES = {
   counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:90 },
   elua:       { pano:"mahalo-pano-elua4.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:100 },
   lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:124 },
-  pharmacy:   { pano:"mahalo-pano-pharmacy3.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
+  pharmacy:   { pano:"mahalo-pano-pharmacy.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
   approach:   { pano:"mahalo-pano-approach.jpg",   name:"通り（MAHALOの角）", yaw:40, hfov:102 },
 };
 const SCENE_NAMES = {};
@@ -418,8 +452,8 @@ function walkChevron(div, ex) {
   const l = document.createElement("div"); l.className = "wl"; l.textContent = ex.label;
   w.appendChild(a); w.appendChild(l); div.appendChild(w);
 }
-function shopCat(tag, text, imgSrc, yaw, shop) {
-  return { pitch: -25, yaw: yaw, cssClass: "catspot",
+function shopCat(tag, text, imgSrc, yaw, shop, staff) {
+  return { pitch: staff ? -16 : -25, yaw: yaw, cssClass: "catspot" + (staff ? " staff" : ""),
     createTooltipFunc: (div) => {
       const w = document.createElement("div"); w.className = "cbwrap";
       const t = document.createElement("div"); t.className = "ktag"; t.textContent = tag;
@@ -429,8 +463,8 @@ function shopCat(tag, text, imgSrc, yaw, shop) {
       w.appendChild(t); w.appendChild(b); w.appendChild(img); div.appendChild(w);
     } };
 }
-function eluaCat() { return shopCat("elua 店員さん", "いらっしゃいませ", "cat-calico-sit.png", 28, "elua"); }
-function leaCat() { return shopCat("Lea Mahalo 店員さん", "いらっしゃいませ", "cat-white-sit.png", -30, "lea"); }
+function eluaCat() { return shopCat("elua 店員さん", "いらっしゃいませ", "av-elua.png", 10, "elua", true); }
+function leaCat() { return shopCat("Lea Mahalo 店員さん", "いらっしゃいませ", "av-yuri.png", -16, "lea", true); }
 
 function catSpot(post) {
   return { pitch: post.pitch, yaw: post.yaw, cssClass: "catspot",
@@ -445,13 +479,13 @@ function catSpot(post) {
     } };
 }
 function keeperSpot(big) {
-  return { pitch: big ? -9 : -7, yaw: big ? 40 : 52, cssClass: "keeper-hotspot" + (big ? " big" : ""),
+  return { pitch: big ? -9 : -7, yaw: big ? 24 : 52, cssClass: "keeper-hotspot staff" + (big ? " big" : ""),
     createTooltipFunc: (div) => {
       const w = document.createElement("div"); w.className = "cbwrap";
       const tag = document.createElement("div"); tag.className = "ktag"; tag.textContent = "店員さん";
       const b = document.createElement("div"); b.className = "cb"; b.textContent = "いらっしゃいませ";
       const img = document.createElement("img");
-      img.src = big ? "cat-tabby-walk.png" : "cat-tabby-sit.png"; img.alt = "店員猫";
+      img.src = "av-mahalo.png"; img.alt = "店員さん";
       w.appendChild(tag); w.appendChild(b); w.appendChild(img);
       ["pointerdown","touchstart","click"].forEach(ev => w.addEventListener(ev, (e) => { e.stopPropagation(); openChat(); }));
       div.appendChild(w);
@@ -799,20 +833,6 @@ function buildMap() {
     d.addEventListener("click", (e) => { e.stopPropagation(); openPost(post); });
     mapCats.appendChild(d);
   });
-  const STAFF = [
-    { img: "av-mahalo.png", tag: "百田達一さん", x: 82, y: 170, dest: "stairs" },
-    { img: "av-elua.png", tag: "百田ひろみさん", x: 114, y: 174, dest: "elua" },
-    { img: "av-yuri.png", tag: "有里さん", x: 146, y: 170, dest: "lea" }
-  ];
-  STAFF.forEach(sf => {
-    const dv = document.createElement("div");
-    dv.className = "mstaff";
-    dv.style.left = (sf.x / 340 * 100) + "%";
-    dv.style.top = (sf.y / 300 * 100) + "%";
-    dv.innerHTML = '<img src="' + sf.img + '" alt=""><br><span class="stag">' + sf.tag + "</span>";
-    dv.addEventListener("click", (e) => { e.stopPropagation(); window.scrollTo({ top: 0, behavior: "smooth" }); viewer.loadScene(sf.dest); });
-    mapCats.appendChild(dv);
-  });
   RES_DEFS.forEach((rd, i) => {
     const keys = Object.keys(MAP_POS); const k = MAP_POS[keys[(i * 3 + 2) % keys.length]];
     const r = { x: k[0] + 10, y: k[1] + 12, tx: k[0] + 10, ty: k[1] + 12, moving: false, wait: 1000 + i * 1400, type: rd.type, el: mkCat("", rd.type, rd.name) };
@@ -851,7 +871,90 @@ function closeMap() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 document.getElementById("btnMap").addEventListener("click", openMap);
 
 document.getElementById("btnMapCardClose").addEventListener("click", () => { mapCard.style.display = "none"; });
-buildMap(); mapOpen = true; lastTs = performance.now(); mapRaf = requestAnimationFrame(mapLoop);
+buildMap(); mapOpen = true;
+/* ==== town walk (gogo-ichi mode) ==== */
+const TOWN_POS = {}; Object.keys(MAP_POS).forEach(k => { TOWN_POS[k] = [MAP_POS[k][0] * 2, MAP_POS[k][1] * 2]; });
+const BLDGS = [
+  { scene: 'front', w: 128, label: 'MAHALO\u30d3\u30eb', art: '<svg width="128" height="86" viewBox="0 0 128 86"><rect x="14" y="18" width="100" height="64" rx="4" fill="#f7ead2" stroke="#d9c9a8"/><rect x="14" y="18" width="100" height="14" fill="#0068B7"/><rect x="86" y="40" width="24" height="42" fill="#e8dcc0" stroke="#cbb27f"/><path d="M86 82 l24 -42 M92 82 l24 -42 M98 82 l24 -42" stroke="#cbb27f" stroke-width="2"/><rect x="24" y="44" width="26" height="38" fill="#a9743f"/><rect x="56" y="44" width="20" height="38" fill="#fdfbef" stroke="#cbb27f"/><rect x="8" y="8" width="112" height="10" rx="4" fill="#b5654d"/></svg>' },
+  { scene: 'jinja', w: 96, label: '\u963f\u6cbc\u7f8e\u795e\u793e', art: '<svg width="96" height="78" viewBox="0 0 96 78"><rect x="30" y="34" width="36" height="26" fill="#fdfbef" stroke="#d9c9a8"/><path d="M24 36 L48 22 L72 36 Z" fill="#8a6d4b"/><rect x="14" y="14" width="68" height="7" rx="3" fill="#c25b4a"/><rect x="20" y="26" width="56" height="5" rx="2" fill="#c25b4a"/><rect x="18" y="14" width="6" height="52" fill="#c25b4a"/><rect x="72" y="14" width="6" height="52" fill="#c25b4a"/><rect x="44" y="46" width="8" height="14" fill="#a9743f"/></svg>' },
+  { scene: 'pharmacy', w: 96, label: '\u30ec\u30c7\u30a4\u85ac\u5c40', art: '<svg width="96" height="74" viewBox="0 0 96 74"><rect x="12" y="16" width="72" height="52" rx="4" fill="#ffffff" stroke="#d9d2c4"/><rect x="12" y="16" width="72" height="13" fill="#e59a8a"/><circle cx="48" cy="46" r="10" fill="#e59a8a"/><path d="M48 40 v12 M42 46 h12" stroke="#fff" stroke-width="4"/><rect x="6" y="6" width="84" height="10" rx="4" fill="#b9b0a0"/></svg>' },
+  { scene: 'yaoya', w: 92, label: '\u4e38\u4e94\u9752\u679c', art: '<svg width="92" height="72" viewBox="0 0 92 72"><rect x="14" y="20" width="64" height="46" fill="#fdfbef" stroke="#d9c9a8"/><path d="M8 22 L84 22 L76 36 L16 36 Z" fill="#7a9a5b"/><rect x="24" y="44" width="18" height="10" fill="#e8a13c"/><rect x="48" y="44" width="18" height="10" fill="#c25b4a"/><rect x="8" y="10" width="76" height="10" rx="4" fill="#b5654d"/></svg>' },
+  { scene: 'tamago', w: 92, label: '\u5e73\u91ce\u9d8f\u5375', art: '<svg width="92" height="72" viewBox="0 0 92 72"><rect x="14" y="20" width="64" height="46" fill="#fdfbef" stroke="#d9c9a8"/><path d="M8 22 L84 22 L76 36 L16 36 Z" fill="#e8c877"/><ellipse cx="36" cy="50" rx="8" ry="6" fill="#fff" stroke="#d9c9a8"/><ellipse cx="56" cy="50" rx="8" ry="6" fill="#fff" stroke="#d9c9a8"/><rect x="8" y="10" width="76" height="10" rx="4" fill="#b5654d"/></svg>' },
+  { scene: 'koshin', w: 96, label: '\u5e9a\u7533\u5eb5', art: '<svg width="96" height="76" viewBox="0 0 96 76"><rect x="26" y="30" width="44" height="32" fill="#f7ead2" stroke="#d9c9a8"/><path d="M20 32 L48 14 L76 32 Z" fill="#8a6d4b"/><rect x="43" y="44" width="10" height="18" fill="#a9743f"/><rect x="8" y="58" width="80" height="5" fill="#a9bd8f"/><circle cx="16" cy="46" r="9" fill="#a9bd8f"/><circle cx="82" cy="44" r="8" fill="#a9bd8f"/></svg>' },
+  { scene: 'kayamachi', w: 84, label: '\u8431\u753a\u5546\u5e97\u8857', art: '<svg width="84" height="78" viewBox="0 0 84 78"><rect x="39" y="8" width="6" height="62" fill="#8a6d4b"/><rect x="14" y="12" width="56" height="20" rx="4" fill="#fdfbef" stroke="#d9a441" stroke-width="2"/><circle cx="42" cy="22" r="6" fill="#e8a13c"/></svg>' }
+];
+const TOWN_STAFF = [
+  { img: 'av-mahalo.png', tag: 'MAHALO\u306e\u5e97\u54e1\u3055\u3093', x: 282, y: 250, dest: 'stairs' },
+  { img: 'av-elua.png', tag: 'elua\u306e\u5e97\u54e1\u3055\u3093', x: 182, y: 292, dest: 'elua' },
+  { img: 'av-yuri.png', tag: 'MOMOwaRI', x: 238, y: 298, dest: 'lea' }
+];
+const townStage = document.getElementById('townStage');
+const townCatsEl = document.getElementById('townCats');
+const townRes = [];
+const tPlayer = { x: 228, y: 306, tx: 228, ty: 306, moving: false, targetScene: null, type: null, el: null };
+function tPlace(el, x, y, flip) { el.style.left = (x / 680 * 100) + '%'; el.style.top = (y / 600 * 100) + '%'; el.querySelector('img').style.transform = flip ? 'scaleX(-1)' : ''; }
+function tMkCat(cls, type, name) { const d = document.createElement('div'); d.className = 'tcat ' + cls; d.innerHTML = '<img src="cat-' + type + '-sit.png" alt="">' + (name ? '<br><span class="mtag">' + name + '</span>' : ''); townCatsEl.appendChild(d); return d; }
+function tStep(c, dt, speed) {
+  const dx = c.tx - c.x, dy = c.ty - c.y, dist = Math.hypot(dx, dy);
+  if (dist < 3) { if (c.moving) { c.moving = false; c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-sit.png'; } return true; }
+  const v = Math.min(dist, speed * dt / 1000); c.x += dx / dist * v; c.y += dy / dist * v;
+  if (!c.moving) { c.moving = true; c.el.querySelector('img').src = 'cat-' + (c.type || myProfile.cat) + '-walk.png'; }
+  tPlace(c.el, c.x, c.y, dx < 0); return false;
+}
+function buildTown() {
+  const bg = document.getElementById('townBldgs');
+  BLDGS.forEach(b => {
+    const pos = TOWN_POS[b.scene];
+    const d = document.createElement('div'); d.className = 'bldg';
+    d.style.left = (pos[0] / 680 * 100) + '%'; d.style.top = (pos[1] / 600 * 100) + '%';
+    d.innerHTML = b.art + '<br><span class="bl">' + b.label + '</span>';
+    d.addEventListener('click', (e) => { e.stopPropagation(); tPlayer.tx = pos[0]; tPlayer.ty = Math.min(592, pos[1] + 40); tPlayer.moving = true; tPlayer.targetScene = b.scene; });
+    bg.appendChild(d);
+  });
+  TOWN_STAFF.forEach(sf => {
+    const d = document.createElement('div'); d.className = 'tstaff';
+    d.style.left = (sf.x / 680 * 100) + '%'; d.style.top = (sf.y / 600 * 100) + '%';
+    d.innerHTML = '<img src="' + sf.img + '" alt=""><br><span class="stag">' + sf.tag + '</span>';
+    d.addEventListener('click', (e) => { e.stopPropagation(); window.scrollTo({ top: 0, behavior: 'smooth' }); viewer.loadScene(sf.dest); });
+    townCatsEl.appendChild(d);
+  });
+  POSTS.forEach(post => {
+    if (!TOWN_POS[post.scene]) return;
+    const base = TOWN_POS[post.scene];
+    const d = document.createElement('div'); d.className = 'tpost';
+    d.style.left = ((base[0] + 54) / 680 * 100) + '%'; d.style.top = ((base[1] + 34) / 600 * 100) + '%';
+    d.innerHTML = '<span class="mb">' + post.text.slice(0, 20) + '</span><img src="' + post.catImg + '" alt="">';
+    d.addEventListener('click', (e) => { e.stopPropagation(); openPost(post); });
+    townCatsEl.appendChild(d);
+  });
+  RES_DEFS.forEach((rd, i) => {
+    const keys = Object.keys(TOWN_POS); const k = TOWN_POS[keys[(i * 3 + 2) % keys.length]];
+    const r = { x: k[0] + 14, y: k[1] + 16, tx: k[0] + 14, ty: k[1] + 16, moving: false, wait: 1200 + i * 1300, type: rd.type, el: tMkCat('', rd.type, rd.name) };
+    tPlace(r.el, r.x, r.y, false); townRes.push(r);
+  });
+  tPlayer.el = tMkCat('tplayer', myProfile.cat, myProfile.nickname);
+  tPlace(tPlayer.el, tPlayer.x, tPlayer.y, false);
+}
+let townLast = performance.now();
+function townLoop(ts) {
+  const dt = Math.min(80, ts - townLast); townLast = ts;
+  if (tStep(tPlayer, dt, 125) && tPlayer.targetScene) { const dest = tPlayer.targetScene; tPlayer.targetScene = null; window.scrollTo({ top: 0, behavior: 'smooth' }); viewer.loadScene(dest); }
+  townRes.forEach(r => {
+    if (r.moving) { tStep(r, dt, 42); if (!r.moving) r.wait = 2500 + Math.random() * 4500; }
+    else { r.wait -= dt; if (r.wait <= 0) { const keys = Object.keys(TOWN_POS); const k = TOWN_POS[keys[Math.floor(Math.random() * keys.length)]]; r.tx = k[0] + (Math.random() * 30 - 15); r.ty = k[1] + (Math.random() * 24 - 6); r.moving = true; } }
+  });
+  requestAnimationFrame(townLoop);
+}
+buildTown(); requestAnimationFrame(townLoop);
+townStage.addEventListener('click', (e) => {
+  if (e.target.closest('.bldg,.tstaff,.tpost')) return;
+  const r = townStage.getBoundingClientRect();
+  tPlayer.tx = Math.max(10, Math.min(670, (e.clientX - r.left) / r.width * 680));
+  tPlayer.ty = Math.max(12, Math.min(592, (e.clientY - r.top) / r.height * 600));
+  tPlayer.moving = true; tPlayer.targetScene = null;
+});
+viewer.on('scenechange', function(id) { const t = TOWN_POS[id]; if (t) { tPlayer.tx = t[0]; tPlayer.ty = Math.min(592, t[1] + 40); tPlayer.moving = true; tPlayer.targetScene = null; } });
+ lastTs = performance.now(); mapRaf = requestAnimationFrame(mapLoop);
 viewer.on("scenechange", function(id) { var t = MAP_POS[id] || ([ "stairs", "counter", "elua", "lea" ].indexOf(id) >= 0 ? MAP_POS.front : null); if (t) walkPlayerTo(t[0], t[1], null); });
 mapStage.addEventListener("click", (e) => {
   if (e.target.closest(".mpin,.mpost,.mcat,#mapCard,svg")) { if (e.target === mapStage || e.target.tagName === "svg" || e.target.tagName === "DIV") {} else return; }
