@@ -1150,5 +1150,200 @@ list.forEach(function(el){ io.observe(el); });
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
+<!--MOMOWARI_BOT-->
+<style>
+#botBtn{position:fixed;right:max(14px,calc(50% - 374px));bottom:16px;z-index:95;background:#D9708E;color:#fff;border:none;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:800;box-shadow:0 6px 18px rgba(190,90,120,.35);cursor:pointer;font-family:inherit}
+#botPanel{position:fixed;right:max(12px,calc(50% - 372px));bottom:76px;z-index:95;width:min(92vw,360px);height:480px;max-height:70vh;background:#fff;border:1.5px solid #F3D3DC;border-radius:18px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.18)}
+#botPanel.open{display:flex}
+#botHead{background:#D9708E;color:#fff;padding:12px 16px;font-weight:800}
+#botLog{flex:1;overflow-y:auto;padding:12px;font-size:14px;line-height:1.6}
+#botLog .me{text-align:right;margin:8px 0}
+#botLog .me span{background:#FDECEF;border-radius:12px;padding:7px 11px;display:inline-block}
+#botLog .bot span{background:#F6EFE9;border-radius:12px;padding:7px 11px;display:inline-block}
+.bgo{display:inline-block;margin-top:7px;background:#D9708E;color:#fff;padding:7px 14px;border-radius:999px;font-weight:800;font-size:13px;text-decoration:none}
+.bgo.sub{background:#fff;color:#C2577E;border:1.5px solid #D9708E}
+#botQuick{display:flex;gap:6px;flex-wrap:wrap;padding:8px 12px;border-top:1px solid #F3D3DC}
+#botQuick button{border:1.5px solid #D9708E;background:#fff;color:#C2577E;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+#botForm{display:flex;border-top:1px solid #F3D3DC}
+#botInput{flex:1;border:none;padding:12px;font-size:14px;font-family:inherit}
+#botSend{border:none;background:#D9708E;color:#fff;padding:0 16px;font-weight:800;cursor:pointer;font-family:inherit}
+</style>
+<button id="botBtn" class="chatbtn" aria-label="チャットを開く">MOMOwaRIに聞く</button>
+<div id="botPanel" class="chatpanel" role="dialog" aria-label="MOMOwaRI チャット">
+  <div id="botHead">MOMOwaRI</div>
+  <div id="botLog"></div>
+  <div id="botQuick">
+    <button data-q="お店はどこ？">場所</button>
+    <button data-q="駐車場はある？">駐車場</button>
+    <button data-q="OHANAって何？">OHANAとは</button>
+    <button data-q="100円券って何？">100円券</button>
+    <button data-q="予約したい">予約</button>
+    <button data-q="何があるの？">活動の紹介</button>
+  </div>
+  <form id="botForm"><input id="botInput" placeholder="質問を入力（例：駐車場ある？）" autocomplete="off"><button id="botSend" type="submit">送信</button></form>
+  <p id="botNotice" style="font-size:.75rem;color:#8a6d74;margin:8px 12px 12px">※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、各お店のページでも確認してください。</p>
+</div>
+<script>
+(function(){
+  var panel=document.getElementById('botPanel'), log=document.getElementById('botLog');
+  var I18N={
+    btn:{ja:'MOMOwaRIに聞く',en:'Ask MOMOwaRI',zh:'问MOMOwaRI',ko:'MOMOwaRI에게 묻기'},
+    ph:{ja:'質問を入力（例：駐車場ある？）',en:'Type your question',zh:'请输入问题',ko:'질문을 입력하세요'},
+    send:{ja:'送信',en:'Send',zh:'发送',ko:'보내기'},
+    greet:{ja:'こんにちは。MOMOwaRIです。お店のこと、OHANAのこと、なんでも聞いてください。',en:'Hello, this is MOMOwaRI. Ask me about our shops or OHANA.',zh:'你好，我是MOMOwaRI。关于店铺和OHANA，什么都可以问。',ko:'안녕하세요, MOMOwaRI입니다. 가게와 OHANA에 대해 무엇이든 물어보세요.'},
+    think:{ja:'考え中…',en:'Thinking…',zh:'思考中…',ko:'생각 중…'},
+    notice:{ja:'※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、各お店のページでも確認してください。',en:'* Answered by AI. It can make mistakes, so please double-check important details (dates, prices) on each shop\u2019s page.',zh:'※ 由AI回答。可能会出错，重要事项（日期、价格等）请在各店铺页面确认。',ko:'※ AI가 답변하고 있습니다. 틀릴 수 있으니 중요한 내용(날짜, 요금 등)은 각 가게 페이지에서 확인해 주세요.'}
+  };
+  function lang(){ try{ return localStorage.getItem('momowari-lang')||'ja'; }catch(e){ return 'ja'; } }
+  function applyLang(){
+    var l=lang(); if(!I18N.btn[l]) l='ja';
+    document.getElementById('botBtn').textContent=I18N.btn[l];
+    document.getElementById('botInput').placeholder=I18N.ph[l];
+    document.getElementById('botSend').textContent=I18N.send[l];
+    document.getElementById('botNotice').textContent=I18N.notice[l];
+  }
+  var ls=document.getElementById('langSel');
+  if(ls) ls.addEventListener('change',applyLang);
+  applyLang();
+  function addMsg(cls,text){
+    var d=document.createElement('div'); d.className=cls;
+    var s=document.createElement('span'); s.innerHTML=text; d.appendChild(s); log.appendChild(d);
+    log.scrollTop=log.scrollHeight;
+    return d;
+  }
+  function addBotText(text){
+    var d=document.createElement('div'); d.className='bot';
+    var s=document.createElement('span'); s.textContent=text; d.appendChild(s); log.appendChild(d);
+    log.scrollTop=log.scrollHeight;
+    return d;
+  }
+  function logChat(topic,kind){
+    if(window.gtag){gtag('event','chat_question',{topic:topic,kind:kind});}
+  }
+  function BTN(href,label,cls){ return '<br><a class="bgo'+(cls?' '+cls:'')+'" href="'+href+'" target="_blank" rel="noopener">'+label+'</a>'; }
+  function topicOf(t){
+    if(/駐車場|車/.test(t))return '駐車場';
+    if(/100円券|券/.test(t))return '100円券';
+    if(/OHANA島|島/.test(t))return 'OHANA島';
+    if(/OHANA/.test(t))return 'OHANAとは';
+    if(/予約/.test(t))return '予約';
+    if(/まつげ|Eyes/.test(t))return 'Eyes MAHALO';
+    if(/雑貨|古着|Lea|メルカリ/.test(t))return 'Lea Mahalo';
+    if(/美容室|髪|MAHALO|elua/.test(t))return 'MAHALO・elua';
+    if(/場所|住所|どこ|アクセス/.test(t))return '場所';
+    if(/営業|時間|いつ/.test(t))return '営業時間';
+    return 'その他・答えられなかった';
+  }
+  function answer(t,kind){
+    logChat(topicOf(t), kind||'text');
+    if(/駐車場/.test(t)) return '駐車場があります。場所の詳しい案内は、各お店のページや予約時の案内をご確認ください。';
+    if(/100円券/.test(t)) return '100円券は、OHANAシェア＊プロジェクトのお買い物に使える券です。無料でお配りしていて、買うものではありません。お釣りは出ません。未使用の券は他の人に譲れます。'+BTN('https://momowari.github.io/OHANA-share/','OHANAシェア＊プロジェクトのページへ');
+    if(/OHANA島|島/.test(t)) return 'OHANA島は、もうひとつの四国を歩いて巡るメタバースの島です。猫が案内します。'+BTN('https://momowari.github.io/ohana-jima/','OHANA島へ行く');
+    if(/OHANA/.test(t)) return 'OHANAシェア＊プロジェクトは、フリマ型の「選べる物々交換」です。ヒトモノコトをつなぎ、眠っている価値を必要な場所へ届けます。'+BTN('https://momowari.github.io/OHANA-share/','OHANAのページへ');
+    if(/予約/.test(t)) return 'ご予約は各お店のページからどうぞ。まつげパーマ（Eyes MAHALO）の予約は公式LINEが確実です。'+BTN('https://lin.ee/q8vBvt1','Eyes MAHALOの公式LINE')+BTN('https://momowari.github.io/MAHALO/','MAHALOのページへ','sub');
+    if(/まつげ|Eyes/.test(t)) return 'Eyes MAHALOは、MAHALOビル1階のまつげパーマ専門店です。歴15年以上、基本メニューは4,000円、月〜土7:30〜19:30（日・祝は要相談）です。'+BTN('https://momowari.github.io/Eyes-MAHALO/','Eyes MAHALOのページへ');
+    if(/雑貨|古着|Lea|メルカリ/.test(t)) return 'Lea Mahaloは、MAHALOビル1階の雑貨＆古着のお店です。販売は主にメルカリで行っています。'+BTN('https://momowari.github.io/Lea-Mahalo/','Lea Mahaloのページへ')+BTN('https://www.mercari.com/jp/u/256767561/','メルカリの出品を見る','sub');
+    if(/elua/.test(t)) return 'elua Mahaloは、MAHALOビル1階の女性限定の美容室です。詳しくはMAHALOのページからご案内しています。'+BTN('https://momowari.github.io/MAHALO/','MAHALOのページへ');
+    if(/美容室|髪|MAHALO/.test(t)) return 'hair ID salon MAHALOは、MAHALOビル2階の美容室です。セレクト商品や髪質診断のページもあります。'+BTN('https://momowari.github.io/MAHALO/','MAHALOのページへ');
+    if(/場所|住所|どこ|アクセス/.test(t)) return '松山市味酒町3-2-29 MAHALOビルです。古町駅・フジグラン松山から徒歩約3分、駐車場もあります。1階がelua Mahalo・Eyes MAHALO・Lea Mahalo、2階が美容室MAHALOです。';
+    if(/営業|時間|いつ/.test(t)) return 'お店ごとに違います。まつげパーマのEyes MAHALOは月〜土7:30〜19:30（日・祝は要相談）です。他のお店は各ページでご確認ください。';
+    if(/何がある|活動|紹介|について/.test(t)) return 'MOMOwaRIの活動は4つです。美容室MAHALO（2階）、まつげパーマのEyes MAHALO、雑貨＆古着のLea Mahalo（どちらも1階）、そして選べる物々交換のOHANAシェア＊プロジェクトです。このページを下へ進むと、それぞれの紹介とページへのリンクがあります。';
+    if(/こんにちは|はじめまして|やあ/.test(t)) return I18N.greet[lang()]||I18N.greet.ja;
+    if(/名前|誰/.test(t)) return 'MOMOwaRIです。松山市味酒町のMAHALOビルから、4つの活動をご案内しています。';
+    if(/note|ブログ|記事/.test(t)) return '考え方や記録はnoteにまとめています。まず読むなら「リンク集（全記事案内所）」からどうぞ。'+BTN('https://note.com/momo2025/n/nead55ed5b6f4','noteリンク集を開く');
+    return 'すみません、その質問にはここでは答えきれません。各お店のページに詳しい情報があります。このページの下の方に、それぞれの紹介とリンクがあります。';
+  }
+  document.getElementById('botBtn').addEventListener('click',function(){
+    panel.classList.toggle('open');
+    if(panel.classList.contains('open')&&!log.children.length){
+      addMsg('bot',(I18N.greet[lang()]||I18N.greet.ja).replace(/</g,'&lt;'));
+    }
+  });
+  function send(t,isQuick){
+    if(!t)return; addMsg('me',t.replace(/</g,'&lt;'));
+    if(isQuick){ addMsg('bot',answer(t,'chip')); return; }
+    if(window.__geminiAsk){
+      var typing=addMsg('bot',(I18N.think[lang()]||I18N.think.ja));
+      window.__geminiAsk(t).then(function(aiAns){
+        if(typing)typing.remove();
+        if(aiAns){ addBotText(aiAns); logChat('AIの回答','ai'); }
+        else{ var ans=answer(t,'text'); if(window.__logBot)window.__logBot(t,ans.replace(/<[^>]+>/g,'')); addMsg('bot',ans); }
+      }).catch(function(){
+        if(typing)typing.remove();
+        var ans=answer(t,'text'); if(window.__logBot)window.__logBot(t,ans.replace(/<[^>]+>/g,'')); addMsg('bot',ans);
+      });
+    } else {
+      var ans2=answer(t,'text'); if(window.__logBot)window.__logBot(t,ans2.replace(/<[^>]+>/g,'')); addMsg('bot',ans2);
+    }
+  }
+  document.getElementById('botForm').addEventListener('submit',function(e){
+    e.preventDefault(); var i=document.getElementById('botInput'); send(i.value.trim(),false); i.value='';
+  });
+  document.querySelectorAll('#botQuick button').forEach(function(b){b.addEventListener('click',function(){send(b.dataset.q,true);});});
+})();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
+import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+var SYS = "あなたは、愛媛県松山市の「MOMOwaRI」のサイト案内役です。名前はありません。名前を聞かれたら「MOMOwaRIです」と答えてください。質問には親しみやすく、短く（1〜3文）答えてください。ユーザーの言語に合わせて答えてください（英語の質問には英語、中国語には簡体字中国語、韓国語には韓国語）。\n\n\n・嘘をつかないでください。下の知識にないことは作り話をせず、正直に「分からない」と言って、関係するお店のページを案内してください。\n・料金・時間は、知識にあるものだけをそのまま正確に伝えてください。推測で数字を言わないでください。\n・予約の空き状況は絶対に断定しないでください。各お店のページや公式LINEを案内してください。\n・電話番号は出さないでください。\n・MOMOwaRIと関係のない質問には、「お店やOHANAのことなら答えられます」とやんわり返してください。\n\n\n・MOMOwaRIは、松山市味酒町3-2-29のMAHALOビルを拠点に、美容室・まつげパーマ・雑貨と古着・選べる物々交換の4つの活動を案内する入口ページです。古町駅・フジグラン松山から徒歩約3分、駐車場があります。\n・2階は美容室「hair ID salon MAHALO」です：https://momowari.github.io/MAHALO/\n・1階には、女性限定の美容室「elua Mahalo」、まつげパーマ専門「Eyes MAHALO」、雑貨＆古着の「Lea Mahalo」があります。\n・Eyes MAHALO：まつげパーマ歴15年以上。基本メニューは4,000円。対応時間は月〜土7:30〜19:30、日・祝は要相談。予約は公式LINEが確実です：https://lin.ee/q8vBvt1 ／ ページ：https://momowari.github.io/Eyes-MAHALO/\n・Lea Mahalo：美容師セレクトの雑貨屋です。販売は主にメルカリで行っています：https://www.mercari.com/jp/u/256767561/ ／ ページ：https://momowari.github.io/Lea-Mahalo/\n・OHANAシェア＊プロジェクト：フリマ型の「選べる物々交換」です。ヒトモノコトをつなぎ、眠っている価値を必要な場所へ届けます。お買い物には、無料でお配りしている100円券が使えます。100円券は買うものではなく、お釣りは出ません。未使用の券は他の人に譲れます。ページ：https://momowari.github.io/OHANA-share/\n・OHANA島：もうひとつの四国（ミラーワールド）を歩いて巡るメタバースの島です。猫が案内します：https://momowari.github.io/ohana-jima/\n・考え方や記録はnote（momo2025）にまとめています。リンク集（全記事案内所）：https://note.com/momo2025/n/nead55ed5b6f4";
+try {
+  var aiApp = initializeApp({
+  apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0",
+  authDomain: "ohana-share.firebaseapp.com",
+  projectId: "ohana-share",
+  storageBucket: "ohana-share.firebasestorage.app",
+  messagingSenderId: "825904150210",
+  appId: "1:825904150210:web:4ae90f047ac8cc761cad5b"
+}, 'ohana-ai');
+  initializeAppCheck(aiApp, { provider: new ReCaptchaEnterpriseProvider('6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv'), isTokenAutoRefreshEnabled: true });
+  var aiDb = getFirestore(aiApp);
+  var ai = getAI(aiApp, { backend: new GoogleAIBackend() });
+  var model = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: SYS });
+  var chat = null;
+  function kunUsed(){
+    try {
+      var d = new Date();
+      var key = 'momowari_kun_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var n = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+      localStorage.setItem(key, String(n));
+      return n;
+    } catch(e){ return 1; }
+  }
+
+  window.__logBot = function(q, a){
+    try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, site: 'momowari', ts: serverTimestamp() }).catch(function(){}); } catch(e){}
+  };
+  
+  function langPrefix(){
+    try {
+      var l = localStorage.getItem('momowari-lang') || '';
+      if (l === 'en') return 'Please answer in English. ';
+      if (l === 'zh') return '请用简体中文回答。';
+      if (l === 'ko') return '한국어로 답변해 주세요. ';
+    } catch(e){}
+    return '';
+  }
+  window.__geminiAsk = function(text){
+    if (kunUsed() > 20) return Promise.resolve("たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。OHANAのページの掲示板や、各お店のページからも聞けます。");
+    function attempt(){
+      if (!chat) chat = model.startChat({ history: [] });
+      return chat.sendMessage(langPrefix() + text).then(function(res){ return res.response.text(); });
+    }
+    var p = attempt().catch(function(){ chat = null; return attempt(); });
+    var timeout = new Promise(function(res){ setTimeout(function(){ res(null); }, 15000); });
+    return Promise.race([p, timeout]).then(function(ans){
+      if (ans) {
+        try { addDoc(collection(aiDb, 'botLogs'), { q: text, a: String(ans).slice(0, 2000), page: location.pathname, site: 'momowari', ts: serverTimestamp() }).catch(function(){}); } catch(e){}
+        return String(ans);
+      }
+      return null;
+    }).catch(function(){ return null; });
+  };
+} catch(e){}
+</script>
 </body>
 </html>
