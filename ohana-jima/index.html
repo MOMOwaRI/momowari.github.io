@@ -128,7 +128,7 @@
   
   #mapHead { display:flex; align-items:center; justify-content:space-between; padding:10px 14px 4px; }
   #mapHead h2 { font-size:19px; margin:0; color:#5d4212; }
-  #mapStage { position:relative; aspect-ratio:340/300; max-height:540px; margin:6px 10px; border:1.5px solid #ecd9ae; border-radius:16px; background:linear-gradient(180deg,#fdfbef,#f6ead0); overflow:hidden; touch-action:none; }
+  #mapStage { position:relative; aspect-ratio:340/300; max-height:540px; margin:6px 10px; border:1.5px solid #ecd9ae; border-radius:16px; background:#fdfbef url("map-island.jpg") center/cover no-repeat; overflow:hidden; touch-action:none; }
   .mpin { position:absolute; transform:translate(-50%,-50%); background:none; border:none; cursor:pointer; padding:0; text-align:center; z-index:9; }
   .mpin .pd { display:block; width:13px; height:13px; margin:0 auto; border-radius:50%; border:2px solid #fff; box-shadow:0 1px 4px rgba(90,60,10,.35); }
   .mpin .pl { display:block; font-size:10.5px; color:#5d4212; background:rgba(255,253,247,.85); border-radius:8px; padding:0 5px; margin-top:1px; white-space:nowrap; }
@@ -216,14 +216,14 @@
     <div id="mapHead"><h2>まちマップ（ゴゴ市モード・実際の位置関係）</h2></div>
     <div id="mapStage">
       <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 340 300" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="300" y1="8" x2="300" y2="212" stroke="#d9b96a" stroke-width="10" stroke-linecap="round" opacity=".45"/>
-        <polyline points="242,95 176,113 114,131" fill="none" stroke="#d9b96a" stroke-width="8" stroke-linecap="round" opacity=".45"/>
+        <line x1="300" y1="8" x2="300" y2="212" stroke="#d9b96a" stroke-width="10" stroke-linecap="round" opacity=".18"/>
+        <polyline points="242,95 176,113 114,131" fill="none" stroke="#d9b96a" stroke-width="8" stroke-linecap="round" opacity=".18"/>
         <polyline points="176,113 110,195 40,272" fill="none" stroke="#cbb27f" stroke-width="4" stroke-dasharray="6 5" opacity=".8"/>
       </svg>
       <div id="mapPins"></div><div id="mapCats"></div>
       <div id="mapCard"><h3 id="mapCardName"></h3><p id="mapCardDesc"></p><div class="btns" style="margin:0"><button class="act small" id="btnMapEnter" type="button">ストリートビューで見る</button><button class="act sub small" id="btnMapCardClose" type="button">閉じる</button></div></div>
     </div>
-    <p class="hint" style="margin:2px 12px 12px">地図をタップすると、あなたの猫が歩いていきます。場所のピンをタップすると、猫が向かって、その場所のストリートビューに入れます。住人の猫たちも歩いています。</p>
+    <p class="hint" style="margin:2px 12px 12px">地図をタップすると、あなたの猫が歩いていきます。場所のピンをタップすると、猫が歩いていって、その場所のストリートビューに切り替わります。住人の猫たちも歩いています。周りの海とヤシの木は飾りで、街の配置は実際の松山です。</p>
   </div>
 
 
@@ -819,7 +819,7 @@ function stepCat(c, dt, speed) {
 function mapLoop(ts) {
   if (!mapOpen) return;
   const dt = Math.min(80, ts - lastTs); lastTs = ts;
-  if (stepCat(player, dt, 62) && player.targetScene) { showMapCard(player.targetScene); player.targetScene = null; }
+  if (stepCat(player, dt, 62) && player.targetScene) { const dest = player.targetScene; player.targetScene = null; window.scrollTo({ top: 0, behavior: "smooth" }); viewer.loadScene(dest); }
   residents.forEach(r => {
     if (r.moving) { stepCat(r, dt, 30); if (!r.moving) r.wait = 2500 + Math.random() * 4500; }
     else { r.wait -= dt; if (r.wait <= 0) { const keys = Object.keys(MAP_POS); const k = MAP_POS[keys[Math.floor(Math.random() * keys.length)]]; r.tx = k[0] + (Math.random() * 22 - 11); r.ty = k[1] + (Math.random() * 18 - 4); r.moving = true; } }
