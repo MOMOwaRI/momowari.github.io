@@ -649,7 +649,7 @@ viewer.on("scenechange", (id) => {
   const exitEx = (EXITS[id] || []).find(e => (e.label || "").indexOf("出口") >= 0);
   const exitBtn = document.getElementById("exitBtn");
   if (exitEx) { exitBtn.style.display = "block"; exitBtn.textContent = "出口"; exitBtn.onclick = () => walkTo(exitEx); } else { exitBtn.style.display = "none"; }
-  const OFFICIAL_LINKS = { lea: ["ネットショップを見る", "https://momowari.github.io/Lea-Mahalo/"], counter: ["公式サイトを見る", "https://www.hair-mahalo.com/"], elua: ["公式サイトを見る", "https://www.hair-mahalo.com/"], pharmacy: ["公式サイトを見る", "https://www.lady-drug.co.jp/"], fuji: ["公式サイトを見る", "https://www.the-fuji.com/fuji/store/shop/ehime/grand_matsuyama.php"], jinja: ["公式ページを見る", "https://ehime-jinjacho.jp/jinja/?p=7188"], koshin: ["公式ページを見る", "https://www.city.matsuyama.ehime.jp/shisetsu/bunka/koushinan.html"], furumachi: ["公式サイトを見る", "https://www.iyotetsu.co.jp/"] };
+  const OFFICIAL_LINKS = { lea: ["ネットショップを見る", "https://momowari.github.io/Lea-Mahalo/"], counter: ["公式HP", "https://www.hair-mahalo.com/"], elua: ["公式HP", "https://www.hair-mahalo.com/"], pharmacy: ["公式HP", "https://www.lady-drug.co.jp/"], fuji: ["公式HP", "https://www.the-fuji.com/fuji/store/shop/ehime/grand_matsuyama.php"], jinja: ["公式HP", "https://ehime-jinjacho.jp/jinja/?p=7188"], koshin: ["公式HP", "https://www.city.matsuyama.ehime.jp/shisetsu/bunka/koushinan.html"], furumachi: ["公式HP", "https://www.iyotetsu.co.jp/"] };
   const slb = document.getElementById("shopLinkBtn"); const olink = OFFICIAL_LINKS[id];
   slb.style.display = olink ? "block" : "none";
   if (olink) { slb.textContent = olink[0]; slb.onclick = () => window.open(olink[1], "_blank"); }
