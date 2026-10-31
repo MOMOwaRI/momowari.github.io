@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OHANA島｜愛媛・松山にそっくりな島</title>
-  <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="vendor/pannellum.css">
@@ -232,7 +231,8 @@
   <h1>OHANA島</h1>
   <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。近所のみなさんの投稿も集めています。</p>
   <p data-ed="disc" style="margin:10px auto 0;max-width:560px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 12px;font-size:13px;color:#7a5a16">※ この島は、水彩の絵で再現したものです。実際のお店や風景とは異なります。</p>
-  <div id="authBar"><span class="who" id="authState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button">ログイン</button><button class="act sub small" id="btnProfile" type="button" style="display:none">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none">ログアウト</button></div>
+  <p style="text-align:center;margin:10px 0 0"><label style="font-size:13px;color:#7c6642">🌐 Language <select id="langSel" style="font:inherit;font-size:13.5px;border:1.5px solid #cbb27f;border-radius:999px;padding:5px 10px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label></p>
+  <div id="authBar"><span class="who" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">ログイン</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール（星）</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
 
 
   <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div>
@@ -240,7 +240,7 @@
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
       <p class="src" id="talkHint" style="margin:0 0 6px"></p>
-      <textarea id="talkText" maxlength="200" rows="2" placeholder="ひとこと（200字まで）"></textarea>
+      <textarea id="talkText" maxlength="200" rows="2" placeholder="ひとこと（200字まで）" data-i18n-ph="parkPh"></textarea>
       <div><button class="act small" id="talkSend" type="button">💬 話しかける</button><span class="src" id="talkMsg" style="margin-left:8px"></span></div>
     </div>
     <button id="exitBtn" type="button"></button>
@@ -277,8 +277,8 @@
     </div>
   </div>
   <div id="sceneName">MAHALOの店前</div>
-  <div id="placeBar"><label for="placeSel">📍 場所を選ぶ</label><select id="placeSel" aria-label="場所を選ぶ"></select></div>
-  <div class="btns"><button class="act" id="btnWalk">🐾 アバターと歩く（自動で進む）</button><button class="act" id="btnMap" type="button">🗺 MAPを見る</button></div>
+  <div id="placeBar"><label for="placeSel" data-i18n="selLabel">📍 場所を選ぶ</label><select id="placeSel" aria-label="場所を選ぶ"></select></div>
+  <div class="btns"><button class="act" id="btnWalk" data-i18n="walk">🐾 アバターと歩く（自動で進む）</button><button class="act" id="btnMap" type="button" data-i18n="mapBtn">🗺 MAPを見る</button></div>
   <div class="btns" id="shopBtns" style="display:none">
     <button class="act" id="btnTalk">店員さんと話す</button>
     <button class="act" id="btnGoods">商品を見る</button>
@@ -292,19 +292,19 @@
     <p class="hint" style="margin:2px 12px 12px" data-ed="mapHint">ピンをタップすると、その場所のストリートビューへ行けます。城山公園は、みんなの広場です。</p>
   </div>
   <div id="parkTalk" style="display:none;background:#fffdf8;border:1.5px dashed #b7cf9e;border-radius:12px;padding:10px 12px;margin:0 0 14px">
-    <h3 id="parkFormTitle" style="font-size:14px;margin:0 0 8px;color:#5b7040">🌳 城山公園（みんなの広場）</h3>
+    <h3 id="parkFormTitle" data-i18n="parkTitle" style="font-size:14px;margin:0 0 8px;color:#5b7040">🌳 城山公園（みんなの広場）</h3>
     <input id="parkFrom" placeholder="あなたの名前" maxlength="30" style="width:100%;box-sizing:border-box;border:1.5px solid #cfdabb;border-radius:8px;padding:7px 9px;font-size:14px;margin:0 0 8px;font-family:inherit">
     <textarea id="parkText" maxlength="200" rows="2" placeholder="ひとこと（200字まで）" style="width:100%;box-sizing:border-box;border:1.5px solid #cfdabb;border-radius:8px;padding:7px 9px;font-size:14px;margin:0 0 8px;font-family:inherit"></textarea>
-    <button class="act small" id="parkSend" type="button">💬 残す</button>
+    <button class="act small" id="parkSend" type="button" data-i18n="parkSend">💬 残す</button>
     <span class="src" id="parkMsg" style="margin-left:8px"></span>
   </div>
   <div id="profModal">
     <div id="profPanel">
       <button id="profClose" aria-label="閉じる" style="position:absolute;top:8px;right:10px;background:none;border:none;font-size:20px;cursor:pointer;color:#a5875f">×</button>
-      <h2>あなたのプロフィール</h2>
-      <label for="profName">ニックネーム</label>
+      <h2 data-i18n="profH2">あなたのプロフィール</h2>
+      <label for="profName" data-i18n="profNick">ニックネーム</label>
       <input id="profName" type="text" maxlength="20" placeholder="島での名前">
-      <label>あなたの分身（アバター）</label>
+      <label data-i18n="profAvatar">あなたの分身（アバター）</label>
       <p class="src" style="margin:0 0 6px">基本は、自分の写真をアップロードしてもらって、キャラを作成します。写真はその場でアップロードできます。</p>
       <div id="photoUpBox" style="margin:0 0 4px">
         <img id="myPhotoImg" alt="" style="display:none;width:88px;height:88px;object-fit:cover;border-radius:12px;border:1.5px solid #d9c9a8">
@@ -312,14 +312,14 @@
         <label class="act small" style="display:inline-block;cursor:pointer">写真を選ぶ<input id="myPhotoInput" type="file" accept="image/*" style="display:none"></label>
       </div>
       <p class="src" style="margin:6px 0 0">キャラができるまでは、猫があなたの分身です。</p>
-      <label>いまの分身（猫）</label>
+      <label data-i18n="profCat">いまの分身（猫）</label>
       <div class="catChoices" id="catChoices"></div>
       <label>ログインの星（来た日の記録）</label>
-      <div id="starBox"><span class="none">ログインすると、来た日が星になります</span></div>
+      <div id="starBox"><span class="none">まだ星がありません</span></div>
       <p class="src" id="starCount"></p>
-      <label>公園で届いたコメント</label>
+      <label data-i18n="profInbox">公園で届いたコメント</label>
       <div id="parkInbox"><span class="none">まだありません</span></div>
-      <div class="btns"><button class="act" id="btnProfSave" type="button">保存する</button></div>
+      <div class="btns"><button class="act" id="btnProfSave" type="button" data-i18n="save">保存する</button></div>
     </div>
   </div>
 
@@ -332,12 +332,12 @@
       <img class="photo" id="postImg" src="post-veg-w.jpg" alt="投稿の写真">
       <p class="src" id="postCap"></p>
       <div id="postEmbed"></div>
-      <div class="btns"><a class="act small" id="postLink" href="#" target="_blank" rel="noopener" style="text-decoration:none">実際の投稿を見る</a></div>
+      <div class="btns"><a class="act small" id="postLink" href="#" target="_blank" rel="noopener" style="text-decoration:none" data-i18n="postLink">実際の投稿を見る</a></div>
     </div>
   </div>
 
   <div class="panel" id="shopPanel">
-    <h2>店内セレクト商品</h2>
+    <h2 data-i18n="shopH2">店内セレクト商品</h2>
     <img id="slideImg" src="prod-nano-main.jpg" alt="商品写真">
     <div id="slideName"></div>
     <p id="slideDesc"></p>
@@ -364,7 +364,7 @@
   <!-- 城山公園 -->
 
   <div class="panel" id="snsEmbeds">
-    <h2>近所のみなさんの投稿</h2>
+    <h2 data-i18n="snsH2">近所のみなさんの投稿</h2>
     <p class="src">この近所のお店や場所について、近所のみなさんとMOMOwaRIが実際に投稿したものです（公式の仕組みで表示）。</p>
     <div class="embeds">
       <div class="embedwrap"><p class="embedlabel">萱町商店街｜紅芭（くれは）さん</p><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DXzOsJ2EyDP/" data-instgrm-version="14"><a href="https://www.instagram.com/p/DXzOsJ2EyDP/">Instagramで見る</a></blockquote></div>
@@ -386,20 +386,20 @@
 
 <button id="btnEdit" class="act" type="button" style="display:none;position:fixed;right:12px;bottom:196px;z-index:80">✏️ 編集</button>
 <div id="fixBtns">
-  <button id="btnBot" type="button">💬 OHANAに聞く</button>
-  <a href="https://momowari.github.io/OHANA-share/" target="_blank" rel="noopener">🌺 OHANAのサイト</a>
-  <a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">💚 オープンチャット</a>
+  <button id="btnBot" type="button" data-i18n="fixBot">💬 OHANAに聞く</button>
+  <a href="https://momowari.github.io/OHANA-share/" target="_blank" rel="noopener" data-i18n="fixSite">🌺 OHANAのサイト</a>
+  <a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener" data-i18n="fixChat">💚 オープンチャット</a>
 </div>
 <div id="botPanel">
   <div id="botHead"><b>OHANA</b><button id="botClose" type="button" aria-label="閉じる">×</button></div>
   <div id="botLog"></div>
   <div id="botChips">
-    <button type="button" data-q="この島の歩き方を教えて">🚶 歩き方</button>
-    <button type="button" data-q="OHANAって何ですか？">🌺 OHANAって？</button>
-    <button type="button" data-q="100円券って何ですか？">🎫 100円券って？</button>
+    <button type="button" data-q="この島の歩き方を教えて" data-i18n="chip1">🚶 歩き方</button>
+    <button type="button" data-q="OHANAって何ですか？" data-i18n="chip2">🌺 OHANAって？</button>
+    <button type="button" data-q="100円券って何ですか？" data-i18n="chip3">🎫 100円券って？</button>
   </div>
-  <div id="botRow"><input id="botInput" type="text" placeholder="聞きたいことを書いてね" maxlength="200"><button id="botSend" type="button">聞く</button></div>
-  <p class="src" style="margin:6px 2px 0">※ AIが答えています。間違うこともあるので、大事なことはお店や主催に直接ご確認ください。</p>
+  <div id="botRow"><input id="botInput" type="text" placeholder="聞きたいことを書いてね" maxlength="200" data-i18n-ph="botPh"><button id="botSend" type="button" data-i18n="botSend">聞く</button></div>
+  <p class="src" style="margin:6px 2px 0"><span data-i18n="botNote">※ AIが答えています。間違うこともあるので、大事なことはお店や主催に直接ご確認ください。</span></p>
 </div>
 <div id="editBar" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:81;background:#fffdf7;border-top:1.5px solid #d9a441;padding:10px;align-items:center;gap:8px;justify-content:center">
   <span style="font-size:12.5px;color:#7a6248">文字をタップして直せます</span>
@@ -532,6 +532,14 @@ Object.keys(SCENES).forEach(id => {
   if (id === "lea") hs.push(leaCat());
   scenesCfg[id] = { type: "equirectangular", panorama: sc.pano, yaw: sc.yaw, pitch: -2, hfov: sc.hfov, hotSpots: hs };
 });
+// ===== 多言語 =====
+window.__lang = (function() { try { return localStorage.getItem("islandLang") || "ja"; } catch (e) { return "ja"; } })();
+window.__I18N = {"en": {"walk": "🐾 Walk with your avatar (auto)", "mapBtn": "🗺 Open the MAP", "selLabel": "📍 Choose a place", "login": "Log in", "profileBtn": "Profile (stars)", "logout": "Log out", "guestState": "🐾 Strolling as a guest", "parkTitle": "🌳 Shiroyama Park (Everyone's Plaza)", "parkPh": "A short note (up to 200 characters)", "parkSend": "💬 Leave a note", "profH2": "Your profile", "profNick": "Nickname", "profAvatar": "Your avatar", "profCat": "Your stand-in for now (cat)", "profInbox": "Notes received at the park", "save": "Save", "snsH2": "Posts from the neighborhood", "fixBot": "💬 Ask OHANA", "fixSite": "🌺 OHANA website", "fixChat": "💚 Open chat", "botPh": "Type your question", "botSend": "Ask", "chip1": "🚶 How to walk", "chip2": "🌺 About OHANA", "chip3": "🎫 The 100-yen ticket", "botNote": "* Answers come from AI and may be wrong. For anything important, please check with the shop or the organizer directly.", "postLink": "See the original post", "shopH2": "Selected products"}, "zh": {"walk": "🐾 和分身一起走（自动前进）", "mapBtn": "🗺 查看MAP", "selLabel": "📍 选择地点", "login": "登录", "profileBtn": "个人资料（星星）", "logout": "退出", "guestState": "🐾 以访客身份散步中", "parkTitle": "🌳 城山公园（大家的广场）", "parkPh": "一句话（200字以内）", "parkSend": "💬 留言", "profH2": "你的个人资料", "profNick": "昵称", "profAvatar": "你的分身（头像）", "profCat": "现在的分身（猫）", "profInbox": "在公园收到的留言", "save": "保存", "snsH2": "附近大家的帖子", "fixBot": "💬 问问OHANA", "fixSite": "🌺 OHANA网站", "fixChat": "💚 开放聊天", "botPh": "写下你想问的", "botSend": "提问", "chip1": "🚶 怎么走", "chip2": "🌺 关于OHANA", "chip3": "🎫 关于100日元券", "botNote": "※ 回答由AI提供，可能有误。重要的事请直接向店铺或主办方确认。", "postLink": "查看原帖", "shopH2": "店内精选商品"}, "ko": {"walk": "🐾 아바타와 걷기 (자동 진행)", "mapBtn": "🗺 MAP 보기", "selLabel": "📍 장소 선택", "login": "로그인", "profileBtn": "프로필 (별)", "logout": "로그아웃", "guestState": "🐾 게스트로 산책 중", "parkTitle": "🌳 시로야마 공원 (모두의 광장)", "parkPh": "한마디 (200자까지)", "parkSend": "💬 남기기", "profH2": "내 프로필", "profNick": "닉네임", "profAvatar": "나의 아바타", "profCat": "지금의 분신 (고양이)", "profInbox": "공원에서 받은 댓글", "save": "저장", "snsH2": "동네 여러분의 게시물", "fixBot": "💬 OHANA에게 묻기", "fixSite": "🌺 OHANA 사이트", "fixChat": "💚 오픈채팅", "botPh": "궁금한 것을 적어주세요", "botSend": "묻기", "chip1": "🚶 걷는 법", "chip2": "🌺 OHANA란?", "chip3": "🎫 100엔 쿠폰이란?", "botNote": "※ AI가 답하고 있어 틀릴 수 있습니다. 중요한 것은 가게나 주최 측에 직접 확인해 주세요.", "postLink": "원본 게시물 보기", "shopH2": "매장 추천 상품"}};
+window.__placeNames = {"en": {"front": "MAHALO Building", "stairs": "MAHALO Bldg. Outer Stairs", "counter": "MAHALO (2F Hair Salon)", "elua": "elua Mahalo (1F)", "lea": "Lea Mahalo (1F Zakka)", "pharmacy": "Lady Pharmacy Miyanishi", "jinja": "Anumi Shrine", "koshin": "Koshin-an Hermitage", "yaoya": "Marugo Seika (Greengrocer)", "tamago": "Hirano Keiran (Egg Shop)", "kayamachi3": "Kayamachi Shopping St. (North)", "kayamachi2": "Kayamachi Shopping St. (Middle)", "kayamachi": "Kayamachi Shopping Street", "fuji": "Fuji Grand Matsuyama"}, "zh": {"front": "MAHALO大楼", "stairs": "MAHALO大楼 外楼梯", "counter": "MAHALO（2楼·美发）", "elua": "elua Mahalo（1楼）", "lea": "Lea Mahalo（1楼·杂货）", "pharmacy": "Lady药局 宫西店", "jinja": "阿沼美神社", "koshin": "庚申庵", "yaoya": "丸五青果（蔬菜水果店）", "tamago": "平野鸡蛋（鸡蛋店）", "kayamachi3": "萱町商店街（北）", "kayamachi2": "萱町商店街（中）", "kayamachi": "萱町商店街", "fuji": "富士Grand松山"}, "ko": {"front": "MAHALO 빌딩", "stairs": "MAHALO 빌딩 외부 계단", "counter": "MAHALO (2층·미용실)", "elua": "elua Mahalo (1층)", "lea": "Lea Mahalo (1층·잡화)", "pharmacy": "레데이 약국 미야니시점", "jinja": "아누미 신사", "koshin": "코신안", "yaoya": "마루고 청과 (야채가게)", "tamago": "히라노 계란 (달걀가게)", "kayamachi3": "카야마치 상점가 (북)", "kayamachi2": "카야마치 상점가 (중간)", "kayamachi": "카야마치 상점가", "fuji": "후지 그랜드 마쓰야마"}};
+window.__pinNames = {"en": {"jinja": "Anumi Shrine", "koshin": "Koshin-an", "yaoya": "Marugo Seika", "tamago": "Hirano Keiran", "pharmacy": "Lady Pharmacy", "kayamachi": "Kayamachi St.", "park": "Shiroyama Park", "fuji": "Fuji Grand"}, "zh": {"jinja": "阿沼美神社", "koshin": "庚申庵", "yaoya": "丸五青果", "tamago": "平野鸡蛋", "pharmacy": "Lady药局", "kayamachi": "萱町商店街", "park": "城山公园", "fuji": "富士Grand"}, "ko": {"jinja": "아누미 신사", "koshin": "코신안", "yaoya": "마루고 청과", "tamago": "히라노 계란", "pharmacy": "레데이 약국", "kayamachi": "카야마치 상점가", "park": "시로야마 공원", "fuji": "후지 그랜드"}};
+window.__exitNames = {"en": {"2階の入口から中へ（カウンター前）": "Enter from the 2F entrance (salon counter)", "eluaの玄関（1階）": "elua entrance (1F)", "出口（MAHALOビルへ）": "Exit (to MAHALO Building)", "出口（北へ進む）": "Exit (go north)", "出口（南へ進む・八百屋さん）": "Exit (south, to the greengrocer)", "出口（店前へ出る）": "Exit (to the storefront)", "出口（階段を下りる）": "Exit (down the stairs)", "北へ進む": "Go north", "北へ（たまご屋さん）": "North (egg shop)", "北へ（八百屋さん）": "North (greengrocer)", "南へ進む": "Go south", "南西へ進む（庚申庵）": "Go southwest (Koshin-an)", "外階段を上がる（2階）": "Up the outer stairs (2F)", "東へ進む（MAHALOビルの方）": "Go east (toward MAHALO Bldg.)", "東へ進む（商店街）": "Go east (shopping street)", "東へ進む（阿沼美神社・商店街方面）": "Go east (Anumi Shrine / shops)", "横のドア（雑貨屋Lea Mahalo・1階）": "Side door (Lea Mahalo zakka, 1F)", "西へ進む（フジグラン松山）": "Go west (Fuji Grand Matsuyama)", "西へ（MAHALOの方）": "West (toward MAHALO)", "西へ（阿沼美神社）": "West (Anumi Shrine)", "通り向かい（MAHALO）": "Across the street (MAHALO)", "通り向かい（レデイ薬局）": "Across the street (Lady Pharmacy)"}, "zh": {"2階の入口から中へ（カウンター前）": "从2楼入口进去（柜台前）", "eluaの玄関（1階）": "elua玄关（1楼）", "出口（MAHALOビルへ）": "出口（去MAHALO大楼）", "出口（北へ進む）": "出口（向北）", "出口（南へ進む・八百屋さん）": "出口（向南·去蔬菜店）", "出口（店前へ出る）": "出口（到店门口）", "出口（階段を下りる）": "出口（下楼梯）", "北へ進む": "向北走", "北へ（たまご屋さん）": "向北（鸡蛋店）", "北へ（八百屋さん）": "向北（蔬菜店）", "南へ進む": "向南走", "南西へ進む（庚申庵）": "向西南（庚申庵）", "外階段を上がる（2階）": "上外楼梯（2楼）", "東へ進む（MAHALOビルの方）": "向东（MAHALO大楼方向）", "東へ進む（商店街）": "向东（商店街）", "東へ進む（阿沼美神社・商店街方面）": "向东（阿沼美神社·商店街方向）", "横のドア（雑貨屋Lea Mahalo・1階）": "侧门（杂货店Lea Mahalo·1楼）", "西へ進む（フジグラン松山）": "向西（富士Grand松山）", "西へ（MAHALOの方）": "向西（MAHALO方向）", "西へ（阿沼美神社）": "向西（阿沼美神社）", "通り向かい（MAHALO）": "街对面（MAHALO）", "通り向かい（レデイ薬局）": "街对面（Lady药局）"}, "ko": {"2階の入口から中へ（カウンター前）": "2층 입구로 들어가기 (카운터 앞)", "eluaの玄関（1階）": "elua 현관 (1층)", "出口（MAHALOビルへ）": "출구 (MAHALO 빌딩으로)", "出口（北へ進む）": "출구 (북쪽으로)", "出口（南へ進む・八百屋さん）": "출구 (남쪽·야채가게)", "出口（店前へ出る）": "출구 (가게 앞으로)", "出口（階段を下りる）": "출구 (계단 내려가기)", "北へ進む": "북쪽으로 가기", "北へ（たまご屋さん）": "북쪽 (달걀가게)", "北へ（八百屋さん）": "북쪽 (야채가게)", "南へ進む": "남쪽으로 가기", "南西へ進む（庚申庵）": "남서쪽으로 가기 (코신안)", "外階段を上がる（2階）": "외부 계단 오르기 (2층)", "東へ進む（MAHALOビルの方）": "동쪽으로 가기 (MAHALO 빌딩 쪽)", "東へ進む（商店街）": "동쪽으로 가기 (상점가)", "東へ進む（阿沼美神社・商店街方面）": "동쪽으로 가기 (아누미 신사·상점가 방면)", "横のドア（雑貨屋Lea Mahalo・1階）": "옆문 (잡화점 Lea Mahalo·1층)", "西へ進む（フジグラン松山）": "서쪽으로 가기 (후지 그랜드 마쓰야마)", "西へ（MAHALOの方）": "서쪽 (MAHALO 쪽)", "西へ（阿沼美神社）": "서쪽 (아누미 신사)", "通り向かい（MAHALO）": "길 건너편 (MAHALO)", "通り向かい（レデイ薬局）": "길 건너편 (레데이 약국)"}};
+window.__langSuffix = {"en": "\nAlways answer in English, politely and briefly.", "zh": "\n请始终用简体中文，礼貌简洁地回答。", "ko": "\n항상 한국어로 정중하고 간결하게 답해주세요."}[window.__lang] || "";
+if (window.__lang !== "ja") { const PN = window.__placeNames[window.__lang] || {}; for (const k in PN) if (SCENES[k]) SCENES[k].name = PN[k]; const EN = window.__exitNames[window.__lang] || {}; for (const sid in EXITS) EXITS[sid].forEach(x => { if (EN[x.label]) x.label = EN[x.label]; }); }
 const viewer = pannellum.viewer("panorama", {
   default: { firstScene: "front", sceneFadeDuration: 800, autoLoad: true },
   scenes: scenesCfg,
@@ -554,6 +562,8 @@ setInterval(spawnPetal, 2600);
 const ROUTE = [ "front", "stairs", "counter", "stairs", "front", "elua", "front", "lea", "front", "pharmacy", "front", "fuji", "front", "koshin", "front", "jinja", "yaoya", "tamago", "yaoya", "kayamachi3", "kayamachi2", "kayamachi", "kayamachi2", "kayamachi3", "yaoya", "jinja", "front" ];
 const SHORT = { kayamachi:"萱町商店街", kayamachi2:"萱町商店街（なか）", kayamachi3:"萱町商店街（北）", jinja:"阿沼美神社", koshin:"庚申庵", tamago:"平野鶏卵（たまご屋）", yaoya:"丸五青果（八百屋）", front:"MAHALOビル", stairs:"MAHALOビル 外階段", counter:"MAHALO（2階・美容室）", elua:"elua Mahalo（1階）", lea:"Lea Mahalo（1階・雑貨）", pharmacy:"レデイ薬局 宮西店", fuji:"フジグラン松山" };
 let curScene = "front", walkTimer = null;
+if (window.__lang !== "ja") { const PN2 = window.__placeNames[window.__lang] || {}; for (const k2 in PN2) if (SHORT[k2]) SHORT[k2] = PN2[k2]; const D = window.__I18N[window.__lang] || {}; document.querySelectorAll("[data-i18n]").forEach(el => { const t = D[el.getAttribute("data-i18n")]; if (t) el.textContent = t; }); document.querySelectorAll("[data-i18n-ph]").forEach(el => { const t = D[el.getAttribute("data-i18n-ph")]; if (t) el.placeholder = t; }); document.documentElement.lang = window.__lang; }
+const langSelEl = document.getElementById("langSel"); if (langSelEl) { langSelEl.value = window.__lang; langSelEl.addEventListener("change", () => { try { localStorage.setItem("islandLang", langSelEl.value); } catch (e) {} location.reload(); }); }
 const placeSel = document.getElementById("placeSel");
 [ "front", "stairs", "counter", "elua", "lea", "pharmacy", "fuji", "jinja", "koshin", "yaoya", "tamago", "kayamachi3", "kayamachi2", "kayamachi" ].forEach(id => {
   const o = document.createElement("option"); o.value = id; o.textContent = SHORT[id] || SCENES[id].name;
@@ -813,7 +823,7 @@ try {
   var ai = getAI(aiApp, { backend: new GoogleAIBackend() });
   var models = {}, chats = {};
   function modelFor(shop) {
-    if (!models[shop]) models[shop] = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: SYS[shop] || SYS.mahalo });
+    if (!models[shop]) models[shop] = getGenerativeModel(ai, { model: 'gemini-3.5-flash-lite', systemInstruction: (SYS[shop] || SYS.mahalo) + (window.__langSuffix || '') });
     return models[shop];
   }
   function kunUsed() {
@@ -852,6 +862,7 @@ try {
 const MAP_POS = { tamago:[298,24], yaoya:[307,77], jinja:[246,87], approach:[128,127], front:[112,132], pharmacy:[103,151], kayamachi3:[303,50], kayamachi2:[305,106], kayamachi:[306,158], koshin:[30,272] };
 const PIN_COLORS = { tamago:"#d9a441", yaoya:"#d9a441", jinja:"#b5654d", front:"#0068B7", kayamachi:"#d9a441", kayamachi2:"#e8c877", kayamachi3:"#e8c877", pharmacy:"#e59a8a", fuji:"#4a90c2", koshin:"#7a9a5b", park:"#5b8a4d" };
 const PIN_LABELS = { park:"城山公園", front:"MAHALO", tamago:"平野鶏卵", yaoya:"丸五青果", jinja:"阿沼美神社", pharmacy:"レデイ薬局", fuji:"フジグラン", kayamachi:"萱町商店街", koshin:"庚申庵" };
+if (window.__lang !== "ja" && window.__pinNames && window.__pinNames[window.__lang]) Object.assign(PIN_LABELS, window.__pinNames[window.__lang]);
 let myProfile = { nickname: "ゲスト", cat: "muse" };
 window.setIslandProfile = function(pr) { if (pr && pr.nickname) myProfile.nickname = pr.nickname; if (pr && pr.cat) myProfile.cat = pr.cat; if (window.townSetName) window.townSetName(myProfile.nickname); };
 const PLACE_LL = { park:[33.84170,132.76510], front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], fuji:[33.84492,132.75328], kayamachi3:[33.84665,132.75686], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687] };
@@ -945,7 +956,7 @@ $("btnEditSave").addEventListener("click", async () => { const data = {}; docume
 function renderStars() {
   const box = $("starBox"); box.innerHTML = "";
   const days = profile && profile.days ? profile.days : [];
-  if (!days.length) { box.innerHTML = '<span class="none">ログインすると、来た日が星になります</span>'; $("starCount").textContent = ""; return; }
+  if (!days.length) { box.innerHTML = '<span class="none">まだ星がありません</span>'; $("starCount").textContent = ""; return; }
   days.slice(-90).forEach((d, i) => { const st = document.createElement("span"); st.className = "st"; const h1 = Math.abs(Math.sin(i * 127.1) * 43758.5) % 1, h2 = Math.abs(Math.cos(i * 311.7) * 12543.8) % 1; st.style.left = (h1 * 92 + 2) + "%"; st.style.top = (h2 * 78 + 4) + "%"; st.style.fontSize = (10 + (i % 3) * 4) + "px"; st.textContent = "★"; box.appendChild(st); });
   $("starCount").textContent = "星は" + days.length + "個（ログインした日の数）";
 }
