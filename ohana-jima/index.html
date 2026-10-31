@@ -125,6 +125,8 @@
   #botRow{display:flex;gap:6px;margin-top:8px}
   #botRow input{flex:1;border:1.5px solid #d9c9a8;border-radius:8px;padding:8px 9px;font:inherit;font-size:14px}
   #botRow button{font:inherit;font-weight:700;background:#f2a93b;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer}
+  #bigMap .island-ov{transition:opacity .45s ease}
+  #bigMap .leaflet-tile-pane{transition:filter .45s ease}
   #parkStage{position:relative;height:290px;border-radius:18px;overflow:hidden;background:url("park-bg.jpg") center 62%/cover no-repeat,#a9d18e}
   #parkCastle{position:absolute;top:2px;right:6px;width:190px}
   #parkCats{position:absolute;left:0;right:0;bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;align-items:flex-end;padding:0 14px}
@@ -707,12 +709,24 @@ const SHOPCHAT = {
 let chatShop = null;
 const chatLog = document.getElementById("chatLog"), chatChips = document.getElementById("chatChips");
 function addMsg(text, who) { const d = document.createElement("div"); d.className = "msg " + who; d.textContent = text; chatLog.appendChild(d); chatLog.scrollTop = chatLog.scrollHeight; }
+function myQs(shop) { try { return JSON.parse(localStorage.getItem("myQs_" + shop) || "[]"); } catch (e) { return []; } }
+function noteMyQ(shop, text) { try { const a = myQs(shop); a.push(text); localStorage.setItem("myQs_" + shop, JSON.stringify(a.slice(-30))); } catch (e) {} }
+function showReplies(shop, render) {
+  if (!window.__fetchReplies) return;
+  window.__fetchReplies(shop).then(list => {
+    let seen = {}; try { seen = JSON.parse(localStorage.getItem("seenReplies") || "{}"); } catch (e) {}
+    const mine = myQs(shop);
+    list.filter(r => mine.includes(r.q) && !seen[r.id]).forEach(r => { seen[r.id] = 1; render(r.text); });
+    try { localStorage.setItem("seenReplies", JSON.stringify(seen)); } catch (e) {}
+  });
+}
 function openChat(shop) {
   shop = shop || "mahalo";
   const data = SHOPCHAT[shop] || SHOPCHAT.mahalo;
   const chat = document.getElementById("chat");
   if (chat.style.display === "block" && chatShop === shop && chatLog.children.length) { return; }
   chatShop = shop; chatLog.innerHTML = "";
+  setTimeout(() => showReplies(shop, t => addMsg("【MOMOwaRIからの返事】\n" + t, "keeper")), 600);
   document.getElementById("chatShopTitle").textContent = ({ mahalo: "MAHALO美容室 の店員さん", elua: "elua Mahalo の店員さん", lea: "Lea Mahalo の店員さん" })[shop] || "店員さん";
   chat.style.display = "block";
   addMsg(data.greet, "keeper");
@@ -743,7 +757,7 @@ function shopFallback(shop, text) {
   if (has("ありがとう")) return "こちらこそ、ありがとうございます。またのお越しをお待ちしております。";
   return "申し訳ございません、そのご質問には分かりかねます。詳しいことは主催のMOMOwaRIへおつなぎいたします。";
 }
-document.getElementById("chatForm").addEventListener("submit", async e => {
+document.getElementById("chatForm").addEventListener("submit", async e => { noteMyQ(chatShop, document.getElementById("chatInput").value.trim());
   e.preventDefault();
   const input = document.getElementById("chatInput");
   const text = input.value.trim(); if (!text) return;
@@ -799,9 +813,9 @@ document.getElementById("btnClear").addEventListener("click", () => { cart = [];
 const botPanel = document.getElementById("botPanel");
 let botBusy = false, botStarted = false;
 function botMsg(text, who) { const d = document.createElement("div"); d.className = "bmsg " + who; d.textContent = text; const log = document.getElementById("botLog"); log.appendChild(d); log.scrollTop = 1e6; }
-document.getElementById("btnBot").addEventListener("click", () => { const open = botPanel.style.display === "block"; botPanel.style.display = open ? "none" : "block"; if (!open && !botStarted) { botStarted = true; botMsg("こんにちは。OHANAです。この島のことや、OHANAのことを聞いてください。", "keeper"); } });
+document.getElementById("btnBot").addEventListener("click", () => { const open = botPanel.style.display === "block"; botPanel.style.display = open ? "none" : "block"; if (!open && !botStarted) { botStarted = true; botMsg("こんにちは。OHANAです。この島のことや、OHANAのことを聞いてください。", "keeper"); } setTimeout(() => showReplies("ohana", t => botMsg("【MOMOwaRIからの返事】\n" + t, "keeper")), 600); });
 document.getElementById("botClose").addEventListener("click", () => { botPanel.style.display = "none"; });
-async function botAsk(text) { if (botBusy || !text) return; botBusy = true; document.getElementById("botChips").style.display = "none"; botMsg(text, "me"); let ans = null; if (window.__geminiAskShop) { try { ans = await window.__geminiAskShop("ohana", text); } catch (e) {} } botMsg(ans || "ごめんなさい、今はうまく答えられませんでした。OHANAの掲示板や、オープンチャットでも聞けます。", "keeper"); botBusy = false; }
+async function botAsk(text) { if (botBusy || !text) return; noteMyQ("ohana", text); botBusy = true; document.getElementById("botChips").style.display = "none"; botMsg(text, "me"); let ans = null; if (window.__geminiAskShop) { try { ans = await window.__geminiAskShop("ohana", text); } catch (e) {} } botMsg(ans || "ごめんなさい、今はうまく答えられませんでした。OHANAの掲示板や、オープンチャットでも聞けます。", "keeper"); botBusy = false; }
 document.getElementById("botSend").addEventListener("click", () => { const i = document.getElementById("botInput"); const t = i.value.trim(); if (t) { i.value = ""; botAsk(t); } });
 document.getElementById("botInput").addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("botSend").click(); });
 document.querySelectorAll("#botChips button").forEach(b => b.addEventListener("click", () => botAsk(b.dataset.q)));
@@ -813,7 +827,7 @@ document.querySelectorAll("#botChips button").forEach(b => b.addEventListener("c
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。オーナー（代表）ですかと聞かれたら、自分はオーナーではなく店員だと答えてください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）", "ohana": "あなたは、愛媛県松山市の「OHANA島」の案内です。名前を聞かれたら「OHANAです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせ（OHANAの掲示板・LINEオープンチャット）を案内してください。料金・在庫・営業時間を推測で断定しないでください（お店のことは、各お店の場所で店員さんに聞けます）。\n・OHANA島は、松山市味酒町・萱町あたりの実在の街を、水彩の絵で再現した島です。実際のお店や風景とは異なります。ストリートビュー式に歩けて、MAPのピンからも移動できます。\n・ログインすると自分の分身が動き出します。城山公園は「みんなの広場」で、分身たちが集まる場所です。\n・OHANAシェア＊プロジェクトは、ヒトモノコトをつなぐ、選べる物々交換のフリマです。100円券は無料配布で、お釣りは出ません。代金は現金との組み合わせも選べます。参加は無料です。"};
 var LIMIT_MSG = "たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。OHANAの掲示板やLINEオープンチャットからお声がけください。";
 try {
@@ -837,6 +851,13 @@ try {
   }
   window.__logBot = function(q, a, shop) {
     try { addDoc(collection(aiDb, 'botLogs'), { q: String(q).slice(0, 300), a: String(a || '').slice(0, 2000), page: location.pathname, site: 'island', shop: shop || 'mahalo', ts: serverTimestamp() }).catch(function(){}); } catch (e) {}
+  };
+  window.__fetchReplies = function(shop) {
+    try {
+      return getDocs(query(collection(aiDb, 'botReplies'), where('shop', '==', shop))).then(function(snap) {
+        var out = []; snap.forEach(function(d) { var v = d.data(); out.push({ id: d.id, q: v.q || '', text: v.text || '' }); }); return out;
+      }).catch(function() { return []; });
+    } catch (e) { return Promise.resolve([]); }
   };
   window.__geminiAskShop = function(shop, text) {
     if (kunUsed() > 20) return Promise.resolve(LIMIT_MSG);
@@ -879,6 +900,9 @@ function initBigMap() {
   if (!window.L || bigMap) return;
   bigMap = L.map("bigMap", { scrollWheelZoom: false }).fitBounds([[33.8409, 132.7503], [33.8476, 132.7660]], { padding: [18, 18] });
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(bigMap);
+  const islandOv = L.imageOverlay("map-island.jpg", [[33.8416, 132.7502], [33.8482, 132.7622]], { opacity: 0, interactive: false, className: "island-ov" }).addTo(bigMap);
+  const updOv = () => { const z = bigMap.getZoom(); islandOv.setOpacity(z <= 15 ? 0.96 : z === 16 ? 0.4 : 0); const tp = document.querySelector("#bigMap .leaflet-tile-pane"); if (tp) tp.style.filter = z <= 15 ? "blur(2.5px) brightness(1.06) saturate(.75)" : ""; };
+  bigMap.on("zoomend", updOv); setTimeout(updOv, 300);
   Object.keys(PLACE_LL).forEach(id => {
     const label = PIN_LABELS[id]; const col = PIN_COLORS[id] || "#cbb27f";
     const html = '<span style="display:block;width:14px;height:14px;margin:0 auto;border-radius:50%;background:' + col + ';border:2px solid #fff;box-shadow:0 1px 4px rgba(90,60,10,.4)"></span>' + (label ? '<span style="display:block;font-size:10.5px;color:#5d4212;background:rgba(255,253,247,.88);border-radius:8px;padding:0 5px;margin-top:1px;white-space:nowrap;text-align:center">' + label + '</span>' : '');
