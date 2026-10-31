@@ -158,7 +158,7 @@
   .catspot img, .keeper-hotspot img { pointer-events:auto; cursor:pointer; }
   .walkspot .wv.exit .wa { background:#2e9e5b; border-color:#2e9e5b; color:#fff; }
   .walkspot .wv.exit .wl { background:#2e9e5b; color:#fff; font-weight:700; }
-  #exitBtn { position:absolute; top:10px; left:62px; z-index:8; display:none; background:#2e9e5b; color:#fff; border:none; font-family:inherit; font-size:14.5px; font-weight:700; padding:11px 18px; border-radius:999px; box-shadow:0 4px 14px rgba(20,80,40,.45); cursor:pointer; }
+  #exitBtn { position:absolute; top:10px; left:62px; z-index:8; display:none; background:#2e9e5b; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(20,80,40,.45); cursor:pointer; }
   #placeName { position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:8; background:rgba(255,253,247,.93); color:#4c3d22; font-size:13.5px; font-weight:700; padding:7px 14px; border-radius:999px; box-shadow:0 3px 10px rgba(90,60,10,.25); pointer-events:none; white-space:nowrap; max-width:56%; overflow:hidden; text-overflow:ellipsis; }
   #sceneSns { position:absolute; left:10px; bottom:12px; z-index:7; display:flex; gap:8px; }
   #sceneSns button { width:38px; height:38px; border-radius:50%; border:2px solid #fff; background:#fff; box-shadow:0 3px 10px rgba(90,60,10,.35); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; }
@@ -648,7 +648,7 @@ viewer.on("scenechange", (id) => {
   document.getElementById("shopBtns").style.display = (id === "counter") ? "flex" : "none";
   const exitEx = (EXITS[id] || []).find(e => (e.label || "").indexOf("出口") >= 0);
   const exitBtn = document.getElementById("exitBtn");
-  if (exitEx) { exitBtn.style.display = "block"; exitBtn.textContent = exitEx.label; exitBtn.onclick = () => walkTo(exitEx); } else { exitBtn.style.display = "none"; }
+  if (exitEx) { exitBtn.style.display = "block"; exitBtn.textContent = "出口"; exitBtn.onclick = () => walkTo(exitEx); } else { exitBtn.style.display = "none"; }
   const OFFICIAL_LINKS = { lea: ["ネットショップを見る", "https://momowari.github.io/Lea-Mahalo/"], counter: ["公式サイトを見る", "https://www.hair-mahalo.com/"], elua: ["公式サイトを見る", "https://www.hair-mahalo.com/"], pharmacy: ["公式サイトを見る", "https://www.lady-drug.co.jp/"], fuji: ["公式サイトを見る", "https://www.the-fuji.com/fuji/store/shop/ehime/grand_matsuyama.php"], jinja: ["公式ページを見る", "https://ehime-jinjacho.jp/jinja/?p=7188"], koshin: ["公式ページを見る", "https://www.city.matsuyama.ehime.jp/shisetsu/bunka/koushinan.html"], furumachi: ["公式サイトを見る", "https://www.iyotetsu.co.jp/"] };
   const slb = document.getElementById("shopLinkBtn"); const olink = OFFICIAL_LINKS[id];
   slb.style.display = olink ? "block" : "none";
