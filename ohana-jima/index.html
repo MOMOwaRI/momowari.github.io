@@ -104,6 +104,10 @@
   #townMap { width:100%; height:auto; display:block; }
   #meAv { position:absolute; left:50%; bottom:5%; transform:translateX(-50%); z-index:5; pointer-events:none; }
   #meAv img { height:64px; display:block; filter:drop-shadow(0 6px 6px rgba(60,40,10,.35)); }
+  #meAv.walking img { animation: avbob .72s ease-in-out infinite; }
+  @keyframes avbob { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-5px) rotate(2deg); } }
+  #meAv.walking::after { animation: avsh .72s ease-in-out infinite; }
+  @keyframes avsh { 0%,100% { transform: translateX(-50%) scaleX(1); opacity:.85; } 50% { transform: translateX(-50%) scaleX(.82); opacity:.6; } }
   #othersAv{position:absolute;left:calc(50% + 52px);bottom:5%;z-index:5;display:flex;gap:14px;align-items:flex-end}
   .otherAv{background:none;border:none;cursor:pointer;text-align:center;padding:0}
   .otherAv img{height:56px;display:block;margin:0 auto;filter:drop-shadow(0 5px 5px rgba(60,40,10,.3))}
@@ -177,6 +181,9 @@
   .walkspot .wv.exit .wl { background:#2e9e5b; color:#fff; font-weight:700; }
   #exitBtn { position:absolute; top:10px; left:34px; z-index:8; display:none; background:#2e9e5b; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(20,80,40,.45); cursor:pointer; }
   #placeName { position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:8; background:rgba(255,253,247,.93); color:#4c3d22; font-size:13.5px; font-weight:700; padding:7px 14px; border-radius:999px; box-shadow:0 3px 10px rgba(90,60,10,.25); pointer-events:none; white-space:nowrap; max-width:44%; overflow:hidden; text-overflow:ellipsis; }
+  #chatFeed{position:absolute;right:10px;bottom:10px;z-index:7;width:min(300px,72vw);display:flex;flex-direction:column;gap:5px;align-items:flex-end;cursor:pointer}
+  #chatFeed .fmsg{background:rgba(46,32,10,.72);color:#fdf6df;font-size:12.5px;line-height:1.5;padding:6px 10px;border-radius:12px;max-width:100%;box-shadow:0 3px 8px rgba(40,25,5,.25);white-space:pre-wrap;word-break:break-word}
+  #chatFeed .fmsg b{color:#ffd98a;font-weight:700;margin-right:5px}
   #sceneSns { position:absolute; left:10px; bottom:12px; z-index:7; display:flex; gap:8px; }
   #sceneSns button { width:38px; height:38px; border-radius:50%; border:2px solid #fff; background:#fff; box-shadow:0 3px 10px rgba(90,60,10,.35); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; }
   #shopLinkBtn { position:absolute; top:10px; right:10px; z-index:8; display:none; background:#d96c8a; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(120,40,70,.4); cursor:pointer; }
@@ -260,7 +267,7 @@
   <div id="authBar"><span class="who" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">OHANAメンバーになる</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="sceneSns"></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="sceneSns"></div><div id="chatFeed" title="みんなのチャット"></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -465,7 +472,7 @@
   <p class="src" style="margin:6px 2px 0"><span data-i18n="botNote">※ AIが答えています。間違うこともあるので、大事なことはお店や主催に直接ご確認ください。</span></p>
 </div>
 <div id="chatPanel">
-  <div id="chatHead"><b data-i18n="chatTitle">みんなのチャット</b><button id="chatClose" type="button" aria-label="閉じる">×</button></div>
+  <div id="chatHead"><b data-i18n="chatTitle">みんなのチャット</b><button id="chatPanelClose" type="button" aria-label="閉じる">×</button></div>
   <div id="chatOnline"></div>
   <div id="chatLog"></div>
   <div id="chatRow"><input id="chatInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div>
@@ -657,7 +664,7 @@ setInterval(() => {
   document.querySelectorAll(".catspot .cb").forEach(b => { if (Math.random() < 0.3) b.classList.toggle("off"); });
 }, 4000);
 let meTimer = null;
-function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); if (window.__myAvaUrl) { if (img.getAttribute("src") !== window.__myAvaUrl) { img.src = window.__myAvaUrl; img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "62px"; img.style.height = "62px"; } if (walk && !meTimer) { let up = false; meTimer = setInterval(() => { up = !up; img.style.transform = up ? "translateY(-4px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.style.transform = ""; } return; } if (walk && !meTimer) { let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? "av-player-wf.png" : "av-player.png"; img.style.transform = f ? "translateY(-3px)" : ""; }, 180); } else if (!walk && meTimer) { clearInterval(meTimer); meTimer = null; img.src = "av-player.png"; img.style.transform = ""; } }
+function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); let still, frame, round = false; if (window.__myAvaUrl) { still = window.__myAvaUrl; frame = still; round = true; } else if (window.__loggedIn) { const c = ["muse", "tabby", "white", "black", "calico"].includes(window.__myCat) ? window.__myCat : "muse"; still = "cat-" + c + "-sit.png"; frame = "cat-" + c + "-walk.png"; } else { still = "av-player.png"; frame = "av-player-wf.png"; } if (round) { img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "62px"; img.style.height = "62px"; } else { img.style.borderRadius = ""; img.style.objectFit = ""; img.style.width = ""; img.style.height = ""; } if (walk) { w.classList.add("walking"); if (!meTimer) { if (img.getAttribute("src") !== still) img.src = still; let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? frame : still; }, 360); } } else { w.classList.remove("walking"); if (meTimer) { clearInterval(meTimer); meTimer = null; } if (img.getAttribute("src") !== still) img.src = still; } }
 let walkIdx = -1;
 function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; document.getElementById("btnWalk").textContent = "🐾 アバターと歩く（自動で進む）"; } meSet(false); }
 function walkStep() {
@@ -1038,7 +1045,7 @@ let myPhotoUrl = null;
 const CAT_TYPES = ["muse", "tabby", "white", "black", "calico"];
 const CAT_KINDS = CAT_TYPES;
 function todayJST() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo" }).format(new Date()); }
-function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark();
+function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; window.__myCat = (profile && profile.cat) || "muse"; window.__loggedIn = !!me; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark();
   if (me && profile) {
     $("authState").innerHTML = "";
     const img = document.createElement("img"); img.src = "cat-" + profile.cat + "-sit.png"; img.alt = "";
@@ -1244,11 +1251,16 @@ function renderChatMsgs(msgs) {
   }).join("");
   log.scrollTop = log.scrollHeight;
 }
+function renderChatFeed(msgs) {
+  const feed = $("chatFeed"); if (!feed) return;
+  const last = msgs.slice(-5);
+  feed.innerHTML = last.map((m) => '<div class="fmsg"><b>' + escP(m.nickname || "島の人") + '</b>' + escP(m.text || "") + '</div>').join("");
+}
 function startChat() {
   if (chatStarted || !db) return; chatStarted = true;
   try {
     const q = query(collection(db, "islandChat"), orderBy("ts", "desc"), limit(50));
-    onSnapshot(q, (snap) => { const msgs = []; snap.forEach((d) => msgs.push(d.data())); msgs.reverse(); renderChatMsgs(msgs); }, () => {});
+    onSnapshot(q, (snap) => { const msgs = []; snap.forEach((d) => msgs.push(d.data())); msgs.reverse(); renderChatMsgs(msgs); renderChatFeed(msgs); }, () => {});
   } catch (e) {}
 }
 function refreshChatAuth() {
@@ -1260,10 +1272,11 @@ function refreshChatAuth() {
 $("btnIslandChat").addEventListener("click", () => {
   const p = $("chatPanel"); const open = p.style.display === "block";
   p.style.display = open ? "none" : "block";
+  const fd = $("chatFeed"); if (fd) fd.style.display = open ? "" : "none";
   const bp = $("botPanel"); if (bp) bp.style.display = "none";
   if (!open) { refreshChatAuth(); startChat(); renderChatOnline(); }
 });
-$("chatClose").addEventListener("click", () => { $("chatPanel").style.display = "none"; });
+$("chatPanelClose").addEventListener("click", () => { $("chatPanel").style.display = "none"; });
 $("btnBot").addEventListener("click", () => { $("chatPanel").style.display = "none"; });
 async function sendIslandChat() {
   const inp = $("chatInput"); const text = inp.value.trim(); if (!text) return;
@@ -1274,6 +1287,8 @@ async function sendIslandChat() {
 }
 $("chatSend").addEventListener("click", sendIslandChat);
 $("chatInput").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendIslandChat(); } });
+$("chatFeed").addEventListener("click", () => { if ($("chatPanel").style.display !== "block") $("btnIslandChat").click(); });
+startChat();
 } catch (e) { $("btnLogin").style.display = "none"; $("authState").textContent = "🐾 ゲストとして散歩中（ログインは準備中）"; }
 function renderMyPhoto() { const av = profile && profile.avaUrl; const has = (profile && profile.photoReady) || myPhotoUrl; $("myPhotoImg").style.display = (av || has) ? "" : "none"; if (av) { $("myPhotoImg").src = av; $("myPhotoState").textContent = "アバターができました"; } else if (has) { if (myPhotoUrl) $("myPhotoImg").src = myPhotoUrl; $("myPhotoState").textContent = "写真を受け取りました。アバターを作成中です（できたら差し替わります）"; } else { $("myPhotoState").textContent = "まだ写真がありません"; } }
 async function loadMyPhotoPreview() { if (!me || myPhotoUrl || (profile && profile.avaUrl)) return; try { const snap = await getDoc(doc(db, "islandPhotos", me.uid)); if (snap.exists() && snap.data().photoData) { myPhotoUrl = snap.data().photoData; renderMyPhoto(); } } catch (e) {} }
