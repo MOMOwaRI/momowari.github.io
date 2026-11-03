@@ -221,7 +221,6 @@ footer{margin-top:36px}
 </style>
 </head>
 <body>
-<select id="langSel" aria-label="Language"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文（简体）</option><option value="ko">한국어</option></select>
 
 <a data-lid="momowari-github-io-ohana-share-login-html" id="mypage-btn" href="https://momowari.github.io/OHANA-share/login.html">マイページ</a>
 
@@ -478,6 +477,7 @@ footer{margin-top:36px}
   <footer>
     <p><a data-lid="lit-link-momowari-4" href="https://lit.link/momowari">lit.link のページはこちら</a></p>
     <p>© MOMOwaRI</p>
+    <p class="lang-row"><select id="langSel" aria-label="Language"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文（简体）</option><option value="ko">한국어</option></select></p>
   </footer>
 </div>
 
@@ -548,7 +548,8 @@ body.site-editing .img-edit-btn{display:block}
 #sb-cancel{background:#fff;color:#8a6a4f;border:1.5px solid #d8c7ae}
 #sb-msg{font-size:.82rem;color:#8a6a4f}
 
-#langSel{position:fixed;left:max(12px,calc(50% - 372px));top:12px;z-index:90;background:#fff;border:1.5px solid #e0a458;color:#7a4a12;border-radius:999px;padding:7px 12px;font-size:13.5px;font-weight:bold;box-shadow:0 6px 18px rgba(120,70,10,.18);cursor:pointer}
+#langSel{background:#fff;border:1.5px solid #e8cdb2;color:#7a4a12;border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer}
+.lang-row{margin-top:12px}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -1124,8 +1125,9 @@ list.forEach(function(el){ io.observe(el); });
     document.documentElement.lang = eff === 'zh' ? 'zh-CN' : eff;
   }
   var sel = document.getElementById('langSel');
-  var cur = 'ja';
-  try { cur = localStorage.getItem(KEY) || 'ja'; } catch(e) {}
+  var cur = '';
+  try { cur = localStorage.getItem(KEY) || ''; } catch(e) {}
+  if(!cur){ var nl = (navigator.language || 'ja').toLowerCase(); cur = nl.indexOf('en') === 0 ? 'en' : nl.indexOf('zh') === 0 ? 'zh' : nl.indexOf('ko') === 0 ? 'ko' : 'ja'; }
   if(!DICT['__title__'][cur] && cur !== 'ja') cur = 'ja';
   if(sel) sel.value = cur;
   if(sel) sel.addEventListener('change', function(){
@@ -1183,7 +1185,7 @@ list.forEach(function(el){ io.observe(el); });
     think:{ja:'考え中…',en:'Thinking…',zh:'思考中…',ko:'생각 중…'},
     notice:{ja:'※ AIが答えています。間違うこともあるので、大事なこと（日時・料金など）は、各お店のページでも確認してください。',en:'* Answered by AI. It can make mistakes, so please double-check important details (dates, prices) on each shop\u2019s page.',zh:'※ 由AI回答。可能会出错，重要事项（日期、价格等）请在各店铺页面确认。',ko:'※ AI가 답변하고 있습니다. 틀릴 수 있으니 중요한 내용(날짜, 요금 등)은 각 가게 페이지에서 확인해 주세요.'}
   };
-  function lang(){ try{ return localStorage.getItem('momowari-lang')||'ja'; }catch(e){ return 'ja'; } }
+  function lang(){ try{ var v = localStorage.getItem('momowari-lang'); if(v) return v; var nl = (navigator.language || 'ja').toLowerCase(); return nl.indexOf('en') === 0 ? 'en' : nl.indexOf('zh') === 0 ? 'zh' : nl.indexOf('ko') === 0 ? 'ko' : 'ja'; }catch(e){ return 'ja'; } }
   function applyLang(){
     var l=lang(); if(!I18N.btn[l]) l='ja';
     document.getElementById('botBtn').textContent=I18N.btn[l];
@@ -1309,6 +1311,7 @@ try {
   function langPrefix(){
     try {
       var l = localStorage.getItem('momowari-lang') || '';
+      if (!l) { var nl2 = (navigator.language || 'ja').toLowerCase(); l = nl2.indexOf('en') === 0 ? 'en' : nl2.indexOf('zh') === 0 ? 'zh' : nl2.indexOf('ko') === 0 ? 'ko' : 'ja'; }
       if (l === 'en') return 'Please answer in English. ';
       if (l === 'zh') return '请用简体中文回答。';
       if (l === 'ko') return '한국어로 답변해 주세요. ';
