@@ -34,7 +34,15 @@
   .tick-sep { color:#a5711d; }
   #snsEmbeds { display:block; margin-top:14px; }
   #aboutSec { display:block; margin-top:14px; }
+  #aboutSec .aboutHero{width:100%;border-radius:12px;display:block;margin:10px 0 6px}
+  .placeChips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
+  .placeChips span{background:#fdf3d8;border:1px solid #e5cf96;border-radius:999px;padding:3px 10px;font-size:12px;color:#7a5a17}
+  .faqD{border-top:1px dashed #e3d2a8;padding:9px 0 3px}
+  .faqD summary{font-size:14px;font-weight:700;color:#7a5a17;cursor:pointer}
+  .faqD summary::-webkit-details-marker{color:#c39a3b}
+  .faqD p{margin-top:6px}
   .embeds { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  @media (min-width:700px){ .embedwrap{ flex:0 1 calc(50% - 5px); } .embeds{ align-items:flex-start; } }
   .embedwrap { display:flex; flex-direction:column; align-items:center; }
   .embedlabel { font-size:12px; color:#8a6a2a; margin:2px 0 4px; }
   .embeds blockquote { margin:0 !important; max-width:100%; }
@@ -50,7 +58,8 @@
   .stage { position:relative; border-radius:18px; overflow:hidden; box-shadow:0 6px 24px rgba(90,60,20,.25); }
   #panorama { width:100%; height:380px; }
   #sceneName { text-align:center; font-size:13px; color:#8a715a; margin-top:8px; }
-  #placeBar { display:flex; gap:8px; align-items:center; padding:8px 2px 2px; }
+  #placeBar { display:flex; gap:8px; align-items:center; justify-content:center; padding:8px 2px 2px; }
+  #navBtns { justify-content:center; }
   #placeBar label { font-size:12.5px; color:#7a5a17; font-weight:700; white-space:nowrap; }
   #placeSel { flex:1; max-width:340px; border:1.5px solid #cbb27f; background:#fffdf7; color:#7a5a17; border-radius:999px; padding:7px 12px; font-size:13.5px; font-family:inherit; cursor:pointer; }
   .hint { font-size:12px; color:#97795a; text-align:center; margin-top:6px; line-height:1.7; }
@@ -176,7 +185,7 @@
   #meAv::after { content:""; position:absolute; left:50%; bottom:-4px; transform:translateX(-50%); width:56px; height:10px; background:rgba(80,55,20,.25); border-radius:50%; filter:blur(2px); z-index:-1; }
   body.editing [data-ed] { outline:2px dashed #d9a441; outline-offset:2px; }
   #bigMapSec { background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:16px; padding:4px 0 8px; margin:14px 0; }
-  #bigMap { height:440px; margin:6px 10px; border:1.5px solid #ecd9ae; border-radius:16px; z-index:0; }
+  #bigMap { height:380px; margin:6px 10px; border:1.5px solid #ecd9ae; border-radius:16px; z-index:0; }
   .zpin, .zpost { background:none; border:none; }
   #townMap .dot { cursor:pointer; }
   #townMap text { font-family:"Hiragino Mincho ProN","Yu Mincho",serif; }
@@ -210,6 +219,8 @@
   #sceneSns button:nth-child(2) { animation-delay:.35s; }
   #sceneSns button:nth-child(3) { animation-delay:.7s; }
   #sceneSns button::after { content:""; position:absolute; top:-3px; right:-3px; width:11px; height:11px; border-radius:50%; background:#e5484d; border:2px solid #fff; }
+  #sceneSns button.seen { animation:none; }
+  #sceneSns button.seen::after { display:none; }
   @keyframes snsHop { 0%, 82%, 100% { transform:translateY(0); } 88% { transform:translateY(-8px); } 94% { transform:translateY(0); } 97% { transform:translateY(-4px); } }
   #shopLinkBtn { position:absolute; top:10px; right:10px; z-index:8; display:none; background:#d96c8a; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(120,40,70,.4); cursor:pointer; }
   .zpost img{animation: avidle 3.4s ease-in-out infinite}
@@ -289,7 +300,6 @@
   <h1>OHANA島</h1>
   <p class="sub" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。近所のみなさんの投稿も集めています。</p>
   <p data-ed="disc" style="margin:10px auto 0;max-width:730px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 10px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap;color:#7a5a16">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
-  <p style="text-align:center;margin:10px 0 0"><label style="font-size:13px;color:#7c6642">🌐 Language <select id="langSel" style="font:inherit;font-size:13.5px;border:1.5px solid #cbb27f;border-radius:999px;padding:5px 10px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label></p>
   <div id="authBar"><span class="who" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">OHANAメンバーになる</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnMypage" type="button" data-i18n="mypage">マイページ</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
 
 
@@ -318,7 +328,7 @@
   </div>
   <div id="sceneName">MAHALOの店前</div>
   <div id="placeBar"><label for="placeSel" data-i18n="selLabel">📍 場所を選ぶ</label><select id="placeSel" aria-label="場所を選ぶ"></select></div>
-  <div class="btns"><button class="act" id="btnWalk" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button><button class="act" id="btnMap" type="button" data-i18n="mapBtn">🗺 MAPを見る</button><button class="act sub" id="btnGuide" type="button" data-i18n="guideBtn">🧭 ガイド</button></div>
+  <div class="btns" id="navBtns"><button class="act" id="btnWalk" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button><button class="act" id="btnMap" type="button" data-i18n="mapBtn">🗺 MAPを見る</button><button class="act sub" id="btnGuide" type="button" data-i18n="guideBtn">🧭 ガイド</button></div>
   <div class="btns" id="shopBtns" style="display:none">
     <button class="act" id="btnTalk">店員さんと話す</button>
     <button class="act" id="btnGoods">商品を見る</button>
@@ -329,8 +339,28 @@
   <div id="bigMapSec">
     <div id="mapHead"><h2 data-ed="mapH">&#x1F5FA; MAP</h2></div>
     <div id="bigMap"></div>
-    <p class="hint" style="margin:2px 12px 12px" data-ed="mapHint">ピンをタップすると、その場所のストリートビューへ行けます。城山公園は、みんなの広場です。</p>
+    <div style="padding:0 10px">
+      <div id="twNavi"><div id="twNaviMain">行き先を選んでください</div><div id="twNaviSub">下のプルダウンか、地図の名前をタップ</div></div>
+      <select id="twDestSel" aria-label="行き先を選ぶ"><option value="">📍 行き先を選ぶ</option></select>
+      <div id="twBar"><p id="twMsg">実際の地図の上を、アバターが道案内で歩きます。着いたら「入る」で、その場所を上のビューで見られます。城山公園は、みんなの広場です（下の場所えらびから）。</p><button class="act" id="twStop" type="button" style="display:none">止まる</button><button class="act" id="twEnter" type="button" disabled>入る（360°で見る）</button></div>
+    </div>
   </div>
+  <style>
+  .twAvaIco{background:none;border:none}
+  .twAvaBox{position:relative;width:30px;aspect-ratio:.78}
+  .twAvaBox img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;filter:drop-shadow(0 2px 2px rgba(60,40,10,.4))}
+  .twAvaBox img.on{opacity:1}
+  .twPlabel{background:rgba(255,252,246,.94);border:1.5px solid #d9c491;border-radius:999px;padding:4px 6px;font-size:11.5px;white-space:nowrap;color:#5d4a2f;box-shadow:0 1px 5px rgba(90,60,20,.25);text-align:center;cursor:pointer}
+  #twNavi{margin-top:10px;background:#fffdf7;border:1.5px solid #ecd9ae;border-radius:14px;padding:10px 12px}
+  #twNaviMain{font-size:15px;font-weight:700;color:#0068B7}
+  #twNaviSub{font-size:12.5px;color:#8a715a;margin-top:2px;line-height:1.6}
+  #twDestSel{width:100%;margin:12px 2px 4px;padding:13px 14px;font-family:inherit;font-size:15px;border-radius:999px;border:1.5px solid #d9c491;background:#fffdf7;color:#5d4a2f;cursor:pointer}
+  .twDest{font-family:inherit;font-size:14.5px;padding:14px 8px;border-radius:14px;border:1.5px solid #d9c491;background:#fffdf7;color:#5d4a2f;cursor:pointer;min-height:52px}
+  .twDest.sel{border-color:#0068B7;background:#e3f0fa;color:#00507f;font-weight:700}
+  #twBar{margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  #twMsg{flex:1;font-size:13.5px;line-height:1.6;min-width:160px}
+  #twStop{border-color:#c98a8a;background:#fbe3e3;color:#7c3a3a}
+  </style>
 <div class="panel" id="placesSec">
     <h2>この島の場所</h2>
     <ul style="list-style:none;font-size:14px;line-height:1.65;color:#4c3d22">
@@ -473,7 +503,7 @@
   </div>
 </div>
 
-<div class="panel" id="aboutSec"><h2>OHANA島について</h2><p data-ed="about1" style="font-size:13.5px;line-height:1.9;color:#4c3d22">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを、水彩の絵で再現したウェブ上の島（メタバース）です。ストリートビューのように歩いて回ることができ、近所のお店や場所の投稿も集めています。</p><p data-ed="about2" style="font-size:13.5px;line-height:1.9;color:#4c3d22;margin-top:8px">掲載している場所は、MAHALOビル（美容室MAHALO・elua Mahalo・Lea Mahalo／松山市味酒町3-2-29）、レデイ薬局宮西店、フジグラン松山、阿沼美神社、庚申庵（庚申庵史跡庭園）、丸五青果、平野鶏卵、萱町商店街、古町駅、城山公園（堀之内）です。城山公園は「みんなの広場」で、ログインした人の分身が集まります。</p><p data-ed="about3" style="font-size:13.5px;line-height:1.9;color:#4c3d22;margin-top:8px">OHANA島は、ヒトモノコトをつなぐ選べる物々交換「OHANAシェア＊プロジェクト」の活動とつながっています。運営はMOMOwaRIです。</p><h3 style="font-size:14px;margin:12px 0 4px;color:#7a5a17">Q. OHANA島とは何ですか？</h3><p data-ed="faqA1" style="font-size:13.5px;line-height:1.8;color:#4c3d22">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現した、ウェブ上の島です。ストリートビューのように歩いて回ることができ、城山公園（堀之内）は、みんなの分身が集まる「みんなの広場」になっています。</p><h3 style="font-size:14px;margin:12px 0 4px;color:#7a5a17">Q. OHANA島はどこにありますか？</h3><p data-ed="faqA2" style="font-size:13.5px;line-height:1.8;color:#4c3d22">島のもとになっている実在の場所は、愛媛県松山市の味酒町、萱町、平和通、堀之内です。MAHALOビル（松山市味酒町3-2-29）、阿沼美神社、庚申庵、丸五青果、平野鶏卵、萱町商店街、フジグラン松山、古町駅、レデイ薬局宮西店、城山公園などが掲載されています。</p><h3 style="font-size:14px;margin:12px 0 4px;color:#7a5a17">Q. 利用は無料ですか？</h3><p data-ed="faqA3" style="font-size:13.5px;line-height:1.8;color:#4c3d22">はい。島を歩くのは無料です。メンバー登録（Googleアカウントでのログイン）も無料で、登録すると自分の分身で歩いたり、みんなのチャットに書いたりできます。</p><h3 style="font-size:14px;margin:12px 0 4px;color:#7a5a17">Q. お店や場所の投稿はどうやって島に載りますか？</h3><p data-ed="faqA4" style="font-size:13.5px;line-height:1.8;color:#4c3d22">SNSの投稿に「#愛媛メタバースOHANA島」をつけてもらうと、AIが巡回して見つけ、島のMAPや投稿の紹介に反映します。お店の方も、お客さんも参加できます。</p></div>
+<div class="panel" id="aboutSec"><h2>OHANA島について</h2><img class="aboutHero" src="map-island.jpg" alt="OHANA島の水彩マップ"><p data-ed="about1" style="font-size:13.5px;line-height:1.9;color:#4c3d22">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを、水彩の絵で再現したウェブ上の島（メタバース）です。ストリートビューのように歩いて回ることができ、近所のお店や場所の投稿も集めています。</p><p data-ed="about2" style="font-size:13.5px;line-height:1.9;color:#4c3d22;margin-top:8px">掲載している場所は、MAHALOビル（美容室MAHALO・elua Mahalo・Lea Mahalo／松山市味酒町3-2-29）、レデイ薬局宮西店、フジグラン松山、阿沼美神社、庚申庵（庚申庵史跡庭園）、丸五青果、平野鶏卵、萱町商店街、古町駅、城山公園（堀之内）です。城山公園は「みんなの広場」で、ログインした人の分身が集まります。</p><div class="placeChips" aria-hidden="true"><span>🏢 MAHALOビル</span><span>💊 レデイ薬局宮西店</span><span>🛍 フジグラン松山</span><span>⛩ 阿沼美神社</span><span>🌿 庚申庵</span><span>🥬 丸五青果</span><span>🥚 平野鶏卵</span><span>🏘 萱町商店街</span><span>🚉 古町駅</span><span>🌳 城山公園（みんなの広場）</span></div><p data-ed="about3" style="font-size:13.5px;line-height:1.9;color:#4c3d22;margin-top:8px">OHANA島は、ヒトモノコトをつなぐ選べる物々交換「OHANAシェア＊プロジェクト」の活動とつながっています。運営はMOMOwaRIです。</p><details class="faqD"><summary>Q. OHANA島とは何ですか？</summary><p data-ed="faqA1" style="font-size:13.5px;line-height:1.8;color:#4c3d22">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現した、ウェブ上の島です。ストリートビューのように歩いて回ることができ、城山公園（堀之内）は、みんなの分身が集まる「みんなの広場」になっています。</p></details><details class="faqD"><summary>Q. OHANA島はどこにありますか？</summary><p data-ed="faqA2" style="font-size:13.5px;line-height:1.8;color:#4c3d22">島のもとになっている実在の場所は、愛媛県松山市の味酒町、萱町、平和通、堀之内です。MAHALOビル（松山市味酒町3-2-29）、阿沼美神社、庚申庵、丸五青果、平野鶏卵、萱町商店街、フジグラン松山、古町駅、レデイ薬局宮西店、城山公園などが掲載されています。</p></details><details class="faqD"><summary>Q. 利用は無料ですか？</summary><p data-ed="faqA3" style="font-size:13.5px;line-height:1.8;color:#4c3d22">はい。島を歩くのは無料です。メンバー登録（Googleアカウントでのログイン）も無料で、登録すると自分の分身で歩いたり、みんなのチャットに書いたりできます。</p></details><details class="faqD"><summary>Q. お店や場所の投稿はどうやって島に載りますか？</summary><p data-ed="faqA4" style="font-size:13.5px;line-height:1.8;color:#4c3d22">SNSの投稿に「#愛媛メタバースOHANA島」をつけてもらうと、AIが巡回して見つけ、島のMAPや投稿の紹介に反映します。お店の方も、お客さんも参加できます。</p></details></div>
 <p class="src" style="text-align:center;margin:18px 12px 90px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
 
 <button id="btnEdit" class="act" type="button" style="display:none;position:fixed;top:10px;right:10px;z-index:80">✏️ 編集</button>
@@ -497,6 +527,7 @@
   <button id="btnEditSave" class="act" type="button">保存する</button>
   <button id="btnEditCancel" class="act sub" type="button">やめる</button>
 </div>
+<p style="text-align:right;margin:14px 4px 0"><label style="font-size:11.5px;color:#a5875f">🌐 <select id="langSel" style="font:inherit;font-size:12px;border:1px solid #d9c491;border-radius:999px;padding:3px 8px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label></p>
 <div class="ticker" aria-label="近所のSNS情報"><div class="ticker-inner" id="tickerInner"></div></div>
 <script src="vendor/pannellum.js"></script>
 <script src="vendor/leaflet.js"></script>
@@ -637,7 +668,7 @@ Object.keys(SCENES).forEach(id => {
   scenesCfg[id] = { type: "equirectangular", panorama: sc.pano, yaw: sc.yaw, pitch: -2, hfov: sc.hfov, minHfov: 35, maxHfov: 165, hotSpots: hs };
 });
 // ===== 多言語 =====
-window.__lang = (function() { try { return localStorage.getItem("islandLang") || "ja"; } catch (e) { return "ja"; } })();
+window.__lang = (function() { try { const saved = localStorage.getItem("islandLang"); if (saved) return saved; const nav = (navigator.language || "ja").toLowerCase(); const det = nav.indexOf("en") === 0 ? "en" : nav.indexOf("zh") === 0 ? "zh" : nav.indexOf("ko") === 0 ? "ko" : "ja"; try { localStorage.setItem("islandLang", det); } catch (e) {} return det; } catch (e) { return "ja"; } })();
 window.__I18N = {"en": {"walk": "🧭 Guided tour (auto-walk)", "mapBtn": "🗺 Open the MAP", "selLabel": "📍 Choose a place", "login": "Join OHANA", "loginBack": "Log in", "profileBtn": "Profile", "mypage": "My Page", "logout": "Log out", "guestState": "🐾 Strolling as a guest", "parkTitle": "🌳 Shiroyama Park (Everyone's Plaza)", "parkPh": "A short note (up to 200 characters)", "parkSend": "💬 Leave a note", "profH2": "Your profile", "profNick": "Nickname", "profAvatar": "Your avatar", "profCat": "Your stand-in for now (cat)", "profInbox": "Notes received at the park", "save": "Save", "snsH2": "Posts from the neighborhood", "fixBot": "💬 Questions", "fixSite": "🌺 OHANA website", "fixChat": "💚 Open chat", "fixEveryone": "👋 Everyone chat", "chatTitle": "Everyone chat", "chatPh": "Write a message", "chatSend": "Send", "guestName": "Guest", "botPh": "Type your question", "botSend": "Ask", "chip1": "🚶 How to walk", "chip2": "🌺 About OHANA", "chip3": "🎫 The 100-yen ticket", "botNote": "* Answers come from AI and may be wrong. For anything important, please check with the shop or the organizer directly.", "postLink": "See the original post", "shopH2": "Selected products", "joinTitle": "Join OHANA?", "joinBody": "・Walk the island with your avatar (a cat at first; an avatar can be made from your photo)\n・Leave notes for others at Shiroyama Park, everyone's plaza\n・Signing in here also registers you as a member of the OHANA matching site. Sign in with your Google account (free).", "joinGo": "Continue with Google", "joinCancel": "Not now", "joinLink": "🌺 See the OHANA website", "guideBtn": "🧭 Guide", "guideTitle": "Island guide", "guideBody": "・🐾 Walk with your avatar (auto): strolls around the island for you. Press again to stop\n・Drag to look around. Tap an arrow on the ground to walk to the next place\n・📍 Choose a place / MAP: jump straight to a place. Tap a pin to go there\n・Inside a shop, tap a staff avatar to talk\n・👋 Everyone chat (bottom right): talk with people who are here now. When you meet in the same place, avatars line up beside you\n・🌳 Shiroyama Park (Everyone's Plaza): from the park pin on the MAP, leave notes for everyone's avatars\n・Sign in to walk with your own avatar. You can also make an avatar from your photo (in your profile)", "guideWalk": "🧭 Start the guided tour", "guideClose": "Close"}, "zh": {"walk": "🧭 导览之旅（自动行走）", "mapBtn": "🗺 查看MAP", "selLabel": "📍 选择地点", "login": "成为OHANA成员", "loginBack": "登录", "profileBtn": "个人资料", "mypage": "我的页面", "logout": "退出", "guestState": "🐾 以访客身份散步中", "parkTitle": "🌳 城山公园（大家的广场）", "parkPh": "一句话（200字以内）", "parkSend": "💬 留言", "profH2": "你的个人资料", "profNick": "昵称", "profAvatar": "你的分身（头像）", "profCat": "现在的分身（猫）", "profInbox": "在公园收到的留言", "save": "保存", "snsH2": "附近大家的帖子", "fixBot": "💬 提问", "fixSite": "🌺 OHANA网站", "fixChat": "💚 开放聊天", "fixEveryone": "👋 大家聊天", "chatTitle": "大家聊天", "chatPh": "写一句话", "chatSend": "发送", "guestName": "访客", "botPh": "写下你想问的", "botSend": "提问", "chip1": "🚶 怎么走", "chip2": "🌺 关于OHANA", "chip3": "🎫 关于100日元券", "botNote": "※ 回答由AI提供，可能有误。重要的事请直接向店铺或主办方确认。", "postLink": "查看原帖", "shopH2": "店内精选商品", "joinTitle": "要成为OHANA成员吗？", "joinBody": "・可以用分身在岛上散步（开始是猫，也可以从照片制作头像）\n・可以在城山公园（大家的广场）给别人留言\n・在这里登录，也就同时注册成为OHANA匹配网站的会员。用Google账号登录（免费）", "joinGo": "用Google登录", "joinCancel": "以后再说", "joinLink": "🌺 查看OHANA网站", "guideBtn": "🧭 指南", "guideTitle": "岛屿指南", "guideBody": "・🐾 和分身一起走（自动前进）：自动在岛上散步带你参观。再按一次就停下\n・拖动可以环顾四周。点地上的箭头可以走到旁边的地方\n・📍 选择地点／MAP：可以直接去想去的地方。点图钉就能过去\n・在店里，点店员的分身可以说话\n・👋 大家聊天（右下）：可以和现在在岛上的人说话。在同一个地方相遇时，分身会并排出现\n・🌳 城山公园（大家的广场）：从MAP的公园图钉，可以给大家的分身留言\n・登录后可以用自己的分身散步。也可以从照片制作分身（在我的页面里）", "guideWalk": "🧭 开始导览之旅", "guideClose": "关闭"}, "ko": {"walk": "🧭 가이드 투어 (자동으로 걸어요)", "mapBtn": "🗺 MAP 보기", "selLabel": "📍 장소 선택", "login": "OHANA 멤버 되기", "loginBack": "로그인", "profileBtn": "프로필", "mypage": "마이페이지", "logout": "로그아웃", "guestState": "🐾 게스트로 산책 중", "parkTitle": "🌳 시로야마 공원 (모두의 광장)", "parkPh": "한마디 (200자까지)", "parkSend": "💬 남기기", "profH2": "내 프로필", "profNick": "닉네임", "profAvatar": "나의 아바타", "profCat": "지금의 분신 (고양이)", "profInbox": "공원에서 받은 댓글", "save": "저장", "snsH2": "동네 여러분의 게시물", "fixBot": "💬 질문", "fixSite": "🌺 OHANA 사이트", "fixChat": "💚 오픈채팅", "fixEveryone": "👋 모두의 채팅", "chatTitle": "모두의 채팅", "chatPh": "한마디 쓰기", "chatSend": "보내기", "guestName": "게스트", "botPh": "궁금한 것을 적어주세요", "botSend": "묻기", "chip1": "🚶 걷는 법", "chip2": "🌺 OHANA란?", "chip3": "🎫 100엔 쿠폰이란?", "botNote": "※ AI가 답하고 있어 틀릴 수 있습니다. 중요한 것은 가게나 주최 측에 직접 확인해 주세요.", "postLink": "원본 게시물 보기", "shopH2": "매장 추천 상품", "joinTitle": "OHANA 멤버가 되시겠어요?", "joinBody": "・아바타로 섬을 걸을 수 있어요 (처음에는 고양이, 사진으로 아바타도 만들 수 있어요)\n・시로야마 공원(모두의 광장)에서 다른 아바타에게 댓글을 남길 수 있어요\n・여기서 로그인하면 OHANA 매칭 사이트의 멤버 등록도 함께 됩니다. Google 계정으로 로그인합니다 (무료)", "joinGo": "Google로 로그인", "joinCancel": "나중에", "joinLink": "🌺 OHANA 사이트 보기", "guideBtn": "🧭 가이드", "guideTitle": "섬 가이드", "guideBody": "・🐾 아바타와 걷기 (자동 진행): 섬 안을 자동으로 걸으며 안내해요. 다시 누르면 멈춰요\n・드래그하면 주위를 둘러볼 수 있어요. 바닥의 화살표를 누르면 옆 장소로 걸어가요\n・📍 장소 선택／MAP: 가고 싶은 곳으로 바로 갈 수 있어요. 핀을 누르면 그 장소로 가요\n・가게 안에서는 점원 아바타를 누르면 말을 걸 수 있어요\n・👋 모두의 채팅 (오른쪽 아래): 지금 있는 사람과 이야기할 수 있어요. 같은 장소에서 만나면 아바타가 옆에 나란히 서요\n・🌳 시로야마 공원 (모두의 광장): MAP의 공원 핀에서 모두의 아바타에게 댓글을 남길 수 있어요\n・로그인하면 내 아바타로 걸을 수 있어요. 사진으로 아바타도 만들 수 있어요 (마이페이지에서)", "guideWalk": "🧭 가이드 투어 시작", "guideClose": "닫기"}};
 window.__placeNames = {"en": {"front": "MAHALO Building", "stairs": "MAHALO Bldg. Outer Stairs", "counter": "MAHALO (2F Hair Salon)", "elua": "elua Mahalo (1F)", "lea": "Lea Mahalo (1F Zakka)", "pharmacy": "Lady Pharmacy Miyanishi", "jinja": "Anumi Shrine", "koshin": "Koshin-an Hermitage", "yaoya": "Marugo Seika (Greengrocer)", "tamago": "Hirano Keiran (Egg Shop)", "kayamachi3": "Kayamachi Shopping St. (Northern Part)", "kayamachi2": "Kayamachi Shopping St. (Middle)", "kayamachi": "Kayamachi Shopping Street", "fuji": "Fuji Grand Matsuyama", "furumachi": "Komachi Station (Iyotetsu)", "park": "Shiroyama Park (Everyone's Plaza)"}, "zh": {"front": "MAHALO大楼", "stairs": "MAHALO大楼 外楼梯", "counter": "MAHALO（2楼·美发）", "elua": "elua Mahalo（1楼）", "lea": "Lea Mahalo（1楼·杂货）", "pharmacy": "Lady药局 宫西店", "jinja": "阿沼美神社", "koshin": "庚申庵", "yaoya": "丸五青果（蔬菜水果店）", "tamago": "平野鸡蛋（鸡蛋店）", "kayamachi3": "萱町商店街（偏北）", "kayamachi2": "萱町商店街（中）", "kayamachi": "萱町商店街", "fuji": "富士Grand松山", "furumachi": "古町站", "park": "城山公园（大家的广场）"}, "ko": {"front": "MAHALO 빌딩", "stairs": "MAHALO 빌딩 외부 계단", "counter": "MAHALO (2층·미용실)", "elua": "elua Mahalo (1층)", "lea": "Lea Mahalo (1층·잡화)", "pharmacy": "레데이 약국 미야니시점", "jinja": "아누미 신사", "koshin": "코신안", "yaoya": "마루고 청과 (야채가게)", "tamago": "히라노 계란 (달걀가게)", "kayamachi3": "카야마치 상점가 (북쪽 방면)", "kayamachi2": "카야마치 상점가 (중간)", "kayamachi": "카야마치 상점가", "fuji": "후지 그랜드 마쓰야마", "furumachi": "코마치역", "park": "시로야마 공원 (모두의 광장)"}};
 window.__pinNames = {"en": {"jinja": "Anumi Shrine", "koshin": "Koshin-an", "yaoya": "Marugo Seika", "tamago": "Hirano Keiran", "pharmacy": "Lady Pharmacy", "kayamachi": "Kayamachi St.", "park": "Shiroyama Park", "fuji": "Fuji Grand", "furumachi": "Komachi Sta."}, "zh": {"jinja": "阿沼美神社", "koshin": "庚申庵", "yaoya": "丸五青果", "tamago": "平野鸡蛋", "pharmacy": "Lady药局", "kayamachi": "萱町商店街", "park": "城山公园", "fuji": "富士Grand", "furumachi": "古町站"}, "ko": {"jinja": "아누미 신사", "koshin": "코신안", "yaoya": "마루고 청과", "tamago": "히라노 계란", "pharmacy": "레데이 약국", "kayamachi": "카야마치 상점가", "park": "시로야마 공원", "fuji": "후지 그랜드", "furumachi": "코마치역"}};
@@ -664,7 +695,7 @@ function spawnPetal() {
 }
 setInterval(spawnPetal, 2600);
 const ROUTE = [ "front", "stairs", "counter", "front", "elua", "front", "lea", "front", "pharmacy", "front", "fuji", "front", "furumachi", "front", "koshin", "front", "jinja", "yaoya", "tamago", "yaoya", "kayamachi2", "kayamachi", "kayamachi2", "yaoya", "jinja", "front" ];
-const SHORT = { park:"城山公園（みんなの広場）", kayamachi:"萱町商店街", kayamachi2:"萱町商店街（なか）", kayamachi3:"萱町商店街（北寄り）", jinja:"阿沼美神社", koshin:"庚申庵", tamago:"平野鶏卵（たまご屋）", yaoya:"丸五青果（八百屋）", front:"MAHALOビル", stairs:"MAHALOビル 外階段", counter:"MAHALO（2階・美容室）", elua:"elua Mahalo（1階）", lea:"Lea Mahalo（1階・雑貨）", pharmacy:"レデイ薬局 宮西店", fuji:"フジグラン松山", furumachi:"古町駅" };
+const SHORT = { park:"城山公園（みんなの広場）", kayamachi:"萱町商店街", kayamachi2:"萱町商店街（なか）", kayamachi3:"萱町商店街（北寄り）", jinja:"阿沼美神社", koshin:"庚申庵", tamago:"平野鶏卵（たまご屋）", yaoya:"丸五青果（八百屋）", front:"MAHALOビル", stairs:"MAHALOビル 外階段", counter:"MAHALO（2階・美容室）", elua:"elua Mahalo（1階）", lea:"Lea Mahalo（1階・雑貨）", pharmacy:"レデイ薬局 宮西店", fuji:"フジグラン松山", furumachi:"古町駅", kayamachi:"萱町商店街" };
 let curScene = "front", walkTimer = null;
 if (window.__lang !== "ja") { const PN2 = window.__placeNames[window.__lang] || {}; for (const k2 in PN2) if (SHORT[k2]) SHORT[k2] = PN2[k2]; const D = window.__I18N[window.__lang] || {}; document.querySelectorAll("[data-i18n]").forEach(el => { const t = D[el.getAttribute("data-i18n")]; if (t) el.textContent = t; }); document.querySelectorAll("[data-i18n-ph]").forEach(el => { const t = D[el.getAttribute("data-i18n-ph")]; if (t) el.placeholder = t; }); document.documentElement.lang = window.__lang; }
 const langSelEl = document.getElementById("langSel"); if (langSelEl) { langSelEl.value = window.__lang; langSelEl.addEventListener("change", () => { try { localStorage.setItem("islandLang", langSelEl.value); } catch (e) {} location.reload(); }); }
@@ -729,10 +760,12 @@ document.getElementById("guideClose").addEventListener("click", () => { guideMod
 guideModal.addEventListener("click", (e) => { if (e.target === guideModal) guideModal.style.display = "none"; });
 document.getElementById("guideWalk").addEventListener("click", () => { guideModal.style.display = "none"; if (!walkTimer) document.getElementById("btnWalk").click(); });
 { const __pnI = document.getElementById("placeName"); if (__pnI) __pnI.textContent = "📍 " + (SHORT["front"] || ""); }
+function snsSeen(id){ try { return (JSON.parse(localStorage.getItem("islandSnsSeen") || "[]")).includes(id); } catch(e){ return false; } }
+function snsMarkSeen(id){ try { const a = JSON.parse(localStorage.getItem("islandSnsSeen") || "[]"); if (!a.includes(id)) { a.push(id); localStorage.setItem("islandSnsSeen", JSON.stringify(a)); } } catch(e){} }
 viewer.on("scenechange", (id) => {
   const pn = document.getElementById("placeName"); if (pn) pn.textContent = "📍 " + (SHORT[id] || "");
   const ss = document.getElementById("sceneSns");
-  if (ss) { ss.innerHTML = ""; POSTS.filter((pp) => pp.scene === id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => openPost(pp)); ss.appendChild(b); }); }
+  if (ss) { ss.innerHTML = ""; POSTS.filter((pp) => pp.scene === id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); }
   curScene = id;
   tourCapShow(id);
   if (window.syncYou) window.syncYou(id);
@@ -753,7 +786,7 @@ viewer.on("scenechange", (id) => {
   rippleFx();
 });
 /* 初回表示で左下SNSアイコンが出ないことがあるため、空なら少し待って入れ直す */
-(function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && POSTS.some((pp) => pp.scene === curScene)) { POSTS.filter((pp) => pp.scene === curScene).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => openPost(pp)); ss.appendChild(b); }); } if (n > 8) clearInterval(t); }, 1200); })();
+(function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && POSTS.some((pp) => pp.scene === curScene)) { POSTS.filter((pp) => pp.scene === curScene).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); } if (n > 8) clearInterval(t); }, 1200); })();
 
 /* 地面タップで歩く（ストリートビュー式）：向いている方に近い出口へ進む */
 const panoEl = document.getElementById("panorama");
@@ -1027,6 +1060,7 @@ const SNS_PATH = {
 };
 let bigMap = null;
 function initBigMap() {
+  return; // MAPは道案内マップに上書き済み（2026-11-03）
   if (!window.L || bigMap) return;
   bigMap = L.map("bigMap", { scrollWheelZoom: false }).fitBounds([[33.8430, 132.7520], [33.8480, 132.7582]], { padding: [18, 18] });
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(bigMap);
@@ -1084,7 +1118,7 @@ window.openPlaza = function() {
   const card = document.getElementById("parkTalk");
   if (card) { card.style.display = ""; card.scrollIntoView({ behavior: "smooth", block: "center" }); }
 };
-function openMap() { document.getElementById("bigMapSec").scrollIntoView({ behavior: "smooth" }); setTimeout(() => { initBigMap(); if (bigMap) bigMap.invalidateSize(); }, 400); }
+function openMap() { document.getElementById("bigMapSec").scrollIntoView({ behavior: "smooth" }); setTimeout(() => { if (window.__twInvalidate) window.__twInvalidate(); }, 400); }
 function closeMap() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 document.getElementById("btnMap").addEventListener("click", openMap);
 window.addEventListener("load", () => setTimeout(initBigMap, 900));
@@ -1359,5 +1393,107 @@ $("btnProfSave").addEventListener("click", async () => {
 });
 </script>
 
+<script>
+(function(){
+  const twMapEl = document.getElementById("bigMap");
+  if (!twMapEl || typeof L === "undefined") return;
+  const TW_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], fuji:[33.84492,132.75328], furumachi:[33.84709,132.75526], kayamachi:[33.84556,132.75687] };
+  const TW_NAME = { front:"MAHALOビル", jinja:"阿沼美神社", koshin:"庚申庵", yaoya:"丸五青果", tamago:"平野鶏卵", pharmacy:"レデイ薬局", fuji:"フジグラン", furumachi:"古町駅", kayamachi:"萱町商店街" };
+  const TW_EMOJI = { front:"🏢", jinja:"⛩", koshin:"🏡", yaoya:"🥬", tamago:"🥚", pharmacy:"💊", fuji:"🛒", furumachi:"🚃", kayamachi:"🏮" };
+  const TW_DOOR = { front:[33.84552,132.75547], jinja:[33.84598,132.75641], koshin:[33.84385,132.75470], yaoya:[33.84628,132.75668], tamago:[33.84696,132.75666], pharmacy:[33.84510,132.75520], fuji:[33.84470,132.75330], furumachi:[33.84700,132.75530], kayamachi:[33.84556,132.75687] };
+  const twMsg = document.getElementById("twMsg"), twEnter = document.getElementById("twEnter"), twStop = document.getElementById("twStop");
+  const twNaviMain = document.getElementById("twNaviMain"), twNaviSub = document.getElementById("twNaviSub");
+  const twMap = L.map("bigMap", { scrollWheelZoom: false, minZoom: 15, maxBounds: [[33.8415,132.7505],[33.8495,132.7605]], maxBoundsViscosity: 1 }).setView([33.84552, 132.75547], 17);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap contributors" }).addTo(twMap);
+  const twLine = L.polyline([], { color: "#0068B7", weight: 5, opacity: .85, dashArray: "1 7", lineCap: "round" }).addTo(twMap);
+  const twOv = L.imageOverlay("map-island.jpg", [[33.8416, 132.7502], [33.8482, 132.7622]], { opacity: 0, interactive: false, className: "island-ov" }).addTo(twMap);
+  const twUpdOv = () => { const z = twMap.getZoom(); twOv.setOpacity(z <= 15 ? 0.96 : z === 16 ? 0.4 : 0); const tp = twMapEl.querySelector(".leaflet-tile-pane"); if (tp) tp.style.filter = z <= 15 ? "blur(2.5px) brightness(1.06) saturate(.75)" : ""; };
+  twMap.on("zoomend", twUpdOv); twUpdOv();
+  setTimeout(() => twMap.invalidateSize(), 600);
+  window.__twInvalidate = () => twMap.invalidateSize();
+  if ("IntersectionObserver" in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { twMap.invalidateSize(); io.disconnect(); } }); io.observe(twMapEl); }
+  const MX = 92000, MY = 111000;
+  function twDM(a,b){ return Math.hypot((a[0]-b[0])*MX, (a[1]-b[1])*MY); }
+  async function twRoute(fromLL, toLL){
+    const url = "https://router.project-osrm.org/route/v1/foot/" + fromLL[0] + "," + fromLL[1] + ";" + toLL[0] + "," + toLL[1] + "?overview=full&geometries=geojson";
+    const res = await fetch(url); const j = await res.json();
+    if (j && j.routes && j.routes[0]) return j.routes[0];
+    throw new Error("no route");
+  }
+  for (const id in TW_LL){
+    const ll = TW_LL[id];
+    const ico = L.divIcon({ className: "", html: '<div class="twPlabel">' + TW_EMOJI[id] + " " + TW_NAME[id] + "</div>", iconSize: [120, 26], iconAnchor: [60, 13] });
+    L.marker([ll[0], ll[1]], { icon: ico }).addTo(twMap).on("click", () => twGo(id));
+  }
+  const twDestSel = document.getElementById("twDestSel");
+  for (const id in TW_LL){
+    const o = document.createElement("option");
+    o.value = id; o.textContent = TW_EMOJI[id] + " " + TW_NAME[id];
+    twDestSel.appendChild(o);
+  }
+  twDestSel.addEventListener("change", () => { if (twDestSel.value) twGo(twDestSel.value); });
+  const twAvaHtml = '<div class="twAvaBox"><img data-n="bs" src="av-player-bs.png" alt=""><img data-n="wb" src="av-player-wb.png" alt=""><img data-n="wf" src="av-player-wf.png" alt=""><img data-n="fs" class="on" src="av-player.png" alt=""></div>';
+  const twMe = L.marker([33.84552, 132.75547], { icon: L.divIcon({ className: "twAvaIco", html: twAvaHtml, iconSize: [30, 38], iconAnchor: [15, 36] }), zIndexOffset: 1000 }).addTo(twMap);
+  const twLayers = {}; twMe.getElement().querySelectorAll("img").forEach(im => twLayers[im.dataset.n] = im);
+  function twShow(n){ for (const k in twLayers) twLayers[k].classList.toggle("on", k === n); }
+  let twMy = [132.75547, 33.84552], twWalking = false, twAtPlace = null, twStepTO = null, twSeq = 0;
+  function twMarkSel(id){ const sel = document.getElementById("twDestSel"); if (sel) sel.value = id || ""; }
+  function twArrive(placeId){
+    twStop.style.display = "none"; twLine.setLatLngs([]);
+    if (placeId){ twAtPlace = placeId; twEnter.disabled = false;
+      twNaviMain.textContent = "📍 " + TW_NAME[placeId] + " に着きました";
+      twNaviSub.textContent = "「入る（360°で見る）」で、上のビューがその場所に切り替わります";
+      twMsg.textContent = ""; }
+  }
+  function twStartWalk(route, placeId, distM){
+    const seq = ++twSeq;
+    if (twStepTO) clearTimeout(twStepTO);
+    const coords = route.geometry.coordinates;
+    twLine.setLatLngs(coords.map(c => [c[1], c[0]]));
+    const steps = [];
+    for (let i = 0; i < coords.length - 1; i++){ const a = coords[i], b = coords[i+1], L2 = twDM(a, b), n = Math.max(1, Math.round(L2 / 7));
+      for (let k = 1; k <= n; k++) steps.push([a[0]+(b[0]-a[0])*k/n, a[1]+(b[1]-a[1])*k/n]); }
+    if (!steps.length){ twWalking = false; twArrive(placeId); return; }
+    twWalking = true; twAtPlace = null; twEnter.disabled = true; twStop.style.display = "";
+    twNaviMain.textContent = "🚶 " + TW_NAME[placeId] + " へ向かっています";
+    twNaviSub.textContent = "あと約 " + Math.round(distM) + "m"; twMsg.textContent = "";
+    const goingDown = coords[coords.length-1][1] < twMy[1];
+    const walkN = goingDown ? "wf" : "wb", standN = goingDown ? "fs" : "bs";
+    let i = 0, altF = false;
+    const stepOnce = () => {
+      if (seq !== twSeq) return;
+      if (i >= steps.length){ twWalking = false; twShow(standN); twArrive(placeId); return; }
+      altF = !altF; twShow(altF ? walkN : standN);
+      twMy = steps[i]; twMe.setLatLng([twMy[1], twMy[0]]);
+      twMap.setView([twMy[1], twMy[0]], twMap.getZoom(), { animate: false });
+      i++; twStepTO = setTimeout(stepOnce, 130);
+    };
+    stepOnce();
+  }
+  async function twGo(id){
+    twMarkSel(id);
+    twAtPlace = null; twEnter.disabled = true;
+    twNaviMain.textContent = TW_NAME[id] + " への道を調べています…"; twNaviSub.textContent = "";
+    const d = TW_DOOR[id], target = [d[1], d[0]];
+    try { const r = await twRoute(twMy, target);
+      twNaviSub.textContent = "約 " + Math.round(r.distance) + "m・徒歩約 " + Math.max(1, Math.round(r.distance / 80)) + "分";
+      twStartWalk(r, id, r.distance);
+    } catch(e){ twNaviMain.textContent = TW_NAME[id] + " への道が見つかりませんでした"; twNaviSub.textContent = "もう一度選んでみてください"; }
+  }
+  twStop.addEventListener("click", () => {
+    twSeq++; if (twStepTO) clearTimeout(twStepTO); twWalking = false; twShow("fs");
+    twStop.style.display = "none"; twLine.setLatLngs([]);
+    twNaviMain.textContent = "止まりました"; twNaviSub.textContent = "行き先を選び直せます";
+  });
+  twMap.on("click", e => {
+    const t = [e.latlng.lng, e.latlng.lat];
+    let best = null, bd = 80;
+    for (const id in TW_LL){ const d = twDM(t, [TW_LL[id][1], TW_LL[id][0]]); if (d < bd){ bd = d; best = id; } }
+    if (best) twGo(best);
+    else if (!twWalking) { twNaviMain.textContent = "行き先は下のプルダウンから選んでね"; twNaviSub.textContent = "地図の名前をタップしても行けます"; }
+  });
+  twEnter.addEventListener("click", () => { if (twAtPlace && window.goScene) window.goScene(twAtPlace); });
+})();
+</script>
 </body>
 </html>
