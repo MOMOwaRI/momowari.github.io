@@ -325,7 +325,6 @@
         <button class="act" type="submit">聞く</button>
       </form>
     </div>
-  </div>
   <div id="sceneName">MAHALOの店前</div>
   <div id="placeBar"><label for="placeSel" data-i18n="selLabel">📍 場所を選ぶ</label><select id="placeSel" aria-label="場所を選ぶ"></select></div>
   <div class="btns" id="navBtns"><button class="act" id="btnWalk" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button><button class="act" id="btnMap" type="button" data-i18n="mapBtn">🗺 MAPを見る</button><button class="act sub" id="btnGuide" type="button" data-i18n="guideBtn">🧭 ガイド</button></div>
@@ -1442,8 +1441,9 @@ $("btnProfSave").addEventListener("click", async () => {
     twStop.style.display = "none"; twLine.setLatLngs([]);
     if (placeId){ twAtPlace = placeId; twEnter.disabled = false;
       twNaviMain.textContent = "📍 " + TW_NAME[placeId] + " に着きました";
-      twNaviSub.textContent = "「入る（360°で見る）」で、上のビューがその場所に切り替わります";
-      twMsg.textContent = ""; }
+      twNaviSub.textContent = "上のビューも、その場所に切り替わりました";
+      twMsg.textContent = "";
+      if (window.goScene) window.goScene(placeId); }
   }
   function twStartWalk(route, placeId, distM){
     const seq = ++twSeq;
