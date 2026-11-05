@@ -1250,6 +1250,11 @@ list.forEach(function(el){ io.observe(el); });
       addMsg('bot',(I18N.greet[lang()]||I18N.greet.ja).replace(/</g,'&lt;'));
     }
   });
+  document.addEventListener('click',function(e){
+    if(!panel.classList.contains('open'))return;
+    if(panel.contains(e.target)||e.target===document.getElementById('botBtn'))return;
+    panel.classList.remove('open');
+  });
   function send(t,isQuick){
     if(!t)return; addMsg('me',t.replace(/</g,'&lt;'));
     if(isQuick){ addMsg('bot',answer(t,'chip')); return; }
