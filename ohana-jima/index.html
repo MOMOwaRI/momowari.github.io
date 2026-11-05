@@ -423,7 +423,7 @@
       <label data-i18n="profAvatar">あなたの分身（アバター）</label>
       <p class="src" style="margin:0 0 6px">写真をアップすると、その写真からアバターを作成します。できたら、自動で差し替わります。</p>
       <div id="photoUpBox" style="margin:0 0 4px">
-        <img id="myPhotoImg" alt="" style="display:none;width:88px;height:88px;object-fit:cover;border-radius:12px;border:1.5px solid #d9c9a8">
+        <img id="myPhotoImg" alt="" style="display:none;width:88px;height:88px;object-fit:contain;background:#eef6f8;border-radius:12px;border:1.5px solid #d9c9a8">
         <p class="src" id="myPhotoState" style="margin:4px 0">まだ写真がありません</p>
         <p class="src" style="margin:0 0 4px">写真は非公開で保管されます。公開されるのは、完成したアバターだけです。</p>
         <a href="https://momowari.github.io/OHANA-share/login.html" style="display:inline-block;font-family:inherit;font-size:13.5px;font-weight:700;padding:9px 16px;border-radius:999px;border:1.5px solid #d9a441;background:#ffd98a;color:#5d4212;text-decoration:none">写真のアップロードはマイページで</a>
@@ -720,7 +720,7 @@ setInterval(() => {
   document.querySelectorAll(".catspot .cb").forEach(b => { if (Math.random() < 0.3) b.classList.toggle("off"); });
 }, 4000);
 let meTimer = null;
-function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); let still, frame, round = false; if (window.__myAvaUrl) { still = window.__myAvaUrl; frame = still; round = true; } else if (window.__loggedIn) { const c = ["muse", "tabby", "white", "black", "calico"].includes(window.__myCat) ? window.__myCat : "muse"; still = "cat-" + c + "-sit.png"; frame = "cat-" + c + "-walk.png"; } else { still = "av-player.png"; frame = "av-player-wf.png"; } if (round) { img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "62px"; img.style.height = "62px"; } else { img.style.borderRadius = ""; img.style.objectFit = ""; img.style.width = ""; img.style.height = ""; } if (walk) { w.classList.add("walking"); if (!meTimer) { if (img.getAttribute("src") !== still) img.src = still; let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? frame : still; }, 360); } } else { w.classList.remove("walking"); if (meTimer) { clearInterval(meTimer); meTimer = null; } if (img.getAttribute("src") !== still) img.src = still; } }
+function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); let still, frame, round = false; if (window.__myAvaUrl) { still = window.__myAvaUrl; frame = still; round = false; } else if (window.__loggedIn) { const c = ["muse", "tabby", "white", "black", "calico"].includes(window.__myCat) ? window.__myCat : "muse"; still = "cat-" + c + "-sit.png"; frame = "cat-" + c + "-walk.png"; } else { still = "av-player.png"; frame = "av-player-wf.png"; } if (round) { img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "62px"; img.style.height = "62px"; } else { img.style.borderRadius = ""; img.style.objectFit = ""; img.style.width = ""; img.style.height = ""; } if (walk) { w.classList.add("walking"); if (!meTimer) { if (img.getAttribute("src") !== still) img.src = still; let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? frame : still; }, 360); } } else { w.classList.remove("walking"); if (meTimer) { clearInterval(meTimer); meTimer = null; } if (img.getAttribute("src") !== still) img.src = still; } }
 let walkIdx = -1;
 const GUIDE_TXT = {
   ja: { front: "MAHALOビルです。2階が美容室MAHALO、1階に elua Mahalo と Lea Mahalo があります", stairs: "外階段を上がると、2階のMAHALOです", counter: "美容室 MAHALO。髪と頭皮にやさしいカラーを扱っています", elua: "elua Mahalo。女性限定・マンツーマンのお店です", lea: "雑貨屋 Lea Mahalo。商品は日々入れ替わります", pharmacy: "レデイ薬局 宮西店。夜10時まで開いています", jinja: "阿沼美神社。式内社として知られる神社です", koshin: "庚申庵。俳人・栗田樗堂が建てた草庵で、県指定の史跡です", yaoya: "丸五青果さん。萱町商店街の八百屋さんです", tamago: "平野鶏卵さん。新鮮なたまごのお店です", kayamachi3: "萱町商店街の北のほうです", kayamachi2: "萱町商店街を歩いています", kayamachi: "萱町商店街。昔ながらの商店街です", fuji: "フジグラン松山。大きなショッピングセンターです", furumachi: "伊予鉄道の古町駅です" },
@@ -1092,9 +1092,9 @@ window.renderParkResidents = function(users) {
   window.__parkUsers.forEach((u, i) => {
     const a = (i / Math.max(1, window.__parkUsers.length)) * Math.PI * 2;
     const ll = [c[0] + Math.sin(a) * 0.00055, c[1] + Math.cos(a) * 0.00075];
-    const cat = u.avaUrl ? '<img src="' + u.avaUrl + '" style="width:34px;height:34px;object-fit:cover;border-radius:50%;display:block;margin:0 auto" alt="">' : '<img src="cat-' + (["muse","tabby","white","black","calico"].includes(u.cat) ? u.cat : "muse") + '-sit.png" style="width:34px;display:block;margin:0 auto" alt="">';
+    const cat = u.avaUrl ? '<img src="' + u.avaUrl + '" style="height:44px;width:auto;display:block;margin:0 auto" alt="">' : '<img src="cat-' + (["muse","tabby","white","black","calico"].includes(u.cat) ? u.cat : "muse") + '-sit.png" style="width:34px;display:block;margin:0 auto" alt="">';
     const name = '<span data-ouid="' + u.uid + '" style="display:block;font-size:10px;color:#4c5b35;background:rgba(255,253,247,.9);border-radius:8px;padding:0 5px;white-space:nowrap;text-align:center">' + String(u.nickname || "島の人").replace(/[<>&"]/g, "") + '</span>';
-    const mk = L.marker(ll, { icon: L.divIcon({ className: "zpost", html: cat + name, iconSize: [54, 48], iconAnchor: [27, 40] }) }).addTo(window.__parkLayer);
+    const mk = L.marker(ll, { icon: L.divIcon({ className: "zpost", html: cat + name, iconSize: [54, 62], iconAnchor: [27, 58] }) }).addTo(window.__parkLayer);
     mk.on("click", () => { if (window.__onParkCat) window.__onParkCat(u.uid, u.nickname || "島の人"); });
   });
   setTimeout(() => { if (window.__markOhana) window.__markOhana(); }, 300);
@@ -1252,7 +1252,7 @@ async function renderOthers() {
   try {
     const users = await fetchUsers(false);
     const here = users.filter((u) => (!me || u.uid !== me.uid) && u.at === curSceneId && isOutWalking(u));
-    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '" alt=""' + (u.avaUrl ? ' style="border-radius:50%;object-fit:cover;width:56px;height:56px"' : '') + '><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
+    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '" alt=""'  '><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
     if (window.__markOhana) setTimeout(() => window.__markOhana(), 200);
     box.querySelectorAll(".otherAv").forEach((b) => b.addEventListener("click", () => {
       const u = here.find((x) => x.uid === b.dataset.uid);
@@ -1322,7 +1322,7 @@ function renderChatOnline() {
   fetchUsers(true).then((users) => {
     const on = users.filter((u) => isOutWalking(u));
     if (!on.length) { box.innerHTML = '<span class="src">今いる人：まだいません</span>'; return; }
-    box.innerHTML = '<span class="src" style="margin-right:2px">今いる人：</span>' + on.map((u) => '<span class="chip-on"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '" alt="">' + escP(u.nickname || "島の人") + (u.at && window.__shortName ? '<i>' + escP(window.__shortName(u.at)) + '</i>' : '') + '</span>').join("");
+    box.innerHTML = '<span class="src" style="margin-right:2px">今いる人：</span>' + on.map((u) => '<span class="chip-on"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '"' + (u.avaUrl ? ' style="width:auto;height:22px;border-radius:0;object-fit:contain"' : '') + ' alt="">' + escP(u.nickname || "島の人") + (u.at && window.__shortName ? '<i>' + escP(window.__shortName(u.at)) + '</i>' : '') + '</span>').join("");
   }).catch(() => {});
 }
 function renderChatMsgs(msgs) {
