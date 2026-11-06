@@ -586,7 +586,7 @@ const PRODUCTS = [
   { id:"wig", img:"prod-wig.jpg", name:"WigMAHALO（ウィッグのご相談）", desc:"ウィッグのご相談を承っております。まずはお気軽にどうぞ。（写真はイメージです）" },
 ];
 const SCENES = {
-  kayamachi:  { pano:"mahalo-pano-kayamachi.jpg",  name:"萱町商店街", yaw:0, hfov:134 },
+  kayamachi:  { pano:"mahalo-pano-kayamachi3.jpg",  name:"萱町商店街", yaw:0, hfov:134 },
   kayamachi2: { pano:"mahalo-pano-kayamachi2.jpg", name:"萱町商店街（なかほど）", yaw:0, hfov:134 },
   yaoya:      { pano:"mahalo-pano-yaoya2.jpg",      name:"八百屋の前（丸五青果）", yaw:120, hfov:134 },
   tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:134 },
@@ -1500,7 +1500,7 @@ $("btnProfSave").addEventListener("click", async () => {
   const TW_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], fuji:[33.84492,132.75328], furumachi:[33.84709,132.75526], kayamachi:[33.84556,132.75687], park:[33.84170,132.76510] };
   const TW_NAME = { front:"MAHALOビル", jinja:"阿沼美神社", koshin:"庚申庵", yaoya:"丸五青果", tamago:"平野鶏卵", pharmacy:"レデイ薬局", fuji:"フジグラン", furumachi:"古町駅", kayamachi:"萱町商店街", park:"城山公園" };
   const TW_EMOJI = { front:"🏢", jinja:"⛩", koshin:"🏡", yaoya:"🥬", tamago:"🥚", pharmacy:"💊", fuji:"🛒", furumachi:"🚃", kayamachi:"🏮", park:"🌳" };
-  const TW_DOOR = { front:[33.84552,132.75547], jinja:[33.84598,132.75641], koshin:[33.84385,132.75470], yaoya:[33.84628,132.75668], tamago:[33.84696,132.75666], pharmacy:[33.84510,132.75520], fuji:[33.84470,132.75330], furumachi:[33.84700,132.75530], kayamachi:[33.84556,132.75687], park:[33.84170,132.76510] };
+  const TW_DOOR = { front:[33.84552,132.75547], jinja:[33.84598,132.75641], koshin:[33.84385,132.75470], yaoya:[33.84628,132.75668], tamago:[33.84696,132.75666], pharmacy:[33.84510,132.75520], fuji:[33.84470,132.75330], furumachi:[33.84700,132.75530], kayamachi:[33.84556,132.75687], park:[33.84066,132.76240] };
   const twMsg = document.getElementById("twMsg"), twEnter = document.getElementById("twEnter"), twStop = document.getElementById("twStop");
   const twNaviMain = document.getElementById("twNaviMain"), twNaviSub = document.getElementById("twNaviSub");
   const twMap = L.map("bigMap", { scrollWheelZoom: false, minZoom: 14, maxBounds: [[33.8385,132.7495],[33.8505,132.7685]], maxBoundsViscosity: 1 }).setView([33.84552, 132.75547], 17);
