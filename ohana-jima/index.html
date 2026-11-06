@@ -720,7 +720,7 @@ setInterval(() => {
   document.querySelectorAll(".catspot .cb").forEach(b => { if (Math.random() < 0.3) b.classList.toggle("off"); });
 }, 4000);
 let meTimer = null;
-function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); let still, frame, round = false; if (window.__myAvaUrl) { still = window.__myAvaUrl; frame = still; round = false; } else if (window.__loggedIn) { const c = ["muse", "tabby", "white", "black", "calico"].includes(window.__myCat) ? window.__myCat : "muse"; still = "cat-" + c + "-sit.png"; frame = "cat-" + c + "-walk.png"; } else { still = "av-player.png"; frame = "av-player-wf.png"; } if (round) { img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "62px"; img.style.height = "62px"; } else { img.style.borderRadius = ""; img.style.objectFit = ""; img.style.width = ""; img.style.height = ""; } if (walk) { w.classList.add("walking"); if (!meTimer) { if (img.getAttribute("src") !== still) img.src = still; let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? frame : still; }, 360); } } else { w.classList.remove("walking"); if (meTimer) { clearInterval(meTimer); meTimer = null; } if (img.getAttribute("src") !== still) img.src = still; } }
+function meSet(walk) { const w = document.getElementById("meAv"); if (!w) return; const img = w.querySelector("img"); let still, frame, round = false; if (window.__myAvaUrl) { still = window.__myAvaUrl; frame = still; round = false; } else { still = "av-player.png"; frame = "av-player-wf.png"; } if (round) { img.style.borderRadius = "50%"; img.style.objectFit = "cover"; img.style.width = "62px"; img.style.height = "62px"; } else { img.style.borderRadius = ""; img.style.objectFit = ""; img.style.width = ""; img.style.height = ""; } if (walk) { w.classList.add("walking"); if (!meTimer) { if (img.getAttribute("src") !== still) img.src = still; let f = 0; meTimer = setInterval(() => { f = f ? 0 : 1; img.src = f ? frame : still; }, 360); } } else { w.classList.remove("walking"); if (meTimer) { clearInterval(meTimer); meTimer = null; } if (img.getAttribute("src") !== still) img.src = still; } }
 let walkIdx = -1;
 const GUIDE_TXT = {
   ja: { front: "MAHALOビルです。2階が美容室MAHALO、1階に elua Mahalo と Lea Mahalo があります", stairs: "外階段を上がると、2階のMAHALOです", counter: "美容室 MAHALO。髪と頭皮にやさしいカラーを扱っています", elua: "elua Mahalo。女性限定・マンツーマンのお店です", lea: "雑貨屋 Lea Mahalo。商品は日々入れ替わります", pharmacy: "レデイ薬局 宮西店。夜10時まで開いています", jinja: "阿沼美神社。式内社として知られる神社です", koshin: "庚申庵。俳人・栗田樗堂が建てた草庵で、県指定の史跡です", yaoya: "丸五青果さん。萱町商店街の八百屋さんです", tamago: "平野鶏卵さん。新鮮なたまごのお店です", kayamachi3: "萱町商店街の北のほうです", kayamachi2: "萱町商店街を歩いています", kayamachi: "萱町商店街。昔ながらの商店街です", fuji: "フジグラン松山。大きなショッピングセンターです", furumachi: "伊予鉄道の古町駅です" },
@@ -1092,7 +1092,7 @@ window.renderParkResidents = function(users) {
   window.__parkUsers.forEach((u, i) => {
     const a = (i / Math.max(1, window.__parkUsers.length)) * Math.PI * 2;
     const ll = [c[0] + Math.sin(a) * 0.00055, c[1] + Math.cos(a) * 0.00075];
-    const cat = u.avaUrl ? '<img src="' + u.avaUrl + '" style="height:44px;width:auto;display:block;margin:0 auto" alt="">' : '<img src="cat-' + (["muse","tabby","white","black","calico"].includes(u.cat) ? u.cat : "muse") + '-sit.png" style="width:34px;display:block;margin:0 auto" alt="">';
+    const cat = '<img src="' + (u.avaUrl || "av-player.png") + '" style="height:44px;width:auto;display:block;margin:0 auto" alt="">';
     const name = '<span data-ouid="' + u.uid + '" style="display:block;font-size:10px;color:#4c5b35;background:rgba(255,253,247,.9);border-radius:8px;padding:0 5px;white-space:nowrap;text-align:center">' + String(u.nickname || "島の人").replace(/[<>&"]/g, "") + '</span>';
     const mk = L.marker(ll, { icon: L.divIcon({ className: "zpost", html: cat + name, iconSize: [54, 62], iconAnchor: [27, 58] }) }).addTo(window.__parkLayer);
     mk.on("click", () => { if (window.__onParkCat) window.__onParkCat(u.uid, u.nickname || "島の人"); });
@@ -1137,10 +1137,10 @@ function todayJST() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/
 function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; window.__myCat = (profile && profile.cat) || "muse"; window.__loggedIn = !!me; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark();
   if (me && profile) {
     $("authState").innerHTML = "";
-    const img = document.createElement("img"); img.src = "cat-" + profile.cat + "-sit.png"; img.alt = "";
+    const img = document.createElement("img"); img.src = profile.avaUrl || "av-player.png"; img.alt = "";
     const sp = document.createElement("span"); sp.textContent = profile.nickname + " さん";
     $("authState").appendChild(img); $("authState").appendChild(sp);
-    $("btnLogin").style.display = "none"; $("btnProfile").style.display = ""; $("btnLogout").style.display = "";
+    $("btnLogin").style.display = "none"; $("btnProfile").style.display = "none"; $("btnLogout").style.display = "";
     if (window.setIslandProfile) window.setIslandProfile(profile);
   } else {
     $("authState").textContent = "🐾 ゲストとして散歩中";
@@ -1170,7 +1170,7 @@ function buildCatChoices() {
   const wrap = $("catChoices"); wrap.innerHTML = "";
   CAT_TYPES.forEach(t => { const b = document.createElement("button"); b.type = "button"; b.dataset.cat = t; if (profile && profile.cat === t) b.className = "sel"; b.innerHTML = '<img src="cat-' + t + '-sit.png" alt="">'; b.addEventListener("click", () => { wrap.querySelectorAll("button").forEach(x => x.classList.remove("sel")); b.classList.add("sel"); }); wrap.appendChild(b); });
 }
-async function saveProfileDoc(patch) { if (!me) return; profile = Object.assign({}, profile, patch); await setDoc(doc(db, "islandUsers", me.uid), Object.assign({}, profile, { updatedAt: new Date().toISOString() }), { merge: true }); renderAuth(); }
+async function saveProfileDoc(patch) { if (!me) return; profile = Object.assign({}, profile, patch); if (profile.localOnly) { renderAuth(); return; } const toSave = Object.assign({}, profile); delete toSave.localOnly; await setDoc(doc(db, "islandUsers", me.uid), Object.assign({}, toSave, { updatedAt: new Date().toISOString() }), { merge: true }); renderAuth(); }
 try {
   const app = getApp("ohana-ai");
   auth = getAuth(app); db = getFirestore(app);
@@ -1181,8 +1181,8 @@ try {
         const snap = await getDoc(doc(db, "islandUsers", user.uid));
         const today = todayJST();
         if (snap.exists()) { profile = snap.data(); if (profile.photoData) delete profile.photoData; if (!profile.days) profile.days = []; if (!profile.days.includes(today)) { profile.days.push(today); await saveProfileDoc({ days: profile.days }); } }
-        else { profile = { nickname: (user.displayName || "島の住人").slice(0, 20), cat: "muse", days: [today] }; await saveProfileDoc(profile); openProf(); }
-      } catch (e) { profile = { nickname: "島の住人", cat: "muse", days: [] }; }
+        else { profile = { nickname: (user.displayName || "メンバー").slice(0, 20), days: [today], localOnly: true }; }
+      } catch (e) { profile = { nickname: (user.displayName || "メンバー").slice(0, 20), days: [], localOnly: true }; }
     } else profile = null;
     renderAuth();
     try { refreshChatAuth(); } catch (e) {}
@@ -1190,7 +1190,7 @@ try {
   $("btnLogin").addEventListener("click", () => { if (localStorage.getItem("islandEverLogin") === "1") { $("joinGo").click(); return; } const jm = $("joinModal"); if (jm) { jm.style.display = "flex"; return; } $("joinGo").click(); });
   $("joinGo").addEventListener("click", async () => { $("joinModal").style.display = "none"; try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { alert("ログインできませんでした。通信環境をご確認のうえ、もう一度お試しください。"); } });
   $("joinCancel").addEventListener("click", () => { $("joinModal").style.display = "none"; });
-  $("btnLogout").addEventListener("click", async () => { try { if (me) await setDoc(doc(db, "islandUsers", me.uid), { at: null, atTs: null }, { merge: true }); } catch (e) {} await signOut(auth); });
+  $("btnLogout").addEventListener("click", async () => { try { if (me && !(profile && profile.localOnly)) await setDoc(doc(db, "islandUsers", me.uid), { at: null, atTs: null }, { merge: true }); } catch (e) {} await signOut(auth); });
 const escP = (t) => String(t == null ? "" : t).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let parkTarget = null;
 let usersCache = null, usersCacheAt = 0, curSceneId = "front", lastAtWrite = 0, talkTarget = null;
@@ -1252,7 +1252,7 @@ async function renderOthers() {
   try {
     const users = await fetchUsers(false);
     const here = users.filter((u) => (!me || u.uid !== me.uid) && u.at === curSceneId && isOutWalking(u));
-    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '" alt=""' + '><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
+    box.innerHTML = here.map((u) => '<button type="button" class="otherAv" data-uid="' + u.uid + '"><img src="' + (u.avaUrl || "av-player.png") + '" alt=""' + '><span>' + escP(u.nickname || "島の人") + '</span></button>').join("");
     if (window.__markOhana) setTimeout(() => window.__markOhana(), 200);
     box.querySelectorAll(".otherAv").forEach((b) => b.addEventListener("click", () => {
       const u = here.find((x) => x.uid === b.dataset.uid);
@@ -1322,7 +1322,7 @@ function renderChatOnline() {
   fetchUsers(true).then((users) => {
     const on = users.filter((u) => isOutWalking(u));
     if (!on.length) { box.innerHTML = '<span class="src">今いる人：まだいません</span>'; return; }
-    box.innerHTML = '<span class="src" style="margin-right:2px">今いる人：</span>' + on.map((u) => '<span class="chip-on"><img src="' + (u.avaUrl || ("cat-" + (CAT_KINDS.includes(u.cat) ? u.cat : "muse") + "-sit.png")) + '"' + (u.avaUrl ? ' style="width:auto;height:22px;border-radius:0;object-fit:contain"' : '') + ' alt="">' + escP(u.nickname || "島の人") + (u.at && window.__shortName ? '<i>' + escP(window.__shortName(u.at)) + '</i>' : '') + '</span>').join("");
+    box.innerHTML = '<span class="src" style="margin-right:2px">今いる人：</span>' + on.map((u) => '<span class="chip-on"><img src="' + (u.avaUrl || "av-player.png") + '"' + ' style="width:auto;height:22px;border-radius:0;object-fit:contain"' + ' alt="">' + escP(u.nickname || "島の人") + (u.at && window.__shortName ? '<i>' + escP(window.__shortName(u.at)) + '</i>' : '') + '</span>').join("");
   }).catch(() => {});
 }
 function renderChatMsgs(msgs) {
