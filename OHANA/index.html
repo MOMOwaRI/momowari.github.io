@@ -37,11 +37,10 @@
 </head>
 <body>
 <header class="hero">
-  <div class="photo-show" aria-label="OHANAの活動写真のスライドショー">
-    <div class="pslide"><img src="img-b128bd7f79.jpg" alt="" /><p class="pcap pcap-title">OHANAシェア＊プロジェクト</p></div>
-    <div class="pslide"><img src="img-549e7b1d13.jpg" alt="" loading="lazy" /><p class="pcap">眠っている価値を、必要な場所へ</p></div>
-    <div class="pslide"><img src="img-e61a7ccbb5.jpg" alt="" loading="lazy" /><p class="pcap">100円券でお買い物ができる、選べる物々交換</p></div>
-    <div class="pslide"><img src="img-6def2102e7.jpg" alt="" loading="lazy" /><p class="pcap">OHANAは、ハワイの言葉で「家族・仲間」</p></div>
+  <div class="top-art">
+    <img src="../ohana-jima/mahalo-pano-front5.jpg" alt="MAHALOビルの水彩画" />
+    <p class="pcap pcap-title">OHANAシェア＊プロジェクト</p>
+  </div>
   </div>
 
   <p class="kicker">愛媛・松山｜不定期開催</p>
@@ -229,6 +228,10 @@ body{overflow-x:hidden}
 .hero{padding-top:0}
 .photo-show{width:100vw;margin-left:calc(50% - 50vw);border-radius:0;height:min(104vw,560px);animation:fadeOnly 1s ease both;box-shadow:none}
 @keyframes fadeOnly{from{opacity:0}to{opacity:1}}
+
+.top-art{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:min(104vw,560px);overflow:hidden;animation:fadeOnly 1s ease both}
+.top-art img{width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+.top-art .pcap{position:absolute;left:0;right:0;bottom:0;padding:40px 14px 14px;background:linear-gradient(transparent,rgba(94,48,0,.55));color:#fff;font-weight:900;font-size:clamp(1.2rem,5.4vw,1.6rem);text-align:center}
 </style>
 
 <nav class="sticky-bar" aria-label="固定リンク">
