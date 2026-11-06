@@ -37,13 +37,10 @@
 </head>
 <body>
 <header class="hero">
-  <div class="hero-show" aria-label="OHANAの仲間の顔とことばのスライドショー">
-    <div class="slide"><img src="img-992cf83a89.png" alt="" /><p class="cap cap-title">OHANAシェア＊プロジェクト</p></div>
-    <div class="slide"><img src="img-5fe2f492d4.png" alt="" /><p class="cap">眠っている価値を、必要な場所へ</p></div>
-    <div class="slide"><img src="img-18f35ef8fa.png" alt="" /><p class="cap">100円券でお買い物ができる、選べる物々交換</p></div>
-    <div class="slide"><img src="img-992cf83a89.png" alt="" /><p class="cap">OHANAは「家族・仲間」</p></div>
-  </div>
-  <p class="kicker" style="margin-top:14px">愛媛・松山｜不定期開催</p>
+  <p class="kicker">愛媛・松山｜不定期開催</p>
+  <h1>OHANAシェア<span class="star">＊</span>プロジェクト</h1>
+  <p class="tagline">眠っている価値を、必要な場所へ</p>
+  <p class="hero-sub">100円券でお買い物ができる、フリマ型の選べる物々交換です。</p>
 </header>
 
 <div class="wave-sep" aria-hidden="true"><svg viewBox="0 0 1440 56" preserveAspectRatio="none"><path d="M0,30 C240,54 480,6 720,30 C960,54 1200,6 1440,30 L1440,56 L0,56 Z" fill="#fff7ec"/></svg></div>
@@ -71,6 +68,7 @@
     <li><span class="num">2</span><span><strong>写真と紹介を送る</strong><br />モノの写真は受付箱へ投げるだけでもOK</span></li>
     <li><span class="num">3</span><span><strong>確認して公開</strong><br />AIが作ったページを自分で直せます</span></li>
   </ol>
+  <img class="solo-cat" src="img-5fe2f492d4.png" alt="OHANAの旗を持つ猫" />
   <p class="island">歩いて巡れる <a href="https://momowari.github.io/ohana-jima/">OHANA島</a> もあるよ</p>
 </section>
 
@@ -166,6 +164,11 @@ footer a{color:#fff;font-weight:700}
 .sb-hp{background:#fff;color:#d97c0d}
 .sb-island{border:2px solid #fff;color:#fff}
 body{padding-bottom:76px}
+
+.hero{padding:46px 20px 26px}
+.hero h1{font-size:clamp(1.9rem,8vw,2.9rem)}
+.hero-sub{margin-top:10px;font-weight:700;color:#fff7ea;font-size:1rem}
+.solo-cat{display:block;height:120px;width:auto;margin:22px auto 4px;filter:drop-shadow(0 6px 10px rgba(146,84,20,.25))}
 @media (prefers-reduced-motion: reduce){.hero-show .slide{animation:none}.hero-show .slide:first-child{opacity:1}}
 @media (prefers-reduced-motion: reduce){.sh,.chars img,.stamp{animation:none}}
 </style>
