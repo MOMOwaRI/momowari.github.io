@@ -188,6 +188,8 @@
   #parkBubble{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:82%;background:rgba(255,255,255,.94);border:1.5px solid #d8c491;border-radius:14px;padding:7px 12px;font-size:12.5px;line-height:1.5;color:#5a4a26;text-align:center;box-shadow:0 3px 10px rgba(90,70,20,.15);opacity:0;transition:opacity .6s;z-index:3}
   #parkBubble.on{opacity:1}
   #parkBubble:after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);border:7px solid transparent;border-top-color:rgba(255,255,255,.94);border-bottom:0}
+  #parkCatsLayer{position:absolute;inset:0;pointer-events:none}
+  @media (max-width:560px){ .parkFig img{height:74px !important} #parkStage{height:290px} }
   #parkCastle{position:absolute;top:2px;right:6px;width:190px}
   #parkCats{position:absolute;left:0;right:0;bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;align-items:flex-end;padding:0 14px}
   .parkCat{background:none;border:none;cursor:pointer;text-align:center;padding:0}
@@ -1117,22 +1119,25 @@ window.renderParkResidents = function(users) {
   setTimeout(() => { if (window.__markOhana) window.__markOhana(); }, 300);
 };
 window.renderParkStage = function(users) {
-  const figs = document.getElementById("parkFigs"); if (!figs) return;
-  const list = (users || []).slice(0, 6);
-  figs.innerHTML = "";
-  if (!list.length) {
-    [["", 96], ["flip", 88]].forEach((m) => {
-      const d = document.createElement("div"); d.className = "parkFig mob" + (m[0] ? " flip" : "");
-      d.innerHTML = '<img src="av-player.png" alt="" style="height:' + m[1] + 'px">';
-      figs.appendChild(d);
+  const stage = document.getElementById("parkStage"); if (!stage) return;
+  let catLayer = document.getElementById("parkCatsLayer");
+  if (!catLayer) { catLayer = document.createElement("div"); catLayer.id = "parkCatsLayer"; stage.appendChild(catLayer); }
+  if (!catLayer.childElementCount) {
+    [["cat-muse-sit.png", "left:9%;bottom:17%", 36], ["cat-tabby-sit.png", "left:21%;bottom:11%", 34], ["cat-white-sit.png", "left:43%;bottom:10%", 40], ["cat-calico-sit.png", "right:5%;bottom:21%", 32]].forEach((c) => {
+      const im = document.createElement("img"); im.src = c[0]; im.alt = ""; im.style.cssText = "position:absolute;" + c[1]; im.style.height = c[2] + "px"; im.style.filter = "drop-shadow(0 2px 2px rgba(60,50,20,.3))";
+      catLayer.appendChild(im);
     });
-    return;
   }
-  list.forEach((u, i) => {
+  const figs = document.getElementById("parkFigs"); if (!figs) return;
+  figs.innerHTML = "";
+  const people = [];
+  (users || []).slice(0, 3).forEach((u) => people.push({ img: u.avaUrl || "av-player.png", name: u.nickname || "島の人", uid: u.uid }));
+  ["av-mahalo.png", "av-yuki.png", "av-elua.png"].forEach((st) => people.push({ img: st, staff: true }));
+  people.forEach((pr, i) => {
     const b = document.createElement("button"); b.type = "button"; b.className = "parkFig";
     const h = 92 + ((i * 37) % 3) * 12;
-    b.innerHTML = '<img src="' + (u.avaUrl || "av-player.png") + '" alt="" style="height:' + h + 'px"><span>' + String(u.nickname || "島の人").replace(/[<>&"]/g, "") + '</span>';
-    b.addEventListener("click", () => { if (window.__onParkCat) window.__onParkCat(u.uid, u.nickname || "島の人"); });
+    b.innerHTML = '<img src="' + pr.img + '" alt="" style="height:' + h + 'px">' + (pr.staff ? "" : '<span>' + String(pr.name).replace(/[<>&"]/g, "") + '</span>');
+    if (!pr.staff) b.addEventListener("click", () => { if (window.__onParkCat) window.__onParkCat(pr.uid, pr.name); });
     figs.appendChild(b);
   });
 };
