@@ -1235,7 +1235,7 @@ let myPhotoUrl = null;
 const CAT_TYPES = ["muse", "tabby", "white", "black", "calico"];
 const CAT_KINDS = CAT_TYPES;
 function todayJST() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo" }).format(new Date()); }
-function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; window.__myCat = (profile && profile.cat) || "muse"; window.__loggedIn = !!me; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark(); if (window.__parkRefreshMe) window.__parkRefreshMe();
+function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; window.__myCat = (profile && profile.cat) || "muse"; window.__loggedIn = !!me; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark(); if (window.__parkRefreshMe) window.__parkRefreshMe(); if (window.meSet) window.meSet(false);
   if (!window.__parkLiveOn && db) { window.__parkLiveOn = true; try { onSnapshot(collection(db, "islandUsers"), (snap) => { const us = []; snap.forEach((d) => us.push(Object.assign({ uid: d.id }, d.data()))); const others = us.filter((u) => (!me || u.uid !== me.uid) && !isOutWalking(u)); if (window.renderParkResidents) window.renderParkResidents(others); }, () => {}); } catch (e) {} }
   if (me && profile) {
     $("authState").innerHTML = "";
