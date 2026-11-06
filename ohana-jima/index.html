@@ -1203,6 +1203,7 @@ window.enterParkView = function() {
     window.__parkView = true; st.classList.add("parkmode");
     st.insertBefore(ps, document.getElementById("chatFeed")); ps.classList.add("inview");
     const pn = document.getElementById("placeName"); if (pn) pn.textContent = "\u{1F333} 城山公園（みんなの広場）";
+    const snm = document.getElementById("sceneName"); if (snm) snm.textContent = "\u{1F333} 城山公園（みんなの広場）";
     const eb = document.getElementById("exitBtn"); if (eb) { eb.style.display = "block"; eb.textContent = "出口"; eb.onclick = () => { if (window.goScene) window.goScene("front"); }; }
     const sel = document.getElementById("placeSel"); if (sel) sel.value = "park";
   }
