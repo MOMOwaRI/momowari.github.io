@@ -122,10 +122,10 @@ h1 .star{color:#fff3d6}
 .band h2{font-size:1.45rem;margin-bottom:10px;color:#43302a}
 .band .lead{font-weight:700;font-size:1rem}
 .stamps{display:flex;gap:16px;justify-content:center;margin:22px 0 14px}
-.stamp{width:104px;height:104px;border-radius:50%;border:3px double #ef8f1c;color:#d97c0d;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:.95rem;line-height:1.4;transform:rotate(-8deg);animation:stampFloat 5s ease-in-out infinite}
-.stamp.teal{border-color:#4aa39a;color:#357e76;transform:rotate(6deg);animation-delay:.8s}
-.stamp.green{border-color:#5da24a;color:#4a7d38;transform:rotate(-4deg);animation-delay:1.5s}
-@keyframes stampFloat{0%,100%{margin-top:0}50%{margin-top:-6px}}
+.stamp{--rot:-8deg;width:104px;height:104px;border-radius:50%;border:3px double #ef8f1c;color:#d97c0d;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:.95rem;line-height:1.4;animation:stampFloat 5s ease-in-out infinite}
+.stamp.teal{--rot:6deg;border-color:#4aa39a;color:#357e76;animation-delay:.8s}
+.stamp.green{--rot:-4deg;border-color:#5da24a;color:#4a7d38;animation-delay:1.5s}
+@keyframes stampFloat{0%,100%{transform:rotate(var(--rot,0deg)) translateY(0)}50%{transform:rotate(var(--rot,0deg)) translateY(-5px)}}
 .band .small{font-size:.88rem;color:#6d584c;font-weight:700}
 .cta-zone{max-width:720px;margin:0 auto;padding:8px 20px 20px;text-align:center}
 .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 18px}
