@@ -179,7 +179,7 @@
   #bigMap .leaflet-tile-pane{transition:filter .45s ease}
   .plgo{background:none;border:none;font:inherit;color:#1a6fb5;cursor:pointer;padding:0;text-decoration:underline}
   #parkStage{position:relative;height:320px;border-radius:18px;overflow:hidden;background:#a9d18e url('park-bg.jpg') center 45%/cover no-repeat;margin:0 0 10px}
-  #parkFigs{position:absolute;left:0;right:0;bottom:8px;display:flex;flex-wrap:nowrap;gap:4px;justify-content:center;align-items:flex-end;padding:0 10px}
+  #parkFigs{position:absolute;inset:0}
   .parkFig{background:none;border:none;cursor:pointer;text-align:center;padding:0;flex:0 1 auto;min-width:0}
   .parkFig img{height:104px;max-width:100%;filter:drop-shadow(0 3px 3px rgba(60,50,20,.3))}
   .parkFig span{display:block;font-size:11px;background:rgba(255,253,248,.92);border:1px solid #e3d5b5;border-radius:999px;padding:1px 8px;margin:2px auto 0;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -190,6 +190,23 @@
   #parkBubble:after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);border:7px solid transparent;border-top-color:rgba(255,255,255,.94);border-bottom:0}
   #parkCatsLayer{position:absolute;inset:0;pointer-events:none}
   @media (max-width:560px){ .parkFig img{height:74px !important} #parkStage{height:290px} }
+  .stage.parkmode #panorama{visibility:hidden}
+  .stage.parkmode #meAv,.stage.parkmode #othersAv,.stage.parkmode #sceneSns,.stage.parkmode #fxLayer{display:none !important}
+  #parkStage.inview{position:absolute;inset:0;height:auto;z-index:4;border-radius:0}
+  #parkStage.inview #parkBubble{top:54px}
+  .pFig{position:absolute;transform:translateX(-50%);background:none;border:0;padding:0;font-family:inherit;cursor:pointer}
+  .pFig img{height:108px;display:block;margin:0 auto;filter:drop-shadow(0 3px 3px rgba(60,50,20,.3));transform-origin:50% 100%;animation:avidle 3.2s ease-in-out infinite}
+  .pFig .tag,.pMe .tag{display:block;font-size:11px;background:rgba(255,253,248,.92);border:1px solid #e3d5b5;border-radius:999px;padding:1px 8px;margin:2px auto 0;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+  .pMe{position:absolute;transform:translateX(-50%);transition:left 1s ease,bottom 1s ease}
+  .pMe img{height:112px;display:block;margin:0 auto;filter:drop-shadow(0 3px 3px rgba(60,50,20,.35));transform-origin:50% 100%;animation:avidle 3.2s ease-in-out infinite}
+  .pMe.walking img{animation:avbob .45s ease-in-out infinite}
+  #parkMeBubble{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);width:max-content;max-width:190px;background:rgba(255,255,255,.96);border:1.5px solid #d8c491;border-radius:12px;padding:6px 10px;font-size:12.5px;line-height:1.5;color:#5a4a26;text-align:center;box-shadow:0 3px 10px rgba(90,70,20,.18);display:none;z-index:5}
+  .pCat{position:absolute;transform:translateX(-50%);pointer-events:none}
+  .pCat img{display:block;filter:drop-shadow(0 2px 2px rgba(60,50,20,.3));transform-origin:50% 100%}
+  @keyframes pBreath{from{transform:scale(1)}to{transform:scale(1.045)}}
+  .pCat.breath img{animation:pBreath 3s ease-in-out infinite alternate}
+  .pCat.sway img{animation:avidle 3.8s ease-in-out infinite}
+  @media (max-width:560px){ .pFig img{height:82px} .pMe img{height:86px} }
   #parkCastle{position:absolute;top:2px;right:6px;width:190px}
   #parkCats{position:absolute;left:0;right:0;bottom:10px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;align-items:flex-end;padding:0 14px}
   .parkCat{background:none;border:none;cursor:pointer;text-align:center;padding:0}
@@ -359,7 +376,7 @@
     <div style="padding:0 10px">
       <div id="twNavi"><div id="twNaviMain">行き先を選んでください</div><div id="twNaviSub">下のプルダウンか、地図の名前をタップ</div></div>
       <select id="twDestSel" aria-label="行き先を選ぶ"><option value="">📍 行き先を選ぶ</option></select>
-      <div id="twBar"><p id="twMsg">実際の地図の上を、アバターが道案内で歩きます。着いたら「入る」で、その場所を上のビューで見られます。城山公園は、みんなの広場です（下の場所えらびから）。</p><button class="act" id="twStop" type="button" style="display:none">止まる</button><button class="act" id="twEnter" type="button" disabled>入る（360°で見る）</button></div>
+      <div id="twBar"><p id="twMsg">実際の地図の上を、アバターが道案内で歩きます。着いたら「入る」で、その場所を上のビューで見られます。城山公園は、みんなの広場です。</p><button class="act" id="twStop" type="button" style="display:none">止まる</button><button class="act" id="twEnter" type="button" disabled>入る（360°で見る）</button></div>
     </div>
   </div>
   <style>
@@ -723,8 +740,8 @@ window.__shortName = (id) => SHORT[id] || id;
   placeSel.appendChild(o);
 });
 placeSel.value = "front";
-placeSel.addEventListener("change", () => { if (placeSel.value === "park") { openMap(); setTimeout(() => { if (window.openPlaza) window.openPlaza(); }, 650); } else if (SCENES[placeSel.value]) { stopWalk(); viewer.loadScene(placeSel.value); } });
-document.getElementById("plazaGo").addEventListener("click", () => { openMap(); setTimeout(() => { if (window.openPlaza) window.openPlaza(); }, 650); });
+placeSel.addEventListener("change", () => { if (placeSel.value === "park") { if (window.openPlaza) window.openPlaza(); } else if (SCENES[placeSel.value]) { window.goScene(placeSel.value); } });
+document.getElementById("plazaGo").addEventListener("click", () => { if (window.openPlaza) window.openPlaza(); });
 document.querySelectorAll("#townMap .dot, #miniTownMap .dot").forEach(g => {
   g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); document.querySelector(".stage").scrollIntoView({ behavior:"smooth", block:"center" }); });
   if (g.dataset.scene === "front") { const c = g.querySelector("circle"); c.setAttribute("stroke", "#5d4212"); c.setAttribute("stroke-width", "3"); }
@@ -1069,7 +1086,7 @@ window.setIslandProfile = function(pr) { if (pr && pr.nickname) myProfile.nickna
 const PLACE_LL = { park:[33.84170,132.76510], front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], fuji:[33.84492,132.75328], furumachi:[33.84709,132.75526], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687] };
 window.__youScene = "park";
 window.syncYou = function(id) { if (id) window.__youScene = id; if (window.__youMarker && window.__PLACE_LL) { const home = window.__PLACE_LL[window.__youScene] ? window.__youScene : "front"; window.__youMarker.setLatLng(window.__PLACE_LL[home]); } };
-window.goScene = function(id) { stopWalk(); viewer.loadScene(id); document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "center" }); };
+window.goScene = function(id) { if (window.exitParkView) window.exitParkView(); stopWalk(); viewer.loadScene(id); document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "center" }); };
 const SNS_PATH = {
   instagram: "M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077",
   threads: "M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z",
@@ -1123,24 +1140,52 @@ window.renderParkStage = function(users) {
   let catLayer = document.getElementById("parkCatsLayer");
   if (!catLayer) { catLayer = document.createElement("div"); catLayer.id = "parkCatsLayer"; stage.appendChild(catLayer); }
   if (!catLayer.childElementCount) {
-    [["cat-muse-sit.png", "left:9%;bottom:17%", 36], ["cat-tabby-sit.png", "left:21%;bottom:11%", 34], ["cat-white-sit.png", "left:43%;bottom:10%", 40], ["cat-calico-sit.png", "right:5%;bottom:21%", 32]].forEach((c) => {
-      const im = document.createElement("img"); im.src = c[0]; im.alt = ""; im.style.cssText = "position:absolute;" + c[1]; im.style.height = c[2] + "px"; im.style.filter = "drop-shadow(0 2px 2px rgba(60,50,20,.3))";
-      catLayer.appendChild(im);
+    [["cat-muse-walk.png", "left:9%;bottom:20%", 44, "sway"], ["cat-white-sit.png", "right:10%;bottom:29%", 56, "breath"], ["cat-tabby-sit.png", "left:30%;bottom:26%", 48, "breath"], ["cat-calico-sit.png", "right:26%;bottom:6%", 50, "breath"]].forEach((c, ci) => {
+      const d = document.createElement("div"); d.className = "pCat " + c[3]; d.style.cssText = "position:absolute;" + c[1];
+      d.innerHTML = '<img src="' + c[0] + '" alt="" style="height:' + c[2] + 'px;animation-delay:' + (ci * 0.7) + 's">';
+      catLayer.appendChild(d);
     });
   }
   const figs = document.getElementById("parkFigs"); if (!figs) return;
   figs.innerHTML = "";
+  window.__parkPos = {};
+  const slotR = [[50, 8], [38, 12], [62, 12]];
+  const slotS = [[16, 9], [84, 9], [28, 15], [72, 15]];
   const people = [];
-  (users || []).slice(0, 3).forEach((u) => people.push({ img: u.avaUrl || "av-player.png", name: u.nickname || "島の人", uid: u.uid }));
-  ["av-mahalo.png", "av-yuki.png", "av-elua.png"].forEach((st) => people.push({ img: st, staff: true }));
+  (users || []).slice(0, 3).forEach((u, i) => {
+    let pos = null;
+    const fresh = u.parkAt && u.parkAt.toMillis && (Date.now() - u.parkAt.toMillis() < 20 * 60 * 1000);
+    if (fresh && typeof u.parkX === "number" && typeof u.parkY === "number") pos = parkClamp(u.parkX, u.parkY);
+    people.push({ img: u.avaUrl || "av-player.png", name: u.nickname || "島の人", uid: u.uid, pos: pos || { x: slotR[i][0], y: slotR[i][1] } });
+  });
+  ["av-mahalo.png", "av-yuki.png", "av-elua.png", "av-yuri.png"].forEach((st, i) => people.push({ img: st, staff: true, pos: { x: slotS[i][0], y: slotS[i][1] } }));
   people.forEach((pr, i) => {
-    const b = document.createElement("button"); b.type = "button"; b.className = "parkFig";
-    const h = 92 + ((i * 37) % 3) * 12;
-    b.innerHTML = '<img src="' + pr.img + '" alt="" style="height:' + h + 'px">' + (pr.staff ? "" : '<span>' + String(pr.name).replace(/[<>&"]/g, "") + '</span>');
-    if (!pr.staff) b.addEventListener("click", () => { if (window.__onParkCat) window.__onParkCat(pr.uid, pr.name); });
+    const b = document.createElement("button"); b.type = "button"; b.className = "pFig";
+    b.style.left = pr.pos.x + "%"; b.style.bottom = pr.pos.y + "%"; b.style.zIndex = String(100 - Math.round(pr.pos.y * 2));
+    b.innerHTML = '<img src="' + pr.img + '" alt="" style="animation-delay:' + (i * 0.45) + 's">' + (pr.staff ? "" : '<span class="tag">' + String(pr.name).replace(/[<>&"]/g, "") + '</span>');
+    if (!pr.staff) { window.__parkPos[pr.uid] = pr.pos; b.addEventListener("click", () => { if (window.__onParkCat) window.__onParkCat(pr.uid, pr.name); const tp = window.__parkPos[pr.uid]; if (tp && window.parkMoveTo) window.parkMoveTo(tp.x - 11, tp.y); }); }
     figs.appendChild(b);
   });
+  if (!myParkPos) { const mp = window.__myPark || {}; const px = typeof mp.parkX === "number" ? mp.parkX : 57, py = typeof mp.parkY === "number" ? mp.parkY : 6; myParkPos = parkClamp(px, py); }
+  let mine = document.getElementById("parkMe");
+  if (!mine) { mine = document.createElement("div"); mine.id = "parkMe"; mine.className = "pMe"; mine.innerHTML = '<div id="parkMeBubble"></div><img alt=""><span class="tag"></span>'; stage.appendChild(mine); }
+  mine.style.left = myParkPos.x + "%"; mine.style.bottom = myParkPos.y + "%"; mine.style.zIndex = String(101 - Math.round(myParkPos.y * 2));
+  mine.querySelector("img").src = window.__myAvaUrl || "av-player.png";
+  mine.querySelector(".tag").textContent = (window.__myPark && window.__myPark.nickname) || (window.__loggedIn ? "あなた" : "ゲスト");
+  if (!parkClickBound) { parkClickBound = true;
+    stage.addEventListener("click", (e) => { if (!document.querySelector(".stage.parkmode")) return; if (e.target.closest(".pFig") || e.target.closest(".pMe") || e.target.closest("#parkBubble")) return; const r = stage.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width * 100; const y = (1 - (e.clientY - r.top) / r.height) * 100; if (window.parkMoveTo) window.parkMoveTo(x, y); });
+  }
 };
+let myParkPos = null, parkClickBound = false, parkSyncTO = null;
+function parkClamp(x, y) { return { x: Math.max(5, Math.min(95, x)), y: Math.max(4, Math.min(30, y)) }; }
+window.parkMoveTo = function(x, y) {
+  const p = parkClamp(x, y); myParkPos = p;
+  const mine = document.getElementById("parkMe"); if (!mine) return;
+  mine.style.left = p.x + "%"; mine.style.bottom = p.y + "%"; mine.style.zIndex = String(101 - Math.round(p.y * 2));
+  mine.classList.add("walking"); setTimeout(() => mine.classList.remove("walking"), 1050);
+  if (window.__parkSavePos) { const save = () => window.__parkSavePos(p.x, p.y); save(); clearTimeout(parkSyncTO); parkSyncTO = setTimeout(save, 1100); }
+};
+window.parkSay = function(text) { const b = document.getElementById("parkMeBubble"); if (!b || !text) return; b.textContent = text; b.style.display = "block"; clearTimeout(window.__parkSayTO); window.__parkSayTO = setTimeout(() => { b.style.display = "none"; }, 9000); };
 window.renderParkStage([]);
 (function(){
   const bub = document.getElementById("parkBubble"); if (!bub || !POSTS.length) return;
@@ -1149,10 +1194,27 @@ window.renderParkStage([]);
   show();
   setInterval(() => { const card = document.getElementById("parkTalk"); if (card && card.style.display !== "none") show(); }, 5200);
 })();
-window.openPlaza = function() {
-  const card = document.getElementById("parkTalk");
-  if (card) { card.style.display = ""; card.scrollIntoView({ behavior: "smooth", block: "center" }); }
+window.enterParkView = function() {
+  const st = document.querySelector(".stage"); const ps = document.getElementById("parkStage"); const card = document.getElementById("parkTalk");
+  if (!st || !ps) return;
+  if (!window.__parkView) {
+    window.__parkView = true; st.classList.add("parkmode");
+    st.insertBefore(ps, document.getElementById("chatFeed")); ps.classList.add("inview");
+    const pn = document.getElementById("placeName"); if (pn) pn.textContent = "\u{1F333} 城山公園（みんなの広場）";
+    const eb = document.getElementById("exitBtn"); if (eb) { eb.style.display = "block"; eb.textContent = "出口"; eb.onclick = () => { if (window.goScene) window.goScene("front"); }; }
+    const sel = document.getElementById("placeSel"); if (sel) sel.value = "park";
+  }
+  if (card) card.style.display = "";
+  st.scrollIntoView({ behavior: "smooth", block: "center" });
 };
+window.exitParkView = function() {
+  if (!window.__parkView) return; window.__parkView = false;
+  const st = document.querySelector(".stage"); const ps = document.getElementById("parkStage"); const card = document.getElementById("parkTalk");
+  if (st) st.classList.remove("parkmode");
+  if (ps && card) { ps.classList.remove("inview"); card.insertBefore(ps, document.getElementById("parkFrom")); }
+  if (card) card.style.display = "none";
+};
+window.openPlaza = function() { window.enterParkView(); };
 function openMap() { document.getElementById("bigMapSec").scrollIntoView({ behavior: "smooth" }); setTimeout(() => { if (window.__twInvalidate) window.__twInvalidate(); }, 400); }
 function closeMap() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 document.getElementById("btnMap").addEventListener("click", openMap);
@@ -1171,6 +1233,7 @@ const CAT_TYPES = ["muse", "tabby", "white", "black", "calico"];
 const CAT_KINDS = CAT_TYPES;
 function todayJST() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo" }).format(new Date()); }
 function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; window.__myCat = (profile && profile.cat) || "muse"; window.__loggedIn = !!me; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark();
+  if (!window.__parkLiveOn && db) { window.__parkLiveOn = true; try { onSnapshot(collection(db, "islandUsers"), (snap) => { const us = []; snap.forEach((d) => us.push(Object.assign({ uid: d.id }, d.data()))); const others = us.filter((u) => (!me || u.uid !== me.uid) && !isOutWalking(u)); if (window.renderParkResidents) window.renderParkResidents(others); }, () => {}); } catch (e) {} }
   if (me && profile) {
     $("authState").innerHTML = "";
     const img = document.createElement("img"); img.src = profile.avaUrl || "av-player.png"; img.alt = "";
@@ -1314,6 +1377,8 @@ $("talkSend").addEventListener("click", async () => {
 });
 async function renderPark() {
   window.__youUid = me ? me.uid : null;
+  window.__myPark = profile ? { nickname: profile.nickname || "", parkX: profile.parkX, parkY: profile.parkY } : null;
+  window.__parkSavePos = function(x, y) { if (me && db) setDoc(doc(db, "islandUsers", me.uid), { parkX: x, parkY: y, parkAt: serverTimestamp() }, { merge: true }).catch(() => {}); };
   if (window.syncYou) window.syncYou(null);
   try {
     const users = await fetchUsers(true);
@@ -1347,7 +1412,7 @@ $("parkSend").addEventListener("click", async () => {
   try {
     await addDoc(collection(db, "parkNotes"), { toUid: parkTarget.uid, toName: parkTarget.name, fromName, text, ts: serverTimestamp() });
     $("parkText").value = "";
-    msg.textContent = parkTarget.name + "さんに残しました 🌸";
+    msg.textContent = parkTarget.name + "さんに残しました 🌸"; if (window.parkSay) window.parkSay(text);
   } catch (e) { msg.textContent = "送れませんでした"; }
 });
 /* ===== みんなのチャット ===== */
@@ -1432,13 +1497,13 @@ $("btnProfSave").addEventListener("click", async () => {
 (function(){
   const twMapEl = document.getElementById("bigMap");
   if (!twMapEl || typeof L === "undefined") return;
-  const TW_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], fuji:[33.84492,132.75328], furumachi:[33.84709,132.75526], kayamachi:[33.84556,132.75687] };
-  const TW_NAME = { front:"MAHALOビル", jinja:"阿沼美神社", koshin:"庚申庵", yaoya:"丸五青果", tamago:"平野鶏卵", pharmacy:"レデイ薬局", fuji:"フジグラン", furumachi:"古町駅", kayamachi:"萱町商店街" };
-  const TW_EMOJI = { front:"🏢", jinja:"⛩", koshin:"🏡", yaoya:"🥬", tamago:"🥚", pharmacy:"💊", fuji:"🛒", furumachi:"🚃", kayamachi:"🏮" };
-  const TW_DOOR = { front:[33.84552,132.75547], jinja:[33.84598,132.75641], koshin:[33.84385,132.75470], yaoya:[33.84628,132.75668], tamago:[33.84696,132.75666], pharmacy:[33.84510,132.75520], fuji:[33.84470,132.75330], furumachi:[33.84700,132.75530], kayamachi:[33.84556,132.75687] };
+  const TW_LL = { front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], fuji:[33.84492,132.75328], furumachi:[33.84709,132.75526], kayamachi:[33.84556,132.75687], park:[33.84170,132.76510] };
+  const TW_NAME = { front:"MAHALOビル", jinja:"阿沼美神社", koshin:"庚申庵", yaoya:"丸五青果", tamago:"平野鶏卵", pharmacy:"レデイ薬局", fuji:"フジグラン", furumachi:"古町駅", kayamachi:"萱町商店街", park:"城山公園" };
+  const TW_EMOJI = { front:"🏢", jinja:"⛩", koshin:"🏡", yaoya:"🥬", tamago:"🥚", pharmacy:"💊", fuji:"🛒", furumachi:"🚃", kayamachi:"🏮", park:"🌳" };
+  const TW_DOOR = { front:[33.84552,132.75547], jinja:[33.84598,132.75641], koshin:[33.84385,132.75470], yaoya:[33.84628,132.75668], tamago:[33.84696,132.75666], pharmacy:[33.84510,132.75520], fuji:[33.84470,132.75330], furumachi:[33.84700,132.75530], kayamachi:[33.84556,132.75687], park:[33.84170,132.76510] };
   const twMsg = document.getElementById("twMsg"), twEnter = document.getElementById("twEnter"), twStop = document.getElementById("twStop");
   const twNaviMain = document.getElementById("twNaviMain"), twNaviSub = document.getElementById("twNaviSub");
-  const twMap = L.map("bigMap", { scrollWheelZoom: false, minZoom: 15, maxBounds: [[33.8415,132.7505],[33.8495,132.7605]], maxBoundsViscosity: 1 }).setView([33.84552, 132.75547], 17);
+  const twMap = L.map("bigMap", { scrollWheelZoom: false, minZoom: 14, maxBounds: [[33.8385,132.7495],[33.8505,132.7685]], maxBoundsViscosity: 1 }).setView([33.84552, 132.75547], 17);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap contributors" }).addTo(twMap);
   const twLine = L.polyline([], { color: "#0068B7", weight: 5, opacity: .85, dashArray: "1 7", lineCap: "round" }).addTo(twMap);
   const twOv = L.imageOverlay("map-island.jpg", [[33.8416, 132.7502], [33.8482, 132.7622]], { opacity: 0, interactive: false, className: "island-ov" }).addTo(twMap);
@@ -1477,9 +1542,9 @@ $("btnProfSave").addEventListener("click", async () => {
     twStop.style.display = "none"; twLine.setLatLngs([]);
     if (placeId){ twAtPlace = placeId; twEnter.disabled = false;
       twNaviMain.textContent = "📍 " + TW_NAME[placeId] + " に着きました";
-      twNaviSub.textContent = "上のビューも、その場所に切り替わりました";
       twMsg.textContent = "";
-      if (window.goScene) window.goScene(placeId); }
+      if (placeId === "park"){ twNaviSub.textContent = "みんなの広場を開きました"; setTimeout(() => { if (window.openPlaza) window.openPlaza(); }, 500); }
+      else { twNaviSub.textContent = "上のビューも、その場所に切り替わりました"; if (window.goScene) window.goScene(placeId); } }
   }
   function twStartWalk(route, placeId, distM){
     const seq = ++twSeq;
@@ -1528,7 +1593,7 @@ $("btnProfSave").addEventListener("click", async () => {
     if (best) twGo(best);
     else if (!twWalking) { twNaviMain.textContent = "行き先は下のプルダウンから選んでね"; twNaviSub.textContent = "地図の名前をタップしても行けます"; }
   });
-  twEnter.addEventListener("click", () => { if (twAtPlace && window.goScene) window.goScene(twAtPlace); });
+  twEnter.addEventListener("click", () => { if (twAtPlace === "park"){ if (window.openPlaza) window.openPlaza(); } else if (twAtPlace && window.goScene) window.goScene(twAtPlace); });
 })();
 </script>
 </body>
