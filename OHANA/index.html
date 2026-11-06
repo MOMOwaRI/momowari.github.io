@@ -37,20 +37,13 @@
 </head>
 <body>
 <header class="hero">
-  <p class="kicker">愛媛・松山｜不定期開催</p>
-  <h1>OHANAシェア<span class="star">＊</span>プロジェクト</h1>
-  <p class="tagline">眠っている価値を、必要な場所へ</p>
-  <div class="shapes" aria-hidden="true">
-    <span class="sh sun"></span><span class="sh ring"></span>
-    <span class="sh ast a1">＊</span><span class="sh ast a2">＊</span>
-    <span class="sh tri"></span><span class="sh ring r2"></span>
-    <span class="sh dot d1"></span><span class="sh dot d2"></span>
+  <div class="hero-show" aria-label="OHANAの仲間の顔とことばのスライドショー">
+    <div class="slide"><img src="img-992cf83a89.png" alt="" /><p class="cap cap-title">OHANAシェア＊プロジェクト</p></div>
+    <div class="slide"><img src="img-5fe2f492d4.png" alt="" /><p class="cap">眠っている価値を、必要な場所へ</p></div>
+    <div class="slide"><img src="img-18f35ef8fa.png" alt="" /><p class="cap">100円券でお買い物ができる、選べる物々交換</p></div>
+    <div class="slide"><img src="img-992cf83a89.png" alt="" /><p class="cap">OHANAは「家族・仲間」</p></div>
   </div>
-  <div class="chars">
-    <img class="bob" src="img-992cf83a89.png" alt="" />
-    <img class="bob2" src="img-5fe2f492d4.png" alt="" />
-    <img class="bob3" src="img-18f35ef8fa.png" alt="" />
-  </div>
+  <p class="kicker" style="margin-top:14px">愛媛・松山｜不定期開催</p>
 </header>
 
 <div class="wave-sep" aria-hidden="true"><svg viewBox="0 0 1440 56" preserveAspectRatio="none"><path d="M0,30 C240,54 480,6 720,30 C960,54 1200,6 1440,30 L1440,56 L0,56 Z" fill="#fff7ec"/></svg></div>
@@ -134,6 +127,18 @@ footer nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bo
 footer a{color:#fff;font-weight:700}
 .aio{margin:16px auto 8px;font-size:.76rem;color:rgba(255,255,255,.72);text-align:left}
 .aio h2{font-size:.88rem;color:rgba(255,255,255,.85);margin-bottom:6px}
+
+.hero{padding-top:18px}
+.hero-show{position:relative;height:min(78vw,430px);border-radius:26px;overflow:hidden;box-shadow:0 14px 34px rgba(146,84,20,.30);background:#f7ead2}
+.hero-show .slide{position:absolute;inset:0;opacity:0;animation:showFade 16s infinite}
+.hero-show .slide:nth-child(2){animation-delay:4s}
+.hero-show .slide:nth-child(3){animation-delay:8s}
+.hero-show .slide:nth-child(4){animation-delay:12s}
+.hero-show img{width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+.hero-show .cap{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 14px;background:linear-gradient(transparent,rgba(94,48,0,.62));color:#fff;font-weight:900;font-size:1.08rem;text-align:center;line-height:1.5}
+.hero-show .cap-title{font-size:clamp(1.25rem,5.6vw,1.7rem)}
+@keyframes showFade{0%{opacity:0}4%{opacity:1}25%{opacity:1}29%{opacity:0}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){.hero-show .slide{animation:none}.hero-show .slide:first-child{opacity:1}}
 @media (prefers-reduced-motion: reduce){.sh,.chars img,.stamp{animation:none}}
 </style>
 </body>
