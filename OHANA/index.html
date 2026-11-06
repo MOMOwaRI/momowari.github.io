@@ -193,6 +193,13 @@ body{padding-bottom:76px}
 @media (prefers-reduced-motion: reduce){.fade{transition:none}}
 @media (prefers-reduced-motion: reduce){.hero-show .slide{animation:none}.hero-show .slide:first-child{opacity:1}}
 @media (prefers-reduced-motion: reduce){.sh,.chars img,.stamp{animation:none}}
+
+.hero>*{animation:riseIn .9s cubic-bezier(.22,.8,.32,1) both}
+.hero>*:nth-child(2){animation-delay:.18s}
+.hero>*:nth-child(3){animation-delay:.38s}
+.hero>*:nth-child(4){animation-delay:.58s}
+@keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.hero>*{animation:none}}
 </style>
 
 <nav class="sticky-bar" aria-label="固定リンク">
