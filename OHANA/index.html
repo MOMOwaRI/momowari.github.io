@@ -37,6 +37,13 @@
 </head>
 <body>
 <header class="hero">
+  <div class="photo-show" aria-label="OHANAの活動写真のスライドショー">
+    <div class="pslide"><img src="img-b128bd7f79.jpg" alt="" /><p class="pcap pcap-title">OHANAシェア＊プロジェクト</p></div>
+    <div class="pslide"><img src="img-549e7b1d13.jpg" alt="" loading="lazy" /><p class="pcap">眠っている価値を、必要な場所へ</p></div>
+    <div class="pslide"><img src="img-e61a7ccbb5.jpg" alt="" loading="lazy" /><p class="pcap">100円券でお買い物ができる、選べる物々交換</p></div>
+    <div class="pslide"><img src="img-6def2102e7.jpg" alt="" loading="lazy" /><p class="pcap">OHANAは、ハワイの言葉で「家族・仲間」</p></div>
+  </div>
+
   <p class="kicker">愛媛・松山｜不定期開催</p>
   <h1>OHANAシェア<span class="star">＊</span>プロジェクト</h1>
   <p class="tagline">眠っている価値を、必要な場所へ</p>
@@ -200,6 +207,23 @@ body{padding-bottom:76px}
 .hero>*:nth-child(4){animation-delay:.58s}
 @keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.hero>*{animation:none}}
+
+.photo-show{position:relative;height:min(80vw,440px);border-radius:26px;overflow:hidden;background:#f7ead2;margin-bottom:16px}
+.photo-show .pslide{position:absolute;inset:0;opacity:0;animation:photoFade 20s infinite}
+.photo-show .pslide:nth-child(2){animation-delay:5s}
+.photo-show .pslide:nth-child(3){animation-delay:10s}
+.photo-show .pslide:nth-child(4){animation-delay:15s}
+.photo-show img{width:100%;height:100%;object-fit:cover;animation:photoZoom 20s infinite}
+.photo-show .pslide:nth-child(2) img{animation-delay:5s}
+.photo-show .pslide:nth-child(3) img{animation-delay:10s}
+.photo-show .pslide:nth-child(4) img{animation-delay:15s}
+@keyframes photoFade{0%{opacity:0}3%{opacity:1}25%{opacity:1}28%{opacity:0}100%{opacity:0}}
+@keyframes photoZoom{0%{transform:scale(1)}25%{transform:scale(1.05)}28%,100%{transform:scale(1.05)}}
+.photo-show .pcap{position:absolute;left:0;right:0;bottom:0;padding:36px 14px 14px;background:linear-gradient(transparent,rgba(94,48,0,.60));color:#fff;font-weight:900;font-size:1.05rem;text-align:center;line-height:1.5}
+.photo-show .pcap-title{font-size:clamp(1.2rem,5.4vw,1.6rem)}
+.hero>*{animation:none}
+.photo-show{animation:riseIn .9s cubic-bezier(.22,.8,.32,1) both}
+@media (prefers-reduced-motion: reduce){.photo-show .pslide,.photo-show img{animation:none}.photo-show .pslide:first-child{opacity:1}}
 </style>
 
 <nav class="sticky-bar" aria-label="固定リンク">
