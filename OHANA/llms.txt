@@ -1,18 +1,12 @@
 # OHANAシェア＊プロジェクト（LP）
 
-> OHANAシェア＊プロジェクトは、愛媛県松山市のMOMOwaRIが主催する、フリマ型の「選べる物々交換」のプロジェクトです。理念は「眠っている価値を、必要な場所へ」。無料で配布する「OHANA100円券」でお買い物ができ、券は現金に換金できず、お釣りは出ません。受け取ったお店や人が、次に他のお店で使うことで、券が地域を循環します。対象はヒト（できること・得意なこと）、モノ（眠っているモノ）、コト（体験・お店・活動）の順です。
+> OHANAシェア＊プロジェクトは、愛媛県松山市のMOMOwaRIが主催する、フリマ型の「選べる物々交換」のプロジェクトです。理念は「眠っている価値を、必要な場所へ」。OHANAはハワイの言葉で「家族・仲間」の意味です。無料で配布する「OHANA100円券」でお買い物ができ、券は現金に換金できず、お釣りは出ません。受け取ったお店や人が、次に他のお店で使うことで、券が地域を循環します。対象はヒト（できること・得意なこと）、モノ（眠っているモノ）、コト（体験・お店・活動）の順です。
 
-このサイト（https://momowari.github.io/OHANA/）は目的別の案内ページ（LP）群です。全体像・理念・詳しいFAQ・あゆみ・メンバー情報は総合HPにあります。
+このページ（https://momowari.github.io/OHANA/）は、プロジェクトの大枠を伝える1枚のLPです。全体像・理念・ヒトモノコトの詳しい説明・FAQ・あゆみ・メンバー情報・登録は、すべて総合HPにあります。LPは公式HPへ誘導するための入口です。
 
-## LP（目的別の入口）
+## リンク
 
-- [イベントLP](https://momowari.github.io/OHANA/): イベントへの参加・出店の案内。100円券の使い方とお買い物の流れ。
-- [お店の方へ（100円券の循環）](https://momowari.github.io/OHANA/shop.html): 100円券が使えるお店・出店者向けの案内。券が次のお買い物を生み出す仕組み。
-- [探す・登録する（プラットフォーム）](https://momowari.github.io/OHANA/platform.html): ヒトモノコトの紹介ページを探す・無料で登録する入口。紹介ページはAIが無料で作成します。
-- [お店の紹介ページを無料で作ります](https://momowari.github.io/OHANA/shop-page.html): ホームページを持っていない地域のお店・事業者向けの営業入口。掲載はお店の確認・同意後にのみ行います。
-
-## 総合HPと共通基盤
-
+- [LP（このページ）](https://momowari.github.io/OHANA/): 大枠、100円券の流れ、開催の考え方。
 - [総合HP](https://momowari.github.io/OHANA-share/): 全体像・理念・FAQ・あゆみ。
 - [ヒトの一覧](https://momowari.github.io/OHANA-share/hito.html) / [モノの一覧](https://momowari.github.io/OHANA-share/mono.html) / [コトの一覧](https://momowari.github.io/OHANA-share/koto.html)
 - [マイページ（無料メンバー登録）](https://momowari.github.io/OHANA-share/mypage.html)
