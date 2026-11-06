@@ -1186,6 +1186,7 @@ window.parkMoveTo = function(x, y) {
   if (window.__parkSavePos) { const save = () => window.__parkSavePos(p.x, p.y); save(); clearTimeout(parkSyncTO); parkSyncTO = setTimeout(save, 1100); }
 };
 window.parkSay = function(text) { const b = document.getElementById("parkMeBubble"); if (!b || !text) return; b.textContent = text; b.style.display = "block"; clearTimeout(window.__parkSayTO); window.__parkSayTO = setTimeout(() => { b.style.display = "none"; }, 9000); };
+window.__parkRefreshMe = function() { const mine = document.getElementById("parkMe"); if (!mine) return; const im = mine.querySelector("img"); if (im) im.src = window.__myAvaUrl || "av-player.png"; const tg = mine.querySelector(".tag"); if (tg) tg.textContent = (window.__myPark && window.__myPark.nickname) || (window.__loggedIn ? "\u3042\u306a\u305f" : "\u30b2\u30b9\u30c8"); };
 window.renderParkStage([]);
 (function(){
   const bub = document.getElementById("parkBubble"); if (!bub || !POSTS.length) return;
@@ -1205,6 +1206,8 @@ window.enterParkView = function() {
     const sel = document.getElementById("placeSel"); if (sel) sel.value = "park";
   }
   if (card) card.style.display = "";
+  try { if (window.renderParkStage) window.renderParkStage(window.__parkUsers || []); } catch (e) {}
+  if (window.__parkRefreshMe) window.__parkRefreshMe();
   st.scrollIntoView({ behavior: "smooth", block: "center" });
 };
 window.exitParkView = function() {
@@ -1232,7 +1235,7 @@ let myPhotoUrl = null;
 const CAT_TYPES = ["muse", "tabby", "white", "black", "calico"];
 const CAT_KINDS = CAT_TYPES;
 function todayJST() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo" }).format(new Date()); }
-function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; window.__myCat = (profile && profile.cat) || "muse"; window.__loggedIn = !!me; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark();
+function renderAuth() { window.__myAvaUrl = (profile && profile.avaUrl) || null; window.__myCat = (profile && profile.cat) || "muse"; window.__loggedIn = !!me; refreshEditBtn(); loadEd(); if (typeof renderPark === "function") renderPark(); if (window.__parkRefreshMe) window.__parkRefreshMe();
   if (!window.__parkLiveOn && db) { window.__parkLiveOn = true; try { onSnapshot(collection(db, "islandUsers"), (snap) => { const us = []; snap.forEach((d) => us.push(Object.assign({ uid: d.id }, d.data()))); const others = us.filter((u) => (!me || u.uid !== me.uid) && !isOutWalking(u)); if (window.renderParkResidents) window.renderParkResidents(others); }, () => {}); } catch (e) {} }
   if (me && profile) {
     $("authState").innerHTML = "";
