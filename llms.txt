@@ -1,0 +1,29 @@
+# MOMOwaRI
+
+> 愛媛県松山市味酒町3-2-29のMAHALOビルを拠点にするMOMOwaRIの案内ページ。美容室・まつげパーマ・雑貨と古着・選べる物々交換の活動をまとめています。
+
+## 活動とページ
+
+- [OHANAシェア＊プロジェクト](https://momowari.github.io/OHANA-share/): 100円券でお買い物ができる、フリマ型の選べる物々交換
+- [OHANAメンバー募集・マイページ](https://momowari.github.io/OHANA-share/login.html): AIがあなたの紹介ページを無料で作ります
+- [OHANAのあゆみ](https://momowari.github.io/OHANA-share/ayumi.html): 2018年の始まりから今の形まで、考え方とnote記事の年表
+- [OHANA島](https://momowari.github.io/ohana-jima/): もうひとつの四国を歩いて巡るメタバース
+- [Lea Mahalo](https://momowari.github.io/Lea-Mahalo/): 美容師セレクトの雑貨＆古着（MAHALOビル1階）
+- [Eyes MAHALO](https://momowari.github.io/Eyes-MAHALO/): まつげパーマ専門・歴15年以上（MAHALOビル1階）
+- [hair ID salon MAHALO](https://momowari.github.io/MAHALO/): 美容室（MAHALOビル2階）
+
+## お店の情報
+
+- 所在地: 愛媛県松山市味酒町3-2-29 MAHALOビル
+- 2階: hair ID salon MAHALO（美容室）
+- 1階: elua Mahalo（女性限定美容室）、Eyes MAHALO（まつげパーマ専門）、Lea Mahalo（雑貨＆古着）
+- 駐車場あり
+
+## リンク
+
+- [lit.link](https://lit.link/momowari): リンク集
+- [note](https://note.com/momo2025): 活動の記録
+- [noteリンク集（全記事案内所）](https://note.com/momo2025/n/nead55ed5b6f4)
+- Instagram: @momowari / @mahalo.hair
+- Threads: @momowari
+- YouTube: @00LeaMahalo00
