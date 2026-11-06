@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ヒトモノコトを探す・登録する｜OHANAシェア＊プロジェクト</title>
+<link rel="canonical" href="https://momowari.github.io/OHANA/platform.html" />
+<meta property="og:image" content="https://momowari.github.io/OHANA/ogp.png" />
+<meta property="og:url" content="https://momowari.github.io/OHANA/platform.html" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"OHANA ヒトモノコトの紹介ページ無料作成・登録","provider":{"@type":"Organization","name":"OHANAシェア＊プロジェクト"},"areaServed":"愛媛県松山市","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"OHANAシェア＊プロジェクトのヒト・モノ・コトの紹介ページをAIが無料で作成する登録案内。探す・登録する入口。"}
+</script>
+<meta name="description" content="地域のヒトモノコトの紹介ページをつなぐ、OHANAのプラットフォームの簡易案内。AIが紹介ページを無料で作ります。" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="ヒトモノコトを探す・登録する｜OHANAシェア＊プロジェクト" />
+<meta property="og:description" content="地域のヒトモノコトの紹介ページをつなぐ、OHANAのプラットフォームの簡易案内。AIが紹介ページを無料で作ります。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
+<style>
+:root{--bg:#fff8ef;--card:#fff;--ink:#3d2b1f;--soft:#6f5747;--line:#f0d9c0;--accent:#e07b24;--deep:#7c4a16;--green:#5d7d3a;--green-soft:#eef3e2;--shadow:0 2px 10px rgba(146,84,20,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",sans-serif;font-size:16px;line-height:1.85;overflow-x:hidden}
+h1,h2,h3,.mincho{font-family:"Shippori Mincho B1","Hiragino Mincho ProN",serif}
+img{max-width:100%;display:block}a{color:var(--deep)}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px 90px}
+section{margin-top:48px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-head.dot{width:34px;height:34px;flex:none;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:900}
+.sec-head h2{font-size:1.3rem;margin:0;font-weight:900}
+.sec-lead{color:var(--soft);font-size:.94rem;margin:0 0 16px}
+/* hero */
+.hero{padding:26px 0 4px;text-align:center}
+.hero-kicker{display:inline-block;padding:2px 14px;border-radius:999px;background:#fdeeda;color:var(--deep);font-size:.82rem;font-weight:700;letter-spacing:.06em}
+.hero h1{font-size:clamp(1.5rem,6vw,2.2rem);line-height:1.4;margin:14px 0 6px;font-weight:900}
+.hero h1.star{color:var(--accent)}
+.tagline{font-size:1.12rem;font-weight:700;color:var(--green);margin:0 0 14px}
+.hero-photo{margin:14px auto;max-width:520px}
+.hero-photo img{width:100%;height:auto;border-radius:150px 150px 22px 22px;border:1px solid var(--line);box-shadow:0 14px 34px rgba(146,84,20,.20)}
+.hero-ticket{position:relative;max-width:34em;margin:18px auto 10px;background:var(--accent);color:#fff;border-radius:26px;padding:20px 22px 16px;box-shadow:0 12px 26px rgba(224,123,36,.38)}
+.hero-ticket::before{content:"";position:absolute;inset:6px;border:2.5px dashed rgba(255,255,255,.85);border-radius:20px;pointer-events:none}
+.hero-ticket .free{display:block;font-family:"Shippori Mincho B1",serif;font-weight:900;font-size:clamp(1.3rem,5.4vw,1.65rem);line-height:1.45}
+.hero-ticket .note{display:block;font-size:.82rem;color:#ffedd5}
+.hero-sub{color:var(--soft);font-size:.95rem;margin:0 auto;max-width:34em}
+.cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0 4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:10px 26px;border-radius:999px;font-size:1rem;font-weight:700;text-decoration:none;border:none}
+.btn-line{background:#06c755;color:#fff;box-shadow:0 4px 14px rgba(6,199,85,.35)}
+.btn-ghost{background:var(--card);color:var(--deep);border:2px solid var(--accent)}
+.btn-plain{background:var(--green);color:#fff}
+/* steps */
+.flow-lead{font-size:1.02rem;font-weight:700;text-align:center;margin:0 0 18px}
+.flow-track{margin:0 0 8px}
+.flow-track-head{display:flex;align-items:center;gap:10px;margin:0 2px 10px}
+.ft-badge{flex:none;background:var(--green);color:#fff;font-weight:900;font-size:.82rem;border-radius:999px;padding:4px 14px}
+.flow-track-head.shop .ft-badge{background:var(--accent)}
+.flow-track-head h3{margin:0;font-size:1.08rem}
+.step-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:520px){.step-cards{grid-template-columns:1fr;gap:8px}}
+.step-card{position:relative;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:18px 14px 16px;text-align:center;box-shadow:var(--shadow)}
+.step-card::after{content:"›";position:absolute;right:-4px;top:50%;transform:translateY(-50%);font-size:1.6rem;font-weight:900;color:var(--accent);opacity:.55}
+.step-card:last-child::after{content:""}
+@media(max-width:520px){.step-card::after{content:"⌄";right:auto;left:50%;top:auto;bottom:-9px;transform:translateX(-50%)}}
+.sc-step{display:block;font-family:"Shippori Mincho B1",serif;font-weight:900;letter-spacing:.14em;font-size:.78rem;color:var(--accent)}
+.sell.sc-step{color:var(--green)}
+.sc-ico{font-size:2.3rem;line-height:1.25;margin:6px 0 4px}
+.sc-title{font-family:"Shippori Mincho B1",serif;font-weight:900;font-size:1.02rem;line-height:1.5}
+.sc-text{font-size:.83rem;color:var(--soft);line-height:1.65;margin:6px 0 0}
+.sc-free{display:inline-block;background:var(--accent);color:#fff;font-weight:900;font-size:.75rem;border-radius:999px;padding:1px 10px;margin-left:6px;vertical-align:2px}
+.flow-cta{display:flex;justify-content:center;margin:14px 0 22px}
+/* pillars / cards */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:520px){.pillars{gap:8px}}
+.pillar{border-radius:16px;padding:18px 10px 14px;text-align:center;text-decoration:none;color:var(--ink);display:block;border:1px solid var(--line)}
+.pillar.p-ico{font-size:1.7rem}
+.pillar.p-name{font-family:"Shippori Mincho B1",serif;font-weight:900;font-size:1.15rem;margin:4px 0 2px}
+.pillar.p-desc{font-size:.78rem;color:var(--soft);line-height:1.55}
+.pillar.hito{background:#fdf0f4}.pillar.mono{background:#eef7f0}.pillar.koto{background:#fdf6da}
+.pillar.p-go{font-size:.78rem;font-weight:700;color:var(--deep)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.card p{margin:0 0 12px}.card p:last-child{margin-bottom:0}
+.ticket-rules{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}
+.trule{display:inline-flex;gap:7px;border-radius:999px;padding:7px 14px;font-size:.92rem;font-weight:700;border:1.5px solid}
+.trule.ok{background:#eef7ee;border-color:#7fb069;color:#33691e}
+.trule.ng{background:#faf3ec;border-color:#d9b48f;color:#8a5a18}
+.notice{background:var(--green-soft);border:1.5px dashed var(--green);border-radius:16px;padding:18px 20px}
+.notice h3{margin:0 0 6px;color:var(--green)}.notice p{margin:0}
+/* photos */
+.film{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.film-track{display:flex;width:max-content;animation:filmScroll 30s linear infinite}
+.film:hover.film-track{animation-play-state:paused}
+@keyframes filmScroll{to{transform:translateX(-50%)}}
+.film-set{display:flex;gap:16px;padding-right:16px}
+.film-item{flex:none;margin:0;text-align:center}
+.film-item img{width:150px;height:190px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
+.film-item figcaption{font-size:.72rem;color:var(--soft);margin-top:6px}
+/* faq / aio */
+.faq-item{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden}
+.faq-item summary{list-style:none;cursor:pointer;padding:16px 18px;font-family:"Shippori Mincho B1",serif;font-weight:700}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-a{padding:0 18px 18px;color:var(--ink)}.faq-a p{margin:0}
+.aio{background:#fffdf7;border:1px dashed var(--line);border-radius:14px;padding:18px 20px}
+.aio h2{font-size:1.05rem;margin:0 0 10px;color:var(--soft)}
+.aio p{margin:0 0 10px;font-size:.88rem;line-height:1.85;color:var(--soft)}
+.aio p:last-child{margin-bottom:0}
+.link-list{display:flex;flex-direction:column;gap:10px}
+.link-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow)}
+.link-item.l-name{font-weight:700}.link-item.l-desc{font-size:.82rem;color:var(--soft)}
+.link-item.l-arrow{margin-left:auto;color:var(--accent);font-weight:900}
+.sec-chara{display:block;width:120px;height:auto;margin:10px auto 0}
+.pillar .p-ico img{width:52px;height:52px;margin:0 auto}
+.chara{display:flex;align-items:center;gap:14px;margin-top:18px}
+.chara img{width:88px;height:auto;flex:none}
+
+/* shop merits */
+.merit-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+@media(max-width:520px){.merit-flow{grid-template-columns:repeat(2,1fr)}}
+.mf{position:relative;background:#fffdf7;border:1.5px solid var(--line);border-radius:14px;padding:12px 8px 10px;text-align:center}
+.mf .mf-ico{font-size:1.7rem;line-height:1.3}
+.mf .mf-t{font-weight:700;font-size:.85rem;line-height:1.5}
+.mf::after{content:"›";position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-weight:900;color:var(--accent);opacity:.6;z-index:1}
+.mf:last-child::after{content:""}
+@media(max-width:520px){.mf::after{content:""}}
+.merits{list-style:none;margin:10px 0;padding:0;display:grid;gap:7px}
+@media(min-width:600px){.merits{grid-template-columns:1fr 1fr}}
+.merits li{background:var(--green-soft);border-radius:999px;padding:7px 14px;font-size:.88rem;font-weight:500}
+.merits li::before{content:"✓ ";color:var(--green);font-weight:900}
+.shop-note{font-size:.8rem;color:var(--soft);margin:10px 0 0}
+.shop-lead{font-family:"Shippori Mincho B1",serif;font-weight:900;font-size:1.12rem;color:var(--green);margin:0 0 8px}
+footer{text-align:center;margin-top:54px;color:var(--soft);font-size:.9rem}
+footer img{width:72px;margin:0 auto 8px}
+
+.wave-wrap{line-height:0;margin-top:8px}
+.wave-wrap svg{width:100%;height:52px;display:block}
+.wave-move{animation:waveSlide 10s linear infinite}
+@keyframes waveSlide{from{transform:translateX(0)}to{transform:translateX(-1440px)}}
+.floaty{animation:floaty 5.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p style="margin:16px 0 0"><a href="index.html">← OHANA LP トップへ</a></p>
+
+<header class="hero">
+<span class="hero-kicker">探す・登録する方へ</span>
+<h1>ヒトモノコトの<br />紹介ページ</h1>
+<p class="hero-sub">AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。ここでは入口と流れだけを簡易に。</p>
+<div class="chara"><img src="img-992cf83a89.png" alt="" width="489" height="680" /><p style="margin:0;text-align:left;font-size:.9rem">SNSだけでは流れてしまう情報も、<br />自分のページとして残せます。</p></div>
+</header>
+<div class="wave-wrap" aria-hidden="true"><svg viewBox="0 0 2880 60" preserveAspectRatio="none"><g class="wave-move"><path d="M0,34 C240,58 480,8 720,34 C960,58 1200,8 1440,34 C1680,58 1920,8 2160,34 C2400,58 2640,8 2880,34 L2880,60 L0,60 Z" fill="#7fc4bd" opacity="0.45"/><path d="M0,42 C240,20 480,52 720,42 C960,20 1200,52 1440,42 C1680,20 1920,52 2160,42 C2400,20 2640,52 2880,42 L2880,60 L0,60 Z" fill="#f6b352" opacity="0.4"/></g></svg></div>
+<section aria-labelledby="pillar-h">
+<div class="sec-head"><span class="dot">✿</span><h2 id="pillar-h">ヒトモノコトを探す</h2></div>
+<p class="sec-lead">交換の対象は、ヒトモノコト。タップすると、今あるOHANAのページへそのまま行けます。</p>
+<div class="pillars">
+<a class="pillar hito" href="https://momowari.github.io/OHANA-share/hito.html"><div class="p-ico"><img src="pin-hito.png" alt="ヒトのピン。ピンクのみかんのイラスト" width="52" height="52" loading="lazy" /></div><div class="p-name">ヒト</div><div class="p-desc">できること・<br />得意なこと</div><div class="p-go">一覧を見る ›</div></a>
+<a class="pillar mono" href="https://momowari.github.io/OHANA-share/mono.html"><div class="p-ico"><img src="pin-mono.png" alt="モノのピン。緑のみかんのイラスト" width="52" height="52" loading="lazy" /></div><div class="p-name">モノ</div><div class="p-desc">眠っている<br />モノたち</div><div class="p-go">一覧を見る ›</div></a>
+<a class="pillar koto" href="https://momowari.github.io/OHANA-share/koto.html"><div class="p-ico"><img src="pin-koto.png" alt="コトのピン。黄色のみかんのイラスト" width="52" height="52" loading="lazy" /></div><div class="p-name">コト</div><div class="p-desc">体験・お店・<br />活動</div><div class="p-go">一覧を見る ›</div></a>
+</div>
+<div class="cta">
+<a class="btn btn-plain" href="https://momowari.github.io/OHANA-share/mypage.html" target="_blank" rel="noopener">無料メンバー登録・マイページへ</a>
+<a class="btn btn-ghost" href="https://photos.app.goo.gl/SuRSoERZqBUGpzWB7" target="_blank" rel="noopener">モノの写真を送る（受付箱）</a>
+</div>
+<div class="chara"><img src="img-0c9469eeb9.png" alt="OHANAの仲間キャラクター。フリマのカゴを持つ、みかん柄のワンピースの女の子" width="800" height="1112" loading="lazy" /><p style="margin:0;font-size:.9rem">カゴいっぱいに、眠っている価値を。<br />あなたのモノも、誰かの「ほしい」かもしれません。</p></div>
+</section>
+<section aria-labelledby="reg-h">
+<div class="sec-head"><span class="dot">登</span><h2 id="reg-h">登録の流れ</h2></div>
+<p class="flow-lead">3ステップだけ。</p>
+<div class="step-cards">
+<div class="step-card"><span class="sc-step">STEP 1</span><div class="sc-ico" aria-hidden="true">🔑</div><div class="sc-title">マイページを<br />開く</div><p class="sc-text">Googleでログインするだけ。<br />メンバー登録は無料です。</p></div>
+<div class="step-card"><span class="sc-step">STEP 2</span><div class="sc-ico" aria-hidden="true">📷</div><div class="sc-title">写真や情報を<br />送る</div><p class="sc-text">モノは写真受付箱へ写真を<br />送るだけでも始められます。</p></div>
+<div class="step-card"><span class="sc-step">STEP 3</span><div class="sc-ico" aria-hidden="true">📄</div><div class="sc-title">紹介ページが<br />できる</div><p class="sc-text">AIがページを作ります。<br />検索やAIに見つけてもらう助けに。</p></div>
+</div>
+<div class="flow-cta"><a class="btn btn-plain" href="https://momowari.github.io/OHANA-share/mypage.html" target="_blank" rel="noopener">無料メンバー登録・マイページへ</a></div>
+</section>
+<section class="aio" aria-labelledby="plat-aio-h">
+<h2 id="plat-aio-h">プラットフォームについて（文章版）</h2>
+<p>OHANAシェア＊プロジェクトのプラットフォームは、地域のヒトモノコトの紹介ページをつなぐ場所です。対象はヒトモノコトの順で、ヒトはできることや得意なこと、モノは眠っているモノ、コトは体験やお店・活動です。OHANAメンバーになると、AIがあなたの紹介ページを無料で作ります。公式HPのように使えます。一覧とメンバー紹介の詳しい内容は、公式HP（https://momowari.github.io/OHANA-share/）にあります。モノの登録は、Googleフォトの写真受付箱に写真を送るだけでも始められます。掲載の条件は、OHANA100円券が使えるお店・活動にしていただくことです。</p>
+</section>
+
+<footer>
+<img src="img-17e60db9fd.png" alt="" width="900" height="1251" />
+<p style="margin-bottom:10px"><a href="shop-page.html" style="font-weight:700">お店の紹介ページを無料で作る ›</a></p>
+<p>OHANAシェア＊プロジェクト<br />主催：MOMOwaRI（松山市）</p>
+<p><a href="index.html">LPトップ</a>｜<a href="https://momowari.github.io/OHANA-share/">公式HPで詳しく見る</a></p>
+</footer>
+</div>
+</body>
+</html>

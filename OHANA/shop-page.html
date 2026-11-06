@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>お店の紹介ページを無料で作ります｜OHANAシェア＊プロジェクト</title>
+<link rel="canonical" href="https://momowari.github.io/OHANA/shop-page.html" />
+<meta property="og:url" content="https://momowari.github.io/OHANA/shop-page.html" />
+<meta name="description" content="ホームページがなくても大丈夫。地域のお店・事業者の紹介ページを無料で作成します。固有のURLで公開し、検索から見つけてもらえる可能性を広げます。掲載はお店の確認・同意のあとだけ。OHANAシェア＊プロジェクト（松山市）。" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="OHANAシェア＊プロジェクト" />
+<meta property="og:title" content="お店の紹介ページを無料で作ります｜OHANAシェア＊プロジェクト" />
+<meta property="og:description" content="ホームページがなくても大丈夫。お店・商品・サービスの紹介ページを無料で作成します。" />
+<meta property="og:image" content="ogp.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"OHANA お店の紹介ページ無料作成","provider":{"@type":"Organization","name":"OHANAシェア＊プロジェクト","founder":{"@type":"Person","name":"MOMOwaRI"}},"areaServed":"愛媛県松山市","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"ホームページを持っていない地域のお店・事業者向けに、店舗情報の紹介ページを無料で作成し、固有URLで公開する取り組み。掲載は店舗の確認・同意後に行う。"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"本当に無料ですか？","acceptedAnswer":{"@type":"Answer","text":"はい。紹介ページの作成と掲載は無料です。作る作業はAIの仕組みを使っているため費用がかかっておらず、売り込みのための無料でもありません。地域のお店や活動を紹介し合う輪を広げることが目的です。"}},
+{"@type":"Question","name":"ホームページがあるお店でも申し込めますか？","acceptedAnswer":{"@type":"Answer","text":"はい。既存のホームページへのリンクを載せて、検索からの入口を増やす使い方もできます。"}},
+{"@type":"Question","name":"写真はスマホで撮ったもので大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"大丈夫です。お店の写真を送っていただく形が基本です。写真や文章は、お店の許可を得たものだけを使います。"}},
+{"@type":"Question","name":"確認する前に公開されることはありますか？","acceptedAnswer":{"@type":"Answer","text":"ありません。下書きをまずお店に見ていただき、直しを反映して、掲載の同意をいただいてから公開します。"}},
+{"@type":"Question","name":"掲載をやめたくなったら？","acceptedAnswer":{"@type":"Answer","text":"いつでも取り下げできます。更新も、マイページからお店自身で行えます。"}}]}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q979YZ2WCW');</script>
+<style>
+:root{--ink:#3d2c23;--ink2:#6d584c;--cream:#fdf8ef;--paper:#fffdf8;--orange:#ef8f1c;--orange-d:#d97c0d;--green:#5da24a;--green-bg:#eef7e6;--line:#efdfc8;--radius:18px;--shadow:0 4px 18px rgba(120,80,20,.10)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho","YuMincho",serif;background:var(--cream);color:var(--ink);line-height:1.85;font-size:16px}
+img{max-width:100%;display:block}
+a{color:var(--orange-d)}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(253,248,239,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:720px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:700;font-size:.98rem}
+.brand img{width:30px;height:30px}
+.top-cta{margin-left:auto;display:flex;gap:8px}
+.btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;padding:10px 20px;font-size:.95rem;text-align:center;transition:transform .15s}
+.btn:active{transform:scale(.98)}
+.btn-main{background:var(--orange);color:#fff;box-shadow:0 4px 14px rgba(239,143,28,.35)}
+.btn-sub{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn-green{background:var(--green);color:#fff;box-shadow:0 4px 14px rgba(93,162,74,.3)}
+.btn-sm{padding:7px 14px;font-size:.85rem}
+.context-strip{background:#fff;border-bottom:1px solid var(--line);font-size:.83rem;color:var(--ink2);text-align:center;padding:7px 14px}
+.context-strip a{font-weight:700}
+.hero{padding:34px 0 8px;text-align:center}
+.hero .kicker{display:inline-block;background:var(--green-bg);color:#3c7031;font-weight:700;font-size:.85rem;padding:5px 16px;border-radius:999px;margin-bottom:14px}
+.hero h1{font-size:1.72rem;line-height:1.45;letter-spacing:.01em}
+.hero h1 .hl{background:linear-gradient(transparent 62%,#ffe3ae 62%)}
+.hero .sub{margin:16px auto 6px;max-width:560px;color:var(--ink2);font-size:1.02rem}
+.hero-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0 6px}
+.hero-note{font-size:.83rem;color:var(--ink2)}
+.hero-img{max-width:400px;margin:14px auto 0}
+section{padding:30px 0 6px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-head .dot{flex:none;width:34px;height:34px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.sec-head h2{font-size:1.28rem}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+.grid3{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:560px){.grid3{grid-template-columns:repeat(3,1fr)}}
+.mini{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+.mini h3{font-size:1rem;margin-bottom:6px}
+.mini p{font-size:.88rem;color:var(--ink2)}
+.mock{border:2px solid #d9c7a8;border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+.mock-bar{background:#f3e9d7;padding:8px 12px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--line)}
+.mock-bar i{width:11px;height:11px;border-radius:50%;background:#e8b4a0;display:inline-block}
+.mock-bar i:nth-child(2){background:#f2cf8b}.mock-bar i:nth-child(3){background:#a9cf9a}
+.mock-url{margin-left:8px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:.72rem;color:var(--ink2);padding:2px 12px;font-family:sans-serif}
+.mock-body img{width:100%;height:190px;object-fit:cover}
+.mock-txt{padding:14px 16px}
+.mock-txt .m-name{font-weight:700;font-size:1.08rem}
+.mock-line{height:9px;border-radius:99px;background:#f0e4cf;margin-top:9px}
+.mock-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.mock-tags span{font-size:.72rem;background:var(--green-bg);color:#3c7031;border-radius:999px;padding:3px 10px;font-weight:700}
+.caption{font-size:.85rem;color:var(--ink2);margin-top:10px;text-align:center}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.9rem;font-weight:700}
+.flow{display:grid;gap:12px}
+.step{display:flex;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;align-items:flex-start}
+.step .num{flex:none;width:36px;height:36px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:sans-serif}
+.step h3{font-size:1rem}
+.step p{font-size:.88rem;color:var(--ink2)}
+details.faq{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+details.faq summary{font-weight:700;cursor:pointer}
+details.faq p{font-size:.9rem;color:var(--ink2);margin-top:8px}
+.guard{background:#fdf3e3;border:1.5px dashed var(--orange);border-radius:var(--radius);padding:16px;font-size:.92rem}
+.xlinks{display:grid;gap:10px}
+.xlinks a{display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--ink);font-weight:700;box-shadow:var(--shadow)}
+.aio{margin:34px 0 8px;background:#fff;border:1px dashed var(--line);border-radius:var(--radius);padding:18px;font-size:.86rem;color:var(--ink2)}
+.aio h2{font-size:1rem;color:var(--ink);margin-bottom:8px}
+footer{margin-top:36px;border-top:1px solid var(--line);padding:22px 0 34px;text-align:center;color:var(--ink2);font-size:.85rem}
+footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+
+.wave-wrap{line-height:0;margin-top:8px}
+.wave-wrap svg{width:100%;height:52px;display:block}
+.wave-move{animation:waveSlide 10s linear infinite}
+@keyframes waveSlide{from{transform:translateX(0)}to{transform:translateX(-1440px)}}
+.floaty{animation:floaty 5.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-in">
+<a class="brand" href="index.html"><img src="favicon.png" alt="" />OHANAシェア＊プロジェクト</a>
+<div class="top-cta">
+<a class="btn btn-sub btn-sm" href="https://momowari.github.io/OHANA-share/">公式HP</a>
+<a class="btn btn-green btn-sm" href="https://momowari.github.io/OHANA-share/mypage.html">無料で申し込む</a>
+</div></div></header>
+<div class="context-strip">OHANAシェア＊プロジェクト（主催：MOMOwaRI・松山市）の、お店・事業者の方へのご案内です。全体の紹介は<a href="https://momowari.github.io/OHANA-share/">公式HP</a>へ。</div>
+
+<main class="wrap">
+<div class="hero">
+<span class="kicker">お店・事業者の方へ</span>
+<h1>あなたのお店の魅力、<br /><span class="hl">ネットに残しませんか？</span></h1>
+<p class="sub">ホームページがなくても大丈夫。お店・商品・サービスの紹介ページを無料で作成します。</p>
+<div class="hero-cta">
+<a class="btn btn-green" href="https://momowari.github.io/OHANA-share/mypage.html">無料掲載を申し込む</a>
+<a class="btn btn-sub" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">まず相談する（LINE）</a>
+</div>
+<p class="hero-note">作成・掲載は無料です。下書きは必ずお店に確認していただき、同意のあとにだけ公開します。</p>
+<img class="hero-img" src="img-18f35ef8fa.png" alt="笑顔で手を振る、水彩イラストの女の子" />
+</div>
+
+<div class="wave-wrap" aria-hidden="true"><svg viewBox="0 0 2880 60" preserveAspectRatio="none"><g class="wave-move"><path d="M0,34 C240,58 480,8 720,34 C960,58 1200,8 1440,34 C1680,58 1920,8 2160,34 C2400,58 2640,8 2880,34 L2880,60 L0,60 Z" fill="#7fc4bd" opacity="0.45"/><path d="M0,42 C240,20 480,52 720,42 C960,20 1200,52 1440,42 C1680,20 1920,52 2160,42 C2400,20 2640,52 2880,42 L2880,60 L0,60 Z" fill="#f6b352" opacity="0.4"/></g></svg></div>
+<section aria-labelledby="why-h">
+<div class="sec-head"><span class="dot">残</span><h2 id="why-h">SNSだけだと、流れてしまいます</h2></div>
+<div class="grid3">
+<div class="mini"><h3>投稿は流れる、ページは残る</h3><p>SNSの投稿は時間がたつと埋もれてしまいます。紹介ページは、住所や営業時間、メニューをいつでも見返せる形で残ります。</p></div>
+<div class="mini"><h3>検索からの入口になる</h3><p>「地域名＋お店の種類」で探す人の目に触れる入口が増えます。見つけてもらえる可能性を広げるための、基本の形を整えます。</p></div>
+<div class="mini"><h3>渡せるURLができます</h3><p>お店だけの固有URLができるので、SNSのプロフィールやチラシ、名刺に載せる「案内先」として使えます。</p></div>
+</div>
+</section>
+
+<section aria-labelledby="img-h">
+<div class="sec-head"><span class="dot">見</span><h2 id="img-h">紹介ページのイメージ</h2></div>
+<div class="mock" aria-label="紹介ページの見本イメージ">
+<div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">momowari.github.io/OHANA-share/ …（お店ごとのページ）</span></div>
+<div class="mock-body">
+<img src="img-520bb487ca.jpg" alt="お店の店内の写真（見本）" />
+<div class="mock-txt">
+<div class="m-name">お店の名前が大きく入ります</div>
+<div class="mock-line" style="width:82%"></div>
+<div class="mock-line" style="width:64%"></div>
+<div class="mock-tags"><span>こんなお店</span><span>メニュー</span><span>店舗情報</span><span>地図</span></div>
+</div>
+</div>
+</div>
+<p class="caption">写真・店名・メニュー・店舗情報が1ページにまとまります。実際に掲載中のお店のページは<a href="https://momowari.github.io/OHANA-share/koto.html">公式HPのコト一覧</a>から見られます。</p>
+</section>
+
+<section aria-labelledby="info-h">
+<div class="sec-head"><span class="dot">載</span><h2 id="info-h">掲載できる情報</h2></div>
+<div class="chips">
+<span>お店の名前・紹介文</span><span>写真</span><span>メニュー・料金</span><span>サービス内容</span><span>営業時間・定休日</span><span>住所・アクセス・駐車場</span><span>SNS・LINEへのリンク</span><span>お知らせ</span>
+</div>
+<p class="caption" style="text-align:left">載せる内容は、お店と相談して決めます。写真や文章は、お店の許可を得たものだけを使います。</p>
+</section>
+
+<section aria-labelledby="sys-h">
+<div class="sec-head"><span class="dot">仕</span><h2 id="sys-h">ページの作り（検索への基本対応）</h2></div>
+<div class="card">
+<p>1ページごとに固有のURLを持ち、ページのタイトルと説明文、検索エンジン向けの構造化データを整えています。文章は画像の中ではなく、読み取れるHTMLの文字として置くので、通常の検索にもAI検索にも拾ってもらいやすい形です。スマートフォン表示に対応し、内容の更新はマイページから行えます。</p>
+<p style="margin-top:10px;font-size:.88rem;color:var(--ink2)">※ 検索結果やAI検索で必ず紹介されることを保証するものではありません。見つけてもらえる可能性を広げるための基本対応です。</p>
+</div>
+</section>
+
+<section aria-labelledby="flow-h">
+<div class="sec-head"><span class="dot">流</span><h2 id="flow-h">掲載までの流れ</h2></div>
+<div class="flow">
+<div class="step"><span class="num">1</span><div><h3>申し込む・相談する</h3><p>無料メンバー登録、またはLINEオープンチャットでの相談から始まります。</p></div></div>
+<div class="step"><span class="num">2</span><div><h3>写真や情報を送る</h3><p>お店の写真と基本情報を送っていただきます。公開されている情報から、こちらで下書きの材料を集めることもあります。</p></div></div>
+<div class="step"><span class="num">3</span><div><h3>AIが下書きを作る</h3><p>集めた情報をもとに、紹介ページの下書きを作成します。</p></div></div>
+<div class="step"><span class="num">4</span><div><h3>お店が確認・直す</h3><p>内容を見ていただき、違っている所や足したい所を直します。</p></div></div>
+<div class="step"><span class="num">5</span><div><h3>同意のあとに公開</h3><p>掲載の同意をいただいてから公開します。その後の更新は、マイページからお店自身でも行えます。</p></div></div>
+</div>
+<div class="guard" style="margin-top:14px">いちばん大事な約束：<strong>お店の確認・同意の前に、公式ページのように公開することはありません。</strong>下書きの段階では、誰にも見えません。</div>
+</section>
+
+<section aria-labelledby="about-h">
+<div class="sec-head"><span class="dot">輪</span><h2 id="about-h">OHANAとは</h2></div>
+<div class="card">
+<p>OHANAシェア＊プロジェクトは、松山で「眠っている価値を、必要な場所へ」を合言葉に、ヒト・モノ・コトを紹介し合う取り組みです。紹介ページに載ることで、OHANAのネットワーク（ヒトモノコトの一覧や、100円券が使えるお店の輪）にも参加できます。詳しくは<a href="https://momowari.github.io/OHANA-share/">公式HP</a>へ。</p>
+</div>
+</section>
+
+<section aria-labelledby="faq-h">
+<div class="sec-head"><span class="dot">問</span><h2 id="faq-h">よくある質問</h2></div>
+<details class="faq"><summary>本当に無料ですか？</summary><p>はい。作成と掲載は無料です。作る作業はAIの仕組みを使っているため費用がかかっておらず、売り込みのための無料でもありません。紹介し合う輪を広げることが目的です。</p></details>
+<details class="faq"><summary>ホームページがあるお店でも申し込めますか？</summary><p>はい。既存のホームページへのリンクを載せて、検索からの入口を増やす使い方もできます。</p></details>
+<details class="faq"><summary>写真はスマホで撮ったもので大丈夫ですか？</summary><p>大丈夫です。写真や文章は、お店の許可を得たものだけを使います。</p></details>
+<details class="faq"><summary>掲載をやめたくなったら？</summary><p>いつでも取り下げできます。</p></details>
+<p class="caption" style="text-align:left">ほかの質問は<a href="https://momowari.github.io/OHANA-share/#faq">公式HPのFAQ</a>にもまとめています。</p>
+</section>
+
+<section aria-labelledby="cta-h">
+<div class="card" style="text-align:center;background:linear-gradient(180deg,#fff,#fdf3e3)">
+<h2 id="cta-h" style="font-size:1.3rem;margin-bottom:8px">あなたのお店のページ、作りませんか</h2>
+<p style="color:var(--ink2);font-size:.94rem">申し込みも相談も無料です。下書きを見てから決めてもらって大丈夫です。</p>
+<div class="hero-cta">
+<a class="btn btn-green" href="https://momowari.github.io/OHANA-share/mypage.html">無料掲載を申し込む</a>
+<a class="btn btn-sub" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEで相談する</a>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="x-h">
+<div class="sec-head"><span class="dot">他</span><h2 id="x-h">ほかのご案内</h2></div>
+<div class="xlinks">
+<a href="index.html"><span>イベントに来たい・出店したい方へ</span><span>›</span></a>
+<a href="shop.html"><span>100円券が使えるお店になりたい方へ</span><span>›</span></a>
+<a href="platform.html"><span>探す・登録する（ヒトモノコト）</span><span>›</span></a>
+</div>
+</section>
+
+<div class="aio" aria-label="OHANA お店の紹介ページ無料作成について（文章版）">
+<h2>OHANA お店の紹介ページ無料作成について（文章版）</h2>
+<p>OHANAシェア＊プロジェクト（主催：MOMOwaRI、松山市）では、ホームページを持っていない地域のお店・事業者を対象に、店舗情報の紹介ページを無料で作成しています。メインコピーは「あなたのお店の魅力、ネットに残しませんか？」です。メリットは、ホームページがなくても紹介ページを持てること、お店の基本情報やサービスを整理できること、お店ごとの固有URLを持てること、検索エンジンやAI検索から見つけてもらえる可能性を広げられること、OHANAのヒトモノコトのネットワークに参加できること、無料で始められることです。掲載できる情報は、お店の名前と紹介文、写真、メニューと料金、サービス内容、営業時間と定休日、住所とアクセスと駐車場、SNSやLINEへのリンク、お知らせです。ページは固有URL、タイトルと説明文、構造化データを持ち、文章はクロール可能なHTMLで記述され、スマートフォンに対応します。掲載までの流れは、申し込みまたは相談、写真や情報の提供、AIによる下書き生成、お店による確認と修正、掲載同意後の公開、その後のお店自身による更新です。お店の確認と同意前に公式ページのように公開することはありません。写真、ロゴ、文章は、お店の許可を得たものだけを使用します。検索結果やAI検索での紹介を保証するものではありません。OHANAの理念は「眠っている価値を、必要な場所へ」です。詳しい情報は公式HPにあります。</p>
+</div>
+</main>
+
+<footer>
+<nav>
+<a href="index.html">イベント</a>
+<a href="shop.html">お店の方へ（100円券）</a>
+<a href="platform.html">探す・登録する</a>
+<a href="https://momowari.github.io/OHANA-share/">公式HP</a>
+<a href="https://www.instagram.com/momowari/" target="_blank" rel="noopener">SNS</a>
+<a href="https://note.com/momo2025" target="_blank" rel="noopener">note</a>
+</nav>
+<p>主催：MOMOwaRI（松山市）</p>
+</footer>
+</body>
+</html>
