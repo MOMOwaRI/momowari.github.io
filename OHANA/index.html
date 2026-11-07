@@ -44,7 +44,6 @@
     <img class="wslide" src="../ohana-jima/mahalo-pano-furumachi.jpg" alt="古町駅の水彩画" />
     <h1 class="top-title"><span class="tt1">OHANAシェア＊</span><span class="tt2">プロジェクト</span></h1>
   </div>
-  </div>
 
   <p class="kicker">愛媛・松山｜不定期開催</p>
   <p class="tagline">眠っている価値を、必要な場所へ</p>
@@ -232,10 +231,9 @@ body{padding-bottom:76px}
 
 body{overflow-x:hidden}
 .hero{padding-top:0}
-.photo-show{width:100vw;margin-left:calc(50% - 50vw);border-radius:0;height:min(104vw,560px);animation:fadeOnly 1s ease both;box-shadow:none}
 @keyframes fadeOnly{from{opacity:0}to{opacity:1}}
 
-.top-art{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:min(104vw,560px);overflow:hidden;animation:fadeOnly 1s ease both}
+.top-art{position:relative;width:calc(100% + 40px);margin-left:-20px;height:min(112vw,600px);overflow:hidden;animation:fadeOnly 1s ease both}
 .top-art img{width:100%;height:100%;object-fit:cover;object-position:50% 42%}
 .top-art .pcap{position:absolute;left:0;right:0;bottom:0;padding:40px 14px 14px;background:linear-gradient(transparent,rgba(94,48,0,.55));color:#fff;font-weight:900;font-size:clamp(1.2rem,5.4vw,1.6rem);text-align:center}
 
@@ -253,6 +251,9 @@ body{overflow-x:hidden}
 .creed{background:#fffdf8;padding:52px 22px 46px;text-align:center}
 .creed-big{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:clamp(1.5rem,6.8vw,2.2rem);font-weight:700;line-height:1.5;color:#7a4416;margin:0 0 20px}
 .creed-body{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:clamp(.95rem,4.2vw,1.1rem);line-height:2.1;color:#5b4632;margin:0}
+
+body>*{max-width:720px;margin-left:auto;margin-right:auto}
+.sticky-bar{left:50%;right:auto;transform:translateX(-50%);width:100%;max-width:720px}
 </style>
 
 <nav class="sticky-bar" aria-label="固定リンク">
