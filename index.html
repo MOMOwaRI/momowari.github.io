@@ -370,6 +370,11 @@ section h2 .sub{margin-top:0}
 .fold[open ]>summary::after{content:"−"}
 #mypage-btn{box-shadow:none}
 footer{margin-top:36px}
+.static-about{margin-top:34px;border-top:1px solid #efdfc9;padding-top:18px;font-size:13.5px;color:#6b5847;line-height:1.9}
+.static-about h2{font-size:15.5px;color:#7a4a12;margin:0 0 8px}
+.static-about p{margin:0 0 8px}
+.static-about .about-links{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px}
+.static-about .about-links a{color:#b06a1b}
 </style>
 </head>
 <body>
@@ -420,7 +425,7 @@ footer{margin-top:36px}
 
   <section class="latest" aria-label="最新情報">
     <h2>最新情報</h2>
-    <ul id="latest-list"><li><span class="dt">読み込み中…</span></li></ul>
+    <ul id="latest-list" data-static="1"><li><span class="dt">2026年10月31日｜note</span><a data-lid="it-link" href="https://note.com/momo2025/n/n100f6b1644a1">Museでやってみた⑤ OHANA島｜完全無料でメタバース作りに挑戦！</a></li><li><span class="dt">2026年10月31日｜note</span><a data-lid="it-link" href="https://note.com/momo2025/n/nbee81cc23080">Museでやってみた④ 愛媛の美容室MAHALO｜髪質診断と会員マイページのサイト</a></li><li><span class="dt">2026年10月28日｜note</span><a data-lid="it-link" href="https://note.com/momo2025/n/n96f6d9e4de7d">Museでやってみた③ 愛媛のレアな雑貨屋【Lea Mahalo】｜自店メルカリだけのセレクトサイト（全国配送）</a></li><li><span class="dt">2026年10月28日｜note</span><a data-lid="it-link" href="https://note.com/momo2025/n/nbcf49d993b90">Museでやってみた② ヒトモノコトの選べる物々交換【OHANAシェア＊プロジェクト】｜ログイン制マッチングサイト</a></li><li><span class="dt">2026年10月28日｜note</span><a data-lid="it-link" href="https://note.com/momo2025/n/nd79c774c63a7">Museでやってみた① 愛媛のまつげパーマ専門店【Eyes MAHALO】FAQ(お悩みにあった提案)</a></li></ul>
     <p class="more"><a data-lid="note-com-momo2025-4" href="https://note.com/momo2025">noteで全部見る ›</a></p>
   </section>
 
@@ -641,6 +646,20 @@ footer{margin-top:36px}
       <p class="faq-a">Eyes MAHALOのページから、LINEで相談・予約ができます。</p>
     </div>
   </details>
+
+  <section class="static-about" aria-label="MOMOwaRIについて">
+    <h2>MOMOwaRIについて</h2>
+    <p>MOMOwaRI（モモワリ）は、愛媛県松山市味酒町3-2-29のMAHALOビルを拠点に活動しています。2階は美容室「hair ID salon MAHALO」、1階は女性限定美容室「elua Mahalo」、まつげパーマ専門「Eyes MAHALO」（歴15年以上）、雑貨＆古着「Lea Mahalo」です。駐車場もあります。</p>
+    <p>「OHANAシェア＊プロジェクト」は、100円券でお買い物ができる、フリマ型の選べる物々交換です。ヒトモノコトをつなぎ、眠っている価値を必要な場所へ届けることを目指しています。メタバース「OHANA島」では、もうひとつの四国を歩いて巡れます。</p>
+    <ul class="about-links">
+      <li><a href="https://momowari.github.io/OHANA-share/">OHANAシェア＊プロジェクト</a></li>
+      <li><a href="https://momowari.github.io/Lea-Mahalo/">Lea Mahalo（雑貨＆古着）</a></li>
+      <li><a href="https://momowari.github.io/Eyes-MAHALO/">Eyes MAHALO（まつげパーマ）</a></li>
+      <li><a href="https://momowari.github.io/MAHALO/">hair ID salon MAHALO（美容室）</a></li>
+      <li><a href="https://momowari.github.io/ohana-jima/">OHANA島</a></li>
+      <li><a href="https://note.com/momo2025">note（活動の記録）</a></li>
+    </ul>
+  </section>
 
   <footer>
     <p><a data-lid="lit-link-momowari-4" href="https://lit.link/momowari">lit.link のページはこちら</a></p>
@@ -1216,7 +1235,7 @@ body.site-editing .img-edit-btn{display:block}
     return d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
   }
   function render(items){
-    if(!items || !items.length){ ul.innerHTML = '<li><a data-lid="note-com-momo2025-5" href="https://note.com/momo2025">noteの記事一覧へ</a></li>'; return; }
+    if(!items || !items.length){ if(ul.getAttribute('data-static')) return; ul.innerHTML = '<li><a data-lid="note-com-momo2025-5" href="https://note.com/momo2025">noteの記事一覧へ</a></li>'; return; }
     ul.innerHTML = items.slice(0, 5).map(function(it){
       var t = (it.title || '').replace(/</g, '&lt;');
       return '<li><span class="dt">' + fmt(it.pubDate) + '｜note</span><a data-lid="it-link" href="' + it.link + '">' + t + '</a></li>';

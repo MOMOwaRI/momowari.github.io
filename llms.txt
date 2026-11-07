@@ -7,6 +7,7 @@
 - [OHANAシェア＊プロジェクト](https://momowari.github.io/OHANA-share/): 100円券でお買い物ができる、フリマ型の選べる物々交換
 - [OHANAメンバー募集・マイページ](https://momowari.github.io/OHANA-share/login.html): AIがあなたの紹介ページを無料で作ります
 - [OHANAのあゆみ](https://momowari.github.io/OHANA-share/ayumi.html): 2018年の始まりから今の形まで、考え方とnote記事の年表
+- [よくある質問](https://momowari.github.io/#faq): MOMOwaRIとは・お店の場所・駐車場・100円券・まつげパーマの予約について
 - [OHANA島](https://momowari.github.io/ohana-jima/): もうひとつの四国を歩いて巡るメタバース
 - [Lea Mahalo](https://momowari.github.io/Lea-Mahalo/): 美容師セレクトの雑貨＆古着（MAHALOビル1階）
 - [Eyes MAHALO](https://momowari.github.io/Eyes-MAHALO/): まつげパーマ専門・歴15年以上（MAHALOビル1階）
@@ -24,6 +25,7 @@
 - [lit.link](https://lit.link/momowari): リンク集
 - [note](https://note.com/momo2025): 活動の記録
 - [noteリンク集（全記事案内所）](https://note.com/momo2025/n/nead55ed5b6f4)
+- note RSS: https://note.com/momo2025/rss （最新記事は入口ページの「最新情報」にも表示）
 - Instagram: @momowari / @mahalo.hair
 - Threads: @momowari
 - YouTube: @00LeaMahalo00
