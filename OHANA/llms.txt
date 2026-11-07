@@ -2,7 +2,7 @@
 
 > OHANAシェア＊プロジェクトは、愛媛県松山市のMOMOwaRIが主催する、フリマ型の「選べる物々交換」のプロジェクトです。理念は「眠っている価値を、必要な場所へ」。OHANAはハワイの言葉で「家族・仲間」の意味です。無料で配布する「OHANA100円券」でお買い物ができ、券は現金に換金できず、お釣りは出ません。受け取ったお店や人が、次に他のお店で使うことで、券が地域を循環します。対象はヒト（できること・得意なこと）、モノ（眠っているモノ）、コト（体験・お店・活動）の順です。
 
-このページ（https://momowari.github.io/OHANA/）は、プロジェクトの大枠を伝える1枚のLPです。全体像・理念・ヒトモノコトの詳しい説明・FAQ・あゆみ・メンバー情報・登録は、すべて総合HPにあります。LPは公式HPへ誘導するための入口です。
+このページ（https://momowari.github.io/OHANA/）は、プロジェクトの大枠を伝える1枚のLPです。LPの内容は、信念（「捨てるなんて、もったいない」「知らないなんて、もったいない」「やらないなんて、もったいない」という“もったいない精神”と、好き・得意・経験も循環させる考え方）、OHANAとは（100円券のルール）、メンバーになるとできること、活動のしかた（公式HPの実画面つき）、これまでとこれから（2018年の雑貨交換から始まり、券がお店からお店へ巡る街を目指す歩み）で構成されています。本文はすべて静的HTMLで書かれており、JavaScriptなしでも全文が読めます。全体像・理念・ヒトモノコトの詳しい説明・FAQ・あゆみ・メンバー情報・登録は、すべて総合HPにあります。LPは公式HPへ誘導するための入口です。
 
 ## リンク
 
@@ -10,6 +10,8 @@
 - [総合HP](https://momowari.github.io/OHANA-share/): 全体像・理念・FAQ・あゆみ。
 - [ヒトの一覧](https://momowari.github.io/OHANA-share/hito.html) / [モノの一覧](https://momowari.github.io/OHANA-share/mono.html) / [コトの一覧](https://momowari.github.io/OHANA-share/koto.html)
 - [マイページ（無料メンバー登録）](https://momowari.github.io/OHANA-share/mypage.html)
+- [OHANA島](https://momowari.github.io/ohana-jima/): 歩いて巡れる、もうひとつの松山。水彩の街並みでお店や場所を巡れます。
+- [note（記録）](https://note.com/momo2025): プロジェクトの理念・原点・活動記録をまとめた記事があります。
 - [LINEオープンチャット](https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ): 参加・出店・掲載の相談窓口。
 
 ## 補足
