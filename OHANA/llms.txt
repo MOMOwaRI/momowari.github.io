@@ -4,9 +4,12 @@
 
 このページ（https://momowari.github.io/OHANA/）は、プロジェクトの大枠を伝える1枚のLPです。LPの内容は、信念（「捨てるなんて、もったいない」「知らないなんて、もったいない」「やらないなんて、もったいない」という“もったいない精神”と、好き・得意・経験も循環させる考え方）、OHANAとは（100円券のルール）、メンバーになるとできること、活動のしかた（公式HPの実画面つき）、これまでとこれから（2018年の雑貨交換から始まり、券がお店からお店へ巡る街を目指す歩み）で構成されています。本文はすべて静的HTMLで書かれており、JavaScriptなしでも全文が読めます。全体像・理念・ヒトモノコトの詳しい説明・FAQ・あゆみ・メンバー情報・登録は、すべて総合HPにあります。LPは公式HPへ誘導するための入口です。
 
+お店・事業者の方への案内ページ（https://momowari.github.io/OHANA/shop-page.html）では、ホームページを持っていない地域のお店・事業者に向けて、紹介ページを無料で作成する取り組みを説明しています。掲載できる情報（お店の紹介文・写真・メニュー・営業時間・住所・SNSリンクなど）、掲載までの流れ（申し込み→情報提供→AIが下書き→お店が確認→同意のあとに公開）、よくある質問をまとめています。掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです。
+
 ## リンク
 
 - [LP（このページ）](https://momowari.github.io/OHANA/): 大枠、100円券の流れ、開催の考え方。
+- [お店の紹介ページを無料で作ります](https://momowari.github.io/OHANA/shop-page.html): お店・事業者向けの案内。紹介ページの無料作成、掲載の流れと条件。
 - [総合HP](https://momowari.github.io/OHANA-share/): 全体像・理念・FAQ・あゆみ。
 - [ヒトの一覧](https://momowari.github.io/OHANA-share/hito.html) / [モノの一覧](https://momowari.github.io/OHANA-share/mono.html) / [コトの一覧](https://momowari.github.io/OHANA-share/koto.html)
 - [マイページ（無料メンバー登録）](https://momowari.github.io/OHANA-share/mypage.html)
