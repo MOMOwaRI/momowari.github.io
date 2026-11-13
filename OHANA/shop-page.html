@@ -25,7 +25,7 @@
 {"@type":"Question","name":"ホームページがあるお店でも申し込めますか？","acceptedAnswer":{"@type":"Answer","text":"はい。既存のホームページへのリンクを載せて、検索からの入口を増やす使い方もできます。"}},
 {"@type":"Question","name":"写真はスマホで撮ったもので大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"大丈夫です。お店の写真を送っていただく形が基本です。写真や文章は、お店の許可を得たものだけを使います。"}},
 {"@type":"Question","name":"確認する前に公開されることはありますか？","acceptedAnswer":{"@type":"Answer","text":"ありません。下書きをまずお店に見ていただき、直しを反映して、掲載の同意をいただいてから公開します。"}},
-{"@type":"Question","name":"掲載をやめたくなったら？","acceptedAnswer":{"@type":"Answer","text":"いつでも取り下げできます。更新も、マイページからお店自身で行えます。"}},{"@type":"Question","name":"掲載の条件はありますか？","acceptedAnswer":{"@type":"Answer","text":"OHANA100円券が使えるお店・活動にしていただけることです。券は無料で配るもので、現金への換金はできず、お釣りは出ません。受け取った券を他のお店で使うことで地域を巡ります。"}}]}
+{"@type":"Question","name":"掲載をやめたくなったら？","acceptedAnswer":{"@type":"Answer","text":"いつでも取り下げできます。更新も、マイページからお店自身で行えます。"}},{"@type":"Question","name":"掲載の条件はありますか？","acceptedAnswer":{"@type":"Answer","text":"OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。券は無料で配るもので、現金への換金はできず、お釣りは出ません。受け取った券を他のお店で使うことで地域を巡ります。"}},{"@type":"Question","name":"自分で編集できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。公開したあとも、マイページから写真・文章・リンクを自分で直せます。直しのお手伝いもできます。"}}]}
 </script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q979YZ2WCW"></script>
@@ -81,6 +81,12 @@ section{padding:30px 0 6px}
 .mock-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .mock-tags span{font-size:.72rem;background:var(--green-bg);color:#3c7031;border-radius:999px;padding:3px 10px;font-weight:700}
 .caption{font-size:.85rem;color:var(--ink2);margin-top:10px;text-align:center}
+.examples{display:grid;gap:12px;margin-top:6px}
+@media(min-width:560px){.examples{grid-template-columns:1fr 1fr}}
+.ex{display:block;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;text-decoration:none;color:var(--ink)}
+.ex img{width:100%;height:auto}
+.ex span{display:block;padding:10px 14px 2px;font-weight:700;font-size:.92rem}
+.ex small{display:block;padding:0 14px 12px;color:var(--ink2);font-size:.8rem}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.9rem;font-weight:700}
 .flow{display:grid;gap:12px}
@@ -154,6 +160,11 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 </div>
 </div>
 <p class="caption">写真・店名・メニュー・店舗情報が1ページにまとまります。実際に掲載中のお店のページは<a href="https://momowari.github.io/OHANA-share/koto.html">公式HPのコト一覧</a>から見られます。</p>
+<p class="caption" style="text-align:left;margin-top:18px;font-weight:700;color:var(--ink)">実際の紹介ページは、こんな感じです。</p>
+<div class="examples">
+<a class="ex" href="https://momowari.github.io/OHANA-share/members/eyes-mahalo.html"><img src="ex-eyes.jpg" alt="実際の紹介ページの例：Eyes MAHALO（まつげサロン）のページ" loading="lazy" /><span>Eyes MAHALO（まつげサロン）</span><small>実際のページを見る ›</small></a>
+<a class="ex" href="https://momowari.github.io/OHANA-share/members/lea-mahalo.html"><img src="ex-lea.jpg" alt="実際の紹介ページの例：雑貨屋 Lea Mahaloのページ" loading="lazy" /><span>雑貨屋 Lea Mahalo</span><small>実際のページを見る ›</small></a>
+</div>
 </section>
 
 <section aria-labelledby="info-h">
@@ -162,6 +173,14 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <span>お店の名前・紹介文</span><span>写真</span><span>メニュー・料金</span><span>サービス内容</span><span>営業時間・定休日</span><span>住所・アクセス・駐車場</span><span>SNS・LINEへのリンク</span><span>お知らせ</span>
 </div>
 <p class="caption" style="text-align:left">載せる内容は、お店と相談して決めます。写真や文章は、お店の許可を得たものだけを使います。</p>
+</section>
+
+<section aria-labelledby="tomo-h">
+<div class="sec-head"><span class="dot">支</span><h2 id="tomo-h">みんなで使うと、みんなのページが上がります</h2></div>
+<div class="card">
+<p>紹介ページは、一覧やリンクでお互いにつながっています。みんなが自分の紹介ページを公式HPのように使ってくださると、OHANA全体が検索で見つけてもらいやすくなって、あなたの専用ページも一緒に上がります。みんなの力で、支え合いです。</p>
+<p style="margin-top:10px"><strong>自分で編集もできます。</strong>公開したあとも、写真・文章・リンクはマイページから自分で直せます。もちろん、直しのお手伝いもします。</p>
+</div>
 </section>
 
 <section aria-labelledby="sys-h">
@@ -187,14 +206,15 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <section aria-labelledby="about-h">
 <div class="sec-head"><span class="dot">輪</span><h2 id="about-h">OHANAとは</h2></div>
 <div class="card">
-<p>OHANAシェア＊プロジェクトは、松山で「眠っている価値を、必要な場所へ」を合言葉に、ヒト・モノ・コトを紹介し合う取り組みです。紹介ページに載ることで、OHANAのネットワーク（ヒトモノコトの一覧や、100円券が使えるお店の輪）にも参加できます。掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです。詳しくは<a href="https://momowari.github.io/OHANA-share/">公式HP</a>へ。</p>
+<p>OHANAシェア＊プロジェクトは、松山で「眠っている価値を、必要な場所へ」を合言葉に、ヒト・モノ・コトを紹介し合う取り組みです。紹介ページに載ることで、OHANAのネットワーク（ヒトモノコトの一覧や、100円券が使えるお店の輪）にも参加できます。掲載の条件は、OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。詳しくは<a href="https://momowari.github.io/OHANA-share/">公式HP</a>へ。</p>
 </div>
 </section>
 
 <section aria-labelledby="faq-h">
 <div class="sec-head"><span class="dot">問</span><h2 id="faq-h">よくある質問</h2></div>
 <details class="faq"><summary>本当に無料ですか？</summary><p>はい。作成と掲載は無料です。紹介ページ作りや最新情報の見回りをAIが担っているので、手間と費用をかけずに運営でき、その分を無料にしています。紹介し合う輪を広げることが目的です。</p></details>
-<details class="faq"><summary>掲載の条件はありますか？</summary><p>OHANA100円券が使えるお店・活動にしていただけることです。券は無料で配るもので、現金への換金はできず、お釣りは出ません。受け取った券を他のお店で使うことで、地域を巡ります。</p></details>
+<details class="faq"><summary>掲載の条件はありますか？</summary><p>OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。券は無料で配るもので、現金への換金はできず、お釣りは出ません。受け取った券を他のお店で使うことで、地域を巡ります。</p></details>
+<details class="faq"><summary>自分で編集できますか？</summary><p>はい。公開したあとも、マイページから写真・文章・リンクを自分で直せます。直しのお手伝いもできますので、難しく考えなくて大丈夫です。</p></details>
 <details class="faq"><summary>ホームページがあるお店でも申し込めますか？</summary><p>はい。既存のホームページへのリンクを載せて、検索からの入口を増やす使い方もできます。</p></details>
 <details class="faq"><summary>写真はスマホで撮ったもので大丈夫ですか？</summary><p>大丈夫です。写真や文章は、お店の許可を得たものだけを使います。</p></details>
 <details class="faq"><summary>掲載をやめたくなったら？</summary><p>いつでも取り下げできます。</p></details>
@@ -209,6 +229,7 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <a class="btn btn-green" href="https://momowari.github.io/OHANA-share/mypage.html">無料掲載を申し込む</a>
 <a class="btn btn-sub" href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEで相談する</a>
 </div>
+<p style="margin-top:12px;font-size:.88rem">そのほかのお問い合わせは<a href="https://docs.google.com/forms/d/e/1FAIpQLScFXXYgieBTJe4D-RVU9jpbG63W0wL-MNVC93s71oTqKJe0WA/viewform" target="_blank" rel="noopener">お問い合わせフォーム</a>からどうぞ。</p>
 </div>
 </section>
 
@@ -223,7 +244,7 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 
 <div class="aio" aria-label="OHANA お店の紹介ページ無料作成について（文章版）">
 <h2>OHANA お店の紹介ページ無料作成について（文章版）</h2>
-<p>OHANAシェア＊プロジェクト（主催：MOMOwaRI、松山市）では、ホームページを持っていない地域のお店・事業者を対象に、店舗情報の紹介ページを無料で作成しています。メインコピーは「あなたのお店の魅力、ネットに残しませんか？」です。メリットは、ホームページがなくても紹介ページを持てること、お店の基本情報やサービスを整理できること、お店ごとの固有URLを持てること、検索エンジンやAI検索から見つけてもらえる可能性を広げられること、OHANAのヒトモノコトのネットワークに参加できること、無料で始められることです。掲載できる情報は、お店の名前と紹介文、写真、メニューと料金、サービス内容、営業時間と定休日、住所とアクセスと駐車場、SNSやLINEへのリンク、お知らせです。ページは固有URL、タイトルと説明文、構造化データを持ち、文章はクロール可能なHTMLで記述され、スマートフォンに対応します。掲載までの流れは、申し込みまたは相談、写真や情報の提供、AIによる下書き生成、お店による確認と修正、掲載同意後の公開、その後のお店自身による更新です。掲載の条件は、OHANA100円券が使えるお店・活動にしていただけることです。お店の確認と同意前に公式ページのように公開することはありません。写真、ロゴ、文章は、お店の許可を得たものだけを使用します。検索結果やAI検索での紹介を保証するものではありません。OHANAの理念は「眠っている価値を、必要な場所へ」です。詳しい情報は公式HPにあります。</p>
+<p>OHANAシェア＊プロジェクト（主催：MOMOwaRI、松山市）では、ホームページを持っていない地域のお店・事業者を対象に、店舗情報の紹介ページを無料で作成しています。メインコピーは「あなたのお店の魅力、ネットに残しませんか？」です。メリットは、ホームページがなくても紹介ページを持てること、お店の基本情報やサービスを整理できること、お店ごとの固有URLを持てること、検索エンジンやAI検索から見つけてもらえる可能性を広げられること、OHANAのヒトモノコトのネットワークに参加できること、無料で始められることです。実際の紹介ページの例として、Eyes MAHALOと雑貨屋 Lea Mahaloのページのスクリーンショットを載せています。紹介ページ同士は一覧やリンクでつながっていて、みんなが自分のページを公式HPのように使うことで、OHANA全体が検索で見つけてもらいやすくなり、それぞれの専用ページも一緒に上がる、支え合いの仕組みです。公開したあとも、マイページから自分で編集できます。掲載できる情報は、お店の名前と紹介文、写真、メニューと料金、サービス内容、営業時間と定休日、住所とアクセスと駐車場、SNSやLINEへのリンク、お知らせです。ページは固有URL、タイトルと説明文、構造化データを持ち、文章はクロール可能なHTMLで記述され、スマートフォンに対応します。掲載までの流れは、申し込みまたは相談、写真や情報の提供、AIによる下書き生成、お店による確認と修正、掲載同意後の公開、その後のお店自身による更新です。掲載の条件は、OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。お店の確認と同意前に公式ページのように公開することはありません。写真、ロゴ、文章は、お店の許可を得たものだけを使用します。検索結果やAI検索での紹介を保証するものではありません。OHANAの理念は「眠っている価値を、必要な場所へ」です。詳しい情報は公式HPにあります。</p>
 </div>
 </main>
 
