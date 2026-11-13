@@ -40,7 +40,11 @@ a{color:var(--orange-d)}
 .wrap{max-width:720px;margin:0 auto;padding:0 16px}
 .topbar{position:sticky;top:0;z-index:50;background:rgba(253,248,239,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 .topbar-in{max-width:720px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
-.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:700;font-size:.98rem}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:700;font-size:.92rem;line-height:1.3;flex:none}
+.brand .b1{display:block;white-space:nowrap}
+.brand .b2{display:block;padding-left:2em;letter-spacing:.08em;white-space:nowrap}
+.dgm{margin:0 0 12px}
+.dgm svg{display:block;width:100%;height:auto}
 .brand img{width:30px;height:30px}
 .top-cta{margin-left:auto;display:flex;gap:8px}
 .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;padding:10px 20px;font-size:.95rem;text-align:center;transition:transform .15s}
@@ -83,8 +87,11 @@ section{padding:30px 0 6px}
 .caption{font-size:.85rem;color:var(--ink2);margin-top:10px;text-align:center}
 .examples{display:grid;gap:12px;margin-top:6px}
 @media(min-width:560px){.examples{grid-template-columns:1fr 1fr}}
+.examples.one{grid-template-columns:1fr;max-width:360px;margin-left:auto;margin-right:auto}
 .ex{display:block;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;text-decoration:none;color:var(--ink)}
 .ex img{width:100%;height:auto}
+.ex iframe{width:100%;height:560px;border:0;display:block;background:#fff}
+.ex-link{display:block;text-decoration:none;color:var(--ink)}
 .ex span{display:block;padding:10px 14px 2px;font-weight:700;font-size:.92rem}
 .ex small{display:block;padding:0 14px 12px;color:var(--ink2);font-size:.8rem}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -115,7 +122,7 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 </head>
 <body>
 <header class="topbar"><div class="topbar-in">
-<a class="brand" href="index.html"><img src="favicon.png" alt="" />OHANAシェア＊プロジェクト</a>
+<a class="brand" href="index.html"><img src="favicon.png" alt="" /><span><span class="b1">OHANAシェア＊</span><span class="b2">プロジェクト</span></span></a>
 <div class="top-cta">
 <a class="btn btn-sub btn-sm" href="https://momowari.github.io/OHANA-share/">公式HP</a>
 <a class="btn btn-green btn-sm" href="https://momowari.github.io/OHANA-share/mypage.html">無料で申し込む</a>
@@ -146,25 +153,14 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 </section>
 
 <section aria-labelledby="img-h">
-<div class="sec-head"><span class="dot">見</span><h2 id="img-h">紹介ページのイメージ</h2></div>
-<div class="mock" aria-label="紹介ページの見本イメージ">
-<div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">momowari.github.io/OHANA-share/ …（お店ごとのページ）</span></div>
-<div class="mock-body">
-<img src="img-520bb487ca.jpg" alt="お店の店内の写真（見本）" />
-<div class="mock-txt">
-<div class="m-name">お店の名前が大きく入ります</div>
-<div class="mock-line" style="width:82%"></div>
-<div class="mock-line" style="width:64%"></div>
-<div class="mock-tags"><span>こんなお店</span><span>メニュー</span><span>店舗情報</span><span>地図</span></div>
+<div class="sec-head"><span class="dot">実</span><h2 id="img-h">実際の紹介ページは、こんな感じです</h2></div>
+<div class="examples one">
+<div class="ex">
+<iframe src="https://momowari.github.io/OHANA-share/members/lea-mahalo.html" title="実際の紹介ページの例：雑貨屋 Lea Mahaloのページ" loading="lazy"></iframe>
+<a class="ex-link" href="https://momowari.github.io/OHANA-share/members/lea-mahalo.html"><span>雑貨屋 Lea Mahalo</span><small>実際のページを見る ›</small></a>
 </div>
 </div>
-</div>
-<p class="caption">写真・店名・メニュー・店舗情報が1ページにまとまります。実際に掲載中のお店のページは<a href="https://momowari.github.io/OHANA-share/koto.html">公式HPのコト一覧</a>から見られます。</p>
-<p class="caption" style="text-align:left;margin-top:18px;font-weight:700;color:var(--ink)">実際の紹介ページは、こんな感じです。</p>
-<div class="examples">
-<a class="ex" href="https://momowari.github.io/OHANA-share/members/eyes-mahalo.html"><img src="ex-eyes.jpg" alt="実際の紹介ページの例：Eyes MAHALO（まつげサロン）のページ" loading="lazy" /><span>Eyes MAHALO（まつげサロン）</span><small>実際のページを見る ›</small></a>
-<a class="ex" href="https://momowari.github.io/OHANA-share/members/lea-mahalo.html"><img src="ex-lea.jpg" alt="実際の紹介ページの例：雑貨屋 Lea Mahaloのページ" loading="lazy" /><span>雑貨屋 Lea Mahalo</span><small>実際のページを見る ›</small></a>
-</div>
+<p class="caption">写真・店名・メニュー・店舗情報が1ページにまとまります。ほかに掲載中のお店のページは<a href="https://momowari.github.io/OHANA-share/koto.html">公式HPのコト一覧</a>から見られます。</p>
 </section>
 
 <section aria-labelledby="info-h">
@@ -178,6 +174,7 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <section aria-labelledby="tomo-h">
 <div class="sec-head"><span class="dot">支</span><h2 id="tomo-h">みんなで使うと、みんなのページが上がります</h2></div>
 <div class="card">
+<div class="dgm" role="img" aria-label="図解：紹介ページ同士がリンクでつながってぐるぐる巡り、OHANA全体とそれぞれのページが一緒に見つけてもらいやすくなるイメージ"><svg viewBox="0 0 340 178" aria-hidden="true"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#ef8f1c"/></marker></defs><path d="M232,30 C268,52 276,84 270,116" fill="none" stroke="#ef8f1c" stroke-width="2.5" marker-end="url(#ah)"/><path d="M220,160 C184,174 156,174 120,160" fill="none" stroke="#ef8f1c" stroke-width="2.5" marker-end="url(#ah)"/><path d="M70,116 C64,84 72,52 108,30" fill="none" stroke="#ef8f1c" stroke-width="2.5" marker-end="url(#ah)"/><rect x="115" y="6" width="110" height="36" rx="12" fill="#fffdf8" stroke="#efdfc8"/><text x="170" y="29" text-anchor="middle" font-size="13" font-weight="700" fill="#3d2c23">あなたのページ</text><rect x="12" y="128" width="110" height="36" rx="12" fill="#fffdf8" stroke="#efdfc8"/><text x="67" y="151" text-anchor="middle" font-size="13" font-weight="700" fill="#3d2c23">お店のページ</text><rect x="218" y="128" width="110" height="36" rx="12" fill="#fffdf8" stroke="#efdfc8"/><text x="273" y="151" text-anchor="middle" font-size="13" font-weight="700" fill="#3d2c23">お店のページ</text><circle cx="170" cy="92" r="30" fill="#eef7e6" stroke="#5da24a" stroke-width="1.5"/><text x="170" y="97" text-anchor="middle" font-size="14" font-weight="700" fill="#3c7031">OHANA</text></svg></div>
 <p>紹介ページは、一覧やリンクでお互いにつながっています。みんなが自分の紹介ページを公式HPのように使ってくださると、OHANA全体が検索で見つけてもらいやすくなって、あなたの専用ページも一緒に上がります。みんなの力で、支え合いです。</p>
 <p style="margin-top:10px"><strong>自分で編集もできます。</strong>公開したあとも、写真・文章・リンクはマイページから自分で直せます。もちろん、直しのお手伝いもします。</p>
 </div>
@@ -244,7 +241,7 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 
 <div class="aio" aria-label="OHANA お店の紹介ページ無料作成について（文章版）">
 <h2>OHANA お店の紹介ページ無料作成について（文章版）</h2>
-<p>OHANAシェア＊プロジェクト（主催：MOMOwaRI、松山市）では、ホームページを持っていない地域のお店・事業者を対象に、店舗情報の紹介ページを無料で作成しています。メインコピーは「あなたのお店の魅力、ネットに残しませんか？」です。メリットは、ホームページがなくても紹介ページを持てること、お店の基本情報やサービスを整理できること、お店ごとの固有URLを持てること、検索エンジンやAI検索から見つけてもらえる可能性を広げられること、OHANAのヒトモノコトのネットワークに参加できること、無料で始められることです。実際の紹介ページの例として、Eyes MAHALOと雑貨屋 Lea Mahaloのページのスクリーンショットを載せています。紹介ページ同士は一覧やリンクでつながっていて、みんなが自分のページを公式HPのように使うことで、OHANA全体が検索で見つけてもらいやすくなり、それぞれの専用ページも一緒に上がる、支え合いの仕組みです。公開したあとも、マイページから自分で編集できます。掲載できる情報は、お店の名前と紹介文、写真、メニューと料金、サービス内容、営業時間と定休日、住所とアクセスと駐車場、SNSやLINEへのリンク、お知らせです。ページは固有URL、タイトルと説明文、構造化データを持ち、文章はクロール可能なHTMLで記述され、スマートフォンに対応します。掲載までの流れは、申し込みまたは相談、写真や情報の提供、AIによる下書き生成、お店による確認と修正、掲載同意後の公開、その後のお店自身による更新です。掲載の条件は、OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。お店の確認と同意前に公式ページのように公開することはありません。写真、ロゴ、文章は、お店の許可を得たものだけを使用します。検索結果やAI検索での紹介を保証するものではありません。OHANAの理念は「眠っている価値を、必要な場所へ」です。詳しい情報は公式HPにあります。</p>
+<p>OHANAシェア＊プロジェクト（主催：MOMOwaRI、松山市）では、ホームページを持っていない地域のお店・事業者を対象に、店舗情報の紹介ページを無料で作成しています。メインコピーは「あなたのお店の魅力、ネットに残しませんか？」です。メリットは、ホームページがなくても紹介ページを持てること、お店の基本情報やサービスを整理できること、お店ごとの固有URLを持てること、検索エンジンやAI検索から見つけてもらえる可能性を広げられること、OHANAのヒトモノコトのネットワークに参加できること、無料で始められることです。実際の紹介ページの例として、雑貨屋 Lea Mahaloのページをそのまま埋め込んで載せています。紹介ページ同士は一覧やリンクでつながっていて、みんなが自分のページを公式HPのように使うことで、OHANA全体が検索で見つけてもらいやすくなり、それぞれの専用ページも一緒に上がる、支え合いの仕組みです。公開したあとも、マイページから自分で編集できます。掲載できる情報は、お店の名前と紹介文、写真、メニューと料金、サービス内容、営業時間と定休日、住所とアクセスと駐車場、SNSやLINEへのリンク、お知らせです。ページは固有URL、タイトルと説明文、構造化データを持ち、文章はクロール可能なHTMLで記述され、スマートフォンに対応します。掲載までの流れは、申し込みまたは相談、写真や情報の提供、AIによる下書き生成、お店による確認と修正、掲載同意後の公開、その後のお店自身による更新です。掲載の条件は、OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。お店の確認と同意前に公式ページのように公開することはありません。写真、ロゴ、文章は、お店の許可を得たものだけを使用します。検索結果やAI検索での紹介を保証するものではありません。OHANAの理念は「眠っている価値を、必要な場所へ」です。詳しい情報は公式HPにあります。</p>
 </div>
 </main>
 
