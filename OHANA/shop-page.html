@@ -46,7 +46,9 @@ a{color:var(--orange-d)}
 .dgm{margin:0 0 12px}
 .dgm svg{display:block;width:100%;height:auto}
 .brand img{width:30px;height:30px}
-.top-cta{margin-left:auto;display:flex;gap:8px}
+.top-cta{margin-left:auto;display:flex;gap:16px;align-items:center}
+.tlink{font-weight:700;font-size:.9rem;color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 2px}
+.tlink.go{color:#3e7d32;text-decoration:underline;text-underline-offset:4px}
 .btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-weight:700;border-radius:999px;padding:10px 20px;font-size:.95rem;text-align:center;transition:transform .15s}
 .btn:active{transform:scale(.98)}
 .btn-main{background:var(--orange);color:#fff;box-shadow:0 4px 14px rgba(239,143,28,.35)}
@@ -137,8 +139,8 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <header class="topbar"><div class="topbar-in">
 <a class="brand" href="index.html"><img src="favicon.png" alt="" /><span><span class="b1">OHANAシェア＊</span><span class="b2">プロジェクト</span></span></a>
 <div class="top-cta">
-<a class="btn btn-sub btn-sm" href="https://momowari.github.io/OHANA-share/">公式HP</a>
-<a class="btn btn-green btn-sm" href="https://momowari.github.io/OHANA-share/mypage.html">無料で<br />ページ作成</a>
+<a class="tlink" href="https://momowari.github.io/OHANA-share/">公式HP</a>
+<a class="tlink go" href="https://momowari.github.io/OHANA-share/mypage.html">無料でページ作成</a>
 </div></div></header>
 <nav class="crumb" aria-label="パンくず"><a href="index.html">TOP</a> ＞ お店の紹介ページ（無料で作ります）</nav>
 <details class="ctxfold"><summary>このページについて</summary><p>OHANAシェア＊プロジェクト（主催：MOMOwaRI・松山市）の、お店・事業者の方へのご案内です。全体の紹介は<a href="https://momowari.github.io/OHANA-share/">公式HP</a>へ。</p></details>
@@ -162,9 +164,9 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <section aria-labelledby="why-h">
 <div class="sec-head"><span class="dot">残</span><h2 id="why-h">SNSだけだと、流れてしまいます</h2></div>
 <div class="grid3">
-<div class="mini"><h3>投稿は流れる、ページは残る</h3><p>SNSの投稿は時間がたつと埋もれてしまいます。紹介ページは、住所や営業時間、メニューをいつでも見返せる形で残ります。</p></div>
-<div class="mini"><h3>検索からの入口になる</h3><p>「地域名＋お店の種類」で探す人の目に触れる入口が増えます。見つけてもらえる可能性を広げるための、基本の形を整えます。</p></div>
-<div class="mini"><h3>渡せるURLができます</h3><p>お店だけの固有URLができるので、SNSのプロフィールやチラシ、名刺に載せる「案内先」として使えます。</p></div>
+<div class="mini"><div style="font-size:1.6rem;line-height:1.2">📌</div><h3>投稿は流れる、ページは残る</h3><p>SNSの投稿は時間がたつと埋もれてしまいます。紹介ページは、住所や営業時間、メニューをいつでも見返せる形で残ります。</p></div>
+<div class="mini"><div style="font-size:1.6rem;line-height:1.2">🔍</div><h3>検索からの入口になる</h3><p>「地域名＋お店の種類」で探す人の目に触れる入口が増えます。見つけてもらえる可能性を広げるための、基本の形を整えます。</p></div>
+<div class="mini"><div style="font-size:1.6rem;line-height:1.2">🔗</div><h3>渡せるURLができます</h3><p>お店だけの固有URLができるので、SNSのプロフィールやチラシ、名刺に載せる「案内先」として使えます。</p></div>
 </div>
 </section>
 
@@ -201,15 +203,26 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <div class="card">
 <div class="dgm" role="img" aria-label="図解：紹介ページ同士がリンクでつながってぐるぐる巡り、OHANA全体とそれぞれのページが一緒に見つけてもらいやすくなるイメージ"><svg viewBox="0 0 340 178" aria-hidden="true"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#ef8f1c"/></marker></defs><path d="M232,30 C268,52 276,84 270,116" fill="none" stroke="#ef8f1c" stroke-width="2.5" marker-end="url(#ah)"/><path d="M220,160 C184,174 156,174 120,160" fill="none" stroke="#ef8f1c" stroke-width="2.5" marker-end="url(#ah)"/><path d="M70,116 C64,84 72,52 108,30" fill="none" stroke="#ef8f1c" stroke-width="2.5" marker-end="url(#ah)"/><rect x="115" y="6" width="110" height="36" rx="12" fill="#fffdf8" stroke="#efdfc8"/><text x="170" y="29" text-anchor="middle" font-size="13" font-weight="700" fill="#3d2c23">あなたのページ</text><rect x="12" y="128" width="110" height="36" rx="12" fill="#fffdf8" stroke="#efdfc8"/><text x="67" y="151" text-anchor="middle" font-size="13" font-weight="700" fill="#3d2c23">お店のページ</text><rect x="218" y="128" width="110" height="36" rx="12" fill="#fffdf8" stroke="#efdfc8"/><text x="273" y="151" text-anchor="middle" font-size="13" font-weight="700" fill="#3d2c23">お店のページ</text><circle cx="170" cy="92" r="30" fill="#eef7e6" stroke="#5da24a" stroke-width="1.5"/><text x="170" y="97" text-anchor="middle" font-size="14" font-weight="700" fill="#3c7031">OHANA</text></svg></div>
 <p>紹介ページは、一覧やリンクでお互いにつながっています。みんなが自分の紹介ページを公式HPのように使ってくださると、OHANA全体が検索で見つけてもらいやすくなって、あなたの専用ページも一緒に上がります。みんなの力で、支え合いです。</p>
-<p style="margin-top:10px"><strong>自分で編集もできます。</strong>公開したあとも、写真・文章・リンクはマイページから自分で直せます。もちろん、直しのお手伝いもします。</p>
+</div>
+</section>
+
+<section aria-labelledby="edit-h">
+<div class="sec-head"><span class="dot">編</span><h2 id="edit-h">公開したあとも、自分で編集できます</h2></div>
+<div class="card">
+<div class="chips" style="justify-content:center">
+<span>📷 写真を変える</span><span>✏️ 文章を直す</span><span>🎨 ページの色を変える</span><span>🔗 リンクを足す</span>
+</div>
+<p style="text-align:center;margin-top:12px">マイページから、スマホでもその場で直せます。<br />もちろん、直しのお手伝いもします。</p>
 </div>
 </section>
 
 <section aria-labelledby="sys-h">
 <div class="sec-head"><span class="dot">仕</span><h2 id="sys-h">ページの作り（検索への基本対応）</h2></div>
 <div class="card">
-<p>1ページごとに固有のURLを持ち、ページのタイトルと説明文、検索エンジン向けの構造化データを整えています。文章は画像の中ではなく、読み取れるHTMLの文字として置くので、通常の検索にもAI検索にも拾ってもらいやすい形です。スマートフォン表示に対応し、内容の更新はマイページから行えます。</p>
-<p style="margin-top:10px;font-size:.88rem;color:var(--ink2)">※ 検索結果やAI検索で必ず紹介されることを保証するものではありません。見つけてもらえる可能性を広げるための基本対応です。</p>
+<div class="chips" style="justify-content:center">
+<span>🔗 お店だけのURL</span><span>🔍 検索・AI検索への基本対応</span><span>📱 スマホ対応</span>
+</div>
+<p style="text-align:center;margin-top:12px;font-size:.88rem;color:var(--ink2)">※ 必ず紹介される保証ではなく、見つけてもらえる可能性を広げるための基本対応です。</p>
 </div>
 </section>
 
@@ -228,7 +241,7 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <section aria-labelledby="about-h">
 <div class="sec-head"><span class="dot">輪</span><h2 id="about-h">OHANAとは</h2></div>
 <div class="card">
-<p>OHANAシェア＊プロジェクトは、松山で「眠っている価値を、必要な場所へ」を合言葉に、ヒト・モノ・コトを紹介し合う取り組みです。紹介ページに載ることで、OHANAのネットワーク（ヒトモノコトの一覧や、100円券が使えるお店の輪）にも参加できます。掲載の条件は、OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。詳しくは<a href="https://momowari.github.io/OHANA-share/">公式HP</a>へ。</p>
+<p>紹介ページに載ると、OHANAの輪（ヒトモノコトの一覧・100円券が使えるお店）にも参加できます。条件は、100円券の仕組みに賛同して、券が使えるお店・活動にしていただくことです。詳しくは<a href="https://momowari.github.io/OHANA-share/">公式HP</a>へ。</p>
 </div>
 </section>
 
