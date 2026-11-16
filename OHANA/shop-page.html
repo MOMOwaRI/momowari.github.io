@@ -100,6 +100,18 @@ section{padding:30px 0 6px}
 .ex{display:block;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;text-decoration:none;color:var(--ink)}
 .ex img{width:100%;height:auto}
 .ex iframe{width:100%;height:720px;border:0;display:block;background:#fff}
+.exrow{display:flex;gap:14px;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.excm{width:200px;flex:none;text-align:center}
+.excm img{width:200px;height:264px;object-fit:cover;border-radius:100px 100px 18px 18px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.exshot{width:200px;flex:none}
+.exshot img{width:200px;height:264px;object-fit:cover;object-position:top;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.excap{display:block;margin-top:8px;font-weight:700;font-size:.9rem;color:var(--ink);text-decoration:none;text-align:center}
+.excap small{display:block;font-weight:400;font-size:.78rem;color:var(--ink2)}
+.steps3{display:flex;align-items:flex-start;justify-content:center;text-align:center;margin:16px 0 4px}
+.steps3 .s3{flex:1;max-width:150px}
+.steps3 .ic{width:54px;height:54px;margin:0 auto;border-radius:50%;background:var(--green);color:#fff;font-size:1.45rem;display:flex;align-items:center;justify-content:center}
+.steps3 .tx{font-size:.82rem;font-weight:700;margin-top:6px;line-height:1.5}
+.steps3 .ar{align-self:center;font-size:1.15rem;color:var(--orange);flex:0 0 auto;padding:0 3px}
 .ex-link{display:block;text-decoration:none;color:var(--ink)}
 .ex span{display:block;padding:10px 14px 2px;font-weight:700;font-size:.92rem}
 .ex small{display:block;padding:0 14px 12px;color:var(--ink2);font-size:.8rem}
@@ -169,21 +181,17 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 </div>
 </section>
 
-<section aria-labelledby="img-h">
-<div class="sec-head"><span class="dot">実</span><h2 id="img-h">実際の紹介ページは、こんな感じです</h2></div>
-<div class="examples one">
-<div class="ex">
-<iframe src="https://momowari.github.io/OHANA-share/members/lea-mahalo.html" title="実際の紹介ページの例：雑貨屋 Lea Mahaloのページ" loading="lazy"></iframe>
-<a class="ex-link" href="https://momowari.github.io/OHANA-share/members/lea-mahalo.html"><span>雑貨屋 Lea Mahalo</span><small>実際のページを見る ›</small></a>
-</div>
-</div>
-<p class="caption">写真・店名・メニュー・店舗情報が1ページにまとまります。ほかに掲載中のお店のページは<a href="https://momowari.github.io/OHANA-share/koto.html">公式HPのコト一覧</a>から見られます。</p>
-</section>
-
 <section aria-labelledby="try-h">
 <div class="sec-head"><span class="dot">試</span><h2 id="try-h">お試しで、作ってみませんか</h2></div>
 <div class="card" style="text-align:center">
 <p>お店のURLを入れるだけで、紹介ページの下書きをAIが作ります。できた下書きは<strong>非公開のまま</strong>確認できて、載せるかどうかは見てから決められます。</p>
+<div class="steps3">
+<div class="s3"><div class="ic">🔗</div><div class="tx">お店のURLを<br />入れる</div></div>
+<div class="ar">→</div>
+<div class="s3"><div class="ic">🤖</div><div class="tx">AIが下書きを<br />作る</div></div>
+<div class="ar">→</div>
+<div class="s3"><div class="ic">👀</div><div class="tx">見てから<br />公開を決める</div></div>
+</div>
 <p style="margin-top:14px"><a class="btn btn-green" href="https://momowari.github.io/OHANA-share/login.html">AIで1発生成を試す（無料）</a></p>
 <p class="caption" style="margin-top:10px">無料メンバー登録は不要です。リンク先（OHANAメンバー募集）のページ上部から、お店のURLを入れるだけで試せます。</p>
 </div>
@@ -192,7 +200,7 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <section aria-labelledby="info-h">
 <div class="sec-head"><span class="dot">載</span><h2 id="info-h">掲載できる情報</h2></div>
 <div class="chips">
-<span>お店の名前・紹介文</span><span>写真</span><span>メニュー・料金</span><span>サービス内容</span><span>営業時間・定休日</span><span>住所・アクセス・駐車場</span><span>SNS・LINEへのリンク</span><span>お知らせ</span>
+<span>🏷 お店の名前・紹介文</span><span>📷 写真</span><span>🍽 メニュー・料金</span><span>🛠 サービス内容</span><span>🕙 営業時間・定休日</span><span>📍 住所・アクセス・駐車場</span><span>💬 SNS・LINEへのリンク</span><span>📢 お知らせ</span>
 </div>
 <p class="caption" style="text-align:left">載せる内容は、お店と相談して決めます。写真や文章は、お店の許可を得たものだけを使います。</p>
 </section>
@@ -235,6 +243,16 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <div class="step"><span class="num">5</span><div><h3>同意のあとに公開</h3><p>掲載の同意をいただいてから公開します。その後の更新は、マイページからお店自身でも行えます。</p></div></div>
 </div>
 <div class="guard" style="margin-top:14px">いちばん大事な約束：<strong>お店の確認・同意の前に、公式ページのように公開することはありません。</strong>下書きの段階では、誰にも見えません。</div>
+</section>
+
+<section aria-labelledby="img-h">
+<div class="sec-head"><span class="dot">実</span><h2 id="img-h">実際の紹介ページは、こんな感じです</h2></div>
+<div class="exrow">
+<div class="excm"><img src="https://momowari.github.io/OHANA-share/images/shop/lea-cm.webp" alt="雑貨屋 Lea Mahaloの紹介アニメーション（イメージ映像）" loading="lazy" /><span class="excap">ページ上部のアニメーション<small>写真とお店の色で、自動で流れます</small></span></div>
+<div class="exshot"><img src="ex-lea.jpg" alt="雑貨屋 Lea Mahaloの紹介ページのスクリーンショット" loading="lazy" /><a class="excap" href="https://momowari.github.io/OHANA-share/members/lea-mahalo.html">雑貨屋 Lea Mahalo<small>実際のページを見る ›</small></a></div>
+<div class="exshot"><img src="ex-eyes.jpg" alt="Eyes MAHALOの紹介ページのスクリーンショット" loading="lazy" /><a class="excap" href="https://momowari.github.io/OHANA-share/members/eyes-mahalo.html">Eyes MAHALO<small>実際のページを見る ›</small></a></div>
+</div>
+<p class="caption">写真・店名・メニュー・店舗情報が1ページにまとまります。ほかに掲載中のお店のページは<a href="https://momowari.github.io/OHANA-share/koto.html">公式HPのコト一覧</a>から見られます。</p>
 </section>
 
 <section aria-labelledby="about-h">
