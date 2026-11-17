@@ -370,6 +370,15 @@ section h2 .sub{margin-top:0}
 .fold[open ]>summary::after{content:"−"}
 #mypage-btn{box-shadow:none}
 footer{margin-top:36px}
+.s-which .which-list{display:flex;flex-direction:column;gap:10px}
+.which-row{display:block;background:#fff;border:1.5px solid #f0e2cd;border-left:6px solid var(--c);border-radius:14px;padding:12px 14px;text-decoration:none;color:#4a3421;box-shadow:0 6px 16px -12px rgba(150,90,40,.35)}
+.which-row:active{background:#fff8ec}
+.which-feel{display:block;font-weight:800;font-size:15.5px;margin-bottom:6px}
+.which-go{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.which-chip{background:var(--c);color:#fff;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px}
+.which-name{font-weight:700;font-size:14px}
+.which-note{font-size:12.5px;color:#8a6d52}
+.which-arrow{margin-left:auto;color:var(--c);font-weight:800;font-size:18px}
 .static-about{margin-top:34px;border-top:1px solid #efdfc9;padding-top:18px;font-size:13.5px;color:#6b5847;line-height:1.9}
 .static-about h2{font-size:15.5px;color:#7a4a12;margin:0 0 8px}
 .static-about p{margin:0 0 8px}
@@ -404,6 +413,16 @@ footer{margin-top:36px}
 </div>
 
 <div class="w">
+
+  <section class="s-which" aria-label="あなたはどれ？">
+    <h2>あなたはどれ？<span class="sub">今のあなたに合うものへ、ご案内します</span></h2>
+    <div class="which-list">
+      <a class="which-row" href="#mahalo" style="--c:#0068B7"><span class="which-feel">髪、そろそろ整えたい</span><span class="which-go"><span class="which-chip">美容室</span><span class="which-name">hair ID salon MAHALO</span><span class="which-note">MAHALOビル2階の美容室</span><span class="which-arrow" aria-hidden="true">›</span></span></a>
+      <a class="which-row" href="#eyes" style="--c:#9238A0"><span class="which-feel">まつげが下がって、目元がぼんやりする</span><span class="which-go"><span class="which-chip">まつげパーマ</span><span class="which-name">Eyes MAHALO</span><span class="which-note">歴15年以上・MAHALOビル1階</span><span class="which-arrow" aria-hidden="true">›</span></span></a>
+      <a class="which-row" href="#lea" style="--c:#AD8758"><span class="which-feel">掘り出しもの、ないかな</span><span class="which-go"><span class="which-chip">雑貨＆古着</span><span class="which-name">Lea Mahalo</span><span class="which-note">美容師セレクト。メルカリでも販売しています</span><span class="which-arrow" aria-hidden="true">›</span></span></a>
+      <a class="which-row" href="#ohana" style="--c:#EF8F1C"><span class="which-feel">家に眠っているモノ、誰か使わないかな</span><span class="which-go"><span class="which-chip">物々交換</span><span class="which-name">OHANAシェア＊プロジェクト</span><span class="which-note">100円券でお買い物ができる、フリマ型の選べる物々交換</span><span class="which-arrow" aria-hidden="true">›</span></span></a>
+    </div>
+  </section>
 
   <section class="s-sns" id="sns-note">
     <h2>SNS・note<span class="sub">最新のお知らせと、考え方をまとめた記事</span></h2>
