@@ -70,6 +70,14 @@ a{color:var(--orange-d)}
 .hero h1 .hl{background:linear-gradient(transparent 62%,#ffe3ae 62%)}
 .hero .sub{margin:16px auto 6px;max-width:560px;color:var(--ink2);font-size:1.02rem}
 .hero-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0 6px}
+.anchor-band{display:flex;align-items:stretch;gap:8px;max-width:560px;margin:18px auto 0}
+.ab-cell{flex:1;border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:12px 8px;text-align:center}
+.ab-label{display:block;font-size:.8rem;color:var(--ink2);margin-bottom:4px}
+.ab-price{display:block;font-size:1.35rem;font-weight:800}
+.ab-ohana{background:#eef7e6;border-color:#bcd9a8}
+.ab-ohana .ab-price{color:#3c7031}
+.ab-arrow{align-self:center;font-weight:800;color:var(--ink2)}
+.ab-note{font-size:.78rem;color:var(--ink2);text-align:center;margin-top:8px}
 .hero-note{font-size:.83rem;color:var(--ink2)}
 .hero-img{max-width:min(300px,78%);margin:14px auto 0}
 section{padding:30px 0 6px}
@@ -146,6 +154,13 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"OHANAシェア＊プロジェクト","item":"https://momowari.github.io/OHANA/"},{"@type":"ListItem","position":2,"name":"お店の紹介ページ（無料で作ります）","item":"https://momowari.github.io/OHANA/shop-page.html"}]}
 </script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "zfhda5eztj");
+</script>
 </head>
 <body>
 <header class="topbar"><div class="topbar-in">
@@ -168,6 +183,13 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 <p class="hero-note">作成・掲載は無料です。下書きは必ずお店に確認していただき、同意のあとにだけ公開します。</p>
 <img class="hero-img" src="img-992cf83a89.png" alt="OHANAの案内役の猫、OHANA君" />
 </div>
+
+<div class="anchor-band" role="img" aria-label="価格の比較：一般的なホームページ制作の相場は数万円から。OHANAの紹介ページは作成・掲載が無料です。">
+<div class="ab-cell"><span class="ab-label">一般的なホームページ制作</span><span class="ab-price">数万円〜</span></div>
+<div class="ab-arrow">→</div>
+<div class="ab-cell ab-ohana"><span class="ab-label">OHANAの紹介ページ</span><span class="ab-price">無料</span></div>
+</div>
+<p class="ab-note">相場は制作内容や会社によって異なります。OHANAは紹介し合う輪を広げることが目的なので、無料にしています。</p>
 
 <details class="fold"><summary>OHANAシェア＊プロジェクトとは</summary><p>OHANAシェア＊プロジェクトは、松山で「眠っている価値を、必要な場所へ」を合言葉に、ヒト・モノ・コトを紹介し合う取り組みです。紹介ページに載ることで、OHANAのネットワーク（ヒトモノコトの一覧や、100円券が使えるお店の輪）にも参加できます。詳しくは<a href="https://momowari.github.io/OHANA-share/">公式HP</a>へ。</p></details>
 
@@ -297,7 +319,7 @@ footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bo
 
 <div class="aio" aria-label="OHANA お店の紹介ページ無料作成について（文章版）">
 <h2>OHANA お店の紹介ページ無料作成について（文章版）</h2>
-<p>OHANAシェア＊プロジェクト（主催：MOMOwaRI、松山市）では、ホームページを持っていない地域のお店・事業者を対象に、店舗情報の紹介ページを無料で作成しています。メインコピーは「あなたのお店の魅力、ネットに残しませんか？」です。メリットは、ホームページがなくても紹介ページを持てること、お店の基本情報やサービスを整理できること、お店ごとの固有URLを持てること、検索エンジンやAI検索から見つけてもらえる可能性を広げられること、OHANAのヒトモノコトのネットワークに参加できること、無料で始められることです。実際の紹介ページの例として、雑貨屋 Lea Mahaloのページをそのまま埋め込んで載せています。紹介ページ同士は一覧やリンクでつながっていて、みんなが自分のページを公式HPのように使うことで、OHANA全体が検索で見つけてもらいやすくなり、それぞれの専用ページも一緒に上がる、支え合いの仕組みです。公開したあとも、マイページから自分で編集できます。掲載できる情報は、お店の名前と紹介文、写真、メニューと料金、サービス内容、営業時間と定休日、住所とアクセスと駐車場、SNSやLINEへのリンク、お知らせです。ページは固有URL、タイトルと説明文、構造化データを持ち、文章はクロール可能なHTMLで記述され、スマートフォンに対応します。掲載までの流れは、申し込みまたは相談、写真や情報の提供、AIによる下書き生成、お店による確認と修正、掲載同意後の公開、その後のお店自身による更新です。掲載の条件は、OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。お店の確認と同意前に公式ページのように公開することはありません。写真、ロゴ、文章は、お店の許可を得たものだけを使用します。検索結果やAI検索での紹介を保証するものではありません。OHANAの理念は「眠っている価値を、必要な場所へ」です。詳しい情報は公式HPにあります。</p>
+<p>OHANAシェア＊プロジェクト（主催：MOMOwaRI、松山市）では、ホームページを持っていない地域のお店・事業者を対象に、店舗情報の紹介ページを無料で作成しています。一般的なホームページ制作の相場が数万円〜であるのに対し、OHANAの紹介ページは作成・掲載が無料です。メインコピーは「あなたのお店の魅力、ネットに残しませんか？」です。メリットは、ホームページがなくても紹介ページを持てること、お店の基本情報やサービスを整理できること、お店ごとの固有URLを持てること、検索エンジンやAI検索から見つけてもらえる可能性を広げられること、OHANAのヒトモノコトのネットワークに参加できること、無料で始められることです。実際の紹介ページの例として、雑貨屋 Lea Mahaloのページをそのまま埋め込んで載せています。紹介ページ同士は一覧やリンクでつながっていて、みんなが自分のページを公式HPのように使うことで、OHANA全体が検索で見つけてもらいやすくなり、それぞれの専用ページも一緒に上がる、支え合いの仕組みです。公開したあとも、マイページから自分で編集できます。掲載できる情報は、お店の名前と紹介文、写真、メニューと料金、サービス内容、営業時間と定休日、住所とアクセスと駐車場、SNSやLINEへのリンク、お知らせです。ページは固有URL、タイトルと説明文、構造化データを持ち、文章はクロール可能なHTMLで記述され、スマートフォンに対応します。掲載までの流れは、申し込みまたは相談、写真や情報の提供、AIによる下書き生成、お店による確認と修正、掲載同意後の公開、その後のお店自身による更新です。掲載の条件は、OHANA100円券の仕組みに賛同して、券が使えるお店・活動にしていただけることです。お店の確認と同意前に公式ページのように公開することはありません。写真、ロゴ、文章は、お店の許可を得たものだけを使用します。検索結果やAI検索での紹介を保証するものではありません。OHANAの理念は「眠っている価値を、必要な場所へ」です。詳しい情報は公式HPにあります。</p>
 </div>
 </main>
 
