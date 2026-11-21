@@ -1055,6 +1055,28 @@
       .member-note a{ color:#ffe9a8; }
       .upload-or{ color:rgba(255,255,255,.7); }
       .upload-preview{ border-color:var(--glass-line); }
+      /* boarding OHANA船: tapping the ship mark dips the water
+         and rocks the mark for a short moment — you step aboard,
+         then the sheet rises. Pure CSS, every width, phones too. */
+      #stepsStat{ cursor:pointer; }
+      #itemLikes{ cursor:pointer; }
+      @keyframes boardDip{
+        0%{ transform:translateY(0); }
+        35%{ transform:translateY(10px); }
+        70%{ transform:translateY(-3px); }
+        100%{ transform:translateY(0); }
+      }
+      body.boarding #seaScroll{ animation:boardDip .5s ease; }
+      @keyframes boardRock{
+        0%{ transform:rotate(0deg) translateY(0); }
+        30%{ transform:rotate(-4deg) translateY(2px); }
+        65%{ transform:rotate(3deg) translateY(-1px); }
+        100%{ transform:rotate(0deg) translateY(0); }
+      }
+      body.boarding #bagBtn{ animation:boardRock .5s ease; }
+      @media (prefers-reduced-motion: reduce){
+        body.boarding #seaScroll, body.boarding #bagBtn{ animation:none; }
+      }
 </style>
   </head>
   <body>
@@ -1163,7 +1185,7 @@
         </button>
       </div>
       <div class="stats-row">
-        <span class="stat-text">足あと<b id="itemSteps">0</b></span>
+        <span class="stat-text" id="stepsStat" title="タップで名前を見る">足あと<b id="itemSteps">0</b></span>
         <button class="like-btn" id="likeBtn" type="button" aria-pressed="false" aria-label="このモノに好きと言う">
           <svg viewBox="0 0 24 24" fill="none" stroke="#ffb3c2" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5 C7 16.5 3.5 13.3 3.5 9.6 C3.5 7.2 5.3 5.5 7.5 5.5 C9.2 5.5 10.9 6.5 12 8 C13.1 6.5 14.8 5.5 16.5 5.5 C18.7 5.5 20.5 7.2 20.5 9.6 C20.5 13.3 17 16.5 12 20.5 Z"/></svg>
           好き<b id="itemLikes">0</b>
@@ -1185,6 +1207,16 @@
           <button class="comment-send" id="commentSend" type="button">残す</button>
         </div>
       </div>
+    </section>
+
+    <!-- names sheet: who left a 足あと / who said 好き —
+         names only, newest first -->
+    <section class="sheet" id="sheetNames" role="dialog" aria-modal="true" aria-labelledby="namesTitle" hidden>
+      <div class="grabber"></div>
+      <button class="close-x" type="button" data-close aria-label="閉じる">✕</button>
+      <h2 id="namesTitle"></h2>
+      <div id="namesList"></div>
+      <p class="empty-note" id="namesEmpty">まだ名前はないよ。</p>
     </section>
 
     <!-- throw sheet -->
@@ -1458,10 +1490,12 @@
   /* ---------------- audio ---------------- */
   var actx = null;
   function ensureAudio(){
-    if (!actx){
-      try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){ actx = null; }
-    }
-    if (actx && actx.state === "suspended") actx.resume();
+    /* the sea is silent: the sound mark is gone, so nothing may
+       start the audio at all — no BGM, no synth sounds, ever.
+       Every sound path in this file flows through here (tone()
+       needs actx, startAmbient() needs actx), so keeping actx
+       null keeps the whole sea quiet. */
+    actx = null;
   }
   function tone(freq, t0, dur, type, vol){
     if (!actx) return;
@@ -1482,7 +1516,7 @@
      When the page opens, the guide's words flow through once — slowly,
      one line at a time, near the centre of the sea. There is NO
      narration and no reading aloud: the words drift by in silence,
-     and the only sound in this sea is the music and the water. */
+     and the sea itself is silent too: no music, no voice. */
   var soundOn = false, musicGain = null, musicTimer = null, waveGain = null, musicFilter = null;
   var GUIDE_LINES = [
     "ようこそ、OHANA海へ",
@@ -1654,6 +1688,7 @@
     btn.classList.toggle("muted", soundMuted);
   }
   function startAmbient(){
+    return; /* silent sea: the BGM never starts (see ensureAudio) */
     if (ambientStarted || soundMuted) return;
     soundOn = true;
     ensureAudio();
@@ -2246,10 +2281,82 @@
   function requireMember(){ return true; }
 
 
+  /* ---------------- 足あと・好き: names ----------------
+     Opening a detail leaves a 足あと; saying 好き leaves a name
+     too. A logged-in visitor's name is kept — on this device at
+     once (localStorage), and in Firestore through the module
+     (seaFootprints / seaLikes: { itemId, uid, name, ts }).
+     Guests leave no name. Tapping the 足あと words, or the
+     number beside 好き, opens the names sheet: who came, who
+     liked, newest first. If the Firestore side is not reachable
+     (rules), the device-local names still show. */
+  var FP_KEY = "ohanaKaiFootprints", LK_KEY = "ohanaKaiLikes";
+  function loadNameMap(key){
+    try { var v = JSON.parse(localStorage.getItem(key) || "{}"); return v && typeof v === "object" ? v : {}; } catch (e) { return {}; }
+  }
+  function saveNameMap(key, map){ try { localStorage.setItem(key, JSON.stringify(map)); } catch (e) {} }
+  function recordLocalName(key, itemId, name){
+    var map = loadNameMap(key), arr = map[itemId] || [];
+    arr.push({ name: name, ts: Date.now() });
+    if (arr.length > 100) arr = arr.slice(arr.length - 100);
+    map[itemId] = arr; saveNameMap(key, map);
+  }
+  function removeLocalName(key, itemId, name){
+    var map = loadNameMap(key), arr = map[itemId] || [];
+    map[itemId] = arr.filter(function(r){ return r.name !== name; });
+    saveNameMap(key, map);
+  }
+  function fmtNameTs(ts){
+    var d = new Date(ts);
+    return (d.getMonth() + 1) + "/" + d.getDate() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+  }
+  function renderNames(kind, item, remote){
+    var local = loadNameMap(kind === "likes" ? LK_KEY : FP_KEY)[item.id] || [];
+    var rows = (remote || []).slice();
+    local.forEach(function(lr){
+      var dup = rows.some(function(rr){ return rr.name === lr.name && Math.abs((rr.ts || 0) - lr.ts) < 15000; });
+      if (!dup) rows.push(lr);
+    });
+    rows.sort(function(a, b){ return (b.ts || 0) - (a.ts || 0); });
+    if (kind === "likes"){
+      var seen = {}, ded = [];
+      rows.forEach(function(r){ var k = r.uid || r.name; if (!seen[k]){ seen[k] = 1; ded.push(r); } });
+      rows = ded;
+    }
+    var list = $("#namesList");
+    list.innerHTML = "";
+    rows.slice(0, 100).forEach(function(r){
+      var d = document.createElement("div");
+      d.className = "bag-item";
+      d.innerHTML = '<div><div class="bn">' + esc(r.name) + '</div><div class="bs">' + fmtNameTs(r.ts || 0) + '</div></div>';
+      list.appendChild(d);
+    });
+    var en = $("#namesEmpty");
+    en.style.display = rows.length ? "none" : "";
+    en.textContent = kind === "likes" ? "まだ好きを付けた人はいないよ。" : "まだ足あとはないよ。";
+  }
+  function openNames(kind){
+    if (!selectedItem) return;
+    var item = selectedItem.data;
+    $("#namesTitle").textContent = item.name + (kind === "likes" ? " への好き" : " の足あと");
+    renderNames(kind, item, []);
+    openSheet("sheetNames");
+    if (window.__kaiFetchNames) window.__kaiFetchNames(kind === "likes" ? "seaLikes" : "seaFootprints", item.id, function(rows){ renderNames(kind, item, rows); });
+  }
+  var stepsStatEl = $("#stepsStat");
+  if (stepsStatEl) stepsStatEl.addEventListener("click", function(){ openNames("footprints"); });
+  var likesNumEl = $("#itemLikes");
+  if (likesNumEl) likesNumEl.addEventListener("click", function(e){ e.stopPropagation(); openNames("likes"); });
+
   /* ---------------- item sheet / pick ---------------- */
   function openItem(b){
     selectedItem = b;
     b.data.steps++;
+    /* a logged-in visitor's 足あと carries their name */
+    if (isLoggedInWithIsland && currentUserName){
+      recordLocalName(FP_KEY, b.data.id, currentUserName);
+      if (window.__kaiRecordFootprint) window.__kaiRecordFootprint(b.data.id);
+    }
     $("#itemName").textContent = b.data.name;
     $("#itemSteps").textContent = b.data.steps;
     updateLikeBtn(b.data);
@@ -2424,6 +2531,12 @@
     d.liked = !d.liked;
     d.likes = Math.max(0, d.likes + (d.liked ? 1 : -1));
     updateLikeBtn(d);
+    /* a logged-in visitor's 好き carries their name too */
+    if (isLoggedInWithIsland && currentUserName){
+      if (d.liked) recordLocalName(LK_KEY, d.id, currentUserName);
+      else removeLocalName(LK_KEY, d.id, currentUserName);
+      if (window.__kaiRecordLike) window.__kaiRecordLike(d.id, d.liked);
+    }
     if (d.liked) sndPop();
   });
   /* ページを見に行く: its own button, independent of 船に乗せる —
@@ -2672,7 +2785,17 @@
       activateBagTab(this.getAttribute("data-tab"));
     });
   }
-  $("#bagBtn").addEventListener("click", function(){ ensureAudio(); updateBag(); openSheet("sheetBag"); });
+  $("#bagBtn").addEventListener("click", function(){
+    ensureAudio(); updateBag();
+    /* boarding: a short dip of the water and a rock of the ship
+       mark, then the sheet rises — the same on phones as on PC */
+    if (reduceMotion){ openSheet("sheetBag"); return; }
+    document.body.classList.remove("boarding");
+    void document.body.offsetWidth;
+    document.body.classList.add("boarding");
+    setTimeout(function(){ openSheet("sheetBag"); }, 170);
+    setTimeout(function(){ document.body.classList.remove("boarding"); }, 580);
+  });
 
   /* ---------------- edit a モノ (image add / change, name, message) ---------------- */
   var editImgData = null;
@@ -2770,7 +2893,7 @@
     <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, addDoc, query, orderBy, limit, onSnapshot, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, query, where, orderBy, limit, onSnapshot, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 /* OHANA海 本番接続: OHANA島・OHANA-shareと同じ Firebase (ohana-share)・デフォルトアプリで接続し、
    ログイン状態と OHANAの声 (islandChat) を島と共有する。 */
@@ -2890,6 +3013,40 @@ if (auth && db) {
         ts: Date.now(), read: false
       });
     } catch (e) {}
+  };
+  /* 足あと (seaFootprints) と好き (seaLikes): a logged-in
+     visitor leaves { itemId, uid, name, ts } — name is the
+     islandUsers nickname, the same resolution as the voice.
+     Guests leave none. Taking 好き back removes your own
+     seaLikes entries for that item. The names sheet reads them
+     back through __kaiFetchNames. If the rules do not allow
+     these collections yet, every call fails quietly and the
+     device-local names still show. */
+  window.__kaiRecordFootprint = async function (itemId) {
+    if (!meUser || !db || !itemId) return;
+    try { await addDoc(collection(db, "seaFootprints"), { itemId: itemId, uid: meUser.uid, name: (myNickname || "メンバー").slice(0, 30), ts: Date.now() }); } catch (e) {}
+  };
+  window.__kaiRecordLike = async function (itemId, liked) {
+    if (!meUser || !db || !itemId) return;
+    try {
+      if (liked) {
+        await addDoc(collection(db, "seaLikes"), { itemId: itemId, uid: meUser.uid, name: (myNickname || "メンバー").slice(0, 30), ts: Date.now() });
+      } else {
+        var snap = await getDocs(query(collection(db, "seaLikes"), where("itemId", "==", itemId), limit(200)));
+        var jobs = [];
+        snap.forEach(function (d) { var v = d.data() || {}; if (v.uid === meUser.uid) jobs.push(deleteDoc(d.ref)); });
+        await Promise.all(jobs);
+      }
+    } catch (e) {}
+  };
+  window.__kaiFetchNames = function (col, itemId, cb) {
+    if (!db || !itemId) { cb([]); return; }
+    getDocs(query(collection(db, col), where("itemId", "==", itemId), limit(200))).then(function (snap) {
+      var out = [];
+      snap.forEach(function (d) { var v = d.data() || {}; if (v.name) out.push({ name: v.name, ts: v.ts || 0, uid: v.uid || "" }); });
+      out.sort(function (a, b) { return b.ts - a.ts; });
+      cb(out);
+    }).catch(function () { cb([]); });
   };
   async function loadCargo(user) {
     try {
