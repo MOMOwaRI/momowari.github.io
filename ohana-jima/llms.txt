@@ -49,9 +49,9 @@
 - メンバー登録・マイページ： https://momowari.github.io/OHANA-share/login.html
 - 運営： MOMOwaRI（OHANA島・OHANAシェア＊プロジェクト主催）
 
-## OHANA海（OHANA島の海）
+## OHANA海🐠（OHANA島の海）
 
-- OHANA海： https://momowari.github.io/ohana-jima/kai.html
+- OHANA海🐠： https://momowari.github.io/ohana-jima/kai.html
 - OHANA島の海のページ。OHANAシェア＊プロジェクトの理念「眠っている価値を、必要な場所へ。」のもと、眠っている価値を海へ放流すると、ありがとうのしるしとしてコインが戻ってくる
 - コインは、1コイン＝実物の100円券1枚と交換できる（現金への換金・現金化はできない）。100円券は無料で配られ、お釣りは出ない
 - OHANAの声（チャット）とログイン（メンバー登録）はOHANA島と共通。舞台は愛媛県松山市
