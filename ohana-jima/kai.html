@@ -1077,6 +1077,19 @@
       @media (prefers-reduced-motion: reduce){
         body.boarding #seaScroll, body.boarding #bagBtn{ animation:none; }
       }
+      /* the cargo count on the ship mark: big enough to read at
+         a glance — it is the number this sea is counted by */
+      #bagBadge{ font-size:.88rem; min-width:1.75rem; height:1.75rem; padding:0 .45rem; }
+      /* owner messaging inside the cargo tab */
+      .owner-row{
+        display:flex; align-items:center; gap:.6rem;
+        background:var(--glass-in); border:1px solid var(--glass-line-in);
+        border-radius:12px; padding:.5rem .75rem; margin-bottom:.45rem; font-size:.88rem;
+      }
+      .owner-row .bn{ font-weight:700; }
+      .owner-row .bs{ font-size:.76rem; color:rgba(255,255,255,.75); }
+      .owner-row .ghost-btn{ margin-left:auto; flex:none; }
+      .bag-item .row-msg{ margin-left:auto; flex:none; }
 </style>
   </head>
   <body>
@@ -1155,7 +1168,7 @@
 
       <!-- OHANAの声: opens in place, right where its mark lives -->
       <div class="voice-panel" id="voicePanel" hidden>
-        <div class="voice-head"><span>OHANAの声</span><a class="voice-island" href="https://momowari.github.io/ohana-jima/kai.html" aria-label="OHANA海へ"><span class="voice-wave" aria-hidden="true">🌊</span><span>OHANA海</span></a><button class="voice-x" id="voiceClose" type="button" aria-label="閉じる">✕</button></div>
+        <div class="voice-head"><span>OHANAの声</span><a class="voice-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" aria-label="OHANA島へ"><span class="voice-wave" aria-hidden="true">🏝️</span><span>OHANA島</span></a><button class="voice-x" id="voiceClose" type="button" aria-label="閉じる">✕</button></div>
         <div id="seaCommentList"></div>
         <p class="empty-note" id="seaCommentEmpty">まだひとことはないよ。</p>
         <div class="comment-form">
@@ -1219,6 +1232,19 @@
       <p class="empty-note" id="namesEmpty">まだ名前はないよ。</p>
     </section>
 
+    <!-- message sheet: to the owner of what's aboard — the text
+         starts from a template, send it as-is or edit it first.
+         It lands in the owner's notices (kind:'msg'). -->
+    <section class="sheet" id="sheetMsg" role="dialog" aria-modal="true" aria-labelledby="msgTo" hidden>
+      <div class="grabber"></div>
+      <button class="close-x" type="button" data-close aria-label="閉じる">✕</button>
+      <h2 id="msgTo">持ち主へのメッセージ</h2>
+      <p id="msgAbout"></p>
+      <label class="flabel" for="msgText">文面（そのまま送っても、直してもOK）</label>
+      <textarea id="msgText" rows="5" maxlength="500"></textarea>
+      <button class="cta-btn" id="msgSendBtn" type="button">このまま送る</button>
+    </section>
+
     <!-- throw sheet -->
     <section class="sheet" id="sheetThrow" role="dialog" aria-modal="true" aria-labelledby="throwTitle" hidden>
       <div class="grabber"></div>
@@ -1261,6 +1287,7 @@
         <p class="empty-note" id="thrownEmpty">あなたの価値を放ってみませんか？</p>
       </div>
       <div id="tabItems" hidden>
+        <div id="bagOwnerActions"></div>
         <div class="bag-list" id="bagList"></div>
         <p class="empty-note" id="bagEmpty">発見しに行こう。</p>
       </div>
@@ -2218,7 +2245,7 @@
      can release, pick, comment and edit their own モノ. */
   /* ログイン状態はOHANA島と連動: 島でログインできていれば
      そのまま使える。状態と表記は必ず一致させる —
-     ゲストのときは「メンバー登録（無料）」だけ、
+     ゲストのときは「ログイン／メンバー登録（無料）」だけ、
      ログイン済みのときだけ「マイページ／ログアウト」を出す。
      いまの状態はゲスト（未ログイン）が既定。 */
   var isLoggedInWithIsland = false;
@@ -2228,10 +2255,12 @@
     var box = $("#shipHeadLinks");
     if (box){
       if (!isLoggedInWithIsland){
-        box.innerHTML = '<a class="head-link gold" href="' + MYPAGE_URL + '" target="_blank" rel="noopener" data-login="1">メンバー登録（無料）</a>';
+        box.innerHTML = '<a class="head-link gold" href="' + MYPAGE_URL + '" target="_blank" rel="noopener" data-login="1">ログイン／メンバー登録（無料）</a>';
       } else if (!hasOwnPage){
-        box.innerHTML = '<span class="head-link guest-badge">ゲスト</span>'
-          + '<a class="head-link" href="' + MYPAGE_URL + '" target="_blank" rel="noopener" data-mypage="1">マイページ</a>';
+        /* logged in is logged in — page or no page, a member sees
+           マイページ／ログアウト, never a ゲスト badge */
+        box.innerHTML = '<a class="head-link gold" href="' + MYPAGE_URL + '" target="_blank" rel="noopener" data-mypage="1">マイページ</a>'
+          + '<a class="head-link" href="' + ISLAND_URL + '" data-logout="1">ログアウト</a>';
       } else {
         box.innerHTML = '<a class="head-link gold" href="' + MYPAGE_URL + '" target="_blank" rel="noopener" data-mypage="1">マイページ</a>'
           + '<a class="head-link" href="' + ISLAND_URL + '" data-logout="1">ログアウト</a>';
@@ -2722,6 +2751,52 @@
     updateBag();
   };
 
+  /* ---------------- 持ち主へメッセージ ----------------
+     From the cargo list you can write to an item's owner: one
+     item at a time, or every item of one owner together. The
+     text starts as a template — send it as-is, or edit first.
+     It lands in the owner's notices as kind:'msg' (the
+     module writes it). Only owners whose uid the sea knows can
+     be reached — today that is MOMOwaRI; other owners' items
+     simply carry no button. Guests can draft, not send. */
+  function ownerNameFor(entry){
+    var d = ITEM_REGISTRY[entry.id];
+    return d ? (d.from || "") : "";
+  }
+  function ownerKnown(entry){ return ownerNameFor(entry) === "MOMOwaRI"; }
+  var msgItems = [];
+  function msgTemplate(items){
+    var names = items.map(function(it){ return "「" + it.name + "」"; }).join("");
+    var who = currentUserName || "メンバー";
+    return "こんにちは、" + who + "です。OHANA海で" + names + "を船に乗せました。受け取りについて相談させてください。";
+  }
+  function openMsgSheet(items){
+    if (!items.length) return;
+    msgItems = items.slice();
+    var owner = ownerNameFor(items[0]);
+    $("#msgTo").textContent = owner + "さんへのメッセージ";
+    $("#msgAbout").textContent = items.length === 1 ? items[0].name : items.length + "件のモノについて";
+    $("#msgText").value = msgTemplate(items);
+    openSheet("sheetMsg");
+  }
+  $("#msgSendBtn").addEventListener("click", function(){
+    if (!msgItems.length) return;
+    if (!isLoggedInWithIsland){ toast("メッセージはログインすると送れるよ"); return; }
+    var text = $("#msgText").value.trim();
+    if (!text){ toast("文面が空だよ"); return; }
+    var payload = {
+      ownerName: ownerNameFor(msgItems[0]),
+      text: text,
+      itemName: msgItems.length === 1 ? msgItems[0].name : ""
+    };
+    if (window.__kaiSendMsg){
+      window.__kaiSendMsg(payload).then(function(ok){
+        if (ok){ closeSheets(); toast("メッセージを送ったよ"); }
+        else toast("送れなかったよ");
+      });
+    }
+  });
+
   /* ---------------- bag ---------------- */
   function updateBag(){
     var badge = $("#bagBadge");
@@ -2738,8 +2813,40 @@
       d.innerHTML = '<img src="' + it.img + '" alt="" /><div><div class="bn">' + esc(it.name) + '</div><div class="bs">' + esc(it.via || "積載") + '</div></div>';
       d.style.cursor = "pointer";
       d.addEventListener("click", function(){ openBagItem(it); });
+      if (ownerKnown(it) && ownerNameFor(it) !== currentUserName){
+        var mb = document.createElement("button");
+        mb.type = "button";
+        mb.className = "ghost-btn row-msg";
+        mb.textContent = "持ち主へメッセージ";
+        mb.addEventListener("click", function(e){ e.stopPropagation(); openMsgSheet([it]); });
+        d.appendChild(mb);
+      }
       list.appendChild(d);
     });
+    /* the same owner, several items aboard: one message for all */
+    var oa = $("#bagOwnerActions");
+    if (oa){
+      oa.innerHTML = "";
+      var byOwner = {};
+      state.bag.forEach(function(it){
+        var o = ownerNameFor(it);
+        if (o && o !== currentUserName && ownerKnown(it)) (byOwner[o] = byOwner[o] || []).push(it);
+      });
+      Object.keys(byOwner).forEach(function(o){
+        var items = byOwner[o];
+        if (items.length < 2) return;
+        var row = document.createElement("div");
+        row.className = "owner-row";
+        row.innerHTML = '<div><div class="bn">' + esc(o) + 'さん（' + items.length + '件）</div><div class="bs">まとめて連絡</div></div>';
+        var gb = document.createElement("button");
+        gb.type = "button";
+        gb.className = "ghost-btn";
+        gb.textContent = "まとめてメッセージ";
+        gb.addEventListener("click", function(){ openMsgSheet(items); });
+        row.appendChild(gb);
+        oa.appendChild(row);
+      });
+    }
     $("#bagEmpty").style.display = state.bag.length ? "none" : "";
     var tl = $("#thrownList");
     tl.innerHTML = "";
@@ -3047,6 +3154,28 @@ if (auth && db) {
       out.sort(function (a, b) { return b.ts - a.ts; });
       cb(out);
     }).catch(function () { cb([]); });
+  };
+  /* 持ち主へのメッセージ (notices, kind:'msg'): the confirmed
+     shape the matching mypage renders — { toUid, kind:'msg',
+     fromName, itemName (only for a single item), text,
+     ts (number), read:false }. Only owners whose uid the sea
+     knows can be reached: today that is MOMOwaRI (OWNER_UID). */
+  window.__kaiSendMsg = async function (payload) {
+    if (!meUser || !db || !payload) return false;
+    var toUid = payload.ownerName === "MOMOwaRI" ? OWNER_UID : "";
+    if (!toUid || toUid === meUser.uid) return false;
+    var text = String(payload.text || "").trim().slice(0, 500);
+    if (!text) return false;
+    try {
+      var entry = {
+        toUid: toUid, kind: "msg",
+        fromName: (myNickname || "メンバー").slice(0, 30),
+        text: text, ts: Date.now(), read: false
+      };
+      if (payload.itemName) entry.itemName = String(payload.itemName).slice(0, 60);
+      await addDoc(collection(db, "notices"), entry);
+      return true;
+    } catch (e) { return false; }
   };
   async function loadCargo(user) {
     try {
