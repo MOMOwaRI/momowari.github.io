@@ -484,6 +484,38 @@
 #chatFeed:not(.min) { color:#3a2c1c; }
 #chatFeed .fmsg { color:#4a3826; }
 #chatFeed .fmsg b { color:#b3541e; }
+
+/* ===== sea-style pulldown + bag readability (2026-11-21) ===== */
+#destMenu { padding:10px 12px; }
+.pin-pull-name { font-weight:800; color:#b3541e; font-size:13px; margin:2px 0; }
+.destRow { display:flex; flex-wrap:wrap; gap:4px 14px; margin:2px 0 8px; }
+#destMenu .destRow .destItem { background:none; border:none; border-radius:0; box-shadow:none; width:auto; padding:2px 1px; font-size:13.5px; color:#33608f; font-weight:700; text-align:left; }
+#destMenu #destTour { border-bottom:none; margin-bottom:0; }
+.destPlaces { display:flex; flex-wrap:wrap; gap:4px 12px; max-height:38vh; overflow-y:auto; margin-top:2px; }
+#destMenu .head-link { background:none; border:none; box-shadow:none; color:#33608f; font-size:13.5px; font-weight:600; padding:2px 1px; cursor:pointer; text-align:left; width:auto; }
+#bagItems { display:flex !important; flex-direction:column !important; gap:6px; }
+.bagRow { background:#faf1dc; border:1px solid #e5d9bd; width:100%; box-sizing:border-box; }
+.bagRow .bagName { color:#4a3826; text-shadow:none; font-size:14.5px; }
+.bagRow .bagDel { background:#fff; border:1px solid #d9c9a3; color:#8a715a; }
+#bagEmpty { color:#8a715a; }
+.cartrow { color:#4a3826; font-size:14.5px; }
+#cartList p { color:#4a3826; }
+
+/* ===== card smaller / pcGo visible / bag texts / menu link color (2026-11-21) ===== */
+#prodCard { width:min(320px, 88vw); padding:12px 14px; }
+#prodCard .pcRow img { width:64px; height:64px; }
+.pcName { font-size:14.5px; }
+.pcPrice { font-size:14px; }
+.pcShop { font-size:12px; }
+.pcBtns { gap:8px; margin-top:10px; }
+.pcBtns button { padding:9px 10px; font-size:13.5px; }
+#pcGo { background:#fff !important; color:#4a3826 !important; border:1.5px solid #d9c9a3 !important; text-shadow:none !important; box-shadow:none !important; }
+#bagPanel .bagLinks a, #bagPanel .bagLinks button { color:#33608f !important; text-shadow:none !important; font-weight:700; }
+#destMenu .destRow .destItem { color:#33608f !important; }
+
+.bagTitle { color:#4a3826 !important; }
+.bagTitle b { color:#b3541e !important; }
+#bagPanel .bagLinks { border-top:1px solid #e5d9bd; }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "OHANA島", "url": "https://momowari.github.io/ohana-jima/", "inLanguage": "ja", "description": "愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現したウェブ上の島。ストリートビューのように歩いて回ることができ、MAHALOビル、阿沼美神社、庚申庵、萱町商店街、フジグラン松山、古町駅、城山公園、道後温泉本館、大街道、銀天街、松山城、松山市駅、JR松山駅などを掲載。ヒトモノコトをつなぐOHANAシェア＊プロジェクトの活動とつながっている。", "isPartOf": {"@type": "WebSite", "name": "OHANAシェア＊プロジェクト", "url": "https://momowari.github.io/OHANA-share/"}, "author": {"@type": "Person", "name": "MOMOwaRI"}}</script>
 </head>
@@ -1119,22 +1151,7 @@ window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-
   };
   }
   const mc = document.getElementById("mapClose"); if (mc) mc.addEventListener("click", () => { const bm = document.getElementById("bigMapSec"); if (bm) bm.style.display = "none"; });
-  const menu = document.getElementById("destMenu");
-  if (menu && typeof SHORT !== "undefined") {
-    const order = ["front", "stairs", "counter", "elua", "lea", "pharmacy", "jinja", "koshin", "yaoya", "tamago", "kayamachi2", "kayamachi", "fuji", "furumachi", "park", "honkan", "dogoeki", "haikara", "okaido", "gintengai", "castle", "cityst", "jrst"];
-    const parkBtn = document.getElementById("destPark"), mapBtn = document.getElementById("destMap"), tourBtn = document.getElementById("destTour");
-    if (parkBtn) menu.appendChild(parkBtn);
-    if (mapBtn) menu.appendChild(mapBtn);
-    if (tourBtn) menu.appendChild(tourBtn);
-    const sep = document.createElement("div"); sep.style.cssText = "border-top:1.5px dashed #e0d0a8;margin:2px 2px 0"; menu.appendChild(sep);
-    order.forEach((id) => {
-      if (id === "park") return;
-      const b = document.createElement("button"); b.type = "button"; b.className = "destItem"; b.textContent = SHORT[id] || id;
-      b.addEventListener("click", () => { closeDestMenu(); window.goScene(id); });
-      menu.appendChild(b);
-    });
-  }
-})();
+  const menu = document.getElementById("destMenu"); if (menu) { const LABELS = { front: "MAHALOビル正面", stairs: "外階段", counter: "MAHALO（店内）", elua: "elua Mahalo（店内）", lea: "Lea Mahalo（店内）", pharmacy: "レデイ薬局宮西店", jinja: "阿沼美神社", koshin: "庚申庵", yaoya: "丸五青果", tamago: "平野鶏卵", kayamachi: "萱町商店街", kayamachi2: "萱町商店街（なかほど）", fuji: "フジグラン松山", furumachi: "古町駅", honkan: "道後温泉本館", dogoeki: "道後温泉駅", haikara: "道後ハイカラ通り", okaido: "大街道", gintengai: "銀天街", castle: "松山城", cityst: "松山市駅", jrst: "JR松山駅" }; const order = ["front", "stairs", "counter", "elua", "lea", "pharmacy", "jinja", "koshin", "yaoya", "tamago", "kayamachi", "kayamachi2", "fuji", "furumachi", "park", "honkan", "dogoeki", "haikara", "okaido", "gintengai", "castle", "cityst", "jrst"]; const h1 = document.createElement("div"); h1.className = "pin-pull-name"; h1.textContent = "OHANA島"; menu.insertBefore(h1, menu.firstChild); const row = document.createElement("div"); row.className = "destRow"; ["destKai", "destPark", "destMap", "destTour"].forEach((bid) => { const b = document.getElementById(bid); if (b) row.appendChild(b); }); menu.appendChild(row); const h2 = document.createElement("div"); h2.className = "pin-pull-name"; h2.textContent = "島の場所"; menu.appendChild(h2); const places = document.createElement("div"); places.className = "destPlaces"; order.forEach((id) => { const b = document.createElement("button"); b.type = "button"; b.className = "head-link"; if (id === "park") { b.textContent = "城山公園 ›"; b.addEventListener("click", () => { const pb = document.getElementById("destPark"); if (pb) pb.click(); }); } else { b.textContent = (LABELS[id] || id) + " ›"; b.addEventListener("click", () => { closeDestMenu(); window.goScene(id); }); } places.appendChild(b); }); menu.appendChild(places); } })();
 /* 初回表示で左下SNSアイコンが出ないことがあるため、空なら少し待って入れ直す */
 (function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && window.postsFor(curScene).length) { window.renderSceneSns(curScene); } if (n > 8) clearInterval(t); }, 1200); })();
 
