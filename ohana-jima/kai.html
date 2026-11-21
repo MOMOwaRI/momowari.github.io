@@ -1148,6 +1148,20 @@
 .place-pulldown .destPlaces{ display:flex; flex-wrap:wrap; gap:4px 12px; max-height:38vh; overflow-y:auto; margin-top:2px; }
 .place-pulldown .destPlaces .head-link{ font-size:13.5px; font-weight:600; }
 </style>
+<style>
+/* 放流シート: メンバー登録の案内は放流ボタンの下に／ゲスト上限時の見た目 (2026-11-21) */
+#joinGuide{ margin-top:14px; text-align:center; font-size:.86rem; line-height:1.7; color:rgba(255,255,255,.94); text-shadow:0 1px 5px rgba(0,30,55,.35); }
+#joinGuide p{ margin:0 0 2px; }
+#joinGuide .head-link{ color:#ffe9a8; text-decoration:underline; text-underline-offset:3px; font-size:.9rem; }
+#uploadBtn:disabled{ opacity:.45; }
+.msg-guest-links{ margin:8px 0 0; font-size:.88rem; }
+</style>
+<style>
+/* 声パネル: 相手先リンクは見出しの下の行に／💬ボタンは透かさず実色の背景 (2026-11-21) */
+.voice-sub{ margin:0 0 .6rem; }
+.voice-panel .voice-head{ margin-bottom:.35rem; }
+#seaCommentBtn{ background:#0a4d75; border:1px solid rgba(255,255,255,.4); border-radius:50%; box-shadow:0 8px 20px rgba(0,20,40,.45); }
+</style>
 </head>
   <body>
     <main class="scene" id="scene">
@@ -1225,7 +1239,8 @@
 
       <!-- OHANAの声: opens in place, right where its mark lives -->
       <div class="voice-panel" id="voicePanel" hidden>
-        <div class="voice-head"><span>OHANAの声</span><a class="voice-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" aria-label="OHANA島へ"><span class="voice-wave" aria-hidden="true">🏝️</span><span>OHANA島</span></a><button class="voice-x" id="voiceClose" type="button" aria-label="閉じる">✕</button></div>
+        <div class="voice-head"><span>OHANAの声</span><button class="voice-x" id="voiceClose" type="button" aria-label="閉じる">✕</button></div>
+        <div class="voice-sub"><a class="voice-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" aria-label="OHANA島へ"><span class="voice-wave" aria-hidden="true">🏝️</span><span>OHANA島</span></a></div>
         <div id="seaCommentList"></div>
         <p class="empty-note" id="seaCommentEmpty">まだひとことはないよ。</p>
         <div class="comment-form">
@@ -1302,6 +1317,7 @@
       <div id="msgGuestMail" hidden>
         <label class="flabel" for="msgMail">返信を受け取るメールアドレス</label>
         <input type="email" id="msgMail" maxlength="120" placeholder="メールアドレス" autocomplete="email" />
+        <p class="msg-guest-links"><a class="head-link gold" href="https://momowari.github.io/OHANA-share/mypage.html" data-login="1">ログインして送る</a>／<a class="head-link gold" href="https://momowari.github.io/OHANA-share/mypage.html" data-login="1">登録して送る</a></p>
       </div>
       <label class="flabel" for="msgText">文面（そのまま送っても、直してもOK）</label>
       <textarea id="msgText" rows="5" maxlength="500"></textarea>
@@ -1320,6 +1336,7 @@
       <label class="flabel" for="throwMsg">次の人へのひとこと（任意）</label>
       <textarea id="throwMsg" rows="2" maxlength="60" placeholder="例：まだ使えます。どなたか使ってください"></textarea>
       <button class="cta-btn" id="doThrowBtn" type="button">海へ放流する</button>
+      <div id="joinGuide" hidden><p>メンバー登録（無料）をすると、このモノのページが自動で作られます。</p><a class="head-link gold" href="https://momowari.github.io/OHANA-share/mypage.html" data-login="1">ログイン／メンバー登録（無料）</a></div>
     </section>
 
     <!-- bag sheet: OHANA船 — コイン / 放流 / 積載 / 好き の4つのタブで切り替え、
@@ -1498,9 +1515,16 @@
     var url = btn.getAttribute("data-url");
     if (url) window.open(url, "_blank", "noopener");
   });
+  /* the one registry owner the sea can verify by uid: MOMOwaRI
+     (the same uid the module side calls OWNER_UID) */
+  var SEA_OWNER_UID = "ELCzyeeoDCU4gveavc077L4jBqE3";
   function isOwnItem(d){
     if (!d) return false;
-    return d.from === "あなた" || d.from === "MOMOwaRI" || d.id.indexOf("mine-") === 0 || d.id.indexOf("up-") === 0;
+    /* 編集は、そのモノの持ち主本人（ログイン中）だけ。
+       ゲスト・他人には編集系の操作を一切出さない */
+    if (!isLoggedInWithIsland || !currentUserUid) return false;
+    if (d.from === "MOMOwaRI") return currentUserUid === SEA_OWNER_UID;
+    return d.from === "あなた" || (d.id != null && (String(d.id).indexOf("mine-") === 0 || String(d.id).indexOf("up-") === 0));
   }
 
   /* ---------------- state ---------------- */
@@ -2298,6 +2322,7 @@
      いまの状態はゲスト（未ログイン）が既定。 */
   var isLoggedInWithIsland = false;
   var hasOwnPage = false;
+  var currentUserUid = "";
   var ISLAND_URL = "https://momowari.github.io/ohana-jima/";
   function updateMemberStatus(){
     var box = $("#shipHeadLinks");
@@ -2341,10 +2366,12 @@
       isLoggedInWithIsland = true;
       hasOwnPage = !!info.hasPage;
       currentUserName = info.nickname || "";
+      currentUserUid = info.uid || "";
     } else {
       isLoggedInWithIsland = false;
       hasOwnPage = false;
       currentUserName = "";
+      currentUserUid = "";
     }
     updateMemberStatus();
   };
@@ -2681,6 +2708,7 @@
       if (state.thrownItems[j].id === id) state.thrownItems.splice(j, 1);
     }
     if (state.thrown > 0) state.thrown--;
+    saveThrown();
     var hadCargo = false;
     for (var k = state.bag.length - 1; k >= 0; k--){
       if (state.bag[k].id === id){ state.bag.splice(k, 1); hadCargo = true; }
@@ -2710,11 +2738,78 @@
     deleteOwnRelease(id);
   });
 
+  /* ---------------- release records: kept on this device ----------------
+     A release used to live only in memory, so a guest's モノ
+     vanished on the next reload. The record is now kept in
+     localStorage and the bubbles are rebuilt from it at init;
+     delete and edit keep the record in sync. */
+  var THROWN_KEY = "ohanaKaiThrown";
+  function saveThrown(){
+    try {
+      var out = state.thrownItems.map(function(it){
+        var d = ITEM_REGISTRY[it.id] || it;
+        return { id: d.id, name: d.name, short: d.short || d.name, img: d.img, from: "あなた", cond: d.cond || "", msg: d.msg || "", page: d.page || "" };
+      });
+      localStorage.setItem(THROWN_KEY, JSON.stringify(out));
+    } catch (e) {}
+  }
+  /* a phone photo is far too big for localStorage (and heavy as
+     a bubble): shrink to at most 800px, JPEG, when it is picked */
+  function shrinkImage(dataUrl, done){
+    try {
+      var img = new Image();
+      img.onload = function(){
+        try {
+          var w = img.naturalWidth, h = img.naturalHeight;
+          if (!w || !h){ done(dataUrl); return; }
+          var scale = Math.min(1, 800 / Math.max(w, h));
+          if (scale >= 1 && dataUrl.length < 700000){ done(dataUrl); return; }
+          var c = document.createElement("canvas");
+          c.width = Math.max(1, Math.round(w * scale)); c.height = Math.max(1, Math.round(h * scale));
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          done(c.toDataURL("image/jpeg", 0.85));
+        } catch (e) { done(dataUrl); }
+      };
+      img.onerror = function(){ done(dataUrl); };
+      img.src = dataUrl;
+    } catch (e) { done(dataUrl); }
+  }
+  /* the release sheet's guest state, refreshed each time it opens:
+     - the member invitation (a link block under the 放流 button)
+       shows once, at the first opening after a guest release
+     - guests may release 3 モノ; past that, the upload button is
+       disabled and the action button becomes メンバー登録 */
+  function refreshThrowSheet(){
+    var guest = !isLoggedInWithIsland;
+    var limit = guest && state.thrownItems.length >= 3;
+    var up = $("#uploadBtn");
+    if (up) up.disabled = !!limit;
+    var go = $("#doThrowBtn");
+    if (go){
+      if (limit){ go.textContent = "メンバー登録（無料）"; go.setAttribute("data-member", "1"); }
+      else { go.textContent = "海へ放流する"; go.removeAttribute("data-member"); }
+    }
+    var g = $("#joinGuide");
+    if (g){
+      var show = false;
+      if (guest){
+        try {
+          if (localStorage.getItem("ohanaKaiJoinGuidePending") && !localStorage.getItem("ohanaKaiJoinGuide")){
+            show = true;
+            localStorage.setItem("ohanaKaiJoinGuide", "1");
+            localStorage.removeItem("ohanaKaiJoinGuidePending");
+          }
+        } catch (e) {}
+      }
+      g.hidden = !show;
+    }
+  }
+
   /* ---------------- throw ---------------- */
   /* tapping the chest on the sea opens the release card directly —
      「あなたの価値を放つ」. The chest keeps its very first design;
      there is no picker and nothing to choose. */
-  $("#throwBtn").addEventListener("click", function(){ ensureAudio(); openSheet("sheetThrow"); });
+  $("#throwBtn").addEventListener("click", function(){ ensureAudio(); openSheet("sheetThrow"); refreshThrowSheet(); });
 
   /* upload your own モノ photo to release */
   var uploadData = null;
@@ -2724,15 +2819,21 @@
     if (!f) return;
     var reader = new FileReader();
     reader.onload = function(){
-      uploadData = reader.result;
-      var pv = $("#uploadPreview");
-      pv.src = uploadData; pv.hidden = false;
-      $("#uploadName").hidden = false;
+      shrinkImage(reader.result, function(small){
+        uploadData = small;
+        var pv = $("#uploadPreview");
+        pv.src = uploadData; pv.hidden = false;
+        $("#uploadName").hidden = false;
+      });
     };
     reader.readAsDataURL(f);
   });
 
   $("#doThrowBtn").addEventListener("click", function(){
+    if (this.getAttribute("data-member") === "1"){
+      if (window.__kaiSignIn) window.__kaiSignIn(); else window.open(MYPAGE_URL, "_blank", "noopener");
+      return;
+    }
     if (!requireMember()) return;
     ensureAudio();
     var customMsg = $("#throwMsg").value.trim();
@@ -2772,6 +2873,7 @@
       miniBubbles(sx, landY, 3);
       state.thrown++;
       state.thrownItems.push({ id: item.id, name: item.name, img: item.img });
+      saveThrown();
       updateBag();
 
       var thrownData = {
@@ -2787,12 +2889,10 @@
          member invitation shows exactly once on this device. */
       if (window.__kaiReleaseExport) window.__kaiReleaseExport({ itemId: thrownData.id, name: thrownData.name, img: thrownData.img, msg: thrownData.msg, ts: Date.now() });
       if (!isLoggedInWithIsland){
-        try {
-          if (!localStorage.getItem("ohanaKaiJoinGuide")){
-            localStorage.setItem("ohanaKaiJoinGuide", "1");
-            toast('\u30e1\u30f3\u30d0\u30fc\u767b\u9332\uff08\u7121\u6599\uff09\u3092\u3059\u308b\u3068\u3001\u3053\u306e\u30e2\u30ce\u306e\u30da\u30fc\u30b8\u304c\u81ea\u52d5\u3067\u4f5c\u3089\u308c\u307e\u3059\u3002<a href="' + MYPAGE_URL + '" data-login="1" style="color:#ffe9a8;text-decoration:underline;text-underline-offset:3px">\u30ed\u30b0\u30a4\u30f3\u30fb\u30e1\u30f3\u30d0\u30fc\u767b\u9332\uff08\u7121\u6599\uff09</a>', 6500);
-          }
-        } catch (e) {}
+        /* no announcement right after a release: the invitation
+           waits in the release sheet and shows there once, the
+           next time the sheet is opened (see refreshThrowSheet) */
+        try { if (!localStorage.getItem("ohanaKaiJoinGuide")) localStorage.setItem("ohanaKaiJoinGuidePending", "1"); } catch (e) {}
       }
       /* the coin shows itself for a moment, then goes into the ship */
       flyCoin(sx, landY, function(){
@@ -3027,8 +3127,10 @@
     if (!f) return;
     var reader = new FileReader();
     reader.onload = function(){
-      editImgData = reader.result;
-      $("#editImg").src = editImgData;
+      shrinkImage(reader.result, function(small){
+        editImgData = small;
+        $("#editImg").src = editImgData;
+      });
     };
     reader.readAsDataURL(f);
   });
@@ -3044,6 +3146,11 @@
       var im = selectedItem.el.querySelector(".b-img img");
       if (im) im.src = editImgData;
     }
+    for (var ti = 0; ti < state.thrownItems.length; ti++){
+      if (state.thrownItems[ti].id === d.id){ state.thrownItems[ti].name = d.name; state.thrownItems[ti].img = d.img; }
+    }
+    saveThrown();
+    updateBag();
     openItem(selectedItem);
     toast("編集を保存したよ。");
   });
@@ -3082,6 +3189,9 @@
   SEA_ITEMS.forEach(function(item, i){ addBubble(item, i, false); });
   setCoins(0);
   try { var savedCargo = JSON.parse(localStorage.getItem(CARGO_KEY) || "[]"); if (Array.isArray(savedCargo)) savedCargo.forEach(function(e){ if (e && e.id) state.bag.push(e); }); } catch (e) {}
+  /* releases kept on this device come back as bubbles, so a
+     guest's モノ no longer vanishes on reload */
+  try { var savedThrown = JSON.parse(localStorage.getItem(THROWN_KEY) || "[]"); if (Array.isArray(savedThrown)) savedThrown.forEach(function(e){ if (!e || !e.id || ITEM_REGISTRY[e.id]) return; var d = { id: e.id, name: e.name || "放流したモノ", short: e.short || e.name || "", img: e.img || "", from: "あなた", cond: e.cond || "", msg: e.msg || "", page: e.page || "", kind: "モノ" }; state.thrownItems.push({ id: d.id, name: d.name, img: d.img }); state.thrown++; addBubble(d, 0, false); }); } catch (e) {}
   updateBag();
   updateMemberStatus();
   renderSeaComments();
