@@ -242,7 +242,7 @@
   .walkspot .wv.exit .wa { background:#2e9e5b; border-color:#2e9e5b; color:#fff; }
   .walkspot .wv.exit .wl { background:#2e9e5b; color:#fff; font-weight:700; }
   #exitBtn { position:absolute; top:10px; left:34px; z-index:8; display:none; background:#2e9e5b; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(20,80,40,.45); cursor:pointer; }
-  #placeName { position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:8; background:rgba(255,253,247,.93); color:#4c3d22; font-size:13.5px; font-weight:700; padding:7px 14px; border-radius:999px; box-shadow:0 3px 10px rgba(90,60,10,.25); pointer-events:auto; cursor:pointer; white-space:nowrap; max-width:44%; overflow:hidden; text-overflow:ellipsis; }
+  #placeName { position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:31; background:rgba(255,253,247,.93); color:#4c3d22; font-size:13.5px; font-weight:700; padding:7px 14px; border-radius:999px; box-shadow:0 3px 10px rgba(90,60,10,.25); pointer-events:auto; cursor:pointer; white-space:nowrap; max-width:44%; overflow:hidden; text-overflow:ellipsis; }
   #placeName::after { content:" ▾"; }
   #sceneName { cursor:pointer; }
   #chatFeed{position:absolute;right:10px;bottom:52px;z-index:7;width:min(300px,74vw);display:flex;flex-direction:column;gap:5px}
@@ -1003,7 +1003,7 @@ const PB_SETS = {
   ] }
 };
 let pbSet = null;
-const PB_SLOTS = [[10,30],[26,60],[44,26],[62,58],[82,30],[90,62],[52,68],[18,68],[70,16],[34,14]];
+const PB_SLOTS = [[10,30],[26,60],[44,26],[62,58],[82,30],[90,62],[52,68],[18,68],[76,22],[30,20]];
 function pbCloseCard() { const c = document.getElementById("prodCard"); if (c) c.classList.remove("open"); }
 function pbSuckToBag(imgSrc) {
   const bag = document.getElementById("bagBtn"); const card = document.getElementById("prodCard");
@@ -1018,7 +1018,7 @@ function pbSuckToBag(imgSrc) {
     { transform: "translate(0px, 0px) scale(1)", opacity: 1 },
     { transform: "translate(" + (dx * 0.7) + "px, " + (dy * 0.7) + "px) scale(.45)", opacity: 1, offset: 0.65 },
     { transform: "translate(" + dx + "px, " + dy + "px) scale(.05)", opacity: 0.5 }
-  ], { duration: 750, easing: "cubic-bezier(.5,0,.8,.4)" });
+  ], { duration: 950, easing: "cubic-bezier(.5,0,.8,.4)" });
   anim.onfinish = () => { el.remove(); bag.animate([{ transform: "scale(1)" }, { transform: "scale(1.22)" }, { transform: "scale(1)" }], { duration: 320, easing: "ease-out" }); };
 }
 function pbOpenCard(set, p) {
