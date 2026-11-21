@@ -2129,5 +2129,21 @@ $("btnProfSave").addEventListener("click", async () => {
   window.addEventListener("pointerup", function () { if (drag && moved) window.__parkDraggedAt = Date.now(); drag = null; });
 })();
 </script>
+
+<script>
+// open the MAP panel when arriving with #bigMapSec (e.g. from the OHANA sea MAP link)
+(function () {
+  function openMapFromHash() {
+    if (location.hash !== "#bigMapSec") return;
+    var bm = document.getElementById("bigMapSec");
+    if (!bm) return;
+    bm.style.display = "block";
+    setTimeout(function () { if (window.__twMap) window.__twMap.invalidateSize(); }, 80);
+    setTimeout(function () { if (window.__twMap) window.__twMap.invalidateSize(); }, 450);
+  }
+  window.addEventListener("load", function () { setTimeout(openMapFromHash, 350); });
+  window.addEventListener("hashchange", openMapFromHash);
+})();
+</script>
 </body>
 </html>
