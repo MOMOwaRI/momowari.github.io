@@ -71,7 +71,8 @@
   #placeBar label { display:none; }
   #placeSel { position:absolute; left:50%; top:0; transform:translateX(-50%); width:2px; height:2px; opacity:0; pointer-events:none; border:0; padding:0; }
   #destBar { position:absolute; top:52px; left:50%; transform:translateX(-50%); z-index:25; display:flex; gap:6px; flex-wrap:wrap; justify-content:center; width:max-content; max-width:97%; }
-  #destBar .destChip { font:inherit; font-size:13.5px; background:rgba(255,255,255,.92); border:1.5px solid #e5d9bd; border-radius:999px; padding:7px 13px; cursor:pointer; color:#4a3826; box-shadow:0 3px 10px rgba(60,40,10,.25); white-space:nowrap; }
+  #destBar .destChip { font:inherit; font-size:21px; line-height:1; width:46px; height:46px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.92); border:1.5px solid #e5d9bd; border-radius:50%; padding:0; cursor:pointer; box-shadow:0 3px 10px rgba(60,40,10,.25); }
+  .vh { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
   #destBar .destKai { background:rgba(227,241,251,.95); border-color:#9ec7e8; font-weight:700; }
   #destBar .destPark { background:rgba(233,245,225,.95); border-color:#a9cf96; font-weight:700; }
   .hint { font-size:12px; color:#97795a; text-align:center; margin-top:6px; line-height:1.7; }
@@ -352,7 +353,7 @@
   <div id="authBar"><span class="who" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="destBar"><button type="button" class="destChip destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destChip destPark" id="destPark">🌳 みんなの広場</button><button type="button" class="destChip" id="destMap">🗺 MAP</button><button type="button" class="destChip" id="destTour">🧭 ガイドツアー</button></div><div id="sceneSns"></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="destBar"><button type="button" class="destChip destKai" id="destKai" aria-label="OHANA海" title="OHANA海"><span aria-hidden="true">🌊</span><span class="vh">OHANA海</span></button><button type="button" class="destChip destPark" id="destPark" aria-label="城山公園（みんなの広場）" title="城山公園（みんなの広場）"><span aria-hidden="true">🌳</span><span class="vh">城山公園（みんなの広場）</span></button><button type="button" class="destChip" id="destMap" aria-label="MAPを見る" title="MAPを見る"><span aria-hidden="true">🗺</span><span class="vh">MAPを見る</span></button><button type="button" class="destChip" id="destTour" aria-label="ガイドツアー（自動で進む）" title="ガイドツアー（自動で進む）"><span class="chipIco" aria-hidden="true">🧭</span><span class="vh">ガイドツアー（自動で進む）</span></button></div><div id="sceneSns"></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -803,7 +804,7 @@ function tourCapShow(id) {
   if (!walkTimer || !t) { cap.style.display = "none"; return; }
   cap.textContent = t; cap.style.display = "";
 }
-function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; const __bw = document.getElementById("destTour"); if (__bw) __bw.textContent = "🧭 ガイドツアー"; const __tc = document.getElementById("tourCap"); if (__tc) __tc.style.display = "none"; } meSet(false); }
+function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; const __bw = document.getElementById("destTour"); if (__bw) { const __ic = __bw.querySelector(".chipIco"); if (__ic) __ic.textContent = "🧭"; __bw.setAttribute("aria-label", "ガイドツアー（自動で進む）"); } const __tc = document.getElementById("tourCap"); if (__tc) __tc.style.display = "none"; } meSet(false); }
 function walkStep() {
   if (walking) return;
   if (walkIdx < 0) walkIdx = ROUTE.indexOf(curScene);
@@ -817,7 +818,7 @@ function walkStep() {
 }
 function toggleTour() {
   if (walkTimer) { stopWalk(); return; }
-  const __bw2 = document.getElementById("destTour"); if (__bw2) __bw2.textContent = "⏸ とまる";
+  const __bw2 = document.getElementById("destTour"); if (__bw2) { const __ic2 = __bw2.querySelector(".chipIco"); if (__ic2) __ic2.textContent = "⏸"; __bw2.setAttribute("aria-label", "とまる"); }
   walkIdx = -1;
   walkStep();
   walkTimer = setInterval(walkStep, 7000);
