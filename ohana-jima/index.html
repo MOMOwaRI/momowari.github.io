@@ -307,7 +307,21 @@
   #chatFeed.min #feedHead span { display:none; }
   #chatFeed.min #feedMin { width:48px; height:48px; background:transparent; box-shadow:none; }
   #feedMin svg { width:34px; height:34px; display:block; filter:drop-shadow(0 1px 2px rgba(8,30,50,.6)) drop-shadow(0 4px 10px rgba(8,30,50,.3)); }
-  #isleLogo { position:absolute; left:12px; bottom:102px; z-index:6; opacity:.55; pointer-events:none; font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif; color:#fff; text-decoration:none; line-height:1.15; text-shadow:0 2px 14px rgba(0,30,55,.45), 0 1px 3px rgba(0,30,55,.5); }
+  /* チャットは海と同じ：右下に浮かぶガラスのパネル */
+  #chatFeed { right:12px; bottom:54px; width:min(330px, calc(100vw - 24px)); z-index:30; }
+  #chatFeed:not(.min) { background:linear-gradient(rgba(20,50,80,.16), rgba(20,50,80,.16)), rgba(255,255,255,.22); backdrop-filter:blur(10px) saturate(1.2); -webkit-backdrop-filter:blur(10px) saturate(1.2); border:1px solid rgba(255,255,255,.38); border-radius:20px; box-shadow:0 16px 40px rgba(0,15,30,.35); padding:10px 12px 12px; }
+  #chatFeed:not(.min) #feedHead { background:transparent; box-shadow:none; color:#fff; text-shadow:0 1px 3px rgba(0,30,55,.45); font-size:14px; font-weight:900; padding:0 0 6px; border-radius:0; }
+  #chatFeed .fmsg { background:rgba(255,255,255,.30); color:#fff; text-shadow:0 1px 2px rgba(0,30,55,.35); box-shadow:none; border:1px solid rgba(255,255,255,.25); }
+  #chatFeed .fmsg b { color:#ffe9a8; }
+  #chatFeed .fdel { border-color:rgba(255,255,255,.6); background:rgba(0,30,55,.25); color:#fff; }
+  #feedBody { max-height:44dvh; overflow-y:auto; }
+  #feedRow { display:flex; gap:6px; margin-top:8px; }
+  #isleInput { flex:1; background:rgba(255,255,255,.25); border:1px solid rgba(255,255,255,.45); border-radius:999px; padding:8px 12px; color:#fff; font:inherit; font-size:13px; min-width:0; }
+  #isleInput::placeholder { color:rgba(255,255,255,.75); }
+  #chatSend { background:transparent; border:1px solid rgba(255,255,255,.55); color:#fff; border-radius:999px; padding:8px 14px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+  #feedNote { color:#fff; font-size:12px; margin-top:6px; text-shadow:0 1px 2px rgba(0,30,55,.4); }
+  #chatFeed:not(.min) #feedMin { background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.4); color:#fff; width:34px; height:34px; font-size:14px; box-shadow:none; }
+  #isleLogo { position:absolute; left:12px; bottom:102px; z-index:6; pointer-events:none; font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif; color:#fff; text-decoration:none; line-height:1.15; text-shadow:0 2px 14px rgba(0,30,55,.45), 0 1px 3px rgba(0,30,55,.5); }
   #isleLogo .l1 { display:block; font-weight:800; font-size:19px; letter-spacing:.07em; white-space:nowrap; }
   #isleLogo .l1 .star { color:#ffd76a; }
   #isleLogo .l2 { display:block; font-weight:700; font-size:19px; letter-spacing:.08em; margin-left:5.2em; opacity:.97; white-space:nowrap; }
@@ -623,6 +637,10 @@ OHANA島は、ヒトモノコトをつなぐ「OHANAシェア＊プロジェク�
 <script src="vendor/leaflet.js"></script>
 <script>
 const POSTS = [
+  { id:"momo-fb-boshu", handle:"momowari", kind:"real", sns:"Facebook", author:"MOMOwaRIさん", text:"OHANA券、まずは500円分を無料で配るよ", summary:"OHANA券の参加募集。イベント会場で500円分を無料配布、使ってみたい人と参加したいお店を募集（Facebook）", scene:"park", yaw:-20, catName:"ももか", catImg:"cat-white-sit.png", pitch:-24, permalink:"https://facebook.com/100003215545047/posts/pfbid02Aa1HYXYLAq5vWjAXp4LaSR7bnJzdN3J5ZFcL2Es6sGTX12J7U5RWYqmyETJDm2G1l/" },
+  { id:"momo-fb-furima", handle:"momowari", kind:"real", sns:"Facebook", author:"MOMOwaRIさん", text:"物々交換フリマでエクスチェンジ、やったよ", summary:"「物々交換?! フリマでエクスチェンジ」の告知。出店者にはOHANA 100円券500円分をプレゼント（Facebook）", scene:"park", yaw:14, catName:"はる", catImg:"cat-tabby-sit.png", pitch:-24, permalink:"https://facebook.com/100003215545047/posts/pfbid02T15jHD7W426nh3iNFrWSHtMJXkyiWJpQkhdbpbRcGUfEumaTjEw6MuUxL5PxRj7Dl/" },
+  { id:"momo-ig-furima", handle:"momowari", kind:"real", sns:"Instagram", author:"MOMOwaRIさん", text:"フリマでエクスチェンジのチラシだよ", summary:"「物々交換?! フリマでエクスチェンジ」のチラシ（Instagram @momowari）", scene:"park", yaw:30, catName:"そら", catImg:"cat-calico-sit.png", pitch:-24, permalink:"https://www.instagram.com/p/DdoOKSsz5wr/" },
+  { id:"momo-th-ken", handle:"momowari", kind:"real", sns:"Threads", author:"MOMOwaRIさん", text:"OHANA券の魅力をまとめたよ", summary:"「OHANA券の魅力」の図解。100円券で地域がつながる仕組みの説明（Threads @momowari）", scene:"park", yaw:-38, catName:"みく", catImg:"cat-black-sit.png", pitch:-24, permalink:"https://www.threads.com/@momowari/post/DeiIgCXE1MR" },
   { id:"veg", handle:"momowari", sns:"Threads", author:"まちの声（サンプル）", text:"商店街の八百屋さん、野菜やすい！ 今日トマトが安かった", scene:"park", yaw:-28, catName:"ぽん", catImg:"cat-tabby-sit.png", pitch:-24, img:"post-veg-w.jpg", cap:"八百屋さんの野菜（イメージ写真）", url:"https://www.threads.com/@momowari/post/DeRiBdZk6ci" },
   { id:"sky", handle:"momowari", sns:"Threads", author:"まちの声（サンプル）", text:"雨上がりの通り、空がきれいだった", scene:"park", yaw:44, catName:"しろ", catImg:"cat-white-sit.png", pitch:-24, img:"ohana-island-streetview.jpg", cap:"雨上がりの通り（新海監督風のイメージ）", url:"https://www.threads.com/@momowari/post/Ddh2KEcE4JN" },
   { id:"nano", handle:"momowari", sns:"Instagram", author:"お客さまの声（サンプル）", text:"MAHALOのシャンプー、いい香りだった！", scene:"park", yaw:-52, catName:"とら", catImg:"cat-tabby-sit.png", pitch:-23, img:"prod-nano-main.jpg", cap:"ナノサプリ GA（実際の商品写真）", url:"https://www.instagram.com/p/DeiJEqPkzVl/" },
