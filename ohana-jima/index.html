@@ -556,6 +556,18 @@ html, body { overflow-x:hidden; }
 #bagItems, #feedLog { overflow-x:hidden; }
 .bagName, #chatFeed .fmsg, #pcName, #pcFull, .bagRow { overflow-wrap:anywhere; }
 #postPanel { overflow-y:auto; }
+
+/* ===== chat back to glass; close button clearly visible (2026-11-21) ===== */
+#chatFeed { background:linear-gradient(rgba(20,50,80,.14), rgba(20,50,80,.14)), rgba(255,255,255,.26); -webkit-backdrop-filter:blur(12px) saturate(1.2); backdrop-filter:blur(12px) saturate(1.2); border:1px solid rgba(255,255,255,.4); }
+#chatFeed:not(.min) #feedHead { color:#fff; text-shadow:0 1px 3px rgba(0,30,55,.45); }
+#chatFeed .fmsg { background:rgba(255,255,255,.30); color:#fff; text-shadow:0 1px 2px rgba(0,30,55,.35); border-color:rgba(255,255,255,.25); }
+#chatFeed .fmsg b { color:#ffe9a8; }
+#chatFeed .fdel { background:rgba(0,30,55,.25); color:#fff; border-color:rgba(255,255,255,.6); }
+#chatFeed:not(.min) #feedMin { background:rgba(30,60,90,.5); color:#fff; border:1.5px solid rgba(255,255,255,.7); width:36px; height:36px; font-size:16px; font-weight:900; box-shadow:0 2px 8px rgba(0,30,55,.35); }
+
+/* ===== chat glass (specificity fix) / park talk removed (2026-11-21) ===== */
+#chatFeed:not(.min) { background:linear-gradient(rgba(20,50,80,.14), rgba(20,50,80,.14)), rgba(255,255,255,.26); -webkit-backdrop-filter:blur(12px) saturate(1.2); backdrop-filter:blur(12px) saturate(1.2); }
+#parkTalk { display:none !important; }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "OHANA島", "url": "https://momowari.github.io/ohana-jima/", "inLanguage": "ja", "description": "愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現したウェブ上の島。ストリートビューのように歩いて回ることができ、MAHALOビル、阿沼美神社、庚申庵、萱町商店街、フジグラン松山、古町駅、城山公園、道後温泉本館、大街道、銀天街、松山城、松山市駅、JR松山駅などを掲載。ヒトモノコトをつなぐOHANAシェア＊プロジェクトの活動とつながっている。", "isPartOf": {"@type": "WebSite", "name": "OHANAシェア＊プロジェクト", "url": "https://momowari.github.io/OHANA-share/"}, "author": {"@type": "Person", "name": "MOMOwaRI"}}</script>
 </head>
@@ -1878,7 +1890,7 @@ $("feedMin").addEventListener("click", (e) => {
   const b = $("feedBody"); const min = b.style.display !== "none";
   b.style.display = min ? "none" : "";
   $("chatFeed").classList.toggle("min", min);
-  $("feedMin").innerHTML = min ? (window.CHAT_SVG || "💬") : "ー"; $("feedMin").setAttribute("aria-label", min ? "チャットを開く" : "小さくする");
+  $("feedMin").innerHTML = min ? (window.CHAT_SVG || "💬") : "✕"; $("feedMin").setAttribute("aria-label", min ? "チャットを開く" : "閉じる");
 });
 $("chatFeed").addEventListener("click", (e) => {
   if (e.target.closest("#feedRow") || e.target.closest("#feedMin")) return;
