@@ -2367,6 +2367,7 @@
       currentUserUid = "";
     }
     updateMemberStatus();
+    if (info) claimGuestReleases();
   };
   /* 読み込み時の好き復元: the module reads seaLikes back at
      login and hands over the totals plus which ones are mine.
@@ -2798,6 +2799,52 @@
       localStorage.setItem(THROWN_KEY, JSON.stringify(out));
     } catch (e) {}
   }
+  /* which device releases already went out to seaReleases.
+     The ids live on the device so nothing is exported twice:
+     a member's release is marked when its export lands, and a
+     guest's releases are marked when the claim below exports
+     them at login. */
+  var THROWN_EXP_KEY = "ohanaKaiThrownExported";
+  function loadThrownExported(){
+    try { var v = JSON.parse(localStorage.getItem(THROWN_EXP_KEY) || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; }
+  }
+  function markThrownExported(id){
+    if (!id) return;
+    try {
+      var v = loadThrownExported();
+      if (v.indexOf(id) < 0){ v.push(id); localStorage.setItem(THROWN_EXP_KEY, JSON.stringify(v)); }
+    } catch (e) {}
+  }
+  /* ゲスト放流の引き継ぎ: a guest's releases live only on this
+     device. When the member login lands (__kaiSetUser), every
+     record not yet exported goes out to seaReleases with this
+     uid — from then on it counts as the member's own release:
+     its page is made automatically, and watchReleases points
+     its bubble at the page when the write-back arrives. The
+     ship's 放流 tab already lists the device records as the
+     member's own, so nothing moves there. One pass at a time,
+     and only ids the export confirms are marked. */
+  var claimRunning = false;
+  function claimGuestReleases(){
+    if (claimRunning || !isLoggedInWithIsland) return;
+    if (!window.__kaiReleaseExport) return;
+    var recs = null;
+    try { recs = JSON.parse(localStorage.getItem(THROWN_KEY) || "[]"); } catch (e) {}
+    if (!Array.isArray(recs) || !recs.length) return;
+    var done = loadThrownExported();
+    var todo = [];
+    recs.forEach(function(e){ if (e && e.id && done.indexOf(e.id) < 0) todo.push(e); });
+    if (!todo.length) return;
+    claimRunning = true;
+    var chain = Promise.resolve();
+    todo.forEach(function(e){
+      chain = chain.then(function(){
+        return window.__kaiReleaseExport({ itemId: e.id, name: e.name || "", img: e.img || "", msg: e.msg || "", ts: Date.now() });
+      }).then(function(ok){ if (ok) markThrownExported(e.id); }, function(){});
+    });
+    var fin = function(){ claimRunning = false; };
+    chain.then(fin, fin);
+  }
   /* a phone photo is far too big for localStorage (and heavy as
      a bubble): shrink to at most 800px, JPEG, when it is picked */
   function shrinkImage(dataUrl, done){
@@ -2822,11 +2869,11 @@
   /* the release sheet's guest state, refreshed each time it opens:
      - the member invitation (a link block under the 放流 button)
        shows once, at the first opening after a guest release
-     - guests may release 3 モノ; past that, the upload button is
+     - guests may release 1 モノ; past that, the upload button is
        disabled and the action button becomes メンバー登録 */
   function refreshThrowSheet(){
     var guest = !isLoggedInWithIsland;
-    var limit = guest && state.thrownItems.length >= 3;
+    var limit = guest && state.thrownItems.length >= 1;
     var up = $("#uploadBtn");
     if (up) up.disabled = !!limit;
     var go = $("#doThrowBtn");
@@ -2937,7 +2984,10 @@
          intake (seaReleases) so its page is made automatically.
          A guest's release cannot be exported — instead, the
          member invitation shows exactly once on this device. */
-      if (window.__kaiReleaseExport) window.__kaiReleaseExport({ itemId: thrownData.id, name: thrownData.name, img: thrownData.img, msg: thrownData.msg, ts: Date.now() });
+      if (window.__kaiReleaseExport){
+        var expResult = window.__kaiReleaseExport({ itemId: thrownData.id, name: thrownData.name, img: thrownData.img, msg: thrownData.msg, ts: Date.now() });
+        if (expResult && expResult.then) expResult.then(function(ok){ if (ok) markThrownExported(thrownData.id); }, function(){});
+      }
       if (!isLoggedInWithIsland){
         /* no announcement right after a release: the invitation
            waits in the release sheet and shows there once, the
