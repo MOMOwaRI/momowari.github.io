@@ -64,7 +64,7 @@
   button.act.small { font-size:12px; padding:6px 11px; white-space:nowrap; }
   .btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
   .stage { position:relative; border-radius:0; overflow:hidden; box-shadow:none; width:100vw; margin-left:calc(50% - 50vw); }
-  #panorama { width:100%; height:calc(100vh - 55px); height:calc(100dvh - 55px); min-height:400px; }
+  #panorama { width:100%; height:calc(100vh - 12px); height:calc(100dvh - 12px); min-height:400px; }
   #sceneName { text-align:center; font-size:13px; color:#8a715a; margin-top:8px; }
   #placeBar { position:relative; height:0; padding:0; }
   #navBtns { justify-content:center; }
@@ -74,7 +74,7 @@
   #destMenu .destItem { font:inherit; font-size:15.5px; text-align:left; background:#fff; border:1.5px solid #e5d9bd; border-radius:10px; padding:10px 14px; cursor:pointer; color:#4a3826; }
   #destMenu .destKai { background:#e3f1fb; border-color:#9ec7e8; font-weight:700; }
   #destMenu .destPark { background:#e9f5e1; border-color:#a9cf96; font-weight:700; }
-  .vh { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+  .vh { position:absolute !important; width:1px !important; height:1px !important; margin:-1px !important; padding:0 !important; overflow:hidden !important; clip:rect(0 0 0 0) !important; white-space:nowrap; border:0 !important; }
   .hint { font-size:12px; color:#97795a; text-align:center; margin-top:6px; line-height:1.7; }
   .catspot { background:none !important; }
   .catspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-18px); cursor:pointer; }
@@ -133,7 +133,7 @@
   #townMap { width:100%; height:auto; display:block; }
   #meAv { position:absolute; left:50%; bottom:5%; transform:translateX(-50%); z-index:5; pointer-events:none; }
   #meAv img { height:100px; display:block; filter:drop-shadow(0 6px 6px rgba(60,40,10,.35)); animation: avidle 2.8s ease-in-out infinite; }
-@media (max-width:560px){ #meAv img { height:84px; } #panorama { height:calc(100vh - 55px); height:calc(100dvh - 55px); } }
+@media (max-width:560px){ #authBar { font-size:11.5px; padding:3px 6px; gap:4px; } #authBar button { font-size:11.5px; padding:4px 8px; } #meAv img { height:84px; } #panorama { height:calc(100vh - 12px); height:calc(100dvh - 12px); } }
   @keyframes avidle { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-2px) rotate(.7deg); } }
   #meAv.walking img { animation: avbob .72s ease-in-out infinite; }
   @keyframes avbob { 0%,100% { transform: translateY(0) rotate(-3.5deg); } 25% { transform: translateY(-6px) rotate(0deg); } 50% { transform: translateY(0) rotate(3.5deg); } 75% { transform: translateY(-6px) rotate(0deg); } }
@@ -286,7 +286,7 @@
   #miniTownMap { width:100%; height:auto; display:block; }
   #miniTownMap .dot { cursor:pointer; }
 
-  #authBar { display:flex; align-items:center; gap:8px; justify-content:center; flex-wrap:wrap; margin:4px 0 10px; font-size:13.5px; color:#7a6248; }
+  #authBar { position:absolute; top:10px; right:10px; z-index:26; display:flex; align-items:center; gap:6px; flex-wrap:nowrap; margin:0; font-size:13px; color:#7a6248; background:rgba(255,253,247,.88); border:1.5px solid #ecd9ae; border-radius:999px; padding:4px 8px; box-shadow:0 3px 10px rgba(60,40,10,.18); }
   #authBar .who { display:inline-flex; align-items:center; gap:6px; }
   #authBar .who img { width:26px; height:26px; object-fit:contain; }
   #mapView { background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:16px; padding:4px 0 8px; margin:14px 0; }
@@ -350,10 +350,9 @@
   <h1 class="vh">OHANA島</h1>
   <p class="sub vh" data-ed="catch">愛媛・松山にそっくりな島です。<br>ストリートビューで歩く、小さな商店街。近所のみなさんの投稿も集めています。</p>
   <p class="vh" data-ed="disc" style="margin:10px auto 0;max-width:730px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 10px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap;color:#7a5a16">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
-  <div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button></div><div id="sceneSns"></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span aria-hidden="true" style="font-size:15px;line-height:1">👤</span><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button></div><div id="sceneSns"></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -408,7 +407,7 @@
   #twMsg{flex:1;font-size:13.5px;line-height:1.6;min-width:160px}
   #twStop{border-color:#c98a8a;background:#fbe3e3;color:#7c3a3a}
   </style>
-<div class="panel" id="placesSec">
+<div class="panel vh" id="placesSec">
     <h2>この島の場所</h2>
     <ul style="list-style:none;font-size:14px;line-height:1.65;color:#4c3d22">
       <li><button class="mapgo plgo" data-scene="front" type="button">MAHALOビル（MAHALO美容室・elua Mahalo・Lea Mahalo）</button>｜松山市味酒町3-2-29</li>
@@ -495,14 +494,14 @@
     <div class="btns"><button class="act sub" id="btnClear">カゴを空にする</button></div>
   </div>
 
-  <div class="panel" id="joinBlock">
+  <div class="panel vh" id="joinBlock">
     <h2 data-ed="joinH">一緒にメタバースを作りませんか</h2>
     <p data-ed="joinP">この島は、みなさんの投稿で育ちます。お店の写真や、行ってみた感想の投稿に <b>#愛媛メタバースOHANA島</b> をつけてもらえたら、AI「Muse」が巡回して見つけて、島のMAPと、投稿の紹介に反映していきます。</p>
     <p>お店の方も、お客さんも、ぜひご参加ください。いただいた写真は、水彩の絵のもとにさせてもらいます。</p>
   </div>
   <!-- 城山公園 -->
 
-  <div class="panel" id="snsEmbeds">
+  <div class="panel vh" id="snsEmbeds">
     <h2 data-i18n="snsH2">近所のみなさんの投稿</h2>
     <p class="src">この近所のお店や場所について、近所のみなさんとMOMOwaRIが実際に投稿したものです（公式の仕組みで表示）。</p>
     <div class="embeds">
@@ -521,8 +520,8 @@
   </div>
 </div>
 
-<div class="panel" id="aboutSec"><h2>OHANA島について</h2><img class="aboutHero" src="map-island.jpg" alt="OHANA島の水彩マップ"><p data-ed="about1" style="font-size:13.5px;line-height:1.9;color:#4c3d22">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを、水彩の絵で再現したウェブ上の島（メタバース）です。ストリートビューのように歩いて回ることができ、近所のお店や場所の投稿も集めています。</p><p data-ed="about2" style="font-size:13.5px;line-height:1.9;color:#4c3d22;margin-top:8px">掲載している場所は、MAHALOビル（美容室MAHALO・elua Mahalo・Lea Mahalo／松山市味酒町3-2-29）、レデイ薬局宮西店、フジグラン松山、阿沼美神社、庚申庵（庚申庵史跡庭園）、丸五青果、平野鶏卵、萱町商店街、古町駅、城山公園（堀之内）、道後温泉本館、道後温泉駅、道後ハイカラ通り、大街道、銀天街、松山城、松山市駅、JR松山駅です。城山公園は「みんなの広場」で、ログインした人の分身が集まります。</p><div class="placeChips" aria-hidden="true"><span>🏢 MAHALOビル</span><span>💊 レデイ薬局宮西店</span><span>🛍 フジグラン松山</span><span>⛩ 阿沼美神社</span><span>🌿 庚申庵</span><span>🥬 丸五青果</span><span>🥚 平野鶏卵</span><span>🏘 萱町商店街</span><span>🚉 古町駅</span><span>🌳 城山公園（みんなの広場）</span><span>♨️ 道後温泉本館</span><span>🚉 道後温泉駅</span><span>🏮 道後ハイカラ通り</span><span>🛍️ 大街道</span><span>🏬 銀天街</span><span>🏯 松山城</span><span>🚉 松山市駅</span><span>🚃 JR松山駅</span></div><p data-ed="about3" style="font-size:13.5px;line-height:1.9;color:#4c3d22;margin-top:8px">OHANA島は、ヒトモノコトをつなぐ選べる物々交換「OHANAシェア＊プロジェクト」の活動とつながっています。運営はMOMOwaRIです。</p><details class="faqD"><summary>Q. OHANA島とは何ですか？</summary><p data-ed="faqA1" style="font-size:13.5px;line-height:1.8;color:#4c3d22">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現した、ウェブ上の島です。ストリートビューのように歩いて回ることができ、城山公園（堀之内）は、みんなの分身が集まる「みんなの広場」になっています。</p></details><details class="faqD"><summary>Q. OHANA島はどこにありますか？</summary><p data-ed="faqA2" style="font-size:13.5px;line-height:1.8;color:#4c3d22">島のもとになっている実在の場所は、愛媛県松山市の味酒町、萱町、平和通、堀之内です。MAHALOビル（松山市味酒町3-2-29）、阿沼美神社、庚申庵、丸五青果、平野鶏卵、萱町商店街、フジグラン松山、古町駅、レデイ薬局宮西店、城山公園、道後温泉本館、道後温泉駅、道後ハイカラ通り、大街道、銀天街、松山城、松山市駅、JR松山駅などが掲載されています。</p></details><details class="faqD"><summary>Q. 利用は無料ですか？</summary><p data-ed="faqA3" style="font-size:13.5px;line-height:1.8;color:#4c3d22">はい。島を歩くのは無料です。メンバー登録（Googleアカウントでのログイン）も無料で、登録すると自分の分身で歩いたり、OHANAの声に書いたりできます。</p></details><details class="faqD"><summary>Q. お店や場所の投稿はどうやって島に載りますか？</summary><p data-ed="faqA4" style="font-size:13.5px;line-height:1.8;color:#4c3d22">SNSの投稿に「#愛媛メタバースOHANA島」をつけてもらうと、AIが巡回して見つけ、島のMAPや投稿の紹介に反映します。お店の方も、お客さんも参加できます。</p></details></div>
-<details class="faqD" id="textGuide"><summary>📖 島の場所ガイド（テキスト版）</summary>
+<div class="panel vh" id="aboutSec"><h2>OHANA島について</h2><img class="aboutHero" src="map-island.jpg" alt="OHANA島の水彩マップ"><p data-ed="about1" style="font-size:13.5px;line-height:1.9;color:#4c3d22">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを、水彩の絵で再現したウェブ上の島（メタバース）です。ストリートビューのように歩いて回ることができ、近所のお店や場所の投稿も集めています。</p><p data-ed="about2" style="font-size:13.5px;line-height:1.9;color:#4c3d22;margin-top:8px">掲載している場所は、MAHALOビル（美容室MAHALO・elua Mahalo・Lea Mahalo／松山市味酒町3-2-29）、レデイ薬局宮西店、フジグラン松山、阿沼美神社、庚申庵（庚申庵史跡庭園）、丸五青果、平野鶏卵、萱町商店街、古町駅、城山公園（堀之内）、道後温泉本館、道後温泉駅、道後ハイカラ通り、大街道、銀天街、松山城、松山市駅、JR松山駅です。城山公園は「みんなの広場」で、ログインした人の分身が集まります。</p><div class="placeChips" aria-hidden="true"><span>🏢 MAHALOビル</span><span>💊 レデイ薬局宮西店</span><span>🛍 フジグラン松山</span><span>⛩ 阿沼美神社</span><span>🌿 庚申庵</span><span>🥬 丸五青果</span><span>🥚 平野鶏卵</span><span>🏘 萱町商店街</span><span>🚉 古町駅</span><span>🌳 城山公園（みんなの広場）</span><span>♨️ 道後温泉本館</span><span>🚉 道後温泉駅</span><span>🏮 道後ハイカラ通り</span><span>🛍️ 大街道</span><span>🏬 銀天街</span><span>🏯 松山城</span><span>🚉 松山市駅</span><span>🚃 JR松山駅</span></div><p data-ed="about3" style="font-size:13.5px;line-height:1.9;color:#4c3d22;margin-top:8px">OHANA島は、ヒトモノコトをつなぐ選べる物々交換「OHANAシェア＊プロジェクト」の活動とつながっています。運営はMOMOwaRIです。</p><details class="faqD"><summary>Q. OHANA島とは何ですか？</summary><p data-ed="faqA1" style="font-size:13.5px;line-height:1.8;color:#4c3d22">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現した、ウェブ上の島です。ストリートビューのように歩いて回ることができ、城山公園（堀之内）は、みんなの分身が集まる「みんなの広場」になっています。</p></details><details class="faqD"><summary>Q. OHANA島はどこにありますか？</summary><p data-ed="faqA2" style="font-size:13.5px;line-height:1.8;color:#4c3d22">島のもとになっている実在の場所は、愛媛県松山市の味酒町、萱町、平和通、堀之内です。MAHALOビル（松山市味酒町3-2-29）、阿沼美神社、庚申庵、丸五青果、平野鶏卵、萱町商店街、フジグラン松山、古町駅、レデイ薬局宮西店、城山公園、道後温泉本館、道後温泉駅、道後ハイカラ通り、大街道、銀天街、松山城、松山市駅、JR松山駅などが掲載されています。</p></details><details class="faqD"><summary>Q. 利用は無料ですか？</summary><p data-ed="faqA3" style="font-size:13.5px;line-height:1.8;color:#4c3d22">はい。島を歩くのは無料です。メンバー登録（Googleアカウントでのログイン）も無料で、登録すると自分の分身で歩いたり、OHANAの声に書いたりできます。</p></details><details class="faqD"><summary>Q. お店や場所の投稿はどうやって島に載りますか？</summary><p data-ed="faqA4" style="font-size:13.5px;line-height:1.8;color:#4c3d22">SNSの投稿に「#愛媛メタバースOHANA島」をつけてもらうと、AIが巡回して見つけ、島のMAPや投稿の紹介に反映します。お店の方も、お客さんも参加できます。</p></details></div>
+<details class="faqD vh" id="textGuide"><summary>📖 島の場所ガイド（テキスト版）</summary>
 <div style="font-size:13.5px;line-height:1.9;color:#4c3d22">
 <p style="margin-top:8px">OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを、水彩の絵で再現したウェブ上の島です。ストリートビューのように歩いて回ることができ、行き先を選ぶと実際の地図と道路に沿った道案内で移動できます。島を歩くのは無料、メンバー登録（Googleアカウントでのログイン）も無料です。</p>
 <p style="margin-top:10px"><b>お店（MAHALOビル、松山市味酒町3-2-29）</b><br>
@@ -553,13 +552,9 @@
 <p style="margin-top:10px"><b>OHANAシェア＊プロジェクトとの関係</b><br>
 OHANA島は、ヒトモノコトをつなぐ「OHANAシェア＊プロジェクト」の活動とつながっています。OHANAシェア＊プロジェクトは、無料の100円券でお買い物ができる「選べる物々交換」の仕組みで、券は現金に換金せず、受け取ったお店や人が他のお店で使って地域の中で循環します。運営はMOMOwaRIです。公式HPは https://momowari.github.io/OHANA-share/ です。</p>
 </div></details>
-<p class="src" style="text-align:center;margin:18px 12px 90px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
+<p class="src vh" style="text-align:center;margin:18px 12px 90px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
 
-<button id="btnEdit" class="act" type="button" style="display:none;position:fixed;top:10px;right:10px;z-index:80">✏️ 編集</button>
-<div id="fixBtns">
-  <button id="btnBot" type="button" data-i18n="fixBot">💬 質問</button>
-  <a href="https://momowari.github.io/OHANA-share/" target="_blank" rel="noopener" data-i18n="fixSite">🌺 OHANAのサイト</a>
-</div>
+<button id="btnEdit" class="act" type="button" style="display:none;position:fixed;top:10px;left:10px;z-index:80">✏️ 編集</button>
 <div id="botPanel">
   <div id="botHead"><b>OHANA</b><button id="botClose" type="button" aria-label="閉じる">×</button></div>
   <div id="botLog"></div>
@@ -576,7 +571,7 @@ OHANA島は、ヒトモノコトをつなぐ「OHANAシェア＊プロジェク�
   <button id="btnEditSave" class="act" type="button">保存する</button>
   <button id="btnEditCancel" class="act sub" type="button">やめる</button>
 </div>
-<p style="text-align:right;margin:14px 4px 0"><label style="font-size:11.5px;color:#a5875f">🌐 <select id="langSel" style="font:inherit;font-size:12px;border:1px solid #d9c491;border-radius:999px;padding:3px 8px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label></p>
+<p class="vh" style="text-align:right;margin:14px 4px 0"><label style="font-size:11.5px;color:#a5875f">🌐 <select id="langSel" style="font:inherit;font-size:12px;border:1px solid #d9c491;border-radius:999px;padding:3px 8px;background:#fffdf7;color:#7a5a17"><option value="ja">日本語</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select></label></p>
 <div class="ticker" aria-label="近所のSNS情報"><div class="ticker-inner" id="tickerInner"></div></div>
 <script src="vendor/pannellum.js"></script>
 <script src="vendor/leaflet.js"></script>
@@ -1046,7 +1041,7 @@ document.getElementById("btnClear").addEventListener("click", () => { cart = [];
 const botPanel = document.getElementById("botPanel");
 let botBusy = false, botStarted = false;
 function botMsg(text, who) { const d = document.createElement("div"); d.className = "bmsg " + who; d.textContent = text; const log = document.getElementById("botLog"); log.appendChild(d); log.scrollTop = 1e6; }
-document.getElementById("btnBot").addEventListener("click", () => { const open = botPanel.style.display === "block"; botPanel.style.display = open ? "none" : "block"; if (!open && !botStarted) { botStarted = true; botMsg("こんにちは。OHANAです。この島のことや、OHANAのことを聞いてください。", "keeper"); } setTimeout(() => showReplies("ohana", t => botMsg("【MOMOwaRIからの返事】\n" + t, "keeper")), 600); });
+const __bbEl = document.getElementById("btnBot"); if (__bbEl) __bbEl.addEventListener("click", () => { const open = botPanel.style.display === "block"; botPanel.style.display = open ? "none" : "block"; if (!open && !botStarted) { botStarted = true; botMsg("こんにちは。OHANAです。この島のことや、OHANAのことを聞いてください。", "keeper"); } setTimeout(() => showReplies("ohana", t => botMsg("【MOMOwaRIからの返事】\n" + t, "keeper")), 600); });
 document.getElementById("botClose").addEventListener("click", () => { botPanel.style.display = "none"; });
 async function botAsk(text) { if (botBusy || !text) return; noteMyQ("ohana", text); botBusy = true; document.getElementById("botChips").style.display = "none"; botMsg(text, "me"); let ans = null; if (window.__geminiAskShop) { try { ans = await window.__geminiAskShop("ohana", text); } catch (e) {} } botMsg(ans || "ごめんなさい、今はうまく答えられませんでした。OHANAの掲示板でも聞けます。", "keeper"); botBusy = false; }
 document.getElementById("botSend").addEventListener("click", () => { const i = document.getElementById("botInput"); const t = i.value.trim(); if (t) { i.value = ""; botAsk(t); } });
