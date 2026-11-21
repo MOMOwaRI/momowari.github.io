@@ -198,7 +198,7 @@
   #parkCatsLayer{position:absolute;inset:0;pointer-events:none}
   @media (max-width:560px){ .parkFig img{height:74px !important} #parkStage{height:290px} }
   .stage.parkmode #panorama{visibility:hidden}
-  .stage.parkmode #meAv,.stage.parkmode #othersAv,.stage.parkmode #fxLayer,.stage.parkmode #prodBubble{display:none !important}
+  .stage.parkmode #meAv,.stage.parkmode #othersAv,.stage.parkmode #fxLayer,.stage.parkmode #bubbleLayer{display:none !important}
   #parkStage.inview{position:absolute;inset:0;height:auto;z-index:4;border-radius:0}
   #parkStage.inview #parkBubble{top:54px}
   .pFig{position:absolute;transform:translateX(-50%);background:none;border:0;padding:0;font-family:inherit;cursor:pointer}
@@ -269,11 +269,26 @@
   #sceneSns button::after { content:""; position:absolute; top:-3px; right:-3px; width:11px; height:11px; border-radius:50%; background:#e5484d; border:2px solid #fff; }
   #sceneSns button.seen { animation:none; }
   #sceneSns button.seen::after { display:none; }
-  #prodBubble { position:absolute; left:14px; bottom:182px; z-index:23; width:92px; height:92px; border-radius:50%; border:1.5px solid rgba(255,255,255,.55); background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.5), rgba(255,255,255,.05) 42%), radial-gradient(circle at 72% 82%, rgba(140,200,255,.20), rgba(255,255,255,.02) 60%); box-shadow:0 8px 22px rgba(10,40,70,.28); cursor:pointer; font:inherit; padding:0; transition:opacity .45s; animation:pbFloat 5s ease-in-out infinite alternate; }
-  #prodBubble img { position:absolute; left:9%; top:9%; width:82%; height:82%; border-radius:50%; object-fit:cover; display:block; }
-  #prodBubble::after { content:""; position:absolute; left:16%; top:9%; width:34%; height:20%; background:radial-gradient(ellipse at center, rgba(255,255,255,.95), rgba(255,255,255,0) 70%); border-radius:50%; transform:rotate(-24deg); pointer-events:none; }
-  #prodBubble .pbName, #prodBubble .pbPrice { display:none; }
-  @keyframes pbFloat { from { transform:translateY(0); } to { transform:translateY(-6px); } }
+  #bubbleLayer { position:absolute; inset:0; z-index:23; pointer-events:none; overflow:hidden; }
+  .pBub { position:absolute; border-radius:50%; border:1.5px solid rgba(255,255,255,.55); background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.5), rgba(255,255,255,.05) 42%), radial-gradient(circle at 72% 82%, rgba(140,200,255,.20), rgba(255,255,255,.02) 60%); box-shadow:0 8px 22px rgba(10,40,70,.28); cursor:grab; padding:0; pointer-events:auto; touch-action:none; }
+  .pBub .pbIn { position:absolute; inset:0; animation:pbFloat 5s ease-in-out infinite alternate; pointer-events:none; display:block; }
+  .pBub img { position:absolute; left:9%; top:9%; width:82%; height:82%; border-radius:50%; object-fit:cover; display:block; }
+  .pBub .pbShine { position:absolute; left:16%; top:9%; width:34%; height:20%; background:radial-gradient(ellipse at center, rgba(255,255,255,.95), rgba(255,255,255,0) 70%); border-radius:50%; transform:rotate(-24deg); }
+  .pBub.drag { cursor:grabbing; box-shadow:0 14px 30px rgba(10,40,70,.4); }
+  @keyframes pbFloat { from { transform:translateY(-4px); } to { transform:translateY(5px); } }
+  #prodCard { position:absolute; left:50%; transform:translateX(-50%); bottom:50px; width:min(430px,94%); z-index:33; background:rgba(255,253,247,.97); border:1.5px solid #ecd9ae; border-radius:16px; box-shadow:0 14px 34px rgba(60,40,10,.3); padding:12px 14px; display:none; }
+  #prodCard.open { display:block; }
+  #prodCard .pcRow { display:flex; gap:12px; align-items:center; }
+  #prodCard img { width:84px; height:84px; border-radius:50%; object-fit:cover; flex:none; }
+  #prodCard .pcName { font-size:14.5px; font-weight:700; color:#4a3826; line-height:1.45; }
+  #prodCard .pcPrice { font-size:13.5px; font-weight:700; color:#b3541e; margin-top:2px; }
+  #prodCard .pcShop { font-size:11.5px; color:#8a715a; margin-top:2px; }
+  #prodCard .pcBtns { display:flex; gap:8px; margin-top:10px; }
+  #prodCard .pcBtns button { flex:1; font:inherit; font-size:13.5px; font-weight:700; border-radius:999px; padding:9px 10px; cursor:pointer; }
+  #pcAdd { background:#d96c8a; color:#fff; border:none; }
+  #pcAdd:disabled { background:#c9a7b4; }
+  #pcGo { background:#fff; color:#33608f; border:1.5px solid #b9cfe0; }
+  #prodCard .pcClose { position:absolute; top:6px; right:8px; background:none; border:none; font-size:16px; color:#8a715a; cursor:pointer; padding:4px; }
   /* === 海と統一：1画面・スクロールなし／アイコンのみ === */
   html, body { height:100%; overflow:hidden !important; }
   #panorama { height:100vh; height:100dvh; min-height:320px; }
@@ -302,7 +317,7 @@
   .stage #shopPanel, .stage #cartPanel, .stage #chat { position:absolute; left:50%; transform:translateX(-50%); bottom:50px; width:min(700px,96%); max-height:84%; overflow-y:auto; z-index:31; margin:0; }
   .stage #parkTalk { position:absolute; left:50%; transform:translateX(-50%); bottom:50px; width:min(700px,96%); z-index:29; margin:0; }
   @keyframes snsHop { 0%, 82%, 100% { transform:translateY(0); } 88% { transform:translateY(-8px); } 94% { transform:translateY(0); } 97% { transform:translateY(-4px); } }
-  #shopLinkBtn { position:absolute; top:10px; right:10px; z-index:8; display:none; background:#d96c8a; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(120,40,70,.4); cursor:pointer; }
+  #shopLinkBtn { position:absolute; top:10px; right:10px; z-index:27; display:none; background:#d96c8a; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(120,40,70,.4); cursor:pointer; }
   .zpost img{animation: avidle 3.4s ease-in-out infinite}
   @keyframes wpulse { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
   #chat.panel { position:absolute; left:8px; right:8px; bottom:8px; z-index:9; margin-top:0; max-height:84%; overflow-y:auto; box-shadow:0 10px 28px rgba(60,40,10,.4); background:rgba(255,253,247,.98); }
@@ -318,7 +333,7 @@
   #miniTownMap { width:100%; height:auto; display:block; }
   #miniTownMap .dot { cursor:pointer; }
 
-  #authBar { position:absolute; top:50px; right:10px; z-index:26; display:flex; align-items:center; gap:6px; flex-wrap:nowrap; margin:0; font-size:13px; color:#7a6248; background:rgba(255,253,247,.88); border:1.5px solid #ecd9ae; border-radius:999px; padding:4px 8px; box-shadow:0 3px 10px rgba(60,40,10,.18); }
+  #authBar { position:absolute; top:44px; right:10px; z-index:26; display:flex; align-items:center; gap:6px; flex-wrap:nowrap; margin:0; font-size:13px; color:#7a6248; background:rgba(255,253,247,.88); border:1.5px solid #ecd9ae; border-radius:999px; padding:4px 8px; box-shadow:0 3px 10px rgba(60,40,10,.18); }
   #authBar .who { display:inline-flex; align-items:center; gap:6px; }
   #authBar .who img { width:26px; height:26px; object-fit:contain; }
   #mapView { background:#fffdf7; border:1.5px solid #ecd9ae; border-radius:16px; padding:4px 0 8px; margin:14px 0; }
@@ -384,7 +399,7 @@
   <p class="vh" data-ed="disc" style="margin:10px auto 0;max-width:730px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 10px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap;color:#7a5a16">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button id="bagBtn" type="button" aria-label="スーツケース（マイページ）"><svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 15V9.8M29 15V9.8M19 9.8h10"/><path d="M11.5 15h25a3.8 3.8 0 0 1 3.8 3.8v16.4a3.8 3.8 0 0 1-3.8 3.8h-25a3.8 3.8 0 0 1-3.8-3.8V18.8A3.8 3.8 0 0 1 11.5 15Z" fill="rgba(174,233,255,.14)"/><path d="M17.5 15v24M30.5 15v24"/><circle cx="15" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/><circle cx="33" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/></svg></button><div id="bagPanel" style="display:none"><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 自動島巡り</button></div><div id="sceneSns"></div><div id="isleLogo" aria-hidden="true"><span class="l1">OHANAシェア<span class="star">＊</span></span><span class="l2">プロジェクト</span><span class="l3">OHANA島</span></div><button id="prodBubble" type="button" style="display:none" title="MAHALO セレクト商品"><img id="pbImg" alt=""><span class="pbName" id="pbName"></span><span class="pbPrice" id="pbPrice"></span></button><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button id="bagBtn" type="button" aria-label="スーツケース（マイページ）"><svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 15V9.8M29 15V9.8M19 9.8h10"/><path d="M11.5 15h25a3.8 3.8 0 0 1 3.8 3.8v16.4a3.8 3.8 0 0 1-3.8 3.8h-25a3.8 3.8 0 0 1-3.8-3.8V18.8A3.8 3.8 0 0 1 11.5 15Z" fill="rgba(174,233,255,.14)"/><path d="M17.5 15v24M30.5 15v24"/><circle cx="15" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/><circle cx="33" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/></svg></button><div id="bagPanel" style="display:none"><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 自動島巡り</button></div><div id="sceneSns"></div><div id="isleLogo" aria-hidden="true"><span class="l1">OHANAシェア<span class="star">＊</span></span><span class="l2">プロジェクト</span><span class="l3">OHANA島</span></div><div id="bubbleLayer"></div><div id="prodCard"><button class="pcClose" id="pcClose" type="button" aria-label="閉じる">✕</button><div class="pcRow"><img id="pcImg" alt=""><div><div class="pcName" id="pcName"></div><div class="pcPrice" id="pcPrice"></div><div class="pcShop" id="pcShop"></div></div></div><div class="pcBtns"><button id="pcAdd" type="button">カバンに入れる</button><button id="pcGo" type="button">お店のページへ</button></div></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -617,6 +632,8 @@ const POSTS = [
   { id:"okamoto", handle:"ma01_okamoto", kind:"real", sns:"Instagram", author:"岡本正美さん", text:"庚申庵の藤まつり、藤棚が見事だったよ", summary:"庚申庵の藤まつり。藤棚と庭園の写真", scene:"koshin", yaw:-48, catName:"こむぎ", catImg:"cat-calico-sit.png", pitch:-24, permalink:"https://www.instagram.com/p/DXZH2p6AX7n/" },
   { id:"dcity", handle:"dcity.ehime", kind:"real", sns:"Instagram", author:"デジタルシティえひめさん", text:"庚申庵の藤と池の動画を撮ったよ", summary:"庚申庵の藤まつり。満開の藤棚と池の庭園の動画", scene:"koshin", yaw:58, catName:"すみ", catImg:"cat-tabby-sit.png", pitch:-24, permalink:"https://www.instagram.com/reel/DXsv4WfCa1l/" },
   { id:"morimoto", handle:"morikkumorimori", kind:"real", sns:"Instagram", author:"森本 博志さん", text:"阿沼美神社で御朱印をもらったよ", summary:"阿沼美神社への参拝。御朱印めぐりの記録", scene:"jinja", yaw:32, catName:"ふわ", catImg:"cat-white-sit.png", pitch:-24, permalink:"https://www.instagram.com/p/DS1Zr6pkXY8/" },
+  { id:"lea-ig-sale", handle:"momowari", kind:"real", sns:"Instagram", author:"MOMOwaRIさん", text:"Lea Mahaloの売りつくしフリマがあったよ", summary:"Lea MAHALOのゲリラセール告知（2024年11月23日、味酒町の店舗で開催）。掘り出し物の雑貨や商品券など（Instagram @momowari）", scene:"lea", yaw:8, catName:"みけ", catImg:"cat-calico-sit.png", pitch:-24, permalink:"https://www.instagram.com/p/DCpRmTgzAdQ/" },
+  { id:"lea-ig-expo", handle:"mahalo.hair", kind:"real", sns:"Instagram", author:"hair ID salon MAHALOさん", text:"Lea Mahaloの展示即売会の動画だよ", summary:"P-SPO GALLERYでの展示即売会（2026年3月）の様子。ZAKKA open Lea Mahaloのブースと雑貨いろいろ（Instagram @mahalo.hair）", scene:"lea", yaw:40, catName:"みけ", catImg:"cat-calico-sit.png", pitch:-24, permalink:"https://www.instagram.com/reel/DVp7ijlgfKS/" },
   { id:"leamahalo", handle:"00LeaMahalo00", kind:"real", sns:"Facebook", author:"雑貨屋 Lea Mahaloさん", text:"Lea Mahaloは宝探しみたいな雑貨屋さんだよ", summary:"Lea Mahalo（MAHALOビル1階の雑貨屋）のお店紹介。メルカリ出品1300点以上、来店は予約制。平成レトロ・元axes femme・キャラものが中心", scene:"lea", yaw:24, catName:"みけ", catImg:"cat-calico-sit.png", pitch:-24, permalink:"https://www.facebook.com/00LeaMahalo00/posts/pfbid0Mhf1H8J8F5MEdfUE5vaqmzXgL7SoA14B3hkFRTnZeuegJ9q7aZ6rHfmB2QnqbSvAl" },
   { id:"mahalo-walk", handle:"mahalo.hair", kind:"real", sns:"Instagram", author:"hair ID salon MAHALOさん", text:"MAHALOのお店を歩く動画だよ", summary:"MAHALO美容室のウォークスルー動画。石畳の入口から店内へ（Instagram @mahalo.hair）", scene:"front", yaw:-12, catName:"らら", catImg:"cat-tabby-sit.png", pitch:-24, permalink:"https://www.instagram.com/reel/DUuPInrkuSH/" },
   { id:"mahalo-2f", handle:"mahalo.hair", kind:"real", sns:"Threads", author:"hair ID salon MAHALOさん", text:"2階MAHALOの営業日だよ", summary:"MAHALO（2階・美容室）の営業日カレンダー（Threads @mahalo.hair）", scene:"counter", yaw:28, catName:"もも", catImg:"cat-white-sit.png", pitch:-24, permalink:"https://www.threads.com/@mahalo.hair/post/Db4YKOsk5ED" },
@@ -904,7 +921,7 @@ viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDes
   const OFFICIAL_LINKS = { lea: ["公式HP", "https://momowari.github.io/Lea-Mahalo/"], counter: ["公式HP", "https://www.hair-mahalo.com/"], elua: ["公式HP", "https://www.hair-mahalo.com/"], pharmacy: ["公式HP", "https://www.lady-drug.co.jp/"], fuji: ["公式HP", "https://www.the-fuji.com/fuji/store/shop/ehime/grand_matsuyama.php"], jinja: ["公式HP", "https://ehime-jinjacho.jp/jinja/?p=7188"], koshin: ["公式HP", "https://www.city.matsuyama.ehime.jp/shisetsu/bunka/koushinan.html"], furumachi: ["公式HP", "https://www.iyotetsu.co.jp/"] };
   const slb = document.getElementById("shopLinkBtn"); const olink = OFFICIAL_LINKS[id];
   slb.style.display = olink ? "block" : "none";
-  if (olink) { slb.textContent = olink[0]; slb.onclick = () => window.open(olink[1], "_blank"); }
+  if (olink) { slb.textContent = "HP"; slb.onclick = () => window.open(olink[1], "_blank"); }
   if (placeSel && SCENES[id]) placeSel.value = id;
   document.querySelectorAll("#townMap .dot").forEach(g => { const c = g.querySelector("circle"); if (c) { const on = g.dataset.scene === id; c.setAttribute("stroke", on ? "#5d4212" : "#fff"); c.setAttribute("stroke-width", on ? "3" : "1.5"); } });
   if (id !== "counter") document.getElementById("chat").style.display = "none";
@@ -928,10 +945,49 @@ const PB_SETS = {
     { name: "花柄レース襟 ワンピース", full: "花柄レース襟 長袖ワンピース", price: "¥4,300", img: "https://momowari.github.io/Lea-Mahalo/img/items/m33123940830.jpg" }
   ] }
 };
-let pbSet = null, pbIdx = 0, pbTimer = null;
-function pbShow() { if (!pbSet) return; const p = pbSet.items[pbIdx % pbSet.items.length]; pbIdx++; const im = document.getElementById("pbImg"); if (im) { im.src = p.img; im.alt = p.full; } const nm = document.getElementById("pbName"); if (nm) nm.textContent = p.name; const pr = document.getElementById("pbPrice"); if (pr) pr.textContent = p.price; const bb = document.getElementById("prodBubble"); if (bb) bb.title = pbSet.label + "：" + p.full; }
-function pbScene(id) { const bb = document.getElementById("prodBubble"); if (!bb) return; const set = PB_SETS[id] || null; if (pbTimer) { clearInterval(pbTimer); pbTimer = null; } if (set) { if (pbSet !== set) { pbSet = set; pbIdx = 0; } pbShow(); bb.style.display = "block"; bb.style.opacity = "1"; pbTimer = setInterval(() => { bb.style.opacity = "0"; setTimeout(() => { pbShow(); bb.style.opacity = "1"; }, 460); }, 6500); } else { bb.style.display = "none"; } }
-document.getElementById("prodBubble").addEventListener("click", () => { if (pbSet) window.open(pbSet.url, "_blank"); });
+let pbSet = null;
+const PB_SLOTS = [[10,30],[26,60],[44,26],[62,58],[82,30],[90,62],[52,68],[18,68],[70,16],[34,14]];
+function pbCloseCard() { const c = document.getElementById("prodCard"); if (c) c.classList.remove("open"); }
+function pbOpenCard(set, p) {
+  const c = document.getElementById("prodCard"); if (!c) return;
+  document.getElementById("pcImg").src = p.img;
+  document.getElementById("pcName").textContent = p.full;
+  document.getElementById("pcPrice").textContent = p.price || "";
+  document.getElementById("pcShop").textContent = set.label;
+  const add = document.getElementById("pcAdd");
+  add.textContent = "カバンに入れる"; add.disabled = false;
+  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : "")); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 900); } };
+  document.getElementById("pcGo").onclick = () => window.open(set.url, "_blank");
+  c.classList.add("open");
+}
+function pbScene(id) {
+  const layer = document.getElementById("bubbleLayer"); if (!layer) return;
+  pbCloseCard();
+  const set = PB_SETS[id] || null; pbSet = set;
+  layer.innerHTML = "";
+  if (!set) return;
+  const stage = layer.parentElement;
+  set.items.forEach((p, i) => {
+    const slot = PB_SLOTS[i % PB_SLOTS.length];
+    const size = 74 + ((i * 29) % 34);
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "pBub"; b.title = p.full;
+    b.style.width = size + "px"; b.style.height = size + "px";
+    b.style.left = "calc(" + slot[0] + "% - " + Math.round(size / 2) + "px)";
+    b.style.top = "calc(" + slot[1] + "% - " + Math.round(size / 2) + "px)";
+    b.innerHTML = '<span class="pbIn"><img src="' + p.img + '" alt=""><span class="pbShine"></span></span>';
+    const inn = b.querySelector(".pbIn");
+    inn.style.animationDuration = (4.2 + (i % 4) * 0.9) + "s";
+    inn.style.animationDelay = (-i * 1.3) + "s";
+    let drag = null;
+    b.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY, l: b.offsetLeft, t: b.offsetTop, moved: false }; try { b.setPointerCapture(e.pointerId); } catch (err) {} b.classList.add("drag"); });
+    b.addEventListener("pointermove", (e) => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 6) drag.moved = true; if (drag.moved) { const W = stage.clientWidth, H = stage.clientHeight; b.style.left = Math.max(0, Math.min(W - size, drag.l + dx)) + "px"; b.style.top = Math.max(0, Math.min(H - size, drag.t + dy)) + "px"; } });
+    b.addEventListener("pointerup", () => { const wasDrag = drag && drag.moved; drag = null; b.classList.remove("drag"); if (!wasDrag) pbOpenCard(set, p); });
+    b.addEventListener("pointercancel", () => { drag = null; b.classList.remove("drag"); });
+    layer.appendChild(b);
+  });
+}
+document.getElementById("pcClose").addEventListener("click", pbCloseCard);
 setTimeout(() => { try { pbScene(curScene || "front"); } catch (e) {} }, 1600);
 /* 海と統一：チャットは船と同じ吹き出しアイコン／カバン／行き先プルダウン全場所／MAPはビュー内 */
 window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7h32a2 2 0 0 1 2 2v24a2 2 0 0 1-2 2H22l-9.5 8.5V35H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z" fill="rgba(174,233,255,.14)"/><path d="M16 17.5h16"/><path d="M16 25.5h9.5"/></svg>';
@@ -942,7 +998,6 @@ window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-
   const bagBtn = document.getElementById("bagBtn"), bagPanel = document.getElementById("bagPanel");
   if (bagBtn && bagPanel) {
     bagBtn.addEventListener("click", (e) => { e.stopPropagation(); bagPanel.style.display = (bagPanel.style.display === "flex") ? "none" : "flex"; });
-    var __slb = document.getElementById("shopLinkBtn"); if (__slb && bagPanel) bagPanel.insertBefore(__slb, bagPanel.firstChild);
     document.addEventListener("click", (e) => { if (bagPanel.style.display === "flex" && !e.target.closest("#authBar")) bagPanel.style.display = "none"; });
     bagPanel.addEventListener("click", () => { bagPanel.style.display = "none"; });
   }
@@ -1129,6 +1184,7 @@ document.getElementById("btnGoods").addEventListener("click", openShopPanel);
 document.getElementById("btnPrev").addEventListener("click", () => { slideIdx = (slideIdx + PRODUCTS.length - 1) % PRODUCTS.length; renderSlide(); });
 document.getElementById("btnNext").addEventListener("click", () => { slideIdx = (slideIdx + 1) % PRODUCTS.length; renderSlide(); });
 function updateCartBtn() { document.getElementById("btnCart").textContent = "カゴを見る（" + cart.length + "）"; }
+window.__addToBag = function(name) { cart.push({ id: "bub", name: name }); updateCartBtn(); renderCart(); };
 document.getElementById("btnAdd").addEventListener("click", () => {
   const p = PRODUCTS[slideIdx];
   cart.push({ id: p.id, name: p.name.replace("（裏面）", "") });
