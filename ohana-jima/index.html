@@ -572,6 +572,10 @@ html, body { overflow-x:hidden; }
 /* ===== ticker attached under the stage; mobile size review (2026-11-21) ===== */
 .ticker { position:static; width:100vw; margin-left:calc(50% - 50vw); }
 #panorama { height:calc(100dvh - 44px); height:calc(var(--vh, 1vh) * 100 - 44px); }
+
+/* ===== staff chat: stop the sideways shift-out (2026-11-21) ===== */
+#chat.panel { transform:none; }
+#chatLog .msg { overflow-wrap:anywhere; }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "OHANA島", "url": "https://momowari.github.io/ohana-jima/", "inLanguage": "ja", "description": "愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現したウェブ上の島。ストリートビューのように歩いて回ることができ、MAHALOビル、阿沼美神社、庚申庵、萱町商店街、フジグラン松山、古町駅、城山公園、道後温泉本館、大街道、銀天街、松山城、松山市駅、JR松山駅などを掲載。ヒトモノコトをつなぐOHANAシェア＊プロジェクトの活動とつながっている。", "isPartOf": {"@type": "WebSite", "name": "OHANAシェア＊プロジェクト", "url": "https://momowari.github.io/OHANA-share/"}, "author": {"@type": "Person", "name": "MOMOwaRI"}}</script>
 </head>
