@@ -1156,12 +1156,6 @@
 #uploadBtn:disabled{ opacity:.45; }
 .msg-guest-links{ margin:8px 0 0; font-size:.88rem; }
 </style>
-<style>
-/* 声パネル: 相手先リンクは見出しの下の行に／💬ボタンは透かさず実色の背景 (2026-11-21) */
-.voice-sub{ margin:0 0 .6rem; }
-.voice-panel .voice-head{ margin-bottom:.35rem; }
-#seaCommentBtn{ background:#0a4d75; border:1px solid rgba(255,255,255,.4); border-radius:50%; box-shadow:0 8px 20px rgba(0,20,40,.45); }
-</style>
 </head>
   <body>
     <main class="scene" id="scene">
@@ -1239,8 +1233,7 @@
 
       <!-- OHANAの声: opens in place, right where its mark lives -->
       <div class="voice-panel" id="voicePanel" hidden>
-        <div class="voice-head"><span>OHANAの声</span><button class="voice-x" id="voiceClose" type="button" aria-label="閉じる">✕</button></div>
-        <div class="voice-sub"><a class="voice-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" aria-label="OHANA島へ"><span class="voice-wave" aria-hidden="true">🏝️</span><span>OHANA島</span></a></div>
+        <div class="voice-head"><span>OHANAの声</span><a class="voice-island" href="https://momowari.github.io/ohana-jima/" target="_blank" rel="noopener" aria-label="OHANA島へ"><span class="voice-wave" aria-hidden="true">🏝️</span><span>OHANA島</span></a><button class="voice-x" id="voiceClose" type="button" aria-label="閉じる">✕</button></div>
         <div id="seaCommentList"></div>
         <p class="empty-note" id="seaCommentEmpty">まだひとことはないよ。</p>
         <div class="comment-form">
