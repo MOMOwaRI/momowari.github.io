@@ -534,6 +534,20 @@
 #bagMsgSend { flex:1; background:#d96a7a; color:#fff; border:none; border-radius:999px; padding:8px; font-weight:800; font-size:13.5px; cursor:pointer; box-shadow:none; }
 #bagMsgCancel { background:#fff; color:#4a3826; border:1.5px solid #d9c9a3; border-radius:999px; padding:8px 14px; font-size:13.5px; cursor:pointer; box-shadow:none; }
 #bagMsgNote { font-size:12px; color:#b3541e; margin:5px 0 0; }
+
+/* ===== chat on white / IG size / view stability / park mobile (2026-11-21) ===== */
+#chatFeed:not(.min) #feedHead { color:#4a3826; text-shadow:none; }
+#chatFeed:not(.min) #feedMin { background:#fff; color:#4a3826; border:1.5px solid #d9c9a3; box-shadow:none; }
+#chatFeed .fmsg { background:#faf1dc; border-color:#e5d9bd; box-shadow:none; text-shadow:none; }
+#chatFeed .fdel { background:#fff; color:#a33; border-color:#d9c9a3; }
+.embeds .embedwrap { max-width:330px; margin-inline:auto; }
+.embeds iframe, .embeds blockquote.instagram-media, .embeds blockquote.text-post-media { max-width:330px !important; margin-left:auto !important; margin-right:auto !important; }
+#panorama { height:calc(100dvh - 12px); height:calc(var(--vh, 1vh) * 100 - 12px); }
+@media (max-width:560px){
+  .stage #parkTalk { bottom:56px; width:94%; max-height:48%; overflow-y:auto; padding:8px 10px; }
+  #parkStage .parkFig img { height:64px; }
+  #parkBubble { max-width:86%; font-size:12px; }
+}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "OHANA島", "url": "https://momowari.github.io/ohana-jima/", "inLanguage": "ja", "description": "愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現したウェブ上の島。ストリートビューのように歩いて回ることができ、MAHALOビル、阿沼美神社、庚申庵、萱町商店街、フジグラン松山、古町駅、城山公園、道後温泉本館、大街道、銀天街、松山城、松山市駅、JR松山駅などを掲載。ヒトモノコトをつなぐOHANAシェア＊プロジェクトの活動とつながっている。", "isPartOf": {"@type": "WebSite", "name": "OHANAシェア＊プロジェクト", "url": "https://momowari.github.io/OHANA-share/"}, "author": {"@type": "Person", "name": "MOMOwaRI"}}</script>
 </head>
@@ -920,7 +934,7 @@ function keeperSpot(big) {
 const scenesCfg = {};
 Object.keys(SCENES).forEach(id => {
   const sc = SCENES[id];
-  const hs = (EXITS[id] || []).map(ex => ({ pitch: (ex.pitch != null ? ex.pitch : -17), yaw: ex.yaw, type: "info", cssClass: "walkspot",
+  const hs = (EXITS[id] || []).filter(ex => (ex.label || "").indexOf("出口") < 0).map(ex => ({ pitch: (ex.pitch != null ? ex.pitch : -17), yaw: ex.yaw, type: "info", cssClass: "walkspot",
     clickHandlerFunc: (evt, a) => walkTo(a), clickHandlerArgs: ex,
     createTooltipFunc: (div, a) => { walkChevron(div, a); ["pointerdown","touchstart","click"].forEach(ev => div.addEventListener(ev, (e) => { e.stopPropagation(); walkTo(a); })); }, createTooltipArgs: ex }));
   if (id === "counter") { hs.push(keeperSpot(true)); hs.push(shopCat("MAHALO", "いらっしゃいませ", "av-yuki.png", -38, "mahalo", true)); }
@@ -1021,6 +1035,8 @@ function walkStep() {
 }
 function toggleTour() {
   if (walkTimer) { stopWalk(); return; }
+  if (window.__hideParkView) window.__hideParkView();
+  window.scrollTo(0, 0);
   const __bw2 = document.getElementById("destTour"); if (__bw2) __bw2.textContent = "⏸ とまる";
   walkIdx = -1;
   walkStep();
@@ -1098,6 +1114,8 @@ let pbSet = null;
 const PB_SLOTS = [[10,30],[26,60],[44,26],[62,58],[82,30],[90,62],[52,68],[18,68],[76,22],[30,20]];
 function pbCloseCard() { const c = document.getElementById("prodCard"); if (c) c.classList.remove("open"); }
 function pbSuckToBag(imgSrc) { const bag = document.getElementById("bagBtn"); const card = document.getElementById("prodCard"); if (!bag || !card || !imgSrc) return; const s = card.getBoundingClientRect(), t = bag.getBoundingClientRect(); const el = document.createElement("img"); el.src = imgSrc; el.alt = ""; el.style.cssText = "position:fixed; z-index:999; border-radius:50%; object-fit:cover; pointer-events:none; background:#fff; border:3px solid #d96a7a; left:" + (s.left + s.width / 2 - 46) + "px; top:" + (s.top + 6) + "px; width:92px; height:92px; box-shadow:0 12px 28px rgba(0,20,40,.45)"; document.body.appendChild(el); const sx = s.left + s.width / 2, sy = s.top + 52; const dx = (t.left + t.width / 2) - sx; const dy = (t.top + t.height / 2) - sy; const anim = el.animate([ { transform: "translate(0px, 0px) scale(1)", opacity: 1 }, { transform: "translate(" + (dx * 0.35) + "px, " + (dy * 0.35 - 90) + "px) scale(.8)", opacity: 1, offset: 0.38 }, { transform: "translate(" + (dx * 0.75) + "px, " + (dy * 0.75 - 30) + "px) scale(.45)", opacity: 1, offset: 0.72 }, { transform: "translate(" + dx + "px, " + dy + "px) scale(.06)", opacity: 0.55 } ], { duration: 2100, easing: "cubic-bezier(.45,.05,.65,.45)" }); anim.onfinish = () => { el.remove(); bag.animate([{ transform: "scale(1)" }, { transform: "scale(1.25)" }, { transform: "scale(1)" }], { duration: 340, easing: "ease-out" }); }; }
+const PB_ANCHORS = { "nanosuppli-ga-main": "nanosuppli-ga", "arimino-moist-main": "arimino-moist", "milbon-plarmia-clear-spa-foam": "milbon-plarmia-foam", "suncall-r21-ex-shampoo-270": "suncall-r21-270", "napla-naseed-scalp-toner": "napla-naseed-toner", "demi-biove-fors-nourishing-jet": "demi-biove-jet", "wella-ultime-night-treatment": "wella-ultime-night", "wella-ultime-hair-treatment": "wella-ultime-hair-treatment", "wella-ultime-hair-oil": "wella-ultime-hair-oil" };
+function pbLinkOf(set, p) { const img = p.img || ""; if (set === PB_SETS.lea) { const m = /m\d{6,}/.exec(img); if (m) return "https://jp.mercari.com/item/" + m[0]; } const base = img.split("/").pop().replace(/\.(jpg|png)$/, ""); const a = PB_ANCHORS[base]; return a ? set.url + "#" + a : set.url; }
 function pbOpenCard(set, p) {
   const c = document.getElementById("prodCard"); if (!c) return;
   document.getElementById("pcImg").src = p.img;
@@ -1106,8 +1124,8 @@ function pbOpenCard(set, p) {
   document.getElementById("pcShop").textContent = set.label;
   const add = document.getElementById("pcAdd");
   add.textContent = "カバンに入れる"; add.disabled = false;
-  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : ""), set.url, set.owner); pbSuckToBag(p.img); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 2250); } };
-  document.getElementById("pcGo").onclick = () => window.open(set.url, "_blank");
+  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : ""), pbLinkOf(set, p), set.owner); pbSuckToBag(p.img); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 2250); } };
+  const pcGoEl = document.getElementById("pcGo"); pcGoEl.textContent = "商品ページへ"; pcGoEl.onclick = () => window.open(pbLinkOf(set, p), "_blank");
   c.classList.add("open");
 }
 function pbScene(id) {
@@ -1119,35 +1137,48 @@ function pbScene(id) {
   if (!set) return;
   const stage = layer.parentElement;
   const drifters = [];
+  const W0 = stage.clientWidth || 1, H0 = stage.clientHeight || 1;
+  let vY0 = 0, vP0 = 0, vH0 = 102; try { vY0 = viewer.getYaw(); vP0 = viewer.getPitch(); vH0 = viewer.getHfov(); } catch (e) {}
+  const vV0 = 2 * Math.atan(Math.tan(vH0 * Math.PI / 360) * (H0 / W0)) * 180 / Math.PI;
+  const toAnchor = (sx, sy) => ({ yaw: vY0 + Math.atan((sx / 100 - 0.5) * 2 * Math.tan(vH0 * Math.PI / 360)) * 180 / Math.PI, pitch: vP0 + Math.atan((0.5 - sy / 100) * 2 * Math.tan(vV0 * Math.PI / 360)) * 180 / Math.PI });
   set.items.forEach((p, i) => {
     const slot = PB_SLOTS[i % PB_SLOTS.length];
     const size = 52 + ((i * 17) % 16);
     const b = document.createElement("button");
     b.type = "button"; b.className = "pBub"; b.title = p.full;
     b.style.width = size + "px"; b.style.height = size + "px";
-    b.style.left = "calc(" + slot[0] + "% - " + Math.round(size / 2) + "px)";
-    b.style.top = "calc(" + slot[1] + "% - " + Math.round(size / 2) + "px)";
+    b.style.left = "-300px"; b.style.top = "-300px";
     b.innerHTML = '<span class="pbIn"><img src="' + p.img + '" alt=""><span class="pbShine"></span></span>';
     const inn = b.querySelector(".pbIn");
     inn.style.animationDuration = (4.2 + (i % 4) * 0.9) + "s";
     inn.style.animationDelay = (-i * 1.3) + "s";
+    const anch = toAnchor(slot[0], slot[1]);
+    const rec = { b: b, size: size, yaw: anch.yaw, pitch: anch.pitch, ph: i * 1.7, sp: 0.45 + (i % 3) * 0.12 };
     let drag = null;
     b.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY, l: b.offsetLeft, t: b.offsetTop, moved: false }; try { b.setPointerCapture(e.pointerId); } catch (err) {} b.classList.add("drag"); });
     b.addEventListener("pointermove", (e) => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 6) drag.moved = true; if (drag.moved) { const W = stage.clientWidth, H = stage.clientHeight; b.style.left = Math.max(0, Math.min(W - size, drag.l + dx)) + "px"; b.style.top = Math.max(0, Math.min(H - size, drag.t + dy)) + "px"; } });
-    b.addEventListener("pointerup", () => { const wasDrag = drag && drag.moved; drag = null; b.classList.remove("drag"); if (!wasDrag) pbOpenCard(set, p); });
+    b.addEventListener("pointerup", () => { const wasDrag = drag && drag.moved; drag = null; b.classList.remove("drag"); if (!wasDrag) { pbOpenCard(set, p); return; } try { const W = stage.clientWidth, H = stage.clientHeight; const hf = viewer.getHfov(); const vf = 2 * Math.atan(Math.tan(hf * Math.PI / 360) * (H / W)) * 180 / Math.PI; const cx = (b.offsetLeft + size / 2) / W, cy = (b.offsetTop + size / 2) / H; rec.yaw = viewer.getYaw() + Math.atan((cx - 0.5) * 2 * Math.tan(hf * Math.PI / 360)) * 180 / Math.PI; rec.pitch = viewer.getPitch() + Math.atan((0.5 - cy) * 2 * Math.tan(vf * Math.PI / 360)) * 180 / Math.PI; } catch (e) {} });
     b.addEventListener("pointercancel", () => { drag = null; b.classList.remove("drag"); });
     layer.appendChild(b);
-    drifters.push({ b: b, size: size, x: slot[0], y: slot[1], hx: slot[0], hy: slot[1], vx: (0.25 + Math.random() * 0.4) * (Math.random() < 0.5 ? -1 : 1), vy: (0.15 + Math.random() * 0.25) * (Math.random() < 0.5 ? -1 : 1) });
+    drifters.push(rec);
   });
   layer.__driftT = setInterval(() => {
     const W = stage.clientWidth, H = stage.clientHeight; if (!W || !H) return;
+    let vy, vp, hf; try { vy = viewer.getYaw(); vp = viewer.getPitch(); hf = viewer.getHfov(); } catch (e) { return; }
+    const vf = 2 * Math.atan(Math.tan(hf * Math.PI / 360) * (H / W)) * 180 / Math.PI;
+    const t = Date.now() / 1000;
     drifters.forEach((d) => {
-      if (d.b.classList.contains("drag")) { d.x = (d.b.offsetLeft + d.size / 2) / W * 100; d.y = (d.b.offsetTop + d.size / 2) / H * 100; return; }
-      d.x += d.vx * 0.05; d.y += d.vy * 0.05;
-      if (d.x < d.hx - 7) { d.x = d.hx - 7; d.vx = Math.abs(d.vx); } if (d.x > d.hx + 7) { d.x = d.hx + 7; d.vx = -Math.abs(d.vx); }
-      if (d.y < d.hy - 5) { d.y = d.hy - 5; d.vy = Math.abs(d.vy); } if (d.y > d.hy + 5) { d.y = d.hy + 5; d.vy = -Math.abs(d.vy); }
-      d.b.style.left = "calc(" + d.x + "% - " + Math.round(d.size / 2) + "px)";
-      d.b.style.top = "calc(" + d.y + "% - " + Math.round(d.size / 2) + "px)";
+      if (d.b.classList.contains("drag")) return;
+      const ay = d.yaw + Math.sin(t * d.sp + d.ph) * 2.4;
+      const ap = d.pitch + Math.cos(t * d.sp * 0.8 + d.ph) * 1.5;
+      let dx = ay - vy; while (dx > 180) dx -= 360; while (dx < -180) dx += 360;
+      const dy = ap - vp;
+      const x = (0.5 + Math.tan(dx * Math.PI / 180) / (2 * Math.tan(hf * Math.PI / 360))) * W;
+      const y = (0.5 - Math.tan(dy * Math.PI / 180) / (2 * Math.tan(vf * Math.PI / 360))) * H;
+      if (x < -d.size || x > W + d.size || y < -d.size || y > H + d.size) { d.b.style.visibility = "hidden"; return; }
+      d.b.style.visibility = "";
+      d.b.style.left = (x - d.size / 2) + "px";
+      d.b.style.top = (y - d.size / 2) + "px";
     });
   }, 50);
 }
@@ -1987,5 +2018,14 @@ $("btnProfSave").addEventListener("click", async () => {
 })();
 </script>
 
+<script>
+(function() {
+  function setVh() { document.documentElement.style.setProperty("--vh", (window.innerHeight * 0.01) + "px"); }
+  setVh();
+  window.addEventListener("orientationchange", function() { setTimeout(setVh, 300); });
+  var dp = document.getElementById("destPark");
+  if (dp) dp.addEventListener("click", function() { if (window.stopWalk) window.stopWalk(); });
+})();
+</script>
 </body>
 </html>
