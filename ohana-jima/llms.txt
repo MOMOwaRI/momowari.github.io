@@ -55,3 +55,21 @@
 - OHANA島の海のページ。OHANAシェア＊プロジェクトの理念「眠っている価値を、必要な場所へ。」のもと、眠っている価値を海へ放流すると、ありがとうのしるしとしてコインが戻ってくる
 - コインは、1コイン＝実物の100円券1枚と交換できる（現金への換金・現金化はできない）。100円券は無料で配られ、お釣りは出ない
 - OHANAの声（チャット）とログイン（メンバー登録）はOHANA島と共通。舞台は愛媛県松山市
+
+### 海に漂っているヒトモノコト（全13件）
+
+OHANA海の海面には、次の登録モノ・ヒト・コトが泡（バブル）になって漂っている。気になるものをタップすると、それぞれの紹介ページへ進める。
+
+- 雑貨屋 Lea Mahalo【モノ／持ち主：Lea Mahalo】：雑貨・アクセサリー・フラワー雑貨のお店。メルカリでも出品中。 https://momowari.github.io/OHANA-share/members/lea-mahalo.html
+- グル〜ミ〜 ぬいぐるみ 特大サイズ 千鳥格子2体セット【モノ／持ち主：MOMOwaRI】：チャックスGP「グル〜ミ〜」の特大サイズ。チドリピンクとチドリブラックの2体セット、タグ付き。 https://momowari.github.io/OHANA-share/members/gloomy-chidori.html
+- 中トトロ ぬいぐるみ【モノ／持ち主：MOMOwaRI】：「となりのトトロ」の中トトロ。青い体に白いお腹、頭に葉っぱ。 https://momowari.github.io/OHANA-share/members/totoro.html
+- プーさん・リラックマ・クマ顔クッション 3点セット【モノ／持ち主：MOMOwaRI】：ハニーポット付きのプーさん、リラックマ、クマ顔クッションの3点セット。 https://momowari.github.io/OHANA-share/members/pooh-rilakkuma-set.html
+- マインクラフト グッズ一式セット【モノ／持ち主：MOMOwaRI】：トートバッグ、サンダル、キャップ、TNTポーチ、靴下、文具など。未開封品多数。 https://momowari.github.io/OHANA-share/members/minecraft-goods-set.html
+- LOVEうさぎ ぬいぐるみ・マスコット セット【モノ／持ち主：MOMOwaRI】：耳にLOVEの刺繍が入った白・黒ウサギとマスコット多数。かご入り、タグ付き。 https://momowari.github.io/OHANA-share/members/love-usagi-set.html
+- MOMOwaRI【ヒト／持ち主：MOMOwaRI】：OHANAシェア＊プロジェクトを始めた人。「眠っている価値を、必要な場所へ。」——つなぐのが好きです。 https://momowari.github.io/OHANA-share/members/momowari.html
+- Eyes MAHALO（まつげパーマ）【コト／持ち主：Eyes MAHALO】：まつげパーマ専門（遠赤外線・キラ水）。歴15年以上。 https://momowari.github.io/OHANA-share/members/eyes-mahalo.html
+- elua Mahalo【コト／持ち主：elua Mahalo】：eluaは「さらに、もっと」。MAHALO（ありがとう）の気持ちを、もっと重ねる場所。 https://momowari.github.io/OHANA-share/members/elua-mahalo.html
+- hair ID salon MAHALO（美容室）【コト／持ち主：hair ID salon MAHALO】：松山市味酒町の美容室。OHANAのイベント会場にもなる場所。 https://momowari.github.io/OHANA-share/members/mahalo.html
+- CUBE防災【コト／持ち主：CUBE防災】：ルービックキューブ6面完成に挑戦できる「愛媛県民6面完成プロジェクト」。 https://momowari.github.io/OHANA-share/members/cube-bousai.html
+- セレクト愛媛情報【コト／持ち主：MOMOwaRI】：愛媛のフリマ・おさがり交換・リユースを、公式情報で選んで紹介。日時・場所・公式リンク付き。 https://momowari.github.io/OHANA-share/members/select-ehime.html
+- セレクト愛媛MAP【コト／持ち主：MOMOwaRI】：愛媛で乳幼児・子供連れで行きやすいお店と施設96件を、地図と一覧で紹介。 https://momowari.github.io/OHANA-share/members/select-ehime-map.html

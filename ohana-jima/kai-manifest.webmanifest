@@ -1,0 +1,31 @@
+{
+  "name": "OHANA海🐠",
+  "short_name": "OHANA海",
+  "description": "眠っている価値がゆっくり巡っていく、OHANAシェア＊プロジェクトの物々交換の海。モノを放流すると、ありがとうのしるしにコインが戻ってきます。",
+  "lang": "ja",
+  "start_url": "kai.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d4a6e",
+  "theme_color": "#0d4a6e",
+  "icons": [
+    {
+      "src": "kai-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "kai-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "kai-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
