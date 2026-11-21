@@ -558,7 +558,6 @@ OHANA島は、ヒトモノコトをつなぐ「OHANAシェア＊プロジェク�
 </div></details>
 <p class="src vh" style="text-align:center;margin:18px 12px 90px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
 
-<button id="btnEdit" class="act" type="button" style="display:none;position:fixed;top:10px;left:10px;z-index:80">✏️ 編集</button>
 <div id="botPanel">
   <div id="botHead"><b>OHANA</b><button id="botClose" type="button" aria-label="閉じる">×</button></div>
   <div id="botLog"></div>
@@ -831,12 +830,35 @@ function toggleTour() {
 }
 { const __pnI = document.getElementById("placeName"); if (__pnI) __pnI.textContent = "📍 " + (SHORT["front"] || ""); }
 function snsSeen(id){ try { return (JSON.parse(localStorage.getItem("islandSnsSeen") || "[]")).includes(id); } catch(e){ return false; } }
-window.renderSceneSns = function(id) { const ss = document.getElementById("sceneSns"); if (!ss) return; ss.innerHTML = ""; POSTS.filter((pp) => pp.scene === id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); };
+window.postsFor = function(id) {
+  const own = POSTS.filter((pp) => pp.scene === id);
+  if (own.length) return own.slice(0, 4);
+  const seen = new Set([id]); let frontier = [id]; const found = [];
+  for (let hop = 0; hop < 2 && found.length < 3; hop++) {
+    const next = [];
+    frontier.forEach((sc) => {
+      const outs = (EXITS[sc] || []).map((e) => e.to);
+      Object.keys(EXITS).forEach((k) => { if ((EXITS[k] || []).some((e) => e.to === sc)) outs.push(k); });
+      outs.forEach((t) => { if (!seen.has(t)) { seen.add(t); next.push(t); POSTS.filter((pp) => pp.scene === t).forEach((pp) => found.push(pp)); } });
+    });
+    frontier = next;
+  }
+  const LL = window.__PLACE_LL || { park:[33.84170,132.76510], front:[33.84556,132.75534], jinja:[33.84616,132.75641], koshin:[33.84368,132.75468], yaoya:[33.84630,132.75690], tamago:[33.84701,132.75683], pharmacy:[33.84530,132.75527], kayamachi2:[33.84590,132.75687], kayamachi:[33.84556,132.75687], fuji:[33.84492,132.75328], furumachi:[33.84709,132.75526], honkan:[33.85194,132.78639], dogoeki:[33.84972,132.78500], haikara:[33.85080,132.78580], okaido:[33.84480,132.77030], gintengai:[33.84430,132.76800], castle:[33.84557,132.76530], cityst:[33.83996,132.76235], jrst:[33.83990,132.75170] };
+  const myLL = LL[id] || LL[{ stairs: "front", counter: "front", elua: "front", lea: "front" }[id] || ""];
+  if (!found.length && myLL) {
+    const all = POSTS.filter((pp) => LL[pp.scene]);
+    all.sort((a, b) => Math.hypot(LL[a.scene][0] - myLL[0], LL[a.scene][1] - myLL[1]) - Math.hypot(LL[b.scene][0] - myLL[0], LL[b.scene][1] - myLL[1]));
+    return all.slice(0, 3);
+  }
+  if (myLL) found.sort((a, b) => { const da = LL[a.scene] ? Math.hypot(LL[a.scene][0] - myLL[0], LL[a.scene][1] - myLL[1]) : 9; const db = LL[b.scene] ? Math.hypot(LL[b.scene][0] - myLL[0], LL[b.scene][1] - myLL[1]) : 9; return da - db; });
+  return found.slice(0, 3);
+};
+window.renderSceneSns = function(id) { const ss = document.getElementById("sceneSns"); if (!ss) return; ss.innerHTML = ""; window.postsFor(id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); };
 function snsMarkSeen(id){ try { const a = JSON.parse(localStorage.getItem("islandSnsSeen") || "[]"); if (!a.includes(id)) { a.push(id); localStorage.setItem("islandSnsSeen", JSON.stringify(a)); } } catch(e){} }
 viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDestMenu();
   const pn = document.getElementById("placeName"); if (pn) pn.textContent = "📍 " + (SHORT[id] || "");
   const ss = document.getElementById("sceneSns");
-  if (ss) { ss.innerHTML = ""; POSTS.filter((pp) => pp.scene === id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); }
+  if (ss) { ss.innerHTML = ""; window.postsFor(id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); }
   curScene = id;
   pbScene(id);
   tourCapShow(id);
@@ -871,7 +893,7 @@ function pbScene(id) { const bb = document.getElementById("prodBubble"); if (!bb
 document.getElementById("prodBubble").addEventListener("click", () => { window.open("https://momowari.github.io/MAHALO/select.html", "_blank"); });
 setTimeout(() => { try { pbScene(curScene || "front"); } catch (e) {} }, 1600);
 /* 初回表示で左下SNSアイコンが出ないことがあるため、空なら少し待って入れ直す */
-(function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && POSTS.some((pp) => pp.scene === curScene)) { POSTS.filter((pp) => pp.scene === curScene).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); } if (n > 8) clearInterval(t); }, 1200); })();
+(function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && window.postsFor(curScene).length) { window.postsFor(curScene).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); } if (n > 8) clearInterval(t); }, 1200); })();
 
 /* 地面タップで歩く（ストリートビュー式）：向いている方に近い出口へ進む */
 const panoEl = document.getElementById("panorama");
@@ -1308,7 +1330,7 @@ function applyEd(data) { if (!data) return; edCache = data; document.querySelect
 async function loadEd() { if (edLoaded || !db) return; edLoaded = true; try { const snap = await getDoc(doc(db, "siteTexts", "island-page")); if (snap.exists()) applyEd(snap.data()); } catch (e) {} }
 function refreshEditBtn() { const be = $("btnEdit"); if (be) be.style.display = (!editing && me && me.uid === OWNER_UID) ? "" : "none"; }
 function setEditing(on) { editing = on; document.body.classList.toggle("editing", on); document.querySelectorAll("[data-ed]").forEach(el => { el.contentEditable = on ? "true" : "false"; }); $("editBar").style.display = on ? "flex" : "none"; refreshEditBtn(); }
-$("btnEdit").addEventListener("click", () => setEditing(true));
+const __beEl = $("btnEdit"); if (__beEl) __beEl.addEventListener("click", () => setEditing(true));
 $("btnEditCancel").addEventListener("click", () => { applyEd(edCache); setEditing(false); });
 $("btnEditSave").addEventListener("click", async () => { const data = {}; document.querySelectorAll("[data-ed]").forEach(el => { data[el.dataset.ed] = el.innerHTML.trim(); }); try { await setDoc(doc(db, "siteTexts", "island-page"), data, { merge: true }); edCache = Object.assign({}, edCache, data); setEditing(false); alert("保存しました"); } catch (e) { alert("保存できませんでした"); } });
 function renderStars() {
