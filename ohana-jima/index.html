@@ -1132,7 +1132,7 @@ function walkStep() {
 }
 function toggleTour() {
   if (walkTimer) { stopWalk(); return; }
-  if (window.__hideParkView) window.__hideParkView();
+  if (window.exitParkView) window.exitParkView();
   window.scrollTo(0, 0);
   const __bw2 = document.getElementById("destTour"); if (__bw2) __bw2.textContent = "⏸ とまる";
   walkIdx = -1;
