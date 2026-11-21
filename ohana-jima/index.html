@@ -1047,22 +1047,7 @@ const PB_SETS = {
 let pbSet = null;
 const PB_SLOTS = [[10,30],[26,60],[44,26],[62,58],[82,30],[90,62],[52,68],[18,68],[76,22],[30,20]];
 function pbCloseCard() { const c = document.getElementById("prodCard"); if (c) c.classList.remove("open"); }
-function pbSuckToBag(imgSrc) {
-  const bag = document.getElementById("bagBtn"); const card = document.getElementById("prodCard");
-  if (!bag || !card || !imgSrc) return;
-  const s = card.getBoundingClientRect(), t = bag.getBoundingClientRect();
-  const el = document.createElement("img"); el.src = imgSrc; el.alt = "";
-  el.style.cssText = "position:fixed; z-index:99; border-radius:50%; object-fit:cover; pointer-events:none; left:" + (s.left + s.width / 2 - 42) + "px; top:" + (s.top + 8) + "px; width:84px; height:84px; box-shadow:0 10px 24px rgba(0,20,40,.4)";
-  document.body.appendChild(el);
-  const dx = (t.left + t.width / 2) - (s.left + s.width / 2);
-  const dy = (t.top + t.height / 2) - (s.top + 50);
-  const anim = el.animate([
-    { transform: "translate(0px, 0px) scale(1)", opacity: 1 },
-    { transform: "translate(" + (dx * 0.7) + "px, " + (dy * 0.7) + "px) scale(.45)", opacity: 1, offset: 0.65 },
-    { transform: "translate(" + dx + "px, " + dy + "px) scale(.05)", opacity: 0.5 }
-  ], { duration: 1150, easing: "cubic-bezier(.5,0,.8,.4)" });
-  anim.onfinish = () => { el.remove(); bag.animate([{ transform: "scale(1)" }, { transform: "scale(1.22)" }, { transform: "scale(1)" }], { duration: 320, easing: "ease-out" }); };
-}
+function pbSuckToBag(imgSrc) { const bag = document.getElementById("bagBtn"); const card = document.getElementById("prodCard"); if (!bag || !card || !imgSrc) return; const s = card.getBoundingClientRect(), t = bag.getBoundingClientRect(); const el = document.createElement("img"); el.src = imgSrc; el.alt = ""; el.style.cssText = "position:fixed; z-index:999; border-radius:50%; object-fit:cover; pointer-events:none; background:#fff; border:3px solid #d96a7a; left:" + (s.left + s.width / 2 - 46) + "px; top:" + (s.top + 6) + "px; width:92px; height:92px; box-shadow:0 12px 28px rgba(0,20,40,.45)"; document.body.appendChild(el); const sx = s.left + s.width / 2, sy = s.top + 52; const dx = (t.left + t.width / 2) - sx; const dy = (t.top + t.height / 2) - sy; const anim = el.animate([ { transform: "translate(0px, 0px) scale(1)", opacity: 1 }, { transform: "translate(" + (dx * 0.35) + "px, " + (dy * 0.35 - 90) + "px) scale(.8)", opacity: 1, offset: 0.38 }, { transform: "translate(" + (dx * 0.75) + "px, " + (dy * 0.75 - 30) + "px) scale(.45)", opacity: 1, offset: 0.72 }, { transform: "translate(" + dx + "px, " + dy + "px) scale(.06)", opacity: 0.55 } ], { duration: 1500, easing: "cubic-bezier(.45,.05,.65,.45)" }); anim.onfinish = () => { el.remove(); bag.animate([{ transform: "scale(1)" }, { transform: "scale(1.25)" }, { transform: "scale(1)" }], { duration: 340, easing: "ease-out" }); }; }
 function pbOpenCard(set, p) {
   const c = document.getElementById("prodCard"); if (!c) return;
   document.getElementById("pcImg").src = p.img;
@@ -1071,7 +1056,7 @@ function pbOpenCard(set, p) {
   document.getElementById("pcShop").textContent = set.label;
   const add = document.getElementById("pcAdd");
   add.textContent = "カバンに入れる"; add.disabled = false;
-  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : ""), set.url); pbSuckToBag(p.img); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 1080); } };
+  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : ""), set.url); pbSuckToBag(p.img); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 1560); } };
   document.getElementById("pcGo").onclick = () => window.open(set.url, "_blank");
   c.classList.add("open");
 }
