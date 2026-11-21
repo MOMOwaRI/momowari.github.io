@@ -1129,6 +1129,15 @@
       }
       .row-del svg{ width:18px; height:18px; display:block; }
       .row-del.cf-armed{ background:rgba(255,80,80,.45); opacity:1; }
+      /* cargo unload: a round × resting at the row's far end —
+         its own 40px circle, apart from the row's tap-to-open,
+         so a stray tap on the row never unloads anything */
+      .bag-item .row-unload{
+        margin-left:auto; flex:none; display:grid; place-items:center; width:40px; height:40px;
+        border-radius:50%; background:rgba(255,255,255,.14); border:1px solid var(--glass-line-in);
+        color:#fff; cursor:pointer;
+      }
+      .bag-item .row-unload svg{ width:17px; height:17px; display:block; }
 </style>
   
 <style>
@@ -1344,6 +1353,7 @@
         </div>
       </div>
       <div id="tabThrown" hidden>
+        <button class="cta-btn" id="thrownUploadBtn" type="button">写真をアップロードする</button>
         <div class="bag-list" id="thrownList"></div>
         <p class="empty-note" id="thrownEmpty">あなたの価値を放ってみませんか？</p>
       </div>
@@ -2321,8 +2331,10 @@
     }
     if (selectedItem) $("#editBtn").hidden = !isOwnItem(selectedItem.data);
   }
-  /* ログアウト: 状態をゲストに戻してから、OHANA島へ遷移する。
-     新しいタブではなく、この画面そのものが島へ移る。 */
+  /* ログアウト: 状態をゲストに戻して、海に留まる。signOut は
+     島と共通の __kaiSignOut のまま（全サイト連動はそちらが担う）で、
+     外したのは島への遷移だけ。確定は onAuthStateChanged からの
+     __kaiSetUser(null) が同じ形で戻す。 */
   document.addEventListener("click", function(e){
     var lo = e.target.closest ? e.target.closest("[data-logout]") : null;
     if (!lo) return;
@@ -2330,14 +2342,10 @@
     isLoggedInWithIsland = false;
     hasOwnPage = false;
     currentUserName = "";
+    currentUserUid = "";
     updateMemberStatus();
     if (window.__kaiSignOut){
-      var moved = false;
-      var go = function(){ if (!moved){ moved = true; window.location.href = ISLAND_URL; } };
-      try { var p = window.__kaiSignOut(); if (p && p.then) p.then(go); } catch (e) {}
-      setTimeout(go, 1200);
-    } else {
-      window.location.href = ISLAND_URL;
+      try { window.__kaiSignOut(); } catch (err) {}
     }
   });
   /* 本番接続 (Firebaseモジュール) からログイン状態を受け取る口 */
@@ -2354,6 +2362,22 @@
       currentUserUid = "";
     }
     updateMemberStatus();
+  };
+  /* 読み込み時の好き復元: the module reads seaLikes back at
+     login and hands over the totals plus which ones are mine.
+     Counts are the seaLikes totals (people, not taps) and my
+     liked flags come back on, so a reload never takes a 好き
+     away. The open detail's count and the ship's 好き tab
+     follow at once; the names sheet already reads seaLikes. */
+  window.__kaiApplyLikes = function(counts, mine){
+    counts = counts || {}; mine = mine || {};
+    for (var id in ITEM_REGISTRY){
+      var d = ITEM_REGISTRY[id];
+      d.likes = counts[id] || 0;
+      d.liked = !!mine[id];
+    }
+    if (selectedItem) updateLikeBtn(selectedItem.data);
+    renderLikes();
   };
   /* メンバー登録（無料）= その場でGoogleログイン／マイページ = 島と同じ飛び先に揃える */
   document.addEventListener("click", function(e){
@@ -2822,6 +2846,11 @@
      「あなたの価値を放つ」. The chest keeps its very first design;
      there is no picker and nothing to choose. */
   $("#throwBtn").addEventListener("click", function(){ ensureAudio(); openSheet("sheetThrow"); refreshThrowSheet(); });
+  /* the ship's 放流 tab carries the same door: its upload
+     button opens the release sheet (openSheet puts the ship
+     away first), with the sheet's guest state refreshed */
+  var thrownUpBtn = $("#thrownUploadBtn");
+  if (thrownUpBtn) thrownUpBtn.addEventListener("click", function(){ openSheet("sheetThrow"); refreshThrowSheet(); });
 
   /* upload your own モノ photo to release */
   var uploadData = null;
@@ -3030,6 +3059,18 @@
   });
 
   /* ---------------- bag ---------------- */
+  /* 船から降ろす: the × at a cargo row's end takes that one モノ
+     back off the ship. saveCargo carries the shorter list to the
+     device copy and to seaShips alike; updateBag re-draws the
+     rows and the counts (ship badge and the 積載 tab number). */
+  function unloadItem(id){
+    if (!id) return;
+    for (var i = state.bag.length - 1; i >= 0; i--){
+      if (state.bag[i].id === id) state.bag.splice(i, 1);
+    }
+    saveCargo();
+    updateBag();
+  }
   function updateBag(){
     var badge = $("#bagBadge");
     if (state.bag.length){ badge.hidden = false; badge.textContent = state.bag.length; }
@@ -3045,6 +3086,16 @@
       d.innerHTML = '<img src="' + it.img + '" alt="" /><div><div class="bn">' + esc(it.name) + '</div><div class="bs">' + esc(it.via || "積載") + '</div></div>';
       d.style.cursor = "pointer";
       d.addEventListener("click", function(){ openBagItem(it); });
+      var un = document.createElement("button");
+      un.type = "button";
+      un.className = "row-unload";
+      un.setAttribute("aria-label", "船から降ろす");
+      un.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6 L18 18"/><path d="M18 6 L6 18"/></svg>';
+      un.addEventListener("click", function(ev){
+        ev.stopPropagation();
+        unloadItem(it.id);
+      });
+      d.appendChild(un);
       list.appendChild(d);
     });
     /* one send for everything aboard: the bulk button
@@ -3269,7 +3320,7 @@ if (auth && db) {
     }
     startChat();
     renderChat();
-    if (user) { loadCargo(user); watchReleases(user); }
+    if (user) { loadCargo(user); watchReleases(user); restoreLikes(user); }
   });
 
   var chatStarted = false;
@@ -3504,6 +3555,28 @@ if (auth && db) {
       return true;
     } catch (e) { return false; }
   };
+  /* 好きの復元: read seaLikes back once at login. A count is
+     people — one per uid per item, so duplicate docs from a
+     double tap count once — and the items I liked come back
+     flagged as mine. The classic side applies both to the
+     registry, the counts, the 好き tab and the names. */
+  async function restoreLikes(user) {
+    if (!db || !user) return;
+    try {
+      var snap = await getDocs(query(collection(db, "seaLikes"), limit(1000)));
+      var counts = {}, mine = {}, seen = {};
+      snap.forEach(function (d) {
+        var v = d.data() || {};
+        if (!v.itemId || !v.uid) return;
+        var k = v.itemId + "|" + v.uid;
+        if (seen[k]) return;
+        seen[k] = 1;
+        counts[v.itemId] = (counts[v.itemId] || 0) + 1;
+        if (v.uid === user.uid) mine[v.itemId] = 1;
+      });
+      if (window.__kaiApplyLikes) window.__kaiApplyLikes(counts, mine);
+    } catch (e) {}
+  }
   async function loadCargo(user) {
     try {
       var cs = await getDoc(doc(db, "seaShips", user.uid));
