@@ -365,6 +365,7 @@
          floating on the water, with a soft shadow so it stays readable. */
       #throwBtn{ width:3.6rem; height:3.6rem; display:grid; place-items:center; padding:.2rem; }
       #throwBtn svg{ width:40px; height:40px; }
+      #itemKind{ cursor:pointer; }
       .sound-icon{
         width:3.6rem; height:3.6rem; flex:none;
         background:transparent; border:none; border-radius:0;
@@ -1049,11 +1050,11 @@
       <h2 id="itemName"></h2>
       <div class="item-hero"><img id="itemImg" alt="" /></div>
       <div class="meta-row">
-        <span class="chip gold" id="itemKind"></span>
+        <span class="chip gold" id="itemKind" title="一覧を開く"></span>
         <span class="chip" id="itemCond"></span>
-        <button class="chip pin-name" id="itemFromBtn" type="button" aria-expanded="false" aria-controls="pinPulldown">
+        <button class="chip pin-name" id="itemFromBtn" type="button">
           <svg viewBox="0 0 24 24" width="13" height="13" fill="#ff8a5c" stroke="#e05f2d" stroke-width="1.4" aria-hidden="true"><path d="M12 21.5S5 15.6 5 9.8A7 7 0 0 1 19 9.8C19 15.6 12 21.5 12 21.5Z"/><circle cx="12" cy="9.8" r="2.6" fill="#fff6da" stroke="none"/></svg>
-          <span id="itemFrom"></span><span class="pin-caret" aria-hidden="true">▾</span>
+          <span id="itemFrom"></span>
         </button>
       </div>
       <div class="pin-pulldown" id="pinPulldown" hidden>
@@ -1260,6 +1261,12 @@
   function sellerUrlFor(fromName){
     return MEMBER_PAGES[fromName] || "https://momowari.github.io/OHANA-share/";
   }
+  /* 種別ラベル（モノ／ヒト／コト）タップで、その一覧へ飛ぶ */
+  var KIND_URLS = {
+    "モノ": "https://momowari.github.io/OHANA-share/mono.html",
+    "ヒト": "https://momowari.github.io/OHANA-share/hito.html",
+    "コト": "https://momowari.github.io/OHANA-share/koto.html"
+  };
   /* a person's name in a comment: tapping the name opens a pulldown
      right there (📍の名前クリックでプルダウンと同じ形) — the link
      to that person's page lives inside the pulldown */
@@ -2163,8 +2170,7 @@
     /* 📍の名前: プルダウンは閉じた状態から始まり、中のリンクが
        その人のページへ飛ぶ */
     var pinBtn = $("#itemFromBtn"), pinPd = $("#pinPulldown");
-    pinBtn.setAttribute("aria-expanded", "false");
-    pinBtn.setAttribute("aria-label", b.data.from + "のプルダウンを開く");
+    pinBtn.setAttribute("aria-label", b.data.from + "のページを開く");
     pinPd.classList.remove("open");
     pinPd.hidden = true;
     $("#pinPullName").textContent = b.data.from;
@@ -2209,18 +2215,10 @@
       if (!placePd.hidden && placePinBtn && !placePinBtn.contains(e.target) && !placePd.contains(e.target)) closePlacePulldown();
     });
   }
-  /* 📍の名前クリックでプルダウンを開く・閉じる */
+  /* 出品者名タップ: その人のページへ直接飛ぶ */
   $("#itemFromBtn").addEventListener("click", function(){
-    var pd = $("#pinPulldown");
-    var willOpen = pd.hidden || !pd.classList.contains("open");
-    if (willOpen){
-      pd.hidden = false;
-      requestAnimationFrame(function(){ pd.classList.add("open"); });
-    } else {
-      pd.classList.remove("open");
-      setTimeout(function(){ pd.hidden = true; }, 360);
-    }
-    this.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    if (!selectedItem) return;
+    window.open(sellerUrlFor(selectedItem.data.from), "_blank", "noopener");
   });
   function renderComments(itemId){
     var list = $("#commentList");
@@ -2347,6 +2345,11 @@
   });
   /* ページを見に行く: its own button, independent of 船に乗せる —
      it flies to that person's page, for モノ・ヒト・コト alike */
+  $("#itemKind").addEventListener("click", function(){
+    if (!selectedItem) return;
+    var u = KIND_URLS[selectedItem.data.kind || "モノ"];
+    if (u) window.open(u, "_blank", "noopener");
+  });
   $("#pageBtn").addEventListener("click", function(){
     if (!selectedItem) return;
     window.open(selectedItem.data.page || sellerUrlFor(selectedItem.data.from), "_blank", "noopener");
@@ -2355,13 +2358,10 @@
     if (!selectedItem) return;
     /* 船に乗せる covers everything: モノも、ヒトも、コトも全部 */
     if (!requireMember()) return;
-    if (state.coins < 1){
-      /* the exact words for this moment, said softly */
-      toast("コイン未取得（まずモノ放流）", 3800);
-      return;
-    }
     var b = selectedItem, c = bubbleCenter(b);
-    setCoins(state.coins - 1);
+    /* 船に乗せる is always OK, coins or no coins — no gate.
+       A coin is spent only when you have one. */
+    if (state.coins > 0) setCoins(state.coins - 1);
     state.bag.push({ name: b.data.name, img: b.data.img, via: "発見" });
     state.picked++;
     selectedItem = null;
