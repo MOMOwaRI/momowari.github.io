@@ -623,6 +623,16 @@ input[type="text"], input[type="email"], input[type="search"], input[type="tel"]
 /* ===== chat icon: no background, same as the left icons (2026-11-21) ===== */
 #chatFeed.min #feedMin { background:transparent; box-shadow:none; }
 #chatFeed:not(.min) #feedMin { background:transparent; border:none; box-shadow:none; filter:drop-shadow(0 1px 3px rgba(20,30,40,.85)); }
+
+/* ===== bag bulk message links / staff chat above the icon row (2026-11-21) ===== */
+#bagMsgAlt { gap:8px; justify-content:center; margin:6px 0 2px; }
+#bagMsgAlt a { color:#1a6fb5; font-size:12.5px; font-weight:700; }
+#chat.panel { bottom:84px; }
+
+/* ===== plaza comments: one soap bubble per comment, like the sea (2026-11-21) ===== */
+#parkBubble { display:none !important; }
+#parkBubbles { position:absolute; inset:0; pointer-events:none; z-index:3; }
+.pkBub { position:absolute; transform:translateX(-50%); border-radius:50%; border:1.5px solid rgba(255,255,255,.55); background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.5), rgba(255,255,255,.05) 42%), radial-gradient(circle at 72% 82%, rgba(140,230,255,.28), rgba(140,230,255,0) 55%), radial-gradient(circle at 50% 50%, rgba(255,190,230,.10), rgba(120,200,255,.10)); box-shadow:inset -10px -14px 24px rgba(110,210,255,.30), inset 8px 10px 18px rgba(255,255,255,.35), 0 14px 30px rgba(0,24,48,.28); color:#1d4258; font-size:11.5px; font-weight:600; line-height:1.5; display:flex; align-items:center; justify-content:center; text-align:center; padding:16px 20px; box-sizing:border-box; text-shadow:0 1px 0 rgba(255,255,255,.5); pointer-events:auto; cursor:pointer; font-family:inherit; animation:pkBob 3.8s ease-in-out infinite alternate; }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "OHANA島", "url": "https://momowari.github.io/ohana-jima/", "inLanguage": "ja", "description": "愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現したウェブ上の島。ストリートビューのように歩いて回ることができ、MAHALOビル、阿沼美神社、庚申庵、萱町商店街、フジグラン松山、古町駅、城山公園、道後温泉本館、大街道、銀天街、松山城、松山市駅、JR松山駅などを掲載。ヒトモノコトをつなぐOHANAシェア＊プロジェクトの活動とつながっている。", "isPartOf": {"@type": "WebSite", "name": "OHANAシェア＊プロジェクト", "url": "https://momowari.github.io/OHANA-share/"}, "author": {"@type": "Person", "name": "MOMOwaRI"}}</script>
 </head>
@@ -633,7 +643,7 @@ input[type="text"], input[type="email"], input[type="search"], input[type="tel"]
   <p class="vh" data-ed="disc" style="margin:10px auto 0;max-width:730px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 10px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap;color:#7a5a16">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button id="bagBtn" type="button" aria-label="スーツケース（マイページ）"><svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 15V9.8M29 15V9.8M19 9.8h10"/><path d="M11.5 15h25a3.8 3.8 0 0 1 3.8 3.8v16.4a3.8 3.8 0 0 1-3.8 3.8h-25a3.8 3.8 0 0 1-3.8-3.8V18.8A3.8 3.8 0 0 1 11.5 15Z" fill="rgba(174,233,255,.14)"/><path d="M17.5 15v24M30.5 15v24"/><circle cx="15" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/><circle cx="33" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/></svg></button><div id="bagPanel" style="display:none"><div class="grabber"></div><div class="bagTitle">カバンの中身<b id="bagCount"></b></div><div id="bagItems"></div><p id="bagEmpty">まだ何も入っていません</p><div id="bagMsgBox" data-bagact="1" style="display:none"><div id="bagMsgTo">持ち主へのメッセージ</div><input id="bagMsgEmail" type="email" placeholder="返信先メールアドレス" style="display:none"><textarea id="bagMsgText" rows="3" maxlength="500"></textarea><div class="bagMsgBtns"><button id="bagMsgSend" type="button" data-bagact="1">送る</button><button id="bagMsgCancel" type="button" data-bagact="1">やめる</button></div><p id="bagMsgNote"></p></div><div class="bagLinks"><button class="act small" id="btnLogin" type="button" data-i18n="login">ログイン／メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div></div></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 自動島巡り</button></div><div id="sceneSns"></div><a id="isleLogo" href="https://momowari.github.io/OHANA-share/" aria-label="OHANAシェア＊プロジェクトのサイトへ"><span class="l1">OHANAシェア<span class="star">＊</span></span><span class="l2">プロジェクト</span><span class="l3">OHANA島</span></a><div id="bubbleLayer"></div><div id="prodCard"><button class="pcClose" id="pcClose" type="button" aria-label="閉じる">✕</button><div class="pcRow"><img id="pcImg" alt=""><div><div class="pcName" id="pcName"></div><div class="pcPrice" id="pcPrice"></div><div class="pcShop" id="pcShop"></div></div></div><div class="pcBtns"><button id="pcAdd" type="button">カバンに入れる</button><button id="pcGo" type="button">お店のページへ</button></div></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><a id="feedKai" href="kai.html">🌊 OHANAの海</a><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button id="bagBtn" type="button" aria-label="スーツケース（マイページ）"><svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 15V9.8M29 15V9.8M19 9.8h10"/><path d="M11.5 15h25a3.8 3.8 0 0 1 3.8 3.8v16.4a3.8 3.8 0 0 1-3.8 3.8h-25a3.8 3.8 0 0 1-3.8-3.8V18.8A3.8 3.8 0 0 1 11.5 15Z" fill="rgba(174,233,255,.14)"/><path d="M17.5 15v24M30.5 15v24"/><circle cx="15" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/><circle cx="33" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/></svg></button><div id="bagPanel" style="display:none"><div class="grabber"></div><div class="bagTitle">カバンの中身<b id="bagCount"></b></div><div id="bagItems"></div><p id="bagEmpty">まだ何も入っていません</p><div id="bagMsgBox" data-bagact="1" style="display:none"><div id="bagMsgTo">持ち主へのメッセージ</div><input id="bagMsgEmail" type="email" placeholder="返信先メールアドレス" style="display:none"><textarea id="bagMsgText" rows="3" maxlength="500"></textarea><div class="bagMsgBtns"><button id="bagMsgSend" type="button" data-bagact="1">送る</button><button id="bagMsgCancel" type="button" data-bagact="1">やめる</button></div><div id="bagMsgAlt" style="display:none"><a href="https://momowari.github.io/OHANA-share/login.html" target="_blank" rel="noopener">ログインして送る</a><a href="https://momowari.github.io/OHANA-share/login.html" target="_blank" rel="noopener">登録して送る</a></div><p id="bagMsgNote"></p></div><div class="bagLinks"><button class="act small" id="btnLogin" type="button" data-i18n="login">ログイン／メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div></div></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 自動島巡り</button></div><div id="sceneSns"></div><a id="isleLogo" href="https://momowari.github.io/OHANA-share/" aria-label="OHANAシェア＊プロジェクトのサイトへ"><span class="l1">OHANAシェア<span class="star">＊</span></span><span class="l2">プロジェクト</span><span class="l3">OHANA島</span></a><div id="bubbleLayer"></div><div id="prodCard"><button class="pcClose" id="pcClose" type="button" aria-label="閉じる">✕</button><div class="pcRow"><img id="pcImg" alt=""><div><div class="pcName" id="pcName"></div><div class="pcPrice" id="pcPrice"></div><div class="pcShop" id="pcShop"></div></div></div><div class="pcBtns"><button id="pcAdd" type="button">カバンに入れる</button><button id="pcGo" type="button">お店のページへ</button></div></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><a id="feedKai" href="kai.html">🌊 OHANAの海</a><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -1275,6 +1285,25 @@ window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-
   if (stg2 && bagPanel.parentElement !== stg2) stg2.appendChild(bagPanel);
   window.__bagOwnerOf = function(it) { if (!it) return null; if (it.owner) return it.owner; const u = it.url || ""; if (u.indexOf("MAHALO") >= 0 || u.indexOf("Lea-Mahalo") >= 0) return "ELCzyeeoDCU4gveavc077L4jBqE3"; return null; };
   window.__bagClean = function(s) { return String(s || "").split(" \u00a5")[0]; };
+  window.__bagTemplate = function(names, guest) { const joined = names.map((s) => "「" + window.__bagClean(s) + "」").join(""); return guest ? "こんにちは。OHANA島で" + joined + "をカバンに入れました。受け取りについて相談させてください。" : "こんにちは、" + (window.__myName || "メンバー") + "です。OHANA島で" + joined + "をカバンに入れました。受け取りについて相談させてください。"; };
+  window.__bagGroups = function() { const g = {}; let noOwner = 0; (window.__bagItems ? window.__bagItems() : []).forEach((it) => { const o = window.__bagOwnerOf(it); if (o) (g[o] = g[o] || []).push(it.name); else noOwner++; }); return { groups: g, noOwner: noOwner }; };
+  window.__bagComposeAll = function() {
+    const box2 = document.getElementById("bagMsgBox"); if (!box2) return;
+    const ta = document.getElementById("bagMsgText"), n = document.getElementById("bagMsgNote");
+    const em = document.getElementById("bagMsgEmail"), alt = document.getElementById("bagMsgAlt");
+    const info = window.__bagGroups();
+    const allNames = []; Object.keys(info.groups).forEach((o) => info.groups[o].forEach((nm) => allNames.push(nm)));
+    box2.style.display = "block";
+    if (!allNames.length) { if (n) n.textContent = "持ち主が分かるモノがカバンにありません"; return; }
+    box2.__edited = false;
+    ta.value = window.__bagTemplate(allNames, !window.__loggedIn);
+    if (em) em.style.display = window.__loggedIn ? "none" : "";
+    if (alt) alt.style.display = window.__loggedIn ? "none" : "";
+    let note = "";
+    if (!window.__loggedIn) note = "ゲストの方は返信先メアドを入れて送るか、下のリンクからログイン／登録して送れます";
+    if (info.noOwner) note = (note ? note + "。" : "") + "持ち主が分からないモノが" + info.noOwner + "点あります（その分は送れません）";
+    if (n) n.textContent = note;
+  };
   window.__bagCompose = function(toUid, names, itemName) {
     const box2 = document.getElementById("bagMsgBox"); if (!box2) return;
     const ta = document.getElementById("bagMsgText"), n = document.getElementById("bagMsgNote"), sb = document.getElementById("bagMsgSend");
@@ -1285,8 +1314,9 @@ window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-
     if (n) n.textContent = "";
     box2.style.display = "block"; box2.__to = toUid; box2.__item = itemName || "";
   };
+  const taEdit = document.getElementById("bagMsgText"); if (taEdit) taEdit.addEventListener("input", () => { const b = document.getElementById("bagMsgBox"); if (b) b.__edited = true; });
   const bsBtn = document.getElementById("bagMsgSend"), bcBtn = document.getElementById("bagMsgCancel");
-  if (bsBtn) bsBtn.addEventListener("click", async (e) => { e.stopPropagation(); const box2 = document.getElementById("bagMsgBox"); const text = document.getElementById("bagMsgText").value.trim(); const n = document.getElementById("bagMsgNote"); if (!text) { if (n) n.textContent = "本文を書いてください"; return; } bsBtn.disabled = true; let ok = false; if (window.__loggedIn) { ok = window.__sendBagMsg ? await window.__sendBagMsg(box2.__to, box2.__item, text) : false; } else { const emv = ((document.getElementById("bagMsgEmail") || {}).value || "").trim(); if (!emv || emv.indexOf("@") < 0) { if (n) n.textContent = "返信先のメールアドレスを入れてください"; bsBtn.disabled = false; return; } ok = window.__sendBagMsgGuest ? await window.__sendBagMsgGuest(box2.__to, box2.__item, text, emv) : false; } bsBtn.disabled = false; if (n) n.textContent = ok ? "送りました ✓" : "送れませんでした。ログインすると確実に送れます"; if (ok) setTimeout(() => { box2.style.display = "none"; }, 1300); });
+  if (bsBtn) bsBtn.addEventListener("click", async (e) => { e.stopPropagation(); const box2 = document.getElementById("bagMsgBox"); const ta = document.getElementById("bagMsgText"); const text = ta.value.trim(); const n = document.getElementById("bagMsgNote"); if (!text) { if (n) n.textContent = "本文を書いてください"; return; } const info = window.__bagGroups(); const owners = Object.keys(info.groups); if (!owners.length) { if (n) n.textContent = "持ち主が分かるモノがカバンにありません"; return; } let emv = ""; if (!window.__loggedIn) { emv = ((document.getElementById("bagMsgEmail") || {}).value || "").trim(); if (!emv || emv.indexOf("@") < 0) { if (n) n.textContent = "返信先のメールアドレスを入れてください"; return; } } bsBtn.disabled = true; let sent = 0; for (const o of owners) { const names = info.groups[o]; const t = box2.__edited ? text : window.__bagTemplate(names, !window.__loggedIn); const itemName = names.length === 1 ? window.__bagClean(names[0]) : ""; let ok = false; if (window.__loggedIn) { ok = window.__sendBagMsg ? await window.__sendBagMsg(o, itemName, t) : false; } else { ok = window.__sendBagMsgGuest ? await window.__sendBagMsgGuest(o, itemName, t, emv) : false; } if (ok) sent++; } bsBtn.disabled = false; if (sent === owners.length) { if (n) n.textContent = "送りました ✓"; setTimeout(() => { box2.style.display = "none"; }, 1300); } else if (sent > 0) { if (n) n.textContent = "一部送れませんでした（" + sent + "/" + owners.length + "人）"; } else { if (n) n.textContent = "送れませんでした。ログインすると確実に送れます"; } });
   if (bcBtn) bcBtn.addEventListener("click", (e) => { e.stopPropagation(); document.getElementById("bagMsgBox").style.display = "none"; });
   window.__renderBagSheet = function() {
     const box = document.getElementById("bagItems"); if (!box || !window.__bagItems) return; const mb0 = document.getElementById("bagMsgBox"); if (mb0) mb0.style.display = "none";
@@ -1300,10 +1330,11 @@ window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-
       nm.addEventListener("click", (e) => { e.stopPropagation(); window.open(it.url || "https://momowari.github.io/MAHALO/select.html", "_blank"); });
       const del = document.createElement("button"); del.type = "button"; del.className = "bagDel"; del.setAttribute("data-bagact", "1"); del.textContent = "✕"; del.setAttribute("aria-label", "カバンから出す");
       del.addEventListener("click", (e) => { e.stopPropagation(); window.__bagRemove(i); window.__renderBagSheet(); });
-      row.appendChild(nm); const own = window.__bagOwnerOf(it); if (own) { const mb = document.createElement("button"); mb.type = "button"; mb.className = "bagMsgBtn"; mb.setAttribute("data-bagact", "1"); mb.textContent = "✉"; mb.setAttribute("aria-label", "持ち主にメッセージを送る"); mb.addEventListener("click", (e) => { e.stopPropagation(); if (window.__bagCompose) window.__bagCompose(own, [it.name], window.__bagClean(it.name)); }); row.appendChild(mb); } row.appendChild(del); box.appendChild(row);
+      row.appendChild(nm); row.appendChild(del); box.appendChild(row);
     });
-    const byOwner = {}; items.forEach((it) => { const o = window.__bagOwnerOf(it); if (o) (byOwner[o] = byOwner[o] || []).push(it.name); });
-    Object.keys(byOwner).forEach((o) => { if (byOwner[o].length >= 2) { const bb = document.createElement("button"); bb.type = "button"; bb.className = "bagBulkBtn"; bb.setAttribute("data-bagact", "1"); bb.textContent = "✉ 持ち主にまとめてメッセージ"; bb.addEventListener("click", (e) => { e.stopPropagation(); if (window.__bagCompose) window.__bagCompose(o, byOwner[o], ""); }); box.appendChild(bb); } });
+    const info = window.__bagGroups();
+    if (Object.keys(info.groups).length) { const bb = document.createElement("button"); bb.type = "button"; bb.className = "bagBulkBtn"; bb.setAttribute("data-bagact", "1"); bb.textContent = "✉ 持ち主にまとめてメッセージ"; bb.addEventListener("click", (e) => { e.stopPropagation(); if (window.__bagComposeAll) window.__bagComposeAll(); }); box.appendChild(bb); }
+  
   };
   }
   const mc = document.getElementById("mapClose"); if (mc) mc.addEventListener("click", () => { const bm = document.getElementById("bigMapSec"); if (bm) bm.style.display = "none"; });
@@ -1473,9 +1504,10 @@ function openShopPanel() { document.getElementById("shopPanel").style.display = 
 document.getElementById("btnGoods").addEventListener("click", openShopPanel);
 document.getElementById("btnPrev").addEventListener("click", () => { slideIdx = (slideIdx + PRODUCTS.length - 1) % PRODUCTS.length; renderSlide(); });
 document.getElementById("btnNext").addEventListener("click", () => { slideIdx = (slideIdx + 1) % PRODUCTS.length; renderSlide(); });
-function updateCartBtn() { document.getElementById("btnCart").textContent = "カゴを見る（" + cart.length + "）";  if (window.__saveBag) { try { window.__saveBag(cart); } catch (e) {} } }
-  window.__loadBag = function(items) { cart.length = 0; (items || []).forEach(function(it) { if (it && it.name) cart.push({ id: "bub", name: it.name, url: it.url || "" }); }); updateCartBtn(); renderCart(); };
+function updateCartBtn() { document.getElementById("btnCart").textContent = "カゴを見る（" + cart.length + "）"; try { localStorage.setItem("islandBagV1", JSON.stringify(cart)); } catch (e) {}  if (window.__saveBag) { try { window.__saveBag(cart); } catch (e) {} } }
+  window.__loadBag = function(items) { const seen = {}; cart.forEach(function(it) { seen[it.name + "|" + (it.url || "")] = 1; }); (items || []).forEach(function(it) { if (it && it.name && !seen[it.name + "|" + (it.url || "")]) { cart.push({ id: "bub", name: it.name, url: it.url || "", owner: it.owner || "" }); seen[it.name + "|" + (it.url || "")] = 1; } }); updateCartBtn(); renderCart(); };
 window.__addToBag = function(name, url, owner) { cart.push({ id: "bub", name: name, url: url || "", owner: owner || "" }); updateCartBtn(); renderCart(); }; window.__bagItems = function() { return cart.slice(); }; window.__bagRemove = function(i) { cart.splice(i, 1); updateCartBtn(); renderCart(); };
+try { const savedBag = JSON.parse(localStorage.getItem("islandBagV1") || "[]"); if (Array.isArray(savedBag) && savedBag.length && !cart.length) { savedBag.forEach(function(it) { if (it && it.name) cart.push({ id: "bub", name: it.name, url: it.url || "", owner: it.owner || "" }); }); updateCartBtn(); renderCart(); } } catch (e) {}
 document.getElementById("btnAdd").addEventListener("click", () => {
   const p = PRODUCTS[slideIdx];
   cart.push({ id: p.id, name: p.name.replace("（裏面）", "") });
@@ -1697,10 +1729,10 @@ window.enterParkView = function() {
     let w = document.getElementById("parkWorld");
     if (!w) { w = document.createElement("div"); w.id = "parkWorld"; }
     ps.appendChild(w);
-    ["parkBubble", "parkFigs", "parkCatsLayer", "parkMe"].forEach((id) => { const n = document.getElementById(id); if (n) w.appendChild(n); });
+    ["parkBubble", "parkFigs", "parkCatsLayer", "parkMe", "parkBubbles"].forEach((id) => { const n = document.getElementById(id); if (n) w.appendChild(n); });
     const pimg = new Image();
     const psetup = () => { const sw = ps.clientWidth, sh = ps.clientHeight; const iw = pimg.naturalWidth || 1600, ih = pimg.naturalHeight || 900; const worldW = Math.max(Math.round(sw * 1.6), Math.round(sh * iw / ih)); w.style.width = worldW + "px"; window.__parkWorldW = worldW; window.__parkPan = Math.round((sw - worldW) / 2); w.style.transform = "translateX(" + window.__parkPan + "px)"; };
-    pimg.onload = psetup; pimg.src = "park-bg.jpg"; if (pimg.complete && pimg.naturalWidth) psetup();
+    pimg.onload = psetup; pimg.src = "park-bg.jpg"; if (pimg.complete && pimg.naturalWidth) psetup(); if (window.__buildParkBubbles) window.__buildParkBubbles();
     const pn = document.getElementById("placeName"); if (pn) pn.textContent = "\u{1F333} 城山公園（みんなの広場）";
     const snm = document.getElementById("sceneName"); if (snm) snm.textContent = "\u{1F333} 城山公園（みんなの広場）";
     const eb = document.getElementById("exitBtn"); if (eb) { eb.style.display = "block"; eb.textContent = "出口"; eb.onclick = () => { if (window.goScene) window.goScene("front"); }; }
@@ -1717,7 +1749,7 @@ window.exitParkView = function() {
   const st = document.querySelector(".stage"); const ps = document.getElementById("parkStage"); const card = document.getElementById("parkTalk");
   if (st) st.classList.remove("parkmode");
   const pw = document.getElementById("parkWorld");
-  if (pw && ps) { ["parkBubble", "parkFigs", "parkCatsLayer", "parkMe"].forEach((id) => { const n = document.getElementById(id); if (n) ps.appendChild(n); }); pw.remove(); window.__parkPan = 0; window.__parkWorldW = 0; }
+  if (pw && ps) { ["parkBubble", "parkFigs", "parkCatsLayer", "parkMe", "parkBubbles"].forEach((id) => { const n = document.getElementById(id); if (n) ps.appendChild(n); }); pw.remove(); window.__parkPan = 0; window.__parkWorldW = 0; }
   if (ps && card) { ps.classList.remove("inview"); card.insertBefore(ps, document.getElementById("parkFrom")); }
   if (card) card.style.display = "none";
 };
@@ -2148,6 +2180,29 @@ $("btnProfSave").addEventListener("click", async () => {
   window.addEventListener("load", function () { setTimeout(openMapFromHash, 350); });
   window.addEventListener("hashchange", openMapFromHash);
 })();
+</script>
+
+<script>
+window.__buildParkBubbles = function() {
+  var host = document.getElementById("parkWorld") || document.getElementById("parkStage");
+  if (!host) return;
+  var layer = document.getElementById("parkBubbles");
+  if (!layer) { layer = document.createElement("div"); layer.id = "parkBubbles"; }
+  if (layer.parentElement !== host) host.appendChild(layer);
+  layer.innerHTML = "";
+  var posts = (typeof POSTS !== "undefined" ? POSTS : []).filter(function(p) { return p.scene === "park"; });
+  posts.forEach(function(p, i) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "pkBub";
+    var w = 124 + ((i * 37) % 36);
+    b.style.width = w + "px"; b.style.height = Math.round(w * 0.8) + "px";
+    b.style.left = (6 + ((i * 61) % 86)) + "%";
+    b.style.top = (54 + ((i * 47) % 110)) + "px";
+    b.style.animationDelay = (i * 0.55) + "s";
+    b.textContent = p.text || "";
+    b.addEventListener("click", function(e) { e.stopPropagation(); try { if (window.openPost) window.openPost(p); } catch (err) {} });
+    layer.appendChild(b);
+  });
+};
 </script>
 </body>
 </html>
