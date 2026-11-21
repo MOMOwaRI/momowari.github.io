@@ -19,8 +19,8 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9LN1077YBZ"></script>
 <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-9LN1077YBZ');</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "OHANA島とは何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "OHANA島は、愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現した、ウェブ上の島です。ストリートビューのように歩いて回ることができ、城山公園（堀之内）は、みんなの分身が集まる「みんなの広場」になっています。"}}, {"@type": "Question", "name": "OHANA島はどこにありますか？", "acceptedAnswer": {"@type": "Answer", "text": "島のもとになっている実在の場所は、愛媛県松山市の味酒町、萱町、平和通、堀之内です。MAHALOビル（松山市味酒町3-2-29）、阿沼美神社、庚申庵、丸五青果、平野鶏卵、萱町商店街、フジグラン松山、古町駅、レデイ薬局宮西店、城山公園、道後温泉本館、道後温泉駅、道後ハイカラ通り、大街道、銀天街、松山城、松山市駅、JR松山駅などが掲載されています。"}}, {"@type": "Question", "name": "利用は無料ですか？", "acceptedAnswer": {"@type": "Answer", "text": "はい。島を歩くのは無料です。メンバー登録（Googleアカウントでのログイン）も無料で、登録すると自分の分身で歩いたり、OHANAの声に書いたりできます。"}}, {"@type": "Question", "name": "お店や場所の投稿はどうやって島に載りますか？", "acceptedAnswer": {"@type": "Answer", "text": "SNSの投稿に「#愛媛メタバースOHANA島」をつけてもらうと、AIが巡回して見つけ、島のMAPや投稿の紹介に反映します。お店の方も、お客さんも参加できます。"}}]}</script>
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="vendor/pannellum.css">
 <link rel="stylesheet" href="vendor/leaflet.css">
 <style>
@@ -70,10 +70,10 @@
   #navBtns { justify-content:center; }
   #placeBar label { display:none; }
   #placeSel { position:absolute; left:50%; top:0; transform:translateX(-50%); width:2px; height:2px; opacity:0; pointer-events:none; border:0; padding:0; }
-  #destMenu { position:absolute; top:54px; left:50%; transform:translateX(-50%); z-index:30; background:rgba(255,253,247,.97); border:1.5px solid #d9c491; border-radius:16px; box-shadow:0 14px 34px rgba(60,40,10,.35); padding:8px; flex-direction:column; gap:6px; min-width:252px; }
-  #destMenu .destItem { font:inherit; font-size:15.5px; text-align:left; background:#fff; border:1.5px solid #e5d9bd; border-radius:12px; padding:11px 14px; cursor:pointer; color:#4a3826; }
-  #destMenu .destKai { background:#e3f1fb; border-color:#9ec7e8; font-weight:700; }
-  #destMenu .destPark { background:#e9f5e1; border-color:#a9cf96; font-weight:700; }
+  #destBar { position:absolute; top:52px; left:50%; transform:translateX(-50%); z-index:25; display:flex; gap:6px; flex-wrap:wrap; justify-content:center; width:max-content; max-width:97%; }
+  #destBar .destChip { font:inherit; font-size:13.5px; background:rgba(255,255,255,.92); border:1.5px solid #e5d9bd; border-radius:999px; padding:7px 13px; cursor:pointer; color:#4a3826; box-shadow:0 3px 10px rgba(60,40,10,.25); white-space:nowrap; }
+  #destBar .destKai { background:rgba(227,241,251,.95); border-color:#9ec7e8; font-weight:700; }
+  #destBar .destPark { background:rgba(233,245,225,.95); border-color:#a9cf96; font-weight:700; }
   .hint { font-size:12px; color:#97795a; text-align:center; margin-top:6px; line-height:1.7; }
   .catspot { background:none !important; }
   .catspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-18px); cursor:pointer; }
@@ -352,7 +352,7 @@
   <div id="authBar"><span class="who" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button></div><div id="sceneSns"></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="destBar"><button type="button" class="destChip destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destChip destPark" id="destPark">🌳 みんなの広場</button><button type="button" class="destChip" id="destMap">🗺 MAP</button><button type="button" class="destChip" id="destTour">🧭 ガイドツアー</button></div><div id="sceneSns"></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -771,17 +771,10 @@ window.__shortName = (id) => SHORT[id] || id;
 });
 placeSel.value = "front";
 placeSel.addEventListener("change", () => { if (placeSel.value === "park") { if (window.openPlaza) window.openPlaza(); } else if (SCENES[placeSel.value]) { window.goScene(placeSel.value); } });
-const destMenu = document.getElementById("destMenu");
-const closeDestMenu = () => { if (destMenu) destMenu.style.display = "none"; };
-window.__closeDestMenu = closeDestMenu;
-const openPlaceSel = () => { if (!destMenu) return; destMenu.style.display = (destMenu.style.display === "none" || !destMenu.style.display) ? "flex" : "none"; };
-document.addEventListener("click", (e) => { if (destMenu && destMenu.style.display !== "none" && !e.target.closest("#destMenu") && !e.target.closest("#placeName") && !e.target.closest("#sceneName")) closeDestMenu(); });
 document.getElementById("destKai").addEventListener("click", () => { location.href = "https://momowari.github.io/ohana-jima/kai.html"; });
-document.getElementById("destPark").addEventListener("click", () => { closeDestMenu(); if (window.openPlaza) window.openPlaza(); });
-document.getElementById("destMap").addEventListener("click", () => { closeDestMenu(); const bm = document.getElementById("bigMapSec"); if (bm) bm.scrollIntoView({ behavior: "smooth" }); });
-document.getElementById("destTour").addEventListener("click", () => { closeDestMenu(); toggleTour(); });
-const pnTap = document.getElementById("placeName"); if (pnTap) pnTap.addEventListener("click", openPlaceSel);
-const snTap = document.getElementById("sceneName"); if (snTap) snTap.addEventListener("click", openPlaceSel);
+document.getElementById("destPark").addEventListener("click", () => { if (window.openPlaza) window.openPlaza(); });
+document.getElementById("destMap").addEventListener("click", () => { const bm = document.getElementById("bigMapSec"); if (bm) bm.scrollIntoView({ behavior: "smooth" }); });
+document.getElementById("destTour").addEventListener("click", () => { toggleTour(); });
 document.getElementById("plazaGo").addEventListener("click", () => { if (window.openPlaza) window.openPlaza(); });
 document.querySelectorAll("#townMap .dot, #miniTownMap .dot").forEach(g => {
   g.addEventListener("click", () => { stopWalk(); viewer.loadScene(g.dataset.scene); document.querySelector(".stage").scrollIntoView({ behavior:"smooth", block:"center" }); });
@@ -810,7 +803,7 @@ function tourCapShow(id) {
   if (!walkTimer || !t) { cap.style.display = "none"; return; }
   cap.textContent = t; cap.style.display = "";
 }
-function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; const __bw = document.getElementById("destTour"); if (__bw) __bw.textContent = "🧭 ガイドツアー（自動で進む）"; const __tc = document.getElementById("tourCap"); if (__tc) __tc.style.display = "none"; } meSet(false); }
+function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; const __bw = document.getElementById("destTour"); if (__bw) __bw.textContent = "🧭 ガイドツアー"; const __tc = document.getElementById("tourCap"); if (__tc) __tc.style.display = "none"; } meSet(false); }
 function walkStep() {
   if (walking) return;
   if (walkIdx < 0) walkIdx = ROUTE.indexOf(curScene);
@@ -832,7 +825,7 @@ function toggleTour() {
 { const __pnI = document.getElementById("placeName"); if (__pnI) __pnI.textContent = "📍 " + (SHORT["front"] || ""); }
 function snsSeen(id){ try { return (JSON.parse(localStorage.getItem("islandSnsSeen") || "[]")).includes(id); } catch(e){ return false; } }
 function snsMarkSeen(id){ try { const a = JSON.parse(localStorage.getItem("islandSnsSeen") || "[]"); if (!a.includes(id)) { a.push(id); localStorage.setItem("islandSnsSeen", JSON.stringify(a)); } } catch(e){} }
-viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDestMenu();
+viewer.on("scenechange", (id) => {
   const pn = document.getElementById("placeName"); if (pn) pn.textContent = "📍 " + (SHORT[id] || "");
   const ss = document.getElementById("sceneSns");
   if (ss) { ss.innerHTML = ""; POSTS.filter((pp) => pp.scene === id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); }
