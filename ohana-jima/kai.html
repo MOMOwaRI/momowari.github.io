@@ -1921,16 +1921,23 @@
         if (b.by > H * .82 - b.size){ b.by = H * .82 - b.size; b.vy = -Math.abs(b.vy) * .55; }
         if (Math.hypot(b.vx, b.vy) < 42){ b.fling = false; b.wf = b.bx / Math.max(1, WORLD - b.size); }
       } else if (!reduceMotion){
-        /* a slow sea current, inside its own category's water: the
-           bubble wanders its zone and turns at the zone's edges, and
-           a bubble that finds itself outside its zone (a fresh 放流
-           lands wherever you are) is carried gently home by the
-           current until it gathers with its own kind */
-        b.bx += b.drift * dt;
-        if (b.bx < b.z0 - b.size) b.bx += 16 * dt;
-        else if (b.bx > b.z1) b.bx -= 16 * dt;
-        if (b.bx <= b.z0 && b.drift < 0) b.drift = Math.abs(b.drift);
-        if (b.bx >= b.z1 - b.size && b.drift > 0) b.drift = -Math.abs(b.drift);
+        /* a slow sea current. At first every bubble stays gathered
+           on the first page, inside its own category's water. Then,
+           little by little, each one swims out: its waters widen
+           from the home zone to the whole sea, until it roams the
+           sea end to end, turning at the far edges. A bubble outside
+           its waters (a fresh 放流 lands wherever you are) is
+           carried gently back by the current. */
+        var ex = (t - (25 + (b.phase % 1) * 40)) / 150;
+        ex = ex < 0 ? 0 : (ex > 1 ? 1 : ex);
+        var lo = b.z0 * (1 - ex);
+        var hiRaw = b.z1 + (WORLD - b.z1) * ex;
+        var hi = (b.z1 - b.size) + ((WORLD - b.size) - (b.z1 - b.size)) * ex;
+        b.bx += b.drift * (1 + ex * .6) * dt;
+        if (b.bx < lo - b.size) b.bx += 16 * dt;
+        else if (b.bx > hiRaw) b.bx -= 16 * dt;
+        if (b.bx <= lo && b.drift < 0) b.drift = Math.abs(b.drift);
+        if (b.bx >= hi && b.drift > 0) b.drift = -Math.abs(b.drift);
         b.bx = Math.max(0, Math.min(b.bx, WORLD - b.size));
         b.by += Math.sin(t * .11 + b.phase * 3) * 7 * dt;
         b.by = Math.max(H * .12, Math.min(b.by, H * .82 - b.size));
