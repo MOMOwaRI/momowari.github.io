@@ -460,7 +460,7 @@
 #sceneSns { gap:10px; }
 #sceneSns button { width:30px; height:30px; border-radius:0; border:none; background:none; box-shadow:none; animation:none; padding:0; position:relative; display:flex; align-items:center; justify-content:center; cursor:pointer; }
 #sceneSns button svg { filter:drop-shadow(0 1px 2px rgba(255,255,255,.9)) drop-shadow(0 1px 3px rgba(60,40,10,.35)); }
-#sceneSns button.seen { opacity:.45; }
+#sceneSns button.seen { opacity:1; }
 #sceneSns .snsCnt { position:absolute; top:-5px; right:-8px; background:#d96a7a; color:#fff; font-size:10px; font-weight:700; min-width:16px; height:16px; border-radius:8px; padding:0 4px; display:flex; align-items:center; justify-content:center; }
 .pBub:nth-child(odd) .pbIn { animation-duration:6.3s; }
 .pBub:nth-child(3n) .pbIn { animation-duration:7.4s; animation-delay:-2.4s; }
@@ -996,12 +996,12 @@ window.postsFor = function(id) {
   if (!found.length && myLL) {
     const all = POSTS.filter((pp) => LL[pp.scene]);
     all.sort((a, b) => Math.hypot(LL[a.scene][0] - myLL[0], LL[a.scene][1] - myLL[1]) - Math.hypot(LL[b.scene][0] - myLL[0], LL[b.scene][1] - myLL[1]));
-    return own.concat(all).slice(0, 4);
+    return own.slice(0, 4);
   }
   if (myLL) found.sort((a, b) => { const da = LL[a.scene] ? Math.hypot(LL[a.scene][0] - myLL[0], LL[a.scene][1] - myLL[1]) : 9; const db = LL[b.scene] ? Math.hypot(LL[b.scene][0] - myLL[0], LL[b.scene][1] - myLL[1]) : 9; return da - db; });
-  return own.concat(found).slice(0, 4);
+  return own.slice(0, 4);
 };
-window.renderSceneSns = function(id) { const ss = document.getElementById("sceneSns"); if (!ss) return; ss.innerHTML = ""; const posts = window.postsFor(id); const order = []; const byKey = {}; posts.forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : (pp.sns === "Facebook" ? "facebook" : "x")); if (!byKey[key]) { byKey[key] = []; order.push(key); } byKey[key].push(pp); }); const COL = { instagram: "#E1306C", facebook: "#1877F2", threads: "#55504a", x: "#55504a" }; order.forEach((key) => { const list = byKey[key]; const b = document.createElement("button"); b.type = "button"; b.title = list[0].author + "の投稿（" + list.length + "件）"; b.innerHTML = '<svg viewBox="0 0 24 24" width="21" height="21" fill="' + COL[key] + '"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>' + (list.length > 1 ? '<span class="snsCnt">' + list.length + "</span>" : ""); let idx = 0; const upd = () => { b.classList.toggle("seen", list.every((pp) => snsSeen(pp.id))); }; b.addEventListener("click", () => { const pp = list[idx % list.length]; idx++; snsMarkSeen(pp.id); upd(); openPost(pp); }); upd(); ss.appendChild(b); }); };
+window.renderSceneSns = function(id) { const ss = document.getElementById("sceneSns"); if (!ss) return; ss.innerHTML = ""; const posts = window.postsFor(id); const order = []; const byKey = {}; posts.forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : (pp.sns === "Facebook" ? "facebook" : "x")); if (!byKey[key]) { byKey[key] = []; order.push(key); } byKey[key].push(pp); }); const COL = { instagram: "#E1306C", facebook: "#1877F2", threads: "#55504a", x: "#55504a" }; order.forEach((key) => { const list = byKey[key]; const b = document.createElement("button"); b.type = "button"; b.title = list[0].author + "の投稿（" + list.length + "件）"; b.innerHTML = '<svg viewBox="0 0 24 24" width="21" height="21" fill="' + COL[key] + '"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>' + '<span class="snsCnt">' + list.length + "</span>"; let idx = 0; const upd = () => { const un = list.filter((pp) => !snsSeen(pp.id)).length; const bd = b.querySelector(".snsCnt"); if (bd) { bd.textContent = un; bd.style.display = un ? "" : "none"; } }; b.addEventListener("click", () => { const pp = list[idx % list.length]; idx++; snsMarkSeen(pp.id); upd(); openPost(pp); }); upd(); ss.appendChild(b); }); };
   function snsMarkSeen(id){ try { const a = JSON.parse(localStorage.getItem("islandSnsSeen") || "[]"); if (!a.includes(id)) { a.push(id); localStorage.setItem("islandSnsSeen", JSON.stringify(a)); } } catch(e){} }
 viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDestMenu();
   const pn = document.getElementById("placeName"); if (pn) pn.textContent = "📍 " + (SHORT[id] || "");
