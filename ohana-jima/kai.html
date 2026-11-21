@@ -2562,6 +2562,7 @@
         del.setAttribute("data-del", cm.id);
         del.setAttribute("role", "button");
         del.setAttribute("aria-label", "消す");
+        if (cm.id === chatArmId){ del.dataset.arm = "1"; del.classList.add("cf-armed"); del.setAttribute("aria-label", "本当に消す"); }
         del.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6.5 H19"/><path d="M10 6 V4.2 H14 V6"/><path d="M6.8 6.5 L7.7 18.6 A1.6 1.6 0 0 0 9.3 20 H14.7 A1.6 1.6 0 0 0 16.3 18.6 L17.2 6.5"/><path d="M10.2 10.5 V16 M13.8 10.5 V16"/></svg>';
         del.style.cssText = "margin-left:8px;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;opacity:.85;cursor:pointer;flex:none;";
         d.appendChild(del);
@@ -2575,18 +2576,49 @@
     SEA_COMMENTS = msgs || [];
     renderSeaComments();
   };
-  /* 自分 (またはオーナー) の声の削除: 島と同じ2タップ方式 */
+  /* 自分 (またはオーナー) の声の削除: 島と同じ2タップ方式。
+     The armed state lives in a variable keyed by message id,
+     not only in the DOM: the list re-renders on every chat
+     snapshot (twice per snapshot — again when the name-page
+     links resolve), and a DOM-only arm was wiped by that
+     re-render between the two taps, so the second tap just
+     re-armed and nothing was ever deleted. */
+  var chatArmId = "", chatArmTimer = 0;
+  function chatDisarm(){
+    chatArmId = "";
+    if (chatArmTimer){ clearTimeout(chatArmTimer); chatArmTimer = 0; }
+    var cur = document.querySelector("#seaCommentList .cf-armed");
+    if (cur){ cur.dataset.arm = ""; cur.classList.remove("cf-armed"); cur.setAttribute("aria-label", "消す"); }
+  }
   document.addEventListener("click", function(e){
     var del = e.target.closest ? e.target.closest("[data-del]") : null;
     if (!del) return;
-    if (del.dataset.arm !== "1"){
+    var id = del.getAttribute("data-del");
+    if (chatArmId !== id){
+      chatDisarm();
+      chatArmId = id;
       del.dataset.arm = "1";
       del.classList.add("cf-armed");
       del.setAttribute("aria-label", "本当に消す");
-      setTimeout(function(){ if (del.isConnected && del.dataset.arm === "1"){ del.dataset.arm = ""; del.classList.remove("cf-armed"); del.setAttribute("aria-label", "消す"); } }, 3000);
+      chatArmTimer = setTimeout(chatDisarm, 3000);
       return;
     }
-    if (window.__kaiDeleteChat) window.__kaiDeleteChat(del.getAttribute("data-del"));
+    chatDisarm();
+    /* take it off the screen first; if the Firestore delete
+       reports failure, put it back and say so — failures used
+       to be swallowed silently, which also read as "cannot
+       delete" */
+    var idx = -1, gone = null;
+    for (var i = 0; i < SEA_COMMENTS.length; i++){ if (SEA_COMMENTS[i].id === id){ idx = i; gone = SEA_COMMENTS[i]; break; } }
+    if (idx >= 0){ SEA_COMMENTS.splice(idx, 1); renderSeaComments(); }
+    if (window.__kaiDeleteChat){
+      var res = window.__kaiDeleteChat(id);
+      if (res && typeof res.then === "function"){
+        res.then(function(ok){
+          if (ok === false && gone){ SEA_COMMENTS.splice(Math.min(idx, SEA_COMMENTS.length), 0, gone); renderSeaComments(); toast("消せなかったよ"); }
+        });
+      }
+    }
   });
   /* OHANAの声 opens in place — the little panel floats up right where
      its mark lives at the bottom-right; it is never a card or a sheet */
@@ -3251,10 +3283,23 @@ if (auth && db) {
       if (window.__kaiSetUser) window.__kaiSetUser(null);
     }
     startChat();
+    renderChat();
     if (user) { loadCargo(user); watchReleases(user); }
   });
 
   var chatStarted = false;
+  /* the latest chat messages as last seen. canDelete is
+     computed at render time from the CURRENT login state,
+     and the list renders again whenever the login state
+     changes — a snapshot that landed before the login was
+     restored used to leave every delete button missing */
+  var lastChatMsgs = [];
+  function renderChat() {
+    var msgs = lastChatMsgs.map(function (m) {
+      return { id: m.id, uid: m.uid, from: m.from, text: m.text, page: m.page || "", canDelete: !!meUser && (m.uid === meUser.uid || meUser.uid === OWNER_UID) };
+    });
+    if (window.__kaiRenderChat) window.__kaiRenderChat(msgs);
+  }
   /* a voice name flies to that person's own page: the owner's page,
      or member.html?id=<uid> when their profile (their page) exists */
   var pageCache = {};
@@ -3276,10 +3321,9 @@ if (auth && db) {
         var msgs = [];
         snap.forEach(function (d) { var v = d.data() || {}; msgs.push({ id: d.id, uid: v.uid || "", from: v.nickname || "島の人", text: v.text || "" }); });
         msgs.reverse();
-        msgs = msgs.slice(-30);
-        msgs.forEach(function (m) { m.canDelete = !!meUser && (m.uid === meUser.uid || meUser.uid === OWNER_UID); });
-        if (window.__kaiRenderChat) window.__kaiRenderChat(msgs);
-        Promise.all(msgs.map(function (m) { return pageUrlForUid(m.uid).then(function (u) { if (u) m.page = u; }); })).then(function () { if (window.__kaiRenderChat) window.__kaiRenderChat(msgs); }).catch(function () {});
+        lastChatMsgs = msgs.slice(-30);
+        renderChat();
+        Promise.all(lastChatMsgs.map(function (m) { return pageUrlForUid(m.uid).then(function (u) { if (u) m.page = u; }); })).then(function () { renderChat(); }).catch(function () {});
       }, function () {});
     } catch (e) {}
   }
@@ -3293,8 +3337,9 @@ if (auth && db) {
     } catch (e) {}
   };
   window.__kaiDeleteChat = async function (id) {
-    if (!id) return;
-    try { await deleteDoc(doc(db, "islandChat", id)); } catch (e) {}
+    if (!id) return false;
+    try { await deleteDoc(doc(db, "islandChat", id)); return true; }
+    catch (e) { if (window.console) console.warn("kai: chat delete failed", e); return false; }
   };
   /* OHANA船の積載 (members): seaShips/{uid} =
        { items: [{ itemId, name, img, href }], updatedAt }.
@@ -3374,17 +3419,36 @@ if (auth && db) {
       }, function () {});
     } catch (e) {}
   }
+  /* 通知のメール転送: whenever the sea writes a notices
+     entry, the same text the マイページ 🔔 shows is also
+     posted to the notification web app (matching side),
+     which mails it to the member's registered address.
+     Fire-and-forget — a failed post never affects the
+     notice itself. */
+  var NOTIFY_URL = "https://script.google.com/macros/s/AKfycbwN4wGpomi88-mxmBHdvxtQ1cJPem2Sq97IrqtaIMq4WwOMdrN-07pMdTEKYmtXJF7k/exec";
+  function notifyMail(toUid, text) {
+    try {
+      var body = new URLSearchParams();
+      body.set("k", "ohana-island-notify-2026");
+      body.set("kind", "notice");
+      body.set("toUid", toUid || "");
+      body.set("text", String(text || "").slice(0, 500));
+      fetch(NOTIFY_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() }).catch(function () {});
+    } catch (e) {}
+  }
   window.__kaiShipNotice = async function (info) {
     if (!meUser || !db || !info) return;
     var toUid = info.fromName === "MOMOwaRI" ? OWNER_UID : "";
     if (!toUid || toUid === meUser.uid) return;
+    var shipFromName = (myNickname || "メンバー").slice(0, 30);
     try {
       await addDoc(collection(db, "notices"), {
         toUid: toUid, kind: "ship",
         itemId: info.itemId || "", itemName: info.itemName || "",
-        fromUid: meUser.uid, fromName: (myNickname || "メンバー").slice(0, 30),
+        fromUid: meUser.uid, fromName: shipFromName,
         ts: Date.now(), read: false
       });
+      notifyMail(toUid, "🚢 マッチング：" + shipFromName + "さんが、あなたのモノ「" + (info.itemName || "") + "」を船に乗せました");
     } catch (e) {}
   };
   /* 足あと (seaFootprints) と好き (seaLikes): a logged-in
@@ -3449,6 +3513,9 @@ if (auth && db) {
       if (payload.itemName) entry.itemName = String(payload.itemName).slice(0, 60);
       if (replyMail) entry.replyMail = replyMail;
       await addDoc(collection(db, "notices"), entry);
+      var mailText = "✉️ " + entry.fromName + "さんからメッセージ" + (entry.itemName ? "（「" + entry.itemName + "」について）" : "") + "：" + text;
+      if (replyMail) mailText += "\n返信先：" + replyMail;
+      notifyMail(toUid, mailText);
       return true;
     } catch (e) { return false; }
   };
