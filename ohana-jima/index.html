@@ -27,6 +27,7 @@
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   body { font-family:"Hiragino Mincho ProN","Yu Mincho",serif; background:#fdf6ec; color:#4a3826; }
   .wrap { max-width:760px; margin:0 auto; padding:12px 10px 40px; }
+  html, body { overflow-x:clip; }
   h1 { font-size:20px; text-align:center; letter-spacing:.08em; }
   .sub { text-align:center; font-size:12.5px; color:#8a715a; margin:4px 0 10px; line-height:1.7; }
   #snsBar { background:#fff8e6; border:1.5px solid #d9a441; border-radius:14px; padding:10px 12px; margin-bottom:10px; }
@@ -62,8 +63,8 @@
   button.act.sub { background:#fff; }
   button.act.small { font-size:12px; padding:6px 11px; white-space:nowrap; }
   .btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-  .stage { position:relative; border-radius:18px; overflow:hidden; box-shadow:0 6px 24px rgba(90,60,20,.25); }
-  #panorama { width:100%; height:380px; }
+  .stage { position:relative; border-radius:0; overflow:hidden; box-shadow:none; width:100vw; margin-left:calc(50% - 50vw); }
+  #panorama { width:100%; height:calc(100vh - 176px); height:calc(100dvh - 176px); min-height:400px; }
   #sceneName { text-align:center; font-size:13px; color:#8a715a; margin-top:8px; }
   #placeBar { position:relative; height:0; padding:0; }
   #navBtns { justify-content:center; }
@@ -127,7 +128,7 @@
   #townMap { width:100%; height:auto; display:block; }
   #meAv { position:absolute; left:50%; bottom:5%; transform:translateX(-50%); z-index:5; pointer-events:none; }
   #meAv img { height:100px; display:block; filter:drop-shadow(0 6px 6px rgba(60,40,10,.35)); animation: avidle 2.8s ease-in-out infinite; }
-@media (max-width:560px){ #meAv img { height:84px; } }
+@media (max-width:560px){ #meAv img { height:84px; } #panorama { height:calc(100vh - 190px); height:calc(100dvh - 190px); } }
   @keyframes avidle { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-2px) rotate(.7deg); } }
   #meAv.walking img { animation: avbob .72s ease-in-out infinite; }
   @keyframes avbob { 0%,100% { transform: translateY(0) rotate(-3.5deg); } 25% { transform: translateY(-6px) rotate(0deg); } 50% { transform: translateY(0) rotate(3.5deg); } 75% { transform: translateY(-6px) rotate(0deg); } }
