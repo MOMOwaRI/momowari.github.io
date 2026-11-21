@@ -571,11 +571,13 @@
         text-shadow:0 2px 9px rgba(0,25,45,.85);
       }
       .icon-btn svg{ width:54px; height:54px; filter:drop-shadow(0 4px 10px rgba(0,25,45,.55)); }
-      /* the ship sheet's title row: OHANA船, with a single ログイン
-         entry beside it (pressing it flies to マイページ)
-         beside it for members, or the registration for guests */
+      /* the ship sheet's title row: OHANA船 only. The single ログイン
+         entry (マイページ for members, registration for guests) now
+         rests at the foot of the throw sheet — see .throw-foot-links */
       .bag-head{ display:flex; align-items:center; gap:.7rem; flex-wrap:wrap; padding-right:3.2rem; }
       .bag-head-links{ display:flex; gap:.45rem; margin-left:auto; flex-wrap:wrap; }
+      /* the login entry now rests at the foot of the throw sheet */
+      .throw-foot-links{ display:flex; gap:.45rem; flex-wrap:wrap; justify-content:center; margin-top:1rem; }
       /* words, not buttons: no pill, no border, no background —
          just text resting on the water, underlined softly so it
          still reads as somewhere you can go */
@@ -1330,17 +1332,17 @@
       <textarea id="throwMsg" rows="2" maxlength="60" placeholder="例：まだ使えます。どなたか使ってください"></textarea>
       <button class="cta-btn" id="doThrowBtn" type="button">海へ放流する</button>
       <div id="joinGuide" hidden><p>メンバー登録（無料）をすると、このモノのページが自動で作られます。</p><a class="head-link gold" href="https://momowari.github.io/OHANA-share/mypage.html" data-login="1">ログイン／メンバー登録（無料）</a></div>
+      <div class="throw-foot-links" id="shipHeadLinks"></div>
     </section>
 
     <!-- bag sheet: OHANA船 — コイン / 放流 / 積載 / 好き の4つのタブで切り替え、
-         数字をタップすればその中身が出る。横にあるのは上陸でもイラストでも
-         なく、メンバー登録（メンバーはマイページ／ログアウト）の文字だけ -->
+         数字をタップすればその中身が出る。ログイン表示は船には置かず、
+         放流シートの下部へ移した -->
     <section class="sheet" id="sheetBag" role="dialog" aria-modal="true" aria-labelledby="bagTitle" hidden>
       <div class="grabber"></div>
       <button class="close-x" type="button" data-close aria-label="閉じる">✕</button>
       <div class="bag-head">
         <h2 id="bagTitle">OHANA船</h2>
-        <div class="bag-head-links" id="shipHeadLinks"></div>
       </div>
       <div class="bag-tabs" role="tablist" aria-label="船の中の切り替え">
         <button class="bag-tab" type="button" role="tab" aria-selected="false" data-tab="coin">コイン<b id="tabCoinN">0</b></button>
@@ -1459,7 +1461,7 @@
      島でログインできている人は、そのままの状態で使える前提で、
      ここでは登録の案内もゲートも置かない。 */
   var currentUserName = "";
-  /* マイページはOHANA島と共通の場所: 船の横のログインを
+  /* マイページはOHANA島と共通の場所: 放流シート下部のログインを
      押すと、ここへ飛ぶ（ログインとマイページは並べない） */
   var MYPAGE_URL = "https://momowari.github.io/OHANA-share/mypage.html";
   /* each person's own page: tapping a person's name flies here */
