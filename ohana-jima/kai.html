@@ -2626,11 +2626,10 @@
     </script>
     <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, collection, addDoc, query, orderBy, limit, onSnapshot, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-/* OHANA海 本番接続: OHANA島と同じ Firebase (ohana-share)・同じアプリ名で接続し、
+/* OHANA海 本番接続: OHANA島・OHANA-shareと同じ Firebase (ohana-share)・デフォルトアプリで接続し、
    ログイン状態と OHANAの声 (islandChat) を島と共有する。 */
 var OWNER_UID = "ELCzyeeoDCU4gveavc077L4jBqE3";
 var MYPAGE_BASE = "https://momowari.github.io/OHANA-share/";
@@ -2644,8 +2643,7 @@ var firebaseConfig = {
 };
 var auth = null, db = null, meUser = null, myNickname = "", hasIslandDoc = false;
 try {
-  var app = initializeApp(firebaseConfig, "ohana-ai");
-  try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider("6LfLJwcuAAAAAJk3CSivW9C-9E0Q-Cexl9wwibrv"), isTokenAutoRefreshEnabled: true }); } catch (e) {}
+  var app = initializeApp(firebaseConfig);
   auth = getAuth(app);
   db = getFirestore(app);
 } catch (e) { auth = null; db = null; }
