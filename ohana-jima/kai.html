@@ -755,9 +755,10 @@
         font-size:.9rem; line-height:1.7;
       }
       .msg-box .from{ display:block; font-size:.74rem; color:#bdefff; font-weight:700; margin-bottom:.25rem; letter-spacing:.05em; }
-      /* no stacked buttons anywhere: the things you can do on a
-         sheet sit in ONE row of tabs, like the ship's tabs — text
-         over a hairline, the chosen way marked with a gold line */
+      /* a sheet's decisive push-action （船に乗せる / 海へ放流する /
+         保存する） is a real button (.cta-btn above); the rest —
+         page transitions, closing — sit in ONE row of tabs, like
+         the ship's tabs: text over a hairline */
       .action-tabs{
         display:flex; margin-top:1rem;
         border-bottom:1px solid var(--glass-line);
@@ -930,6 +931,19 @@
         color:#ffe9a8; padding:.8rem 1rem; font-weight:800; font-size:1rem; letter-spacing:.05em; cursor:pointer;
       }
       .upload-main svg{ width:22px; height:22px; flex:none; }
+      /* the ONE decisive push-action on a sheet is a real button:
+         a gold glass pill you can tell at a glance is there to be
+         pressed — same language as .upload-main. Navigation and
+         view switches stay in the tab row below it. */
+      .cta-btn{
+        width:100%; margin-top:1rem;
+        display:flex; align-items:center; justify-content:center; gap:.55rem;
+        background:rgba(255,215,106,.16); border:1px solid rgba(255,215,106,.7); border-radius:999px;
+        color:#ffe9a8; padding:.85rem 1rem; font-weight:900; font-size:1rem; letter-spacing:.05em; cursor:pointer;
+      }
+      .cta-btn:active{ background:rgba(255,215,106,.3); }
+      .cta-btn[disabled]{ opacity:.45; cursor:default; }
+      .cta-btn + .action-tabs{ margin-top:.35rem; }
 </style>
   </head>
   <body>
@@ -1057,10 +1071,10 @@
         </button>
       </div>
       <div class="msg-box"><span class="from" id="itemMsgFrom">放流した人から</span><span id="itemMsg"></span></div>
-      <div class="action-tabs" role="tablist" aria-label="このモノへの行き先">
-        <button class="action-tab main" id="pickBtn" type="button" role="tab" aria-selected="true">
+      <button class="cta-btn" id="pickBtn" type="button">
           <span id="pickBtnLabel">船に乗せる</span>
         </button>
+      <div class="action-tabs" role="tablist" aria-label="このモノへの行き先">
         <button class="action-tab" id="pageBtn" type="button" role="tab" aria-selected="false">ページを見に行く ›</button>
         <button class="action-tab" type="button" role="tab" aria-selected="false" data-close>やめておく</button>
       </div>
@@ -1087,8 +1101,8 @@
       <div class="pick-grid" id="throwGrid" role="group" aria-label="放すモノの写真"></div>
       <label class="flabel" for="throwMsg">次の人へのひとこと（任意）</label>
       <textarea id="throwMsg" rows="2" maxlength="60" placeholder="例：まだ使えます。どなたか使ってください"></textarea>
+      <button class="cta-btn" id="doThrowBtn" type="button">海へ放流する</button>
       <div class="action-tabs" role="tablist" aria-label="放流の行き先">
-        <button class="action-tab main" id="doThrowBtn" type="button" role="tab" aria-selected="true">海へ放流する</button>
         <button class="action-tab" type="button" role="tab" aria-selected="false" data-close>やめておく</button>
       </div>
     </section>
@@ -1141,8 +1155,8 @@
       <input type="text" id="editName" maxlength="30" style="margin-top:0" />
       <label class="flabel" for="editMsg">次の人へのひとこと</label>
       <textarea id="editMsg" rows="2" maxlength="60"></textarea>
+      <button class="cta-btn" id="editSaveBtn" type="button">保存する</button>
       <div class="action-tabs" role="tablist" aria-label="編集の行き先">
-        <button class="action-tab main" id="editSaveBtn" type="button" role="tab" aria-selected="true">保存する</button>
         <button class="action-tab" type="button" role="tab" aria-selected="false" data-close>やめておく</button>
       </div>
     </section>
