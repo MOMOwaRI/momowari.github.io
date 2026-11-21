@@ -198,7 +198,7 @@
   #parkCatsLayer{position:absolute;inset:0;pointer-events:none}
   @media (max-width:560px){ .parkFig img{height:74px !important} #parkStage{height:290px} }
   .stage.parkmode #panorama{visibility:hidden}
-  .stage.parkmode #meAv,.stage.parkmode #othersAv,.stage.parkmode #sceneSns,.stage.parkmode #fxLayer{display:none !important}
+  .stage.parkmode #meAv,.stage.parkmode #othersAv,.stage.parkmode #fxLayer,.stage.parkmode #prodBubble{display:none !important}
   #parkStage.inview{position:absolute;inset:0;height:auto;z-index:4;border-radius:0}
   #parkStage.inview #parkBubble{top:54px}
   .pFig{position:absolute;transform:translateX(-50%);background:none;border:0;padding:0;font-family:inherit;cursor:pointer}
@@ -269,6 +269,10 @@
   #sceneSns button::after { content:""; position:absolute; top:-3px; right:-3px; width:11px; height:11px; border-radius:50%; background:#e5484d; border:2px solid #fff; }
   #sceneSns button.seen { animation:none; }
   #sceneSns button.seen::after { display:none; }
+  #prodBubble { position:absolute; left:10px; bottom:58px; z-index:7; align-items:center; gap:8px; background:rgba(255,253,247,.94); border:1.5px solid #ecd9ae; border-radius:999px; padding:5px 12px 5px 5px; box-shadow:0 4px 14px rgba(60,40,10,.25); cursor:pointer; font:inherit; max-width:min(330px,74vw); transition:opacity .45s; }
+  #prodBubble img { width:40px; height:40px; border-radius:50%; object-fit:cover; flex:none; }
+  #prodBubble .pbName { font-size:12px; color:#4a3826; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #prodBubble .pbPrice { font-size:12px; font-weight:700; color:#0068B7; white-space:nowrap; }
   @keyframes snsHop { 0%, 82%, 100% { transform:translateY(0); } 88% { transform:translateY(-8px); } 94% { transform:translateY(0); } 97% { transform:translateY(-4px); } }
   #shopLinkBtn { position:absolute; top:10px; right:10px; z-index:8; display:none; background:#d96c8a; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(120,40,70,.4); cursor:pointer; }
   .zpost img{animation: avidle 3.4s ease-in-out infinite}
@@ -352,7 +356,7 @@
   <p class="vh" data-ed="disc" style="margin:10px auto 0;max-width:730px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 10px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap;color:#7a5a16">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span aria-hidden="true" style="font-size:15px;line-height:1">👤</span><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button></div><div id="sceneSns"></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span aria-hidden="true" style="font-size:15px;line-height:1">👤</span><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button></div><div id="sceneSns"></div><button id="prodBubble" type="button" style="display:none" title="MAHALO セレクト商品"><img id="pbImg" alt=""><span class="pbName" id="pbName"></span><span class="pbPrice" id="pbPrice"></span></button><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -827,12 +831,14 @@ function toggleTour() {
 }
 { const __pnI = document.getElementById("placeName"); if (__pnI) __pnI.textContent = "📍 " + (SHORT["front"] || ""); }
 function snsSeen(id){ try { return (JSON.parse(localStorage.getItem("islandSnsSeen") || "[]")).includes(id); } catch(e){ return false; } }
+window.renderSceneSns = function(id) { const ss = document.getElementById("sceneSns"); if (!ss) return; ss.innerHTML = ""; POSTS.filter((pp) => pp.scene === id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); };
 function snsMarkSeen(id){ try { const a = JSON.parse(localStorage.getItem("islandSnsSeen") || "[]"); if (!a.includes(id)) { a.push(id); localStorage.setItem("islandSnsSeen", JSON.stringify(a)); } } catch(e){} }
 viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDestMenu();
   const pn = document.getElementById("placeName"); if (pn) pn.textContent = "📍 " + (SHORT[id] || "");
   const ss = document.getElementById("sceneSns");
   if (ss) { ss.innerHTML = ""; POSTS.filter((pp) => pp.scene === id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); }
   curScene = id;
+  pbScene(id);
   tourCapShow(id);
   if (window.syncYou) window.syncYou(id);
   if (window.islandScene) window.islandScene(id);
@@ -851,6 +857,19 @@ viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDes
   (EXITS[id] || []).forEach(ex => { const im = new Image(); im.src = SCENES[ex.to].pano; });
   rippleFx();
 });
+/* MAHALOセレクト商品バブル：写真で中身が分かるものだけを1つずつ */
+const PB_PRODUCTS = [
+  { name: "ナノサプリ GA シャンプー", full: "サニープレイス ナノサプリ クレンジングシャンプー GA（グリーンアップル）", price: "", img: "https://momowari.github.io/MAHALO/assets/products/nanosuppli-ga-main.jpg" },
+  { name: "アリミノ モイスト シャンプー", full: "アリミノ カラーストーリー モイスト シャンプー", price: "", img: "https://momowari.github.io/MAHALO/assets/products/arimino-moist-main.jpg" },
+  { name: "ミルボン ミズリセ ジェル", full: "ミルボン ミズリセ ウォータージェルトリートメント", price: "¥3,300", img: "https://momowari.github.io/MAHALO/assets/products/milbon-mizulisse-water-gel.jpg" },
+  { name: "ミルボン ニゼル ミラーフィルター", full: "ミルボン ニゼル ドレシア ミラーフィルター", price: "¥2,420", img: "https://momowari.github.io/MAHALO/assets/products/milbon-nigelle-mirror-filter.jpg" },
+  { name: "ナプラ ナシード トナー", full: "ナプラ ナシード スキャルプトナー", price: "¥1,100", img: "https://momowari.github.io/MAHALO/assets/products/napla-naseed-scalp-toner.jpg" }
+];
+let pbIdx = 0, pbTimer = null;
+function pbShow() { const p = PB_PRODUCTS[pbIdx % PB_PRODUCTS.length]; pbIdx++; const im = document.getElementById("pbImg"); if (im) { im.src = p.img; im.alt = p.full; } const nm = document.getElementById("pbName"); if (nm) nm.textContent = p.name; const pr = document.getElementById("pbPrice"); if (pr) pr.textContent = p.price; const bb = document.getElementById("prodBubble"); if (bb) bb.title = "MAHALO セレクト商品：" + p.full; }
+function pbScene(id) { const bb = document.getElementById("prodBubble"); if (!bb) return; const on = (id === "front" || id === "stairs" || id === "counter"); if (pbTimer) { clearInterval(pbTimer); pbTimer = null; } if (on) { pbShow(); bb.style.display = "flex"; bb.style.opacity = "1"; pbTimer = setInterval(() => { bb.style.opacity = "0"; setTimeout(() => { pbShow(); bb.style.opacity = "1"; }, 460); }, 6500); } else { bb.style.display = "none"; } }
+document.getElementById("prodBubble").addEventListener("click", () => { window.open("https://momowari.github.io/MAHALO/select.html", "_blank"); });
+setTimeout(() => { try { pbScene(curScene || "front"); } catch (e) {} }, 1600);
 /* 初回表示で左下SNSアイコンが出ないことがあるため、空なら少し待って入れ直す */
 (function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && POSTS.some((pp) => pp.scene === curScene)) { POSTS.filter((pp) => pp.scene === curScene).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); } if (n > 8) clearInterval(t); }, 1200); })();
 
@@ -1237,6 +1256,7 @@ window.enterParkView = function() {
     const snm = document.getElementById("sceneName"); if (snm) snm.textContent = "\u{1F333} 城山公園（みんなの広場）";
     const eb = document.getElementById("exitBtn"); if (eb) { eb.style.display = "block"; eb.textContent = "出口"; eb.onclick = () => { if (window.goScene) window.goScene("front"); }; }
     const sel = document.getElementById("placeSel"); if (sel) sel.value = "park";
+    if (window.renderSceneSns) window.renderSceneSns("park");
   }
   if (card) card.style.display = "";
   try { if (window.renderParkStage) window.renderParkStage(window.__parkUsers || []); } catch (e) {}
