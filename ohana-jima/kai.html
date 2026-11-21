@@ -1319,7 +1319,7 @@
     <section class="sheet" id="sheetThrow" role="dialog" aria-modal="true" aria-labelledby="throwTitle" hidden>
       <div class="grabber"></div>
       <button class="close-x" type="button" data-close aria-label="閉じる">✕</button>
-      <h2 id="throwTitle">あなたの価値を放つ</h2>
+      <h2 id="throwTitle">ヒトモノコトの選べる物々交換</h2>
       <input type="file" id="uploadInput" accept="image/*" hidden />
       <button class="upload-main" id="uploadBtn" type="button" aria-label="写真をアップロードする"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15h5.5l3-4.5h11L32.5 15H38a3.5 3.5 0 0 1 3.5 3.5v16A3.5 3.5 0 0 1 38 38H10a3.5 3.5 0 0 1-3.5-3.5v-16A3.5 3.5 0 0 1 10 15z"/><circle cx="24" cy="26.5" r="7.2"/></svg><span>写真をアップロードする</span></button>
       <img class="upload-preview" id="uploadPreview" alt="アップロードした写真" hidden />
@@ -2899,7 +2899,7 @@
 
   /* ---------------- throw ---------------- */
   /* tapping the chest on the sea opens the release card directly —
-     「あなたの価値を放つ」. The chest keeps its very first design;
+     「ヒトモノコトの選べる物々交換」. The chest keeps its very first design;
      there is no picker and nothing to choose. */
   $("#throwBtn").addEventListener("click", function(){ ensureAudio(); openSheet("sheetThrow"); refreshThrowSheet(); });
   /* the ship's 放流 tab carries the same door: its upload
