@@ -879,18 +879,27 @@ viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDes
   (EXITS[id] || []).forEach(ex => { const im = new Image(); im.src = SCENES[ex.to].pano; });
   rippleFx();
 });
-/* MAHALOセレクト商品バブル：写真で中身が分かるものだけを1つずつ */
-const PB_PRODUCTS = [
-  { name: "ナノサプリ GA シャンプー", full: "サニープレイス ナノサプリ クレンジングシャンプー GA（グリーンアップル）", price: "", img: "https://momowari.github.io/MAHALO/assets/products/nanosuppli-ga-main.jpg" },
-  { name: "アリミノ モイスト シャンプー", full: "アリミノ カラーストーリー モイスト シャンプー", price: "", img: "https://momowari.github.io/MAHALO/assets/products/arimino-moist-main.jpg" },
-  { name: "ミルボン ミズリセ ジェル", full: "ミルボン ミズリセ ウォータージェルトリートメント", price: "¥3,300", img: "https://momowari.github.io/MAHALO/assets/products/milbon-mizulisse-water-gel.jpg" },
-  { name: "ミルボン ニゼル ミラーフィルター", full: "ミルボン ニゼル ドレシア ミラーフィルター", price: "¥2,420", img: "https://momowari.github.io/MAHALO/assets/products/milbon-nigelle-mirror-filter.jpg" },
-  { name: "ナプラ ナシード トナー", full: "ナプラ ナシード スキャルプトナー", price: "¥1,100", img: "https://momowari.github.io/MAHALO/assets/products/napla-naseed-scalp-toner.jpg" }
-];
-let pbIdx = 0, pbTimer = null;
-function pbShow() { const p = PB_PRODUCTS[pbIdx % PB_PRODUCTS.length]; pbIdx++; const im = document.getElementById("pbImg"); if (im) { im.src = p.img; im.alt = p.full; } const nm = document.getElementById("pbName"); if (nm) nm.textContent = p.name; const pr = document.getElementById("pbPrice"); if (pr) pr.textContent = p.price; const bb = document.getElementById("prodBubble"); if (bb) bb.title = "MAHALO セレクト商品：" + p.full; }
-function pbScene(id) { const bb = document.getElementById("prodBubble"); if (!bb) return; const on = (id === "front" || id === "stairs" || id === "counter"); if (pbTimer) { clearInterval(pbTimer); pbTimer = null; } if (on) { pbShow(); bb.style.display = "flex"; bb.style.opacity = "1"; pbTimer = setInterval(() => { bb.style.opacity = "0"; setTimeout(() => { pbShow(); bb.style.opacity = "1"; }, 460); }, 6500); } else { bb.style.display = "none"; } }
-document.getElementById("prodBubble").addEventListener("click", () => { window.open("https://momowari.github.io/MAHALO/select.html", "_blank"); });
+/* 店内バブル：その店の商品だけを、その店の中で1つずつ（写真で中身が分かるものだけ） */
+const PB_SETS = {
+  counter: { url: "https://momowari.github.io/MAHALO/select.html", label: "MAHALO セレクト商品", items: [
+    { name: "ナノサプリ GA シャンプー", full: "サニープレイス ナノサプリ クレンジングシャンプー GA（グリーンアップル）", price: "", img: "https://momowari.github.io/MAHALO/assets/products/nanosuppli-ga-main.jpg" },
+    { name: "アリミノ モイスト シャンプー", full: "アリミノ カラーストーリー モイスト シャンプー", price: "", img: "https://momowari.github.io/MAHALO/assets/products/arimino-moist-main.jpg" },
+    { name: "ミルボン ミズリセ ジェル", full: "ミルボン ミズリセ ウォータージェルトリートメント", price: "¥3,300", img: "https://momowari.github.io/MAHALO/assets/products/milbon-mizulisse-water-gel.jpg" },
+    { name: "ミルボン ニゼル ミラーフィルター", full: "ミルボン ニゼル ドレシア ミラーフィルター", price: "¥2,420", img: "https://momowari.github.io/MAHALO/assets/products/milbon-nigelle-mirror-filter.jpg" },
+    { name: "ナプラ ナシード トナー", full: "ナプラ ナシード スキャルプトナー", price: "¥1,100", img: "https://momowari.github.io/MAHALO/assets/products/napla-naseed-scalp-toner.jpg" }
+  ] },
+  lea: { url: "https://momowari.github.io/Lea-Mahalo/", label: "Lea Mahalo の商品", items: [
+    { name: "花柄ストライプ ワンピース", full: "axes femme 花柄ストライプ 半袖ワンピース", price: "¥2,300", img: "https://momowari.github.io/Lea-Mahalo/img/items/m71573382172.jpg" },
+    { name: "フード付きワンピース ボルドー", full: "axes femme フード付き半袖ワンピース ボルドー", price: "¥2,700", img: "https://momowari.github.io/Lea-Mahalo/img/items/m33906074753.jpg" },
+    { name: "ブラック フリルジャケット", full: "axes femme ブラック フリルジャケット M", price: "¥4,700", img: "https://momowari.github.io/Lea-Mahalo/img/items/m85050381048.jpg" },
+    { name: "チェック柄 ノースリーブベスト", full: "axes femme チェック柄 ノースリーブベスト", price: "¥3,600", img: "https://momowari.github.io/Lea-Mahalo/img/items/m11116987761.jpg" },
+    { name: "花柄レース襟 ワンピース", full: "花柄レース襟 長袖ワンピース", price: "¥4,300", img: "https://momowari.github.io/Lea-Mahalo/img/items/m33123940830.jpg" }
+  ] }
+};
+let pbSet = null, pbIdx = 0, pbTimer = null;
+function pbShow() { if (!pbSet) return; const p = pbSet.items[pbIdx % pbSet.items.length]; pbIdx++; const im = document.getElementById("pbImg"); if (im) { im.src = p.img; im.alt = p.full; } const nm = document.getElementById("pbName"); if (nm) nm.textContent = p.name; const pr = document.getElementById("pbPrice"); if (pr) pr.textContent = p.price; const bb = document.getElementById("prodBubble"); if (bb) bb.title = pbSet.label + "：" + p.full; }
+function pbScene(id) { const bb = document.getElementById("prodBubble"); if (!bb) return; const set = PB_SETS[id] || null; if (pbTimer) { clearInterval(pbTimer); pbTimer = null; } if (set) { if (pbSet !== set) { pbSet = set; pbIdx = 0; } pbShow(); bb.style.display = "flex"; bb.style.opacity = "1"; pbTimer = setInterval(() => { bb.style.opacity = "0"; setTimeout(() => { pbShow(); bb.style.opacity = "1"; }, 460); }, 6500); } else { bb.style.display = "none"; } }
+document.getElementById("prodBubble").addEventListener("click", () => { if (pbSet) window.open(pbSet.url, "_blank"); });
 setTimeout(() => { try { pbScene(curScene || "front"); } catch (e) {} }, 1600);
 /* 初回表示で左下SNSアイコンが出ないことがあるため、空なら少し待って入れ直す */
 (function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && window.postsFor(curScene).length) { window.postsFor(curScene).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : "x"); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); } if (n > 8) clearInterval(t); }, 1200); })();
