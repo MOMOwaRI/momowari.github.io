@@ -2197,6 +2197,22 @@ $("btnProfSave").addEventListener("click", async () => {
   window.addEventListener("hashchange", openMapFromHash);
 })();
 </script>
+<script>
+// open at a specific place when arriving with #scene-<id> (e.g. from the OHANA sea place links)
+(function () {
+  var IDS = ["kayamachi","kayamachi2","yaoya","tamago","jinja","koshin","front","stairs","counter","elua","lea","pharmacy","fuji","furumachi","honkan","dogoeki","haikara","okaido","gintengai","castle","cityst","jrst","park"];
+  function openSceneFromHash() {
+    var m = /^#scene-([a-z0-9\-]+)$/.exec(location.hash || "");
+    if (!m) return;
+    var id = m[1];
+    if (IDS.indexOf(id) < 0) return;
+    if (id === "park") { if (window.openPlaza) window.openPlaza(); return; }
+    if (window.goScene) window.goScene(id);
+  }
+  window.addEventListener("load", function () { setTimeout(openSceneFromHash, 400); setTimeout(openSceneFromHash, 1400); });
+  window.addEventListener("hashchange", openSceneFromHash);
+})();
+</script>
 
 <script>
 window.__buildParkBubbles = function() {
