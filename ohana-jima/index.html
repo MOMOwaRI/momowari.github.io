@@ -359,6 +359,11 @@
   #feedMin svg { width:44px; height:44px; }
   #sceneSns button { width:44px; height:44px; }
   #sceneSns button svg { width:44px; height:44px; }
+  /* 行き先プルダウンは海と同じ：カードなし、ガラスの上に文字だけ。4つは先頭に固定 */
+  #destMenu { background:linear-gradient(rgba(20,50,80,.14), rgba(20,50,80,.14)), rgba(255,255,255,.20); backdrop-filter:blur(10px) saturate(1.2); -webkit-backdrop-filter:blur(10px) saturate(1.2); border:1px solid rgba(255,255,255,.38); border-radius:18px; box-shadow:0 16px 40px rgba(0,15,30,.35); width:min(280px, 82vw); min-width:0; padding:10px 14px; gap:0; }
+  #destMenu .destItem { background:transparent; border:none; border-radius:0; box-shadow:none; color:#fff; text-shadow:0 1px 4px rgba(0,30,55,.4); font-size:14.5px; font-weight:600; padding:7px 2px; }
+  #destMenu .destItem:nth-child(-n+4) { color:#ffe9a8; font-weight:800; }
+  #destMenu .destSep { border-top:1px dashed rgba(255,255,255,.35) !important; margin:5px 0; }
   #isleLogo { position:absolute; left:12px; bottom:102px; z-index:6; pointer-events:none; font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif; color:#fff; text-decoration:none; line-height:1.15; text-shadow:0 2px 14px rgba(0,30,55,.45), 0 1px 3px rgba(0,30,55,.5); }
   #isleLogo .l1 { display:block; font-weight:800; font-size:19px; letter-spacing:.07em; white-space:nowrap; }
   #isleLogo .l1 .star { color:#ffd76a; }
