@@ -141,18 +141,7 @@
       .reef .sway{ transform-origin:50% 100%; animation:reefSway 6.5s ease-in-out infinite alternate; }
       .reef .sway2{ transform-origin:50% 100%; animation:reefSway 8s ease-in-out infinite alternate-reverse; }
       @keyframes reefSway{ from{ transform:rotate(-1.6deg);} to{ transform:rotate(1.6deg);} }
-      /* pan arrows + zone indicator */
-      .pan-arrow{
-        position:absolute; z-index:10; top:50%; transform:translateY(-50%);
-        width:2.9rem; height:2.9rem; border-radius:50%;
-        background:var(--glass); border:1px solid var(--glass-line);
-        color:#fff; font-size:1.05rem; cursor:pointer;
-        backdrop-filter:blur(10px) saturate(1.2); -webkit-backdrop-filter:blur(10px) saturate(1.2);
-        text-shadow:0 1px 6px rgba(0,30,55,.45);
-        display:grid; place-items:center; transition:opacity .4s ease;
-      }
-      .pan-arrow.left{ left:.6rem; } .pan-arrow.right{ right:.6rem; }
-      .pan-arrow.dim{ opacity:.35; }
+      /* zone indicator (the pan arrow buttons were removed — drag only) */
       .zone-pill{
         position:absolute; z-index:10; left:50%; transform:translateX(-50%);
         bottom:calc(env(safe-area-inset-bottom, 0px) + 5.7rem);
@@ -1215,8 +1204,6 @@
         </div>
       </header>
 
-      <button class="pan-arrow left" id="panLeft" type="button" aria-label="左の海へ移動する">◀</button>
-      <button class="pan-arrow right" id="panRight" type="button" aria-label="右の海へ移動する">▶</button>
       <div class="narr-caption" id="guideCaption" role="status" aria-live="polite"></div>
 
       <!-- dock corner: the chat (OHANAの声) at the bottom-right — icon only.
@@ -2261,8 +2248,6 @@
   }
   scrollEl.addEventListener("pointerup", endPan);
   scrollEl.addEventListener("pointercancel", endPan);
-  $("#panLeft").addEventListener("click", function(){ ensureAudio(); camTarget = clampCam(camTarget - window.innerWidth * .7); });
-  $("#panRight").addEventListener("click", function(){ ensureAudio(); camTarget = clampCam(camTarget + window.innerWidth * .7); });
   document.addEventListener("keydown", function(e){
     if (openSheetEl) return;
     if (e.key === "ArrowLeft") camTarget = clampCam(camTarget - window.innerWidth * .5);
