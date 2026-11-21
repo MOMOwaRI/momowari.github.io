@@ -65,10 +65,10 @@
   .stage { position:relative; border-radius:18px; overflow:hidden; box-shadow:0 6px 24px rgba(90,60,20,.25); }
   #panorama { width:100%; height:380px; }
   #sceneName { text-align:center; font-size:13px; color:#8a715a; margin-top:8px; }
-  #placeBar { display:flex; gap:8px; align-items:center; justify-content:center; padding:8px 2px 2px; }
+  #placeBar { position:relative; height:0; padding:0; }
   #navBtns { justify-content:center; }
-  #placeBar label { font-size:12.5px; color:#7a5a17; font-weight:700; white-space:nowrap; }
-  #placeSel { flex:1; max-width:340px; border:1.5px solid #cbb27f; background:#fffdf7; color:#7a5a17; border-radius:999px; padding:7px 12px; font-size:13.5px; font-family:inherit; cursor:pointer; }
+  #placeBar label { display:none; }
+  #placeSel { position:absolute; left:50%; top:0; transform:translateX(-50%); width:2px; height:2px; opacity:0; pointer-events:none; border:0; padding:0; }
   .hint { font-size:12px; color:#97795a; text-align:center; margin-top:6px; line-height:1.7; }
   .catspot { background:none !important; }
   .catspot .cbwrap { display:flex; flex-direction:column; align-items:center; transform:translateY(-18px); cursor:pointer; }
@@ -370,14 +370,13 @@
     </div>
   <div id="sceneName">MAHALOの店前</div>
   <div id="placeBar"><label for="placeSel" data-i18n="selLabel">📍 場所を選ぶ</label><select id="placeSel" aria-label="場所を選ぶ"></select></div>
-  <div class="btns" id="navBtns"><button class="act" id="btnWalk" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button><button class="act" id="btnMap" type="button" data-i18n="mapBtn">🗺 MAPを見る</button><button class="act sub" id="btnGuide" type="button" data-i18n="guideBtn">🧭 ガイド</button></div>
+  <div class="btns" id="navBtns"><button class="act" id="btnWalk" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button></div>
   <div class="btns" id="shopBtns" style="display:none">
     <button class="act" id="btnTalk">店員さんと話す</button>
     <button class="act" id="btnGoods">商品を見る</button>
     <button class="act sub" id="btnCart">カゴを見る（0）</button>
   </div>
-  <p class="hint" data-ed="streetHint">アバターの目線で歩く通りです。進みたい方を向いて地面をタップすると、その方へ歩けます。地面の矢印タップでも進めます。下の場所えらびや、MAPのピンからも移動できます。ドラッグで見回せます。</p>
-
+  
   <div id="bigMapSec">
     <div id="mapHead"><h2 data-ed="mapH">&#x1F5FA; MAP</h2></div>
     <div id="bigMap"></div>
@@ -438,22 +437,6 @@
       <div style="display:flex;gap:8px;margin-top:12px">
         <button class="act" id="joinGo" type="button" data-i18n="joinGo">Googleでログイン</button>
         <button class="act sub" id="joinCancel" type="button" data-i18n="joinCancel">やめておく</button>
-      </div>
-    </div>
-  </div>
-  <div id="guideModal" style="display:none;position:fixed;inset:0;background:rgba(60,40,10,.45);z-index:200;align-items:center;justify-content:center">
-    <div style="background:#fffdf7;border-radius:16px;padding:18px;max-width:340px;width:calc(100% - 40px);box-shadow:0 12px 40px rgba(60,40,10,.35);max-height:86vh;overflow-y:auto">
-      <h2 style="font-size:17px;margin-bottom:8px" data-i18n="guideTitle">島のガイド</h2>
-      <p style="font-size:13.5px;line-height:1.75;white-space:pre-line" data-i18n="guideBody">・🐾 ガイドツアー：案内文が出ながら、島の中を自動で歩きます。もう一度押すと止まります
-・ドラッグで周りを見渡せます。地面の矢印を押すと、隣の場所へ歩けます
-・📍 場所を選ぶ／MAP：行きたい場所へ直接行けます。ピンを押すと、その場所へ
-・お店の中では、店員のアバターを押すと話しかけられます
-・💬 OHANAの声（右下）：今いる人と話せます。同じ場所で出会うと、分身が横に並びます
-・🌳 城山公園（みんなの広場）：MAPの公園ピンから、みんなの分身にコメントを残せます
-・ログインすると、自分の分身で歩けます。写真からアバターも作れます（マイページから）</p>
-      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-        <button class="act" id="guideWalk" type="button" data-i18n="guideWalk">🧭 ガイドツアーを始める</button>
-        <button class="act sub" id="guideClose" type="button" data-i18n="guideClose">閉じる</button>
       </div>
     </div>
   </div>
@@ -846,11 +829,6 @@ document.getElementById("btnWalk").addEventListener("click", () => {
   walkStep();
   walkTimer = setInterval(walkStep, 7000);
 });
-const guideModal = document.getElementById("guideModal");
-document.getElementById("btnGuide").addEventListener("click", () => { guideModal.style.display = "flex"; });
-document.getElementById("guideClose").addEventListener("click", () => { guideModal.style.display = "none"; });
-guideModal.addEventListener("click", (e) => { if (e.target === guideModal) guideModal.style.display = "none"; });
-document.getElementById("guideWalk").addEventListener("click", () => { guideModal.style.display = "none"; if (!walkTimer) document.getElementById("btnWalk").click(); });
 { const __pnI = document.getElementById("placeName"); if (__pnI) __pnI.textContent = "📍 " + (SHORT["front"] || ""); }
 function snsSeen(id){ try { return (JSON.parse(localStorage.getItem("islandSnsSeen") || "[]")).includes(id); } catch(e){ return false; } }
 function snsMarkSeen(id){ try { const a = JSON.parse(localStorage.getItem("islandSnsSeen") || "[]"); if (!a.includes(id)) { a.push(id); localStorage.setItem("islandSnsSeen", JSON.stringify(a)); } } catch(e){} }
@@ -1277,9 +1255,6 @@ window.exitParkView = function() {
   if (card) card.style.display = "none";
 };
 window.openPlaza = function() { window.enterParkView(); };
-function openMap() { document.getElementById("bigMapSec").scrollIntoView({ behavior: "smooth" }); setTimeout(() => { if (window.__twInvalidate) window.__twInvalidate(); }, 400); }
-function closeMap() { window.scrollTo({ top: 0, behavior: "smooth" }); }
-document.getElementById("btnMap").addEventListener("click", openMap);
 window.addEventListener("load", () => setTimeout(initBigMap, 900));
 </script>
 
