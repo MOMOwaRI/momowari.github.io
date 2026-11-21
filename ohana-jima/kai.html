@@ -1308,7 +1308,7 @@
       <div id="msgGuestMail" hidden>
         <label class="flabel" for="msgMail">返信を受け取るメールアドレス</label>
         <input type="email" id="msgMail" maxlength="120" placeholder="メールアドレス" autocomplete="email" />
-        <p class="msg-guest-links"><a class="head-link gold" href="https://momowari.github.io/OHANA-share/mypage.html" data-login="1">ログインして送る</a>／<a class="head-link gold" href="https://momowari.github.io/OHANA-share/mypage.html" data-login="1">登録して送る</a></p>
+        <p class="msg-guest-links"><a class="head-link gold" href="https://momowari.github.io/OHANA-share/mypage.html" data-login="1">ログインして送る</a>／<a class="head-link gold" href="https://momowari.github.io/OHANA-share/login.html" data-register="1">登録して送る</a></p>
       </div>
       <label class="flabel" for="msgText">文面（そのまま送っても、直してもOK）</label>
       <textarea id="msgText" rows="5" maxlength="500"></textarea>
@@ -1327,7 +1327,7 @@
       <label class="flabel" for="throwMsg">次の人へのひとこと（任意）</label>
       <textarea id="throwMsg" rows="2" maxlength="60" placeholder="例：まだ使えます。どなたか使ってください"></textarea>
       <button class="cta-btn" id="doThrowBtn" type="button">海へ放流する</button>
-      <div id="joinGuide" hidden><p>メンバー登録（無料）をすると、このモノのページが自動で作られます。</p><a class="head-link gold" href="https://momowari.github.io/OHANA-share/mypage.html" data-login="1">ログイン／メンバー登録（無料）</a></div>
+      <div id="joinGuide" hidden><p>メンバー登録（無料）をすると、このモノのページが自動で作られます。</p><a class="head-link gold" href="https://momowari.github.io/OHANA-share/login.html" data-register="1">メンバー登録（無料）</a></div>
       <div class="throw-foot-links" id="shipHeadLinks"></div>
     </section>
 
@@ -1461,6 +1461,10 @@
   /* マイページはOHANA島と共通の場所: 放流シート下部のログインを
      押すと、ここへ飛ぶ（ログインとマイページは並べない） */
   var MYPAGE_URL = "https://momowari.github.io/OHANA-share/mypage.html";
+  /* メンバー登録（無料）の行き先はマッチング側の入口 (login.html):
+     新規の人はここで登録する。既存メンバーの「ログイン」は海の中で
+     Googleログインする (data-login) ほうで、行き先も動きも別にする */
+  var REGISTER_URL = "https://momowari.github.io/OHANA-share/login.html";
   /* each person's own page: tapping a person's name flies here */
   var MEMBER_PAGES = {
     "MOMOwaRI": "https://momowari.github.io/OHANA-share/members/momowari.html",
@@ -2307,7 +2311,7 @@
      can release, pick, comment and edit their own モノ. */
   /* ログイン状態はOHANA島と連動: 島でログインできていれば
      そのまま使える。状態と表記は必ず一致させる —
-     ゲストのときは「ログイン／メンバー登録（無料）」だけ、
+     ゲストのときは「ログイン」と「メンバー登録（無料）」の別々のリンクだけ、
      ログイン済みのときだけ「マイページ／ログアウト」を出す。
      いまの状態はゲスト（未ログイン）が既定。 */
   var isLoggedInWithIsland = false;
@@ -2318,7 +2322,8 @@
     var box = $("#shipHeadLinks");
     if (box){
       if (!isLoggedInWithIsland){
-        box.innerHTML = '<a class="head-link gold" href="' + MYPAGE_URL + '" target="_blank" rel="noopener" data-login="1">ログイン／メンバー登録（無料）</a>';
+        box.innerHTML = '<a class="head-link gold" href="' + MYPAGE_URL + '" target="_blank" rel="noopener" data-login="1">ログイン</a>'
+          + '<a class="head-link gold" href="' + REGISTER_URL + '" target="_blank" rel="noopener" data-register="1">メンバー登録（無料）</a>';
       } else if (!hasOwnPage){
         /* logged in is logged in — page or no page, a member sees
            マイページ／ログアウト, never a ゲスト badge */
@@ -2379,10 +2384,14 @@
     if (selectedItem) updateLikeBtn(selectedItem.data);
     renderLikes();
   };
-  /* メンバー登録（無料）= その場でGoogleログイン／マイページ = 島と同じ飛び先に揃える */
+  /* ログイン = その場でGoogleログイン（既存メンバー用）。
+     メンバー登録（無料）= マッチング側の入口へ（新規用）。
+     マイページ = 島と同じ飛び先に揃える */
   document.addEventListener("click", function(e){
     var li = e.target.closest ? e.target.closest("[data-login]") : null;
     if (li){ e.preventDefault(); if (window.__kaiSignIn) window.__kaiSignIn(); else window.open(MYPAGE_URL, "_blank", "noopener"); return; }
+    var rg = e.target.closest ? e.target.closest("[data-register]") : null;
+    if (rg){ e.preventDefault(); window.open(REGISTER_URL, "_blank", "noopener"); return; }
     var mp = e.target.closest ? e.target.closest("[data-mypage]") : null;
     if (mp){ e.preventDefault(); if (window.__kaiGoMypage) window.__kaiGoMypage(); else window.open(MYPAGE_URL, "_blank", "noopener"); }
   });
@@ -2872,7 +2881,7 @@
 
   $("#doThrowBtn").addEventListener("click", function(){
     if (this.getAttribute("data-member") === "1"){
-      if (window.__kaiSignIn) window.__kaiSignIn(); else window.open(MYPAGE_URL, "_blank", "noopener");
+      window.open(REGISTER_URL, "_blank", "noopener");
       return;
     }
     if (!requireMember()) return;
