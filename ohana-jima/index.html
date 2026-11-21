@@ -34,7 +34,7 @@
   #snsBar .ttl { font-size:12px; color:#a5711d; letter-spacing:.1em; }
   body { padding-bottom:48px; }
   .ticker { position:fixed; left:0; right:0; bottom:0; z-index:40; background:rgba(46,32,10,.92); color:#fdf6df; overflow:hidden; white-space:nowrap; padding:9px 0; border-top:2px solid #d9a441; }
-  .ticker-inner { display:inline-flex; gap:0; animation:tick 100s linear infinite; will-change:transform; }
+  .ticker-inner { display:inline-flex; gap:0; animation:tick 170s linear infinite; will-change:transform; }
   .ticker:active .ticker-inner, .ticker:hover .ticker-inner { animation-play-state:paused; }
   @keyframes tick { from { transform:translateX(0); } to { transform:translateX(-50%); } }
   .tick-item { display:inline-block; padding:0 18px; font-size:13px; cursor:pointer; }
@@ -275,7 +275,7 @@
   .pBub img { position:absolute; left:9%; top:9%; width:82%; height:82%; border-radius:50%; object-fit:cover; display:block; }
   .pBub .pbShine { position:absolute; left:16%; top:9%; width:34%; height:20%; background:radial-gradient(ellipse at center, rgba(255,255,255,.95), rgba(255,255,255,0) 70%); border-radius:50%; transform:rotate(-24deg); }
   .pBub.drag { cursor:grabbing; box-shadow:0 14px 30px rgba(10,40,70,.4); }
-  @keyframes pbFloat { from { transform:translateY(-4px); } to { transform:translateY(5px); } }
+  @keyframes pbFloat { from { transform:translate(-3px,-6px); } to { transform:translate(4px,7px); } }
   #prodCard { position:absolute; left:50%; transform:translateX(-50%); bottom:50px; width:min(430px,94%); z-index:33; background:rgba(255,253,247,.97); border:1.5px solid #ecd9ae; border-radius:16px; box-shadow:0 14px 34px rgba(60,40,10,.3); padding:12px 14px; display:none; }
   #prodCard.open { display:block; }
   #prodCard .pcRow { display:flex; gap:12px; align-items:center; }
@@ -446,6 +446,44 @@
   #starBox { position:relative; background:linear-gradient(180deg,#16264d,#274069); border-radius:12px; height:110px; overflow:hidden; margin-top:4px; }
   #starBox .st { position:absolute; color:#ffe98a; text-shadow:0 0 6px #ffdf6b; }
   #starBox .none { color:#cdd8ee; font-size:12.5px; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+
+/* ===== 2026-11-21 batch: solid panels / sns / destmenu / bubbles / guest pill ===== */
+#chatFeed:not(.min) { background:#fffdf7; -webkit-backdrop-filter:none; backdrop-filter:none; }
+#prodCard { background:#fffdf7; -webkit-backdrop-filter:none; backdrop-filter:none; }
+#bagPanel { background:#fffdf7; -webkit-backdrop-filter:none; backdrop-filter:none; }
+#destMenu { background:#fffdf7; -webkit-backdrop-filter:none; backdrop-filter:none; border:1.5px solid #e5d9bd; box-shadow:0 10px 28px rgba(60,40,10,.3); padding:6px; gap:0; }
+#destMenu .destItem { background:none; border:none; border-radius:8px; box-shadow:none; width:100%; padding:9px 12px; font-size:15.5px; color:#4a3826; text-align:left; font-weight:400; }
+#destMenu .destItem:active { background:#faf1dc; }
+#destMenu .destKai, #destMenu .destPark { background:none; border:none; font-weight:800; color:#b3541e; }
+#destMenu #destTour { border-bottom:1.5px solid #e5d9bd; border-radius:0; margin-bottom:4px; }
+#bagBtn svg { width:56px; height:56px; }
+#sceneSns { gap:10px; }
+#sceneSns button { width:30px; height:30px; border-radius:0; border:none; background:none; box-shadow:none; animation:none; padding:0; position:relative; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+#sceneSns button svg { filter:drop-shadow(0 1px 2px rgba(255,255,255,.9)) drop-shadow(0 1px 3px rgba(60,40,10,.35)); }
+#sceneSns button.seen { opacity:.45; }
+#sceneSns .snsCnt { position:absolute; top:-5px; right:-8px; background:#d96a7a; color:#fff; font-size:10px; font-weight:700; min-width:16px; height:16px; border-radius:8px; padding:0 4px; display:flex; align-items:center; justify-content:center; }
+.pBub:nth-child(odd) .pbIn { animation-duration:6.3s; }
+.pBub:nth-child(3n) .pbIn { animation-duration:7.4s; animation-delay:-2.4s; }
+.pBub:nth-child(4n) .pbIn { animation-duration:5.6s; animation-delay:-1.1s; }
+#parkStage .tag { display:none !important; }
+#guestRegPill { position:fixed; left:50%; bottom:238px; transform:translateX(-50%); z-index:41; background:#d96a7a; color:#fff; font-weight:800; font-size:14px; line-height:1.25; text-align:center; padding:8px 18px; border-radius:999px; box-shadow:0 8px 22px rgba(60,20,30,.35); text-decoration:none; }
+
+#guestRegPill { animation:pillIn .45s ease 1.6s both; }
+@keyframes pillIn { from { opacity:0; } to { opacity:1; } }
+
+#destMenu { max-height:min(62vh, 560px); overflow-y:auto; }
+#destMenu .destItem { color:#4a3826 !important; }
+#destMenu .destKai, #destMenu .destPark, #destMenu #destMap, #destMenu #destTour { color:#b3541e !important; font-weight:800; }
+#guestRegPill { z-index:29; }
+
+#prodCard { color:#4a3826; }
+.pcName { color:#4a3826 !important; text-shadow:none !important; }
+.pcPrice { color:#b3541e !important; text-shadow:none !important; }
+.pcShop, .pcClose { color:#8a715a !important; text-shadow:none !important; }
+#bagPanel { color:#4a3826; }
+#chatFeed:not(.min) { color:#3a2c1c; }
+#chatFeed .fmsg { color:#4a3826; }
+#chatFeed .fmsg b { color:#b3541e; }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "OHANA島", "url": "https://momowari.github.io/ohana-jima/", "inLanguage": "ja", "description": "愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現したウェブ上の島。ストリートビューのように歩いて回ることができ、MAHALOビル、阿沼美神社、庚申庵、萱町商店街、フジグラン松山、古町駅、城山公園、道後温泉本館、大街道、銀天街、松山城、松山市駅、JR松山駅などを掲載。ヒトモノコトをつなぐOHANAシェア＊プロジェクトの活動とつながっている。", "isPartOf": {"@type": "WebSite", "name": "OHANAシェア＊プロジェクト", "url": "https://momowari.github.io/OHANA-share/"}, "author": {"@type": "Person", "name": "MOMOwaRI"}}</script>
 </head>
@@ -469,7 +507,7 @@
     </div>
     <div class="panel" id="chat">
       <button id="chatClose" aria-label="閉じる">×</button>
-      <h2 id="chatShopTitle">MAHALO美容室 の店員さん</h2>
+      <h2 id="chatShopTitle">MAHALO美容室</h2>
       <p class="gnote">※ AIが答えています。間違うこともあるので、大事なことはお店にご確認ください</p>
       <div id="chatLog"></div>
       <div class="chips" id="chatChips"></div>
@@ -709,28 +747,28 @@ const PRODUCTS = [
   { id:"wig", img:"prod-wig.jpg", name:"WigMAHALO（ウィッグのご相談）", desc:"ウィッグのご相談を承っております。まずはお気軽にどうぞ。（写真はイメージです）" },
 ];
 const SCENES = {
-  kayamachi:  { pano:"mahalo-pano-kayamachi3.jpg",  name:"萱町商店街", yaw:0, hfov:134 },
-  kayamachi2: { pano:"mahalo-pano-kayamachi2.jpg", name:"萱町商店街（なかほど）", yaw:0, hfov:134 },
-  yaoya:      { pano:"mahalo-pano-yaoya2.jpg",      name:"八百屋の前（丸五青果）", yaw:120, hfov:134 },
-  tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:134 },
-  jinja:      { pano:"mahalo-pano-jinja4.jpg",      name:"阿沼美神社", yaw:-40, hfov:134 },
-  koshin:     { pano:"mahalo-pano-koshin3.jpg",     name:"庚申庵", yaw:10, hfov:134 },
-  front:      { pano:"mahalo-pano-front6.jpg",      name:"MAHALOの店前", yaw:-15, hfov:134 },
-  stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:134 },
-  counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:134 },
-  elua:       { pano:"mahalo-pano-elua5.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:134 },
-  lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:140 },
-  pharmacy:   { pano:"mahalo-pano-pharmacy4.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:134 },
-  fuji:       { pano:"mahalo-pano-fuji.jpg",       name:"フジグラン松山", yaw:-10, hfov:134 },
-  furumachi:  { pano:"mahalo-pano-furumachi.jpg",  name:"古町駅", yaw:0, hfov:134 },
-  honkan:     { pano:"mahalo-pano-honkan.jpg",     name:"道後温泉本館", yaw:45, hfov:134 },
-  dogoeki:    { pano:"mahalo-pano-dogoeki.jpg",    name:"道後温泉駅", yaw:0, hfov:134 },
-  haikara:    { pano:"mahalo-pano-haikara.jpg",    name:"道後ハイカラ通り", yaw:0, hfov:134 },
-  okaido:     { pano:"mahalo-pano-okaido.jpg",     name:"大街道", yaw:0, hfov:134 },
-  gintengai:  { pano:"mahalo-pano-gintengai.jpg",  name:"銀天街", yaw:0, hfov:134 },
-  castle:     { pano:"mahalo-pano-castle.jpg",     name:"松山城", yaw:0, hfov:134 },
-  cityst:     { pano:"mahalo-pano-cityst.jpg",     name:"松山市駅", yaw:0, hfov:134 },
-  jrst:       { pano:"mahalo-pano-jrst.jpg",       name:"JR松山駅", yaw:0, hfov:134 },
+  kayamachi:  { pano:"mahalo-pano-kayamachi3.jpg",  name:"萱町商店街", yaw:0, hfov:102 },
+  kayamachi2: { pano:"mahalo-pano-kayamachi2.jpg", name:"萱町商店街（なかほど）", yaw:0, hfov:102 },
+  yaoya:      { pano:"mahalo-pano-yaoya2.jpg",      name:"八百屋の前（丸五青果）", yaw:120, hfov:102 },
+  tamago:     { pano:"mahalo-pano-tamago.jpg",     name:"たまご屋さんの前（平野鶏卵）", yaw:-20, hfov:102 },
+  jinja:      { pano:"mahalo-pano-jinja4.jpg",      name:"阿沼美神社", yaw:-40, hfov:102 },
+  koshin:     { pano:"mahalo-pano-koshin3.jpg",     name:"庚申庵", yaw:10, hfov:102 },
+  front:      { pano:"mahalo-pano-front6.jpg",      name:"MAHALOの店前", yaw:-15, hfov:102 },
+  stairs:     { pano:"mahalo-pano-stairs3.jpg",     name:"MAHALOの外階段", yaw:-60, hfov:102 },
+  counter:    { pano:"mahalo-pano-counter.jpg",    name:"MAHALO店内（カウンター前）", yaw:-10, hfov:102 },
+  elua:       { pano:"mahalo-pano-elua5.jpg",       name:"elua Mahalo（店内）", yaw:0, hfov:102 },
+  lea:        { pano:"mahalo-pano-lea2.jpg",        name:"Lea Mahalo（雑貨屋）", yaw:0, hfov:102 },
+  pharmacy:   { pano:"mahalo-pano-pharmacy4.jpg",   name:"レデイ薬局 宮西店", yaw:-20, hfov:102 },
+  fuji:       { pano:"mahalo-pano-fuji.jpg",       name:"フジグラン松山", yaw:-10, hfov:102 },
+  furumachi:  { pano:"mahalo-pano-furumachi.jpg",  name:"古町駅", yaw:0, hfov:102 },
+  honkan:     { pano:"mahalo-pano-honkan.jpg",     name:"道後温泉本館", yaw:45, hfov:102 },
+  dogoeki:    { pano:"mahalo-pano-dogoeki.jpg",    name:"道後温泉駅", yaw:0, hfov:102 },
+  haikara:    { pano:"mahalo-pano-haikara.jpg",    name:"道後ハイカラ通り", yaw:0, hfov:102 },
+  okaido:     { pano:"mahalo-pano-okaido.jpg",     name:"大街道", yaw:0, hfov:102 },
+  gintengai:  { pano:"mahalo-pano-gintengai.jpg",  name:"銀天街", yaw:0, hfov:102 },
+  castle:     { pano:"mahalo-pano-castle.jpg",     name:"松山城", yaw:0, hfov:102 },
+  cityst:     { pano:"mahalo-pano-cityst.jpg",     name:"松山市駅", yaw:0, hfov:102 },
+  jrst:       { pano:"mahalo-pano-jrst.jpg",       name:"JR松山駅", yaw:0, hfov:102 },
 };
 const SCENE_NAMES = {};
 Object.keys(SCENES).forEach(id => SCENE_NAMES[id] = SCENES[id].name);
@@ -819,7 +857,7 @@ function keeperSpot(big) {
   return { pitch: big ? -9 : -7, yaw: big ? 24 : 52, cssClass: "keeper-hotspot staff" + (big ? " big" : ""),
     createTooltipFunc: (div) => {
       const w = document.createElement("div"); w.className = "cbwrap";
-      const tag = document.createElement("div"); tag.className = "ktag"; tag.textContent = "店員さん";
+      const tag = document.createElement("div"); tag.className = "ktag"; tag.style.display = "none";
       const b = document.createElement("div"); b.className = "cb"; b.textContent = "いらっしゃいませ";
       cycleBubble(b, "mahalo");
       const img = document.createElement("img");
@@ -849,7 +887,7 @@ window.__exitNames = {"en": {"北へ進む": "Go north", "南へ進む": "Go sou
 window.__langSuffix = {"en": "\nAlways answer in English, politely and briefly.", "zh": "\n请始终用简体中文，礼貌简洁地回答。", "ko": "\n항상 한국어로 정중하고 간결하게 답해주세요."}[window.__lang] || "";
 if (window.__lang !== "ja") { const PN = window.__placeNames[window.__lang] || {}; for (const k in PN) if (SCENES[k]) SCENES[k].name = PN[k]; const EN = window.__exitNames[window.__lang] || {}; for (const sid in EXITS) EXITS[sid].forEach(x => { if (EN[x.label]) x.label = EN[x.label]; }); }
 const viewer = pannellum.viewer("panorama", {
-  default: { firstScene: "front", sceneFadeDuration: 800, autoLoad: true },
+  default: { firstScene: "front", sceneFadeDuration: 800, autoLoad: true, minHfov: 55, maxHfov: 106 },
   scenes: scenesCfg,
   showZoomCtrl: true, showFullscreenCtrl: false, mouseZoom: true,
 });
@@ -942,9 +980,9 @@ function toggleTour() {
 function snsSeen(id){ try { return (JSON.parse(localStorage.getItem("islandSnsSeen") || "[]")).includes(id); } catch(e){ return false; } }
 window.postsFor = function(id) {
   const own = POSTS.filter((pp) => pp.scene === id);
-  if (own.length) return own.slice(0, 4);
+  
   const seen = new Set([id]); let frontier = [id]; const found = [];
-  for (let hop = 0; hop < 2 && found.length < 3; hop++) {
+  for (let hop = 0; hop < 2 && found.length < 4; hop++) {
     const next = [];
     frontier.forEach((sc) => {
       const outs = (EXITS[sc] || []).map((e) => e.to);
@@ -958,17 +996,16 @@ window.postsFor = function(id) {
   if (!found.length && myLL) {
     const all = POSTS.filter((pp) => LL[pp.scene]);
     all.sort((a, b) => Math.hypot(LL[a.scene][0] - myLL[0], LL[a.scene][1] - myLL[1]) - Math.hypot(LL[b.scene][0] - myLL[0], LL[b.scene][1] - myLL[1]));
-    return all.slice(0, 3);
+    return own.concat(all).slice(0, 4);
   }
   if (myLL) found.sort((a, b) => { const da = LL[a.scene] ? Math.hypot(LL[a.scene][0] - myLL[0], LL[a.scene][1] - myLL[1]) : 9; const db = LL[b.scene] ? Math.hypot(LL[b.scene][0] - myLL[0], LL[b.scene][1] - myLL[1]) : 9; return da - db; });
-  return found.slice(0, 3);
+  return own.concat(found).slice(0, 4);
 };
-window.renderSceneSns = function(id) { const ss = document.getElementById("sceneSns"); if (!ss) return; ss.innerHTML = ""; window.postsFor(id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : (pp.sns === "Facebook" ? "facebook" : "x")); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); };
-function snsMarkSeen(id){ try { const a = JSON.parse(localStorage.getItem("islandSnsSeen") || "[]"); if (!a.includes(id)) { a.push(id); localStorage.setItem("islandSnsSeen", JSON.stringify(a)); } } catch(e){} }
+window.renderSceneSns = function(id) { const ss = document.getElementById("sceneSns"); if (!ss) return; ss.innerHTML = ""; const posts = window.postsFor(id); const order = []; const byKey = {}; posts.forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : (pp.sns === "Facebook" ? "facebook" : "x")); if (!byKey[key]) { byKey[key] = []; order.push(key); } byKey[key].push(pp); }); const COL = { instagram: "#E1306C", facebook: "#1877F2", threads: "#55504a", x: "#55504a" }; order.forEach((key) => { const list = byKey[key]; const b = document.createElement("button"); b.type = "button"; b.title = list[0].author + "の投稿（" + list.length + "件）"; b.innerHTML = '<svg viewBox="0 0 24 24" width="21" height="21" fill="' + COL[key] + '"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>' + (list.length > 1 ? '<span class="snsCnt">' + list.length + "</span>" : ""); let idx = 0; const upd = () => { b.classList.toggle("seen", list.every((pp) => snsSeen(pp.id))); }; b.addEventListener("click", () => { const pp = list[idx % list.length]; idx++; snsMarkSeen(pp.id); upd(); openPost(pp); }); upd(); ss.appendChild(b); }); };
+  function snsMarkSeen(id){ try { const a = JSON.parse(localStorage.getItem("islandSnsSeen") || "[]"); if (!a.includes(id)) { a.push(id); localStorage.setItem("islandSnsSeen", JSON.stringify(a)); } } catch(e){} }
 viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDestMenu();
   const pn = document.getElementById("placeName"); if (pn) pn.textContent = "📍 " + (SHORT[id] || "");
-  const ss = document.getElementById("sceneSns");
-  if (ss) { ss.innerHTML = ""; window.postsFor(id).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : (pp.sns === "Facebook" ? "facebook" : "x")); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); }
+  if (window.renderSceneSns) window.renderSceneSns(id);
   curScene = id;
   pbScene(id);
   tourCapShow(id);
@@ -979,7 +1016,7 @@ viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDes
   const exitEx = (EXITS[id] || []).find(e => (e.label || "").indexOf("出口") >= 0);
   const exitBtn = document.getElementById("exitBtn");
   if (exitEx) { exitBtn.style.display = "block"; exitBtn.textContent = "出口"; exitBtn.onclick = () => walkTo(exitEx); } else { exitBtn.style.display = "none"; }
-  const OFFICIAL_LINKS = { lea: ["公式HP", "https://momowari.github.io/Lea-Mahalo/"], counter: ["公式HP", "https://www.hair-mahalo.com/"], elua: ["公式HP", "https://www.hair-mahalo.com/"], pharmacy: ["公式HP", "https://www.lady-drug.co.jp/"], fuji: ["公式HP", "https://www.the-fuji.com/fuji/store/shop/ehime/grand_matsuyama.php"], jinja: ["公式HP", "https://ehime-jinjacho.jp/jinja/?p=7188"], koshin: ["公式HP", "https://www.city.matsuyama.ehime.jp/shisetsu/bunka/koushinan.html"], furumachi: ["公式HP", "https://www.iyotetsu.co.jp/"] };
+  const OFFICIAL_LINKS = { lea: ["公式HP", "https://momowari.github.io/Lea-Mahalo/"], counter: ["公式HP", "https://www.hair-mahalo.com/"], elua: ["公式HP", "https://momowari.github.io/OHANA-share/members/elua-mahalo.html"], pharmacy: ["公式HP", "https://www.lady-drug.co.jp/"], fuji: ["公式HP", "https://www.the-fuji.com/fuji/store/shop/ehime/grand_matsuyama.php"], jinja: ["公式HP", "https://ehime-jinjacho.jp/jinja/?p=7188"], koshin: ["公式HP", "https://www.city.matsuyama.ehime.jp/shisetsu/bunka/koushinan.html"], furumachi: ["公式HP", "https://www.iyotetsu.co.jp/"] };
   const slb = document.getElementById("shopLinkBtn"); const olink = OFFICIAL_LINKS[id];
   slb.style.display = olink ? "block" : "none";
   if (olink) { slb.textContent = "HP"; slb.onclick = () => window.open(olink[1], "_blank"); }
@@ -1023,7 +1060,7 @@ function pbSuckToBag(imgSrc) {
     { transform: "translate(0px, 0px) scale(1)", opacity: 1 },
     { transform: "translate(" + (dx * 0.7) + "px, " + (dy * 0.7) + "px) scale(.45)", opacity: 1, offset: 0.65 },
     { transform: "translate(" + dx + "px, " + dy + "px) scale(.05)", opacity: 0.5 }
-  ], { duration: 950, easing: "cubic-bezier(.5,0,.8,.4)" });
+  ], { duration: 1150, easing: "cubic-bezier(.5,0,.8,.4)" });
   anim.onfinish = () => { el.remove(); bag.animate([{ transform: "scale(1)" }, { transform: "scale(1.22)" }, { transform: "scale(1)" }], { duration: 320, easing: "ease-out" }); };
 }
 function pbOpenCard(set, p) {
@@ -1034,7 +1071,7 @@ function pbOpenCard(set, p) {
   document.getElementById("pcShop").textContent = set.label;
   const add = document.getElementById("pcAdd");
   add.textContent = "カバンに入れる"; add.disabled = false;
-  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : ""), set.url); pbSuckToBag(p.img); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 900); } };
+  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : ""), set.url); pbSuckToBag(p.img); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 1080); } };
   document.getElementById("pcGo").onclick = () => window.open(set.url, "_blank");
   c.classList.add("open");
 }
@@ -1114,7 +1151,7 @@ window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-
   }
 })();
 /* 初回表示で左下SNSアイコンが出ないことがあるため、空なら少し待って入れ直す */
-(function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && window.postsFor(curScene).length) { window.postsFor(curScene).forEach((pp) => { const key = pp.sns === "Instagram" ? "instagram" : (pp.sns === "Threads" ? "threads" : (pp.sns === "Facebook" ? "facebook" : "x")); const b = document.createElement("button"); b.type = "button"; b.title = pp.author + "の投稿"; b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#26221c"><path d="' + ((typeof SNS_PATH !== "undefined" && SNS_PATH[key]) || "") + '"/></svg>'; b.addEventListener("click", () => { snsMarkSeen(pp.id); b.classList.add("seen"); openPost(pp); }); if (snsSeen(pp.id)) b.classList.add("seen"); ss.appendChild(b); }); } if (n > 8) clearInterval(t); }, 1200); })();
+(function(){ let n = 0; const t = setInterval(() => { n++; const ss = document.getElementById("sceneSns"); if (ss && ss.children.length === 0 && window.postsFor(curScene).length) { window.renderSceneSns(curScene); } if (n > 8) clearInterval(t); }, 1200); })();
 
 /* 地面タップで歩く（ストリートビュー式）：向いている方に近い出口へ進む */
 const panoEl = document.getElementById("panorama");
@@ -1138,7 +1175,7 @@ panoEl.addEventListener("pointerup", (e) => {
 });
 
 const tickerInner = document.getElementById("tickerInner");
-const TICKS = POSTS.filter(p => p.kind === "real").map(p => ({ label: SCENE_NAMES[p.scene], text: "@" + p.handle + "：" + (p.summary || p.text), post: p }));
+const TICKS = POSTS.filter(p => p.kind === "real").map(p => ({ label: SCENE_NAMES[p.scene] || "OHANA島", text: "@" + p.handle + "：" + (p.summary || p.text), post: p }));
 [0, 1].forEach(() => {
   TICKS.forEach(t => {
     const s = document.createElement("span"); s.className = "tick-item";
@@ -1278,7 +1315,8 @@ function openShopPanel() { document.getElementById("shopPanel").style.display = 
 document.getElementById("btnGoods").addEventListener("click", openShopPanel);
 document.getElementById("btnPrev").addEventListener("click", () => { slideIdx = (slideIdx + PRODUCTS.length - 1) % PRODUCTS.length; renderSlide(); });
 document.getElementById("btnNext").addEventListener("click", () => { slideIdx = (slideIdx + 1) % PRODUCTS.length; renderSlide(); });
-function updateCartBtn() { document.getElementById("btnCart").textContent = "カゴを見る（" + cart.length + "）"; }
+function updateCartBtn() { document.getElementById("btnCart").textContent = "カゴを見る（" + cart.length + "）";  if (window.__saveBag) { try { window.__saveBag(cart); } catch (e) {} } }
+  window.__loadBag = function(items) { cart.length = 0; (items || []).forEach(function(it) { if (it && it.name) cart.push({ id: "bub", name: it.name, url: it.url || "" }); }); updateCartBtn(); renderCart(); };
 window.__addToBag = function(name, url) { cart.push({ id: "bub", name: name, url: url || "" }); updateCartBtn(); renderCart(); }; window.__bagItems = function() { return cart.slice(); }; window.__bagRemove = function(i) { cart.splice(i, 1); updateCartBtn(); renderCart(); };
 document.getElementById("btnAdd").addEventListener("click", () => {
   const p = PRODUCTS[slideIdx];
@@ -1427,7 +1465,7 @@ window.renderParkResidents = function(users) {
     const cat = '<img src="' + (u.avaUrl || "av-player.png") + '" style="height:44px;width:auto;display:block;margin:0 auto" alt="">';
     const name = '<span data-ouid="' + u.uid + '" style="display:block;font-size:10px;color:#4c5b35;background:rgba(255,253,247,.9);border-radius:8px;padding:0 5px;white-space:nowrap;text-align:center">' + String(u.nickname || "島の人").replace(/[<>&"]/g, "") + '</span>';
     const mk = L.marker(ll, { icon: L.divIcon({ className: "zpost", html: cat + name, iconSize: [54, 62], iconAnchor: [27, 58] }) }).addTo(window.__parkLayer);
-    mk.on("click", () => { if (window.__onParkCat) window.__onParkCat(u.uid, u.nickname || "島の人"); });
+    mk.on("click", () => { if (!window.__loggedIn) { window.open("https://momowari.github.io/OHANA-share/login.html", "_blank"); } else { window.open("https://momowari.github.io/OHANA-share/member.html?id=" + encodeURIComponent(u.uid), "_blank"); } });
   });
   if (window.renderParkStage) window.renderParkStage(window.__parkUsers);
   setTimeout(() => { if (window.__markOhana) window.__markOhana(); }, 300);
@@ -1459,8 +1497,8 @@ window.renderParkStage = function(users) {
   people.forEach((pr, i) => {
     const b = document.createElement("button"); b.type = "button"; b.className = "pFig";
     b.style.left = pr.pos.x + "%"; b.style.bottom = pr.pos.y + "%"; b.style.zIndex = String(100 - Math.round(pr.pos.y * 2));
-    b.innerHTML = '<img src="' + pr.img + '" alt="" style="animation-delay:' + (i * 0.45) + 's">' + (pr.staff ? "" : '<span class="tag">' + String(pr.name).replace(/[<>&"]/g, "") + '</span>');
-    if (!pr.staff) { window.__parkPos[pr.uid] = pr.pos; b.addEventListener("click", () => { if (window.__onParkCat) window.__onParkCat(pr.uid, pr.name); const tp = window.__parkPos[pr.uid]; if (tp && window.parkMoveTo) window.parkMoveTo(tp.x - 11, tp.y); }); }
+    b.innerHTML = '<img src="' + pr.img + '" alt="" style="animation-delay:' + (i * 0.45) + 's">' + (pr.staff ? "" : "");
+    if (!pr.staff) { window.__parkPos[pr.uid] = pr.pos; b.addEventListener("click", () => { if (!window.__loggedIn) { window.open("https://momowari.github.io/OHANA-share/login.html", "_blank"); } else { window.open("https://momowari.github.io/OHANA-share/member.html?id=" + encodeURIComponent(pr.uid), "_blank"); } const tp = window.__parkPos[pr.uid]; if (tp && window.parkMoveTo) window.parkMoveTo(tp.x - 11, tp.y); }); }
     figs.appendChild(b);
   });
   if (!myParkPos) { const mp = window.__myPark || {}; const px = typeof mp.parkX === "number" ? mp.parkX : 57, py = typeof mp.parkY === "number" ? mp.parkY : 6; myParkPos = parkClamp(px, py); }
@@ -1578,7 +1616,7 @@ try {
       try {
         const snap = await getDoc(doc(db, "islandUsers", user.uid));
         const today = todayJST();
-        if (snap.exists()) { profile = snap.data(); if (profile.photoData) delete profile.photoData; if (!profile.days) profile.days = []; if (!profile.days.includes(today)) { profile.days.push(today); await saveProfileDoc({ days: profile.days }); } }
+        if (snap.exists()) { profile = snap.data(); if (profile.photoData) delete profile.photoData; if (Array.isArray(profile.bag) && window.__loadBag) { try { window.__loadBag(profile.bag); } catch (e) {} } if (!profile.days) profile.days = []; if (!profile.days.includes(today)) { profile.days.push(today); await saveProfileDoc({ days: profile.days }); } }
         else { profile = { nickname: (user.displayName || "メンバー").slice(0, 20), days: [today], localOnly: true }; }
       } catch (e) { profile = { nickname: (user.displayName || "メンバー").slice(0, 20), days: [], localOnly: true }; }
     } else profile = null;
@@ -1675,7 +1713,8 @@ $("talkSend").addEventListener("click", async () => {
 });
 async function renderPark() {
   window.__youUid = me ? me.uid : null;
-  window.__myPark = profile ? { nickname: profile.nickname || "", parkX: profile.parkX, parkY: profile.parkY } : null;
+  window.__myPark = profile ? { nickname: profile.nickname || "", parkX: profile.parkX, parkY: profile.parkY } : null; var __gp = document.getElementById("guestRegPill"); if (__gp) __gp.style.display = me ? "none" : "";
+  window.__saveBag = function(items) { if (me && db) setDoc(doc(db, "islandUsers", me.uid), { bag: (items || []).map(function(it) { return { name: (it && it.name) || "", url: (it && it.url) || "" }; }), bagAt: serverTimestamp() }, { merge: true }).catch(function() {}); };
   window.__parkSavePos = function(x, y) { if (me && db) setDoc(doc(db, "islandUsers", me.uid), { parkX: x, parkY: y, parkAt: serverTimestamp() }, { merge: true }).catch(() => {}); };
   if (window.syncYou) window.syncYou(null);
   try {
@@ -1895,5 +1934,6 @@ $("btnProfSave").addEventListener("click", async () => {
   });
 })();
 </script>
+<a id="guestRegPill" href="https://momowari.github.io/OHANA-share/login.html" target="_blank" rel="noopener">メンバー登録（無料）</a>
 </body>
 </html>
