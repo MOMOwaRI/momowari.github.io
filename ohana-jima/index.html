@@ -615,6 +615,7 @@ input[type="text"], input[type="email"], input[type="search"], input[type="tel"]
 /* ===== sea link: own row inside the chat, not the header line (2026-11-21) ===== */
 #feedKaiRow { text-align:center; padding:0 0 7px; }
 #feedKai { background:rgba(46,32,10,.72); box-shadow:0 3px 8px rgba(40,25,5,.25); display:inline-block; }
+#chatFeed.min #feedKai { display:none; }
 
 /* ===== chat icon: solid background, no translucency (2026-11-21) ===== */
 #chatFeed.min #feedMin { background:#2e200a; box-shadow:0 3px 10px rgba(40,25,5,.35); }
@@ -2203,6 +2204,27 @@ window.__buildParkBubbles = function() {
     layer.appendChild(b);
   });
 };
+</script>
+
+<script>
+(function() {
+  var lastTouch = 0, dir = -1;
+  document.addEventListener("pointerdown", function(e) { if (window.__parkView) lastTouch = Date.now(); }, true);
+  setInterval(function() {
+    var w = document.getElementById("parkWorld");
+    if (!w || !window.__parkView) return;
+    if (Date.now() - lastTouch < 3000) return;
+    var stage = document.getElementById("parkStage"); if (!stage) return;
+    var max = Math.max(0, (window.__parkWorldW || w.offsetWidth || 0) - stage.clientWidth);
+    if (max <= 0) return;
+    var cur = window.__parkPan || 0;
+    cur += dir * 0.5;
+    if (cur >= 0) { cur = 0; dir = -1; }
+    if (cur <= -max) { cur = -max; dir = 1; }
+    window.__parkPan = cur;
+    w.style.transform = "translateX(" + cur + "px)";
+  }, 30);
+})();
 </script>
 </body>
 </html>
