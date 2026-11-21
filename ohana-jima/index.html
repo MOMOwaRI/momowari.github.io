@@ -326,6 +326,39 @@
   #bagPanel { top:auto; bottom:54px; left:0; right:auto; }
   #sceneSns { left:74px; }
   #meAv { bottom:66px; }
+  /* SNSはボタンの枠なし・アイコンのみ、左の壁の中央に縦並び */
+  #sceneSns { left:8px; top:50%; bottom:auto; transform:translateY(-50%); flex-direction:column; gap:12px; }
+  #sceneSns button { background:transparent; border:none; box-shadow:none; width:34px; height:34px; }
+  #sceneSns button svg { filter:drop-shadow(0 1px 2px rgba(8,30,50,.55)) drop-shadow(0 3px 8px rgba(8,30,50,.3)); }
+  #sceneSns button::after { top:-2px; right:-2px; border:none; }
+  /* アバターは少し右へ（ロゴにぶつからない） */
+  #meAv { left:57%; }
+  /* ロゴは透かしの見た目のまま、タップでOHANAのサイトへ */
+  #isleLogo { pointer-events:auto; cursor:pointer; text-decoration:none; }
+  /* カードは半透明（海と同じガラス） */
+  #prodCard { background:linear-gradient(rgba(20,50,80,.14), rgba(20,50,80,.14)), rgba(255,255,255,.30); backdrop-filter:blur(10px) saturate(1.2); -webkit-backdrop-filter:blur(10px) saturate(1.2); border:1px solid rgba(255,255,255,.45); box-shadow:0 16px 40px rgba(0,15,30,.35); }
+  #prodCard .pcName { color:#fff; text-shadow:0 1px 3px rgba(0,30,55,.5); }
+  #prodCard .pcPrice { color:#ffe9a8; text-shadow:0 1px 2px rgba(0,30,55,.45); }
+  #prodCard .pcShop { color:rgba(255,255,255,.85); }
+  #prodCard .pcClose { color:#fff; }
+  #pcGo { background:rgba(255,255,255,.18); color:#fff; border:1px solid rgba(255,255,255,.55); }
+  /* カバンは海と同じ：下から出る半透明シート、中身が見える */
+  #bagPanel { position:absolute; left:50%; transform:translateX(-50%); bottom:0; top:auto; right:auto; width:min(560px, 100%); max-height:88dvh; overflow-y:auto; background:linear-gradient(rgba(20,50,80,.14), rgba(20,50,80,.14)), rgba(255,255,255,.26); backdrop-filter:blur(12px) saturate(1.2); -webkit-backdrop-filter:blur(12px) saturate(1.2); border:1px solid rgba(255,255,255,.4); border-bottom:none; border-radius:24px 24px 0 0; box-shadow:0 -12px 40px rgba(0,15,30,.35); padding:10px 18px 60px; z-index:45; color:#fff; }
+  #bagPanel .grabber { width:44px; height:5px; border-radius:99px; background:rgba(255,255,255,.4); margin:0 auto 10px; }
+  #bagPanel .bagTitle { font-weight:900; font-size:16px; text-shadow:0 1px 3px rgba(0,30,55,.45); margin-bottom:8px; }
+  #bagPanel .bagTitle b { color:#ffe9a8; margin-left:6px; }
+  #bagItems { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+  .bagRow { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); border-radius:12px; padding:9px 12px; }
+  .bagRow .bagName { flex:1; text-align:left; background:none; border:none; color:#fff; font:inherit; font-size:13.5px; font-weight:600; cursor:pointer; text-shadow:0 1px 2px rgba(0,30,55,.4); padding:0; }
+  .bagRow .bagDel { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.4); color:#fff; border-radius:50%; width:26px; height:26px; cursor:pointer; flex:none; font-size:12px; }
+  #bagEmpty { color:rgba(255,255,255,.85); font-size:13px; margin:4px 0 10px; }
+  #bagPanel .bagLinks { display:flex; gap:14px; border-top:1px solid rgba(255,255,255,.3); padding-top:10px; }
+  #bagPanel .bagLinks button { background:none; border:none; box-shadow:none; color:#fff; font-size:13.5px; font-weight:700; padding:4px 2px; text-shadow:0 1px 2px rgba(0,30,55,.4); text-align:left; }
+  /* アイコンの大きさは海と統一（44px） */
+  #bagBtn svg { width:44px; height:44px; }
+  #feedMin svg { width:44px; height:44px; }
+  #sceneSns button { width:44px; height:44px; }
+  #sceneSns button svg { width:44px; height:44px; }
   #isleLogo { position:absolute; left:12px; bottom:102px; z-index:6; pointer-events:none; font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif; color:#fff; text-decoration:none; line-height:1.15; text-shadow:0 2px 14px rgba(0,30,55,.45), 0 1px 3px rgba(0,30,55,.5); }
   #isleLogo .l1 { display:block; font-weight:800; font-size:19px; letter-spacing:.07em; white-space:nowrap; }
   #isleLogo .l1 .star { color:#ffd76a; }
@@ -418,7 +451,7 @@
   <p class="vh" data-ed="disc" style="margin:10px auto 0;max-width:730px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 10px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap;color:#7a5a16">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button id="bagBtn" type="button" aria-label="スーツケース（マイページ）"><svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 15V9.8M29 15V9.8M19 9.8h10"/><path d="M11.5 15h25a3.8 3.8 0 0 1 3.8 3.8v16.4a3.8 3.8 0 0 1-3.8 3.8h-25a3.8 3.8 0 0 1-3.8-3.8V18.8A3.8 3.8 0 0 1 11.5 15Z" fill="rgba(174,233,255,.14)"/><path d="M17.5 15v24M30.5 15v24"/><circle cx="15" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/><circle cx="33" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/></svg></button><div id="bagPanel" style="display:none"><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 自動島巡り</button></div><div id="sceneSns"></div><div id="isleLogo" aria-hidden="true"><span class="l1">OHANAシェア<span class="star">＊</span></span><span class="l2">プロジェクト</span><span class="l3">OHANA島</span></div><div id="bubbleLayer"></div><div id="prodCard"><button class="pcClose" id="pcClose" type="button" aria-label="閉じる">✕</button><div class="pcRow"><img id="pcImg" alt=""><div><div class="pcName" id="pcName"></div><div class="pcPrice" id="pcPrice"></div><div class="pcShop" id="pcShop"></div></div></div><div class="pcBtns"><button id="pcAdd" type="button">カバンに入れる</button><button id="pcGo" type="button">お店のページへ</button></div></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button id="bagBtn" type="button" aria-label="スーツケース（マイページ）"><svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 15V9.8M29 15V9.8M19 9.8h10"/><path d="M11.5 15h25a3.8 3.8 0 0 1 3.8 3.8v16.4a3.8 3.8 0 0 1-3.8 3.8h-25a3.8 3.8 0 0 1-3.8-3.8V18.8A3.8 3.8 0 0 1 11.5 15Z" fill="rgba(174,233,255,.14)"/><path d="M17.5 15v24M30.5 15v24"/><circle cx="15" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/><circle cx="33" cy="42.6" r="1.7" fill="#aee9ff" stroke="none"/></svg></button><div id="bagPanel" style="display:none"><div class="grabber"></div><div class="bagTitle">カバンの中身<b id="bagCount"></b></div><div id="bagItems"></div><p id="bagEmpty">まだ何も入っていません</p><div class="bagLinks"><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div></div></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 自動島巡り</button></div><div id="sceneSns"></div><a id="isleLogo" href="https://momowari.github.io/OHANA-share/" aria-label="OHANAシェア＊プロジェクトのサイトへ"><span class="l1">OHANAシェア<span class="star">＊</span></span><span class="l2">プロジェクト</span><span class="l3">OHANA島</span></a><div id="bubbleLayer"></div><div id="prodCard"><button class="pcClose" id="pcClose" type="button" aria-label="閉じる">✕</button><div class="pcRow"><img id="pcImg" alt=""><div><div class="pcName" id="pcName"></div><div class="pcPrice" id="pcPrice"></div><div class="pcShop" id="pcShop"></div></div></div><div class="pcBtns"><button id="pcAdd" type="button">カバンに入れる</button><button id="pcGo" type="button">お店のページへ</button></div></div><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -436,7 +469,7 @@
       <div id="chatLog"></div>
       <div class="chips" id="chatChips"></div>
       <form id="chatForm">
-        <input id="chatInput" type="text" placeholder="店員さんに聞いてみる…" autocomplete="off">
+        <input id="chatInput" type="text" placeholder="聞いてみる…" autocomplete="off">
         <button class="act" type="submit">聞く</button>
       </form>
     </div>
@@ -709,7 +742,7 @@ const EXITS = {
   fuji:       [ { to:"front", yaw:150, label:"東へ進む", entry:-15 }, { to:"furumachi", yaw:-135, pitch:-12, label:"北東へ進む", entry:-10 } ],
   furumachi:  [ { to:"front", yaw:170, label:"南へ進む", entry:-15 }, { to:"fuji", yaw:-150, label:"南西へ進む", entry:-10 } ],
   lea:        [ { to:"front", yaw:170, label:"出口", entry:-15 } ],
-  stairs:     [ { to:"counter", yaw:-82, pitch:-2, label:"MAHALO（美容室）", entry:40 }, { to:"front", yaw:-120, pitch:-36, label:"出口", entry:-15 } ],
+  stairs:     [ { to:"counter", yaw:-82, pitch:-2, label:"MAHALO（美容室）", entry:40 }, { to:"front", yaw:-105, pitch:-42, label:"出口", entry:-15 } ],
   counter:    [ { to:"front", yaw:172, label:"出口", entry:-15 } ],
   elua:       [ { to:"front", yaw:170, label:"出口", entry:-15 } ],
   dogoeki:    [ { to:"haikara", yaw:150, label:"北東へ進む", entry:0 } ],
@@ -762,8 +795,8 @@ function shopCat(tag, text, imgSrc, yaw, shop, staff) {
       w.appendChild(t); w.appendChild(b); w.appendChild(img); div.appendChild(w);
     } };
 }
-function eluaCat() { return shopCat("elua 店員さん", "いらっしゃいませ", "av-elua.png", 10, "elua", true); }
-function leaCat() { return shopCat("Lea Mahalo 店員さん", "いらっしゃいませ", "av-yuri.png", -16, "lea", true); }
+function eluaCat() { return shopCat("elua Mahalo", "いらっしゃいませ", "av-elua.png", 10, "elua", true); }
+function leaCat() { return shopCat("Lea Mahalo", "いらっしゃいませ", "av-yuri.png", -16, "lea", true); }
 
 function catSpot(post) {
   return { pitch: post.pitch, yaw: post.yaw, cssClass: "catspot",
@@ -797,7 +830,7 @@ Object.keys(SCENES).forEach(id => {
   const hs = (EXITS[id] || []).map(ex => ({ pitch: (ex.pitch != null ? ex.pitch : -17), yaw: ex.yaw, type: "info", cssClass: "walkspot",
     clickHandlerFunc: (evt, a) => walkTo(a), clickHandlerArgs: ex,
     createTooltipFunc: (div, a) => { walkChevron(div, a); ["pointerdown","touchstart","click"].forEach(ev => div.addEventListener(ev, (e) => { e.stopPropagation(); walkTo(a); })); }, createTooltipArgs: ex }));
-  if (id === "counter") { hs.push(keeperSpot(true)); hs.push(shopCat("MAHALO 店員さん", "いらっしゃいませ", "av-yuki.png", -38, "mahalo", true)); }
+  if (id === "counter") { hs.push(keeperSpot(true)); hs.push(shopCat("MAHALO", "いらっしゃいませ", "av-yuki.png", -38, "mahalo", true)); }
   if (id === "elua") hs.push(eluaCat());
   if (id === "lea") hs.push(leaCat());
   scenesCfg[id] = { type: "equirectangular", panorama: sc.pano, yaw: sc.yaw, pitch: -2, hfov: sc.hfov, minHfov: 35, maxHfov: 165, hotSpots: hs };
@@ -953,6 +986,7 @@ viewer.on("scenechange", (id) => { if (window.__closeDestMenu) window.__closeDes
 });
 /* 店内バブル：その店の商品だけを、その店の中で1つずつ（写真で中身が分かるものだけ） */
 const PB_SETS = {
+ elua: { url: "https://momowari.github.io/MAHALO/select.html", label: "MAHALO セレクト商品", items: [ { name: "プラーミア クリアスパフォーム", full: "ミルボン プラーミア クリアスパフォーム", price: "¥3,025", img: "https://momowari.github.io/MAHALO/assets/products/milbon-plarmia-clear-spa-foam.jpg" }, { name: "R-21 シャンプー EX", full: "サンコール R-21 シャンプー EX", price: "¥3,278", img: "https://momowari.github.io/MAHALO/assets/products/suncall-r21-ex-shampoo-270.jpg" }, { name: "ナシード スキャルプトナー", full: "ナプラ ナシード スキャルプトナー", price: "¥1,100", img: "https://momowari.github.io/MAHALO/assets/products/napla-naseed-scalp-toner.jpg" }, { name: "ビオーブ ジェット", full: "デミ ビオーブ フォルスナリシング ジェット", price: "¥7,590", img: "https://momowari.github.io/MAHALO/assets/products/demi-biove-fors-nourishing-jet.jpg" }, { name: "アルタイム ナイトトリートメント", full: "ウエラ アルタイム リペア ミラクルナイトトリートメント", price: "¥4,598", img: "https://momowari.github.io/MAHALO/assets/products/wella-ultime-night-treatment.jpg" } ] }, 
   counter: { url: "https://momowari.github.io/MAHALO/select.html", label: "MAHALO セレクト商品", items: [
     { name: "ナノサプリ GA シャンプー", full: "サニープレイス ナノサプリ クレンジングシャンプー GA（グリーンアップル）", price: "", img: "https://momowari.github.io/MAHALO/assets/products/nanosuppli-ga-main.jpg" },
     { name: "アリミノ モイスト シャンプー", full: "アリミノ カラーストーリー モイスト シャンプー", price: "", img: "https://momowari.github.io/MAHALO/assets/products/arimino-moist-main.jpg" },
@@ -971,6 +1005,22 @@ const PB_SETS = {
 let pbSet = null;
 const PB_SLOTS = [[10,30],[26,60],[44,26],[62,58],[82,30],[90,62],[52,68],[18,68],[70,16],[34,14]];
 function pbCloseCard() { const c = document.getElementById("prodCard"); if (c) c.classList.remove("open"); }
+function pbSuckToBag(imgSrc) {
+  const bag = document.getElementById("bagBtn"); const card = document.getElementById("prodCard");
+  if (!bag || !card || !imgSrc) return;
+  const s = card.getBoundingClientRect(), t = bag.getBoundingClientRect();
+  const el = document.createElement("img"); el.src = imgSrc; el.alt = "";
+  el.style.cssText = "position:fixed; z-index:99; border-radius:50%; object-fit:cover; pointer-events:none; left:" + (s.left + s.width / 2 - 42) + "px; top:" + (s.top + 8) + "px; width:84px; height:84px; box-shadow:0 10px 24px rgba(0,20,40,.4)";
+  document.body.appendChild(el);
+  const dx = (t.left + t.width / 2) - (s.left + s.width / 2);
+  const dy = (t.top + t.height / 2) - (s.top + 50);
+  const anim = el.animate([
+    { transform: "translate(0px, 0px) scale(1)", opacity: 1 },
+    { transform: "translate(" + (dx * 0.7) + "px, " + (dy * 0.7) + "px) scale(.45)", opacity: 1, offset: 0.65 },
+    { transform: "translate(" + dx + "px, " + dy + "px) scale(.05)", opacity: 0.5 }
+  ], { duration: 750, easing: "cubic-bezier(.5,0,.8,.4)" });
+  anim.onfinish = () => { el.remove(); bag.animate([{ transform: "scale(1)" }, { transform: "scale(1.22)" }, { transform: "scale(1)" }], { duration: 320, easing: "ease-out" }); };
+}
 function pbOpenCard(set, p) {
   const c = document.getElementById("prodCard"); if (!c) return;
   document.getElementById("pcImg").src = p.img;
@@ -979,7 +1029,7 @@ function pbOpenCard(set, p) {
   document.getElementById("pcShop").textContent = set.label;
   const add = document.getElementById("pcAdd");
   add.textContent = "カバンに入れる"; add.disabled = false;
-  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : "")); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 900); } };
+  add.onclick = () => { if (window.__addToBag) { window.__addToBag(p.full + (p.price ? " " + p.price : ""), set.url); pbSuckToBag(p.img); add.textContent = "カバンに入れた ✓"; add.disabled = true; setTimeout(pbCloseCard, 900); } };
   document.getElementById("pcGo").onclick = () => window.open(set.url, "_blank");
   c.classList.add("open");
 }
@@ -1020,9 +1070,26 @@ window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-
   ["bigMapSec", "shopPanel", "cartPanel", "chat", "parkTalk"].forEach((id) => { const el = document.getElementById(id); if (el && st) st.appendChild(el); });
   const bagBtn = document.getElementById("bagBtn"), bagPanel = document.getElementById("bagPanel");
   if (bagBtn && bagPanel) {
-    bagBtn.addEventListener("click", (e) => { e.stopPropagation(); bagPanel.style.display = (bagPanel.style.display === "flex") ? "none" : "flex"; });
-    document.addEventListener("click", (e) => { if (bagPanel.style.display === "flex" && !e.target.closest("#authBar")) bagPanel.style.display = "none"; });
-    bagPanel.addEventListener("click", () => { bagPanel.style.display = "none"; });
+    bagBtn.addEventListener("click", (e) => { e.stopPropagation(); bagPanel.style.display = (bagPanel.style.display === "flex") ? "none" : "flex"; if (bagPanel.style.display === "flex" && window.__renderBagSheet) window.__renderBagSheet(); });
+    document.addEventListener("click", (e) => { if (bagPanel.style.display === "flex" && !e.target.closest("#authBar") && !e.target.closest("#bagPanel")) bagPanel.style.display = "none"; });
+    bagPanel.addEventListener("click", (e) => { if (e.target.closest("[data-bagact]")) return; bagPanel.style.display = "none"; });
+  const stg2 = document.querySelector(".stage");
+  if (stg2 && bagPanel.parentElement !== stg2) stg2.appendChild(bagPanel);
+  window.__renderBagSheet = function() {
+    const box = document.getElementById("bagItems"); if (!box || !window.__bagItems) return;
+    const items = window.__bagItems();
+    document.getElementById("bagCount").textContent = items.length ? items.length + "点" : "";
+    document.getElementById("bagEmpty").style.display = items.length ? "none" : "block";
+    box.innerHTML = "";
+    items.forEach((it, i) => {
+      const row = document.createElement("div"); row.className = "bagRow";
+      const nm = document.createElement("button"); nm.type = "button"; nm.className = "bagName"; nm.setAttribute("data-bagact", "1"); nm.textContent = it.name;
+      nm.addEventListener("click", (e) => { e.stopPropagation(); window.open(it.url || "https://momowari.github.io/MAHALO/select.html", "_blank"); });
+      const del = document.createElement("button"); del.type = "button"; del.className = "bagDel"; del.setAttribute("data-bagact", "1"); del.textContent = "✕"; del.setAttribute("aria-label", "カバンから出す");
+      del.addEventListener("click", (e) => { e.stopPropagation(); window.__bagRemove(i); window.__renderBagSheet(); });
+      row.appendChild(nm); row.appendChild(del); box.appendChild(row);
+    });
+  };
   }
   const mc = document.getElementById("mapClose"); if (mc) mc.addEventListener("click", () => { const bm = document.getElementById("bigMapSec"); if (bm) bm.style.display = "none"; });
   const menu = document.getElementById("destMenu");
@@ -1146,7 +1213,7 @@ function openChat(shop) {
   if (chat.style.display === "block" && chatShop === shop && chatLog.children.length) { return; }
   chatShop = shop; chatLog.innerHTML = "";
   setTimeout(() => showReplies(shop, t => addMsg("【MOMOwaRIからの返事】\n" + t, "keeper")), 600);
-  document.getElementById("chatShopTitle").textContent = ({ mahalo: "MAHALO美容室 の店員さん", elua: "elua Mahalo の店員さん", lea: "Lea Mahalo の店員さん" })[shop] || "店員さん";
+  document.getElementById("chatShopTitle").textContent = ({ mahalo: "MAHALO美容室", elua: "elua Mahalo", lea: "Lea Mahalo" })[shop] || "お店";
   chat.style.display = "block";
   addMsg(data.greet, "keeper");
   chatChips.innerHTML = "";
@@ -1207,7 +1274,7 @@ document.getElementById("btnGoods").addEventListener("click", openShopPanel);
 document.getElementById("btnPrev").addEventListener("click", () => { slideIdx = (slideIdx + PRODUCTS.length - 1) % PRODUCTS.length; renderSlide(); });
 document.getElementById("btnNext").addEventListener("click", () => { slideIdx = (slideIdx + 1) % PRODUCTS.length; renderSlide(); });
 function updateCartBtn() { document.getElementById("btnCart").textContent = "カゴを見る（" + cart.length + "）"; }
-window.__addToBag = function(name) { cart.push({ id: "bub", name: name }); updateCartBtn(); renderCart(); };
+window.__addToBag = function(name, url) { cart.push({ id: "bub", name: name, url: url || "" }); updateCartBtn(); renderCart(); }; window.__bagItems = function() { return cart.slice(); }; window.__bagRemove = function(i) { cart.splice(i, 1); updateCartBtn(); renderCart(); };
 document.getElementById("btnAdd").addEventListener("click", () => {
   const p = PRODUCTS[slideIdx];
   cart.push({ id: p.id, name: p.name.replace("（裏面）", "") });
@@ -1248,7 +1315,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebas
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
 import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。オーナー（代表）ですかと聞かれたら、自分はオーナーではなく店員だと答えてください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）", "ohana": "あなたは、愛媛県松山市の「OHANA島」の案内です。名前を聞かれたら「OHANAです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせ（OHANAの掲示板）を案内してください。料金・在庫・営業時間を推測で断定しないでください（お店のことは、各お店の場所で店員さんに聞けます）。\n・OHANA島は、松山市味酒町・萱町あたりの実在の街を、水彩の絵で再現した島です。実際のお店や風景とは異なります。ストリートビュー式に歩けて、MAPのピンからも移動できます。\n・ログインすると自分の分身が動き出します。城山公園は「みんなの広場」で、分身たちが集まる場所です。\n・OHANAシェア＊プロジェクトは、ヒトモノコトをつなぐ、選べる物々交換のフリマです。100円券は無料配布で、お釣りは出ません。代金は現金との組み合わせも選べます。参加は無料です。", "ava": "あなたは、OHANA島のアバター相談の担当です。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。島の利用者が、自分の写真から作る水彩キャラ（アバター）の希望を相談しています。髪型・メガネ・服装・雰囲気・ポーズなどの希望を聞き取り、短く復唱して確認してください。キャラは自動でその場に作られるのではなく、希望をもとに主催側が作り直して差し替えます。聞かれたら、そのことを正直に伝えてください。希望はこのプロフィールに保存され、作り直しのときに反映されます。写真がまだ無い人には、先に上の欄から写真のアップロードを案内してください。"};
+var SYS = {"mahalo": "あなたは、愛媛県松山市の美容室「MAHALO美容室」の店員です。名前を聞かれたら「MAHALOです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。オーナー（代表）ですかと聞かれたら、自分はオーナーではなく店員だと答えてください。推測で料金・在庫・効果を断定しないでください。価格は「店頭でご確認ください」と答えてください。商品の受け取りは店頭が基本、お支払いはご来店のとき、と案内してください。OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。医療的な相談には断定せず、お店への直接相談を案内してください。\n・場所：松山市味酒町3-2-29 MAHALOビル2階（外階段を上がります）。1階はelua MahaloとLea Mahaloです。\n・営業時間：9時から18時まで、月曜日がお休みです。\n・森の絵が目印です。煌水（キラ水）や、髪と頭皮にやさしいカラーを扱っています。\n・セレクト商品：ナノサプリGA、ラッシュアディクト、ReFa、オージュア、WigMAHALO（価格は店頭確認）。", "elua": "あなたは、愛媛県松山市の「elua Mahalo」の店員です。名前を聞かれたら「elua Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。料金や効果を推測で断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。2階はMAHALO美容室です。\n・女性限定・完全予約制・マンツーマンの美容のお店です。\n・営業時間：水曜日から金曜日は10時から17時、土日祝は9時から18時。月曜日・火曜日と、月に一度の日曜日がお休みです。\n・eluaという名前には「さらに、もっと」という意味があります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）。", "lea": "あなたは、愛媛県松山市の雑貨屋「Lea Mahalo」の店員です。名前を聞かれたら「Lea Mahaloです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせを案内してください。個別の商品の在庫・価格は断定しないでください。\n・場所：松山市味酒町3-2-29 MAHALOビル1階。\n・実店舗は普段は開いておらず、来店は予約制です。販売は主にメルカリで行っています。商品は日々入れ替わります。\n・OHANAの100円券は無料配布で、このお店でも使えます（お釣りは出ません）", "ohana": "あなたは、愛媛県松山市の「OHANA島」の案内です。名前を聞かれたら「OHANAです」と答えてください。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。知らないことは正直に「分かりかねます」と言い、主催のMOMOwaRIへの問い合わせ（OHANAの掲示板）を案内してください。料金・在庫・営業時間を推測で断定しないでください（お店のことは、各お店の場所で聞けます）。\n・OHANA島は、松山市味酒町・萱町あたりの実在の街を、水彩の絵で再現した島です。実際のお店や風景とは異なります。ストリートビュー式に歩けて、MAPのピンからも移動できます。\n・ログインすると自分の分身が動き出します。城山公園は「みんなの広場」で、分身たちが集まる場所です。\n・OHANAシェア＊プロジェクトは、ヒトモノコトをつなぐ、選べる物々交換のフリマです。100円券は無料配布で、お釣りは出ません。代金は現金との組み合わせも選べます。参加は無料です。", "ava": "あなたは、OHANA島のアバター相談の担当です。敬語（です・ます）で、やさしく簡潔に（1回の答えは2〜3文まで）答えてください。島の利用者が、自分の写真から作る水彩キャラ（アバター）の希望を相談しています。髪型・メガネ・服装・雰囲気・ポーズなどの希望を聞き取り、短く復唱して確認してください。キャラは自動でその場に作られるのではなく、希望をもとに主催側が作り直して差し替えます。聞かれたら、そのことを正直に伝えてください。希望はこのプロフィールに保存され、作り直しのときに反映されます。写真がまだ無い人には、先に上の欄から写真のアップロードを案内してください。"};
 var LIMIT_MSG = "たくさん聞いてくれて、ありがとうございます。ここから先は、主催のMOMOwaRIが直接お答えします。OHANAの掲示板からお声がけください。";
 try {
   var aiApp = initializeApp({ apiKey: "AIzaSyCao64N8dfQoXBmsMHIDpLpQwQyXp-2iw0", authDomain: "ohana-share.firebaseapp.com", projectId: "ohana-share", storageBucket: "ohana-share.firebasestorage.app", messagingSenderId: "825904150210", appId: "1:825904150210:web:4ae90f047ac8cc761cad5b" }, 'ohana-ai');
