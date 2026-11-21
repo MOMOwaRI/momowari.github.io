@@ -334,7 +334,7 @@
       /* bottom-right: the voice mark only — the island moved inside
          the ship, beside its title */
       .dock-right{ display:flex; flex-direction:column; align-items:center; gap:.55rem; }
-      /* beside 「あなたの船」 there is no island picture and no
+      /* beside 「OHANA船」 there is no island picture and no
          上陸 any more — only the words メンバー登録 (or, for members,
          マイページ／ログアウト), written as plain text, never a button */
       /* OHANAの声 opens right where it lives — a small panel floating
@@ -571,7 +571,7 @@
         text-shadow:0 2px 9px rgba(0,25,45,.85);
       }
       .icon-btn svg{ width:54px; height:54px; filter:drop-shadow(0 4px 10px rgba(0,25,45,.55)); }
-      /* the ship sheet's title row: あなたの船, with a single ログイン
+      /* the ship sheet's title row: OHANA船, with a single ログイン
          entry beside it (pressing it flies to マイページ)
          beside it for members, or the registration for guests */
       .bag-head{ display:flex; align-items:center; gap:.7rem; flex-wrap:wrap; padding-right:3.2rem; }
@@ -1107,7 +1107,7 @@
           </div>
         </div>
         <div class="hud-right">
-          <button class="icon-btn" id="bagBtn" type="button" aria-label="あなたの船を開く">
+          <button class="icon-btn" id="bagBtn" type="button" aria-label="OHANA船を開く">
             <svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4 v22"/><path d="M24 6 L38 24 L24 24 Z" fill="rgba(174,233,255,.25)"/><path d="M24 12 L13 24 L24 24 Z" fill="rgba(174,233,255,.12)"/><path d="M7 30 L41 30 L36 41 Q24 45 12 41 Z" fill="rgba(174,233,255,.18)"/></svg>
             <span class="badge" id="bagBadge" hidden>0</span>
           </button>
@@ -1203,20 +1203,20 @@
       <button class="cta-btn" id="doThrowBtn" type="button">海へ放流する</button>
     </section>
 
-    <!-- bag sheet: あなたの船 — コイン / 放流 / 発見 / 好き の4つのタブで切り替え、
+    <!-- bag sheet: OHANA船 — コイン / 放流 / 積載 / 好き の4つのタブで切り替え、
          数字をタップすればその中身が出る。横にあるのは上陸でもイラストでも
          なく、メンバー登録（メンバーはマイページ／ログアウト）の文字だけ -->
     <section class="sheet" id="sheetBag" role="dialog" aria-modal="true" aria-labelledby="bagTitle" hidden>
       <div class="grabber"></div>
       <button class="close-x" type="button" data-close aria-label="閉じる">✕</button>
       <div class="bag-head">
-        <h2 id="bagTitle">あなたの船</h2>
+        <h2 id="bagTitle">OHANA船</h2>
         <div class="bag-head-links" id="shipHeadLinks"></div>
       </div>
       <div class="bag-tabs" role="tablist" aria-label="船の中の切り替え">
         <button class="bag-tab on" type="button" role="tab" aria-selected="true" data-tab="coin">コイン<b id="tabCoinN">0</b></button>
         <button class="bag-tab" type="button" role="tab" aria-selected="false" data-tab="thrown">放流<b id="tabThrownN">0</b></button>
-        <button class="bag-tab" type="button" role="tab" aria-selected="false" data-tab="items">発見<b id="tabItemsN">0</b></button>
+        <button class="bag-tab" type="button" role="tab" aria-selected="false" data-tab="items">積載<b id="tabItemsN">0</b></button>
         <button class="bag-tab" type="button" role="tab" aria-selected="false" data-tab="likes">好き<b id="tabLikesN">0</b></button>
       </div>
       <div id="tabCoin">
@@ -1293,7 +1293,7 @@
      homes are computed from the camera's resting window — the
      view the opening drift settles on — widened by about a
      screen and a half of sea on either side. A handful of
-     bubbles (about five or six) start inside that first view
+     bubbles (about five) start inside that first view
      itself, spaced out and never shoulder to shoulder; the
      rest begin in the near water around it, a short swim away.
      Inside the home waters the kinds keep a loose lean —
@@ -1311,7 +1311,7 @@
     var sizeRef = Math.round(120 * sf);         /* a typical bubble's width */
     var denom = Math.max(1, WORLD - sizeRef);
     var c = (rest + vw * .5) / denom;           /* centre of the resting view */
-    var half = (vw * 1.45) / denom;             /* home waters reach ~1.5 screens out */
+    var half = (vw * 1.65) / denom;             /* home waters reach ~1.65 screens out */
     var f0 = c - half, f1 = c + half;
     var s = f1 - f0;
     ZONES = { "モノ":[f0, f0 + s * .64], "ヒト":[f0 + s * .36, f0 + s * .84], "コト":[f0 + s * .50, f1] };
@@ -2442,15 +2442,21 @@
     if (!selectedItem) return;
     /* 船に乗せる covers everything: モノも、ヒトも、コトも全部 */
     if (!requireMember()) return;
-    var b = selectedItem, c = bubbleCenter(b);
+    var b = selectedItem;
+    /* already aboard (e.g. this detail was re-opened from the 積載
+       list): the same モノ is never loaded twice */
+    for (var bi = 0; bi < state.bag.length; bi++){ if (state.bag[bi].id === b.data.id){ closeSheets(); return; } }
     /* 船に乗せる is always OK, coins or no coins — no gate.
        A coin is spent only when you have one. */
     if (state.coins > 0) setCoins(state.coins - 1);
-    state.bag.push({ name: b.data.name, img: b.data.img, via: "発見" });
+    state.bag.push({ id: b.data.id, name: b.data.name, img: b.data.img, href: b.data.page || sellerUrlFor(b.data.from), via: "積載" });
     state.picked++;
     selectedItem = null;
     closeSheets();
+    saveCargo();
+    if (!b.el){ updateBag(); return; }
     /* no 「乗せたよ」: the モノ itself drifts slowly into the ship */
+    var c = bubbleCenter(b);
     var flyImg = b.data.img, flyX = c.x, flyY = c.y, flySize = Math.round(c.r.width);
     removeBubble(b);
     flyItemToShip(flyImg, flyX, flyY, flySize, function(){ updateBag(); });
@@ -2567,6 +2573,39 @@
     };
   });
 
+  /* a loaded モノ, tapped in the ship's 積載 list, opens its detail
+     again — the registry's full data when the モノ is one of the
+     sea's own, the saved entry itself otherwise */
+  function openBagItem(entry){
+    var data = ITEM_REGISTRY[entry.id];
+    if (!data){
+      data = { id: entry.id, name: entry.name, img: entry.img, from: "", kind: "モノ", cond: "", msg: "", page: entry.href || "", steps: 0, likes: 0, liked: false };
+      ITEM_REGISTRY[entry.id] = data;
+    }
+    openItem({ data: data, el: null });
+  }
+  /* ---------------- cargo saving ----------------
+     Guests: the 積載 list lives in this device (localStorage).
+     Members: the module mirrors it to Firestore seaShips/{uid},
+     whose items are { itemId, name, img, href } — the shape the
+     matching mypage's OHANA船欄 renders. */
+  var CARGO_KEY = "ohanaKaiCargo";
+  function saveCargo(){
+    try { localStorage.setItem(CARGO_KEY, JSON.stringify(state.bag)); } catch (e) {}
+    if (window.__kaiCargoSave) window.__kaiCargoSave(state.bag);
+  }
+  window.__kaiSetCargo = function(items){
+    if (!Array.isArray(items)) return;
+    var seen = {}, merged = [];
+    items.concat(state.bag).forEach(function(e){
+      if (e && e.id && !seen[e.id]){ seen[e.id] = 1; merged.push(e); }
+    });
+    state.bag = merged;
+    try { localStorage.setItem(CARGO_KEY, JSON.stringify(state.bag)); } catch (e) {}
+    if (window.__kaiCargoSave) window.__kaiCargoSave(state.bag);
+    updateBag();
+  };
+
   /* ---------------- bag ---------------- */
   function updateBag(){
     var badge = $("#bagBadge");
@@ -2580,7 +2619,9 @@
     state.bag.forEach(function(it){
       var d = document.createElement("div");
       d.className = "bag-item";
-      d.innerHTML = '<img src="' + it.img + '" alt="" /><div><div class="bn">' + esc(it.name) + '</div><div class="bs">' + esc(it.via) + '</div></div>';
+      d.innerHTML = '<img src="' + it.img + '" alt="" /><div><div class="bn">' + esc(it.name) + '</div><div class="bs">' + esc(it.via || "積載") + '</div></div>';
+      d.style.cursor = "pointer";
+      d.addEventListener("click", function(){ openBagItem(it); });
       list.appendChild(d);
     });
     $("#bagEmpty").style.display = state.bag.length ? "none" : "";
@@ -2610,7 +2651,7 @@
     $("#likeEmpty").style.display = liked.length ? "none" : "";
     var ln = $("#tabLikesN"); if (ln) ln.textContent = liked.length;
   }
-  /* the ship's inside switches four ways — コイン / 放流 / 発見 / 好き —
+  /* the ship's inside switches four ways — コイン / 放流 / 積載 / 好き —
      and tapping a number is what shows you its contents */
   var bagTabs = document.querySelectorAll(".bag-tab");
   var tabPanels = { coin: $("#tabCoin"), thrown: $("#tabThrown"), items: $("#tabItems"), likes: $("#tabLikes") };
@@ -2702,6 +2743,7 @@
   scrollEl.scrollLeft = camX;
   SEA_ITEMS.forEach(function(item, i){ addBubble(item, i, false); });
   setCoins(0);
+  try { var savedCargo = JSON.parse(localStorage.getItem(CARGO_KEY) || "[]"); if (Array.isArray(savedCargo)) savedCargo.forEach(function(e){ if (e && e.id) state.bag.push(e); }); } catch (e) {}
   updateBag();
   updateMemberStatus();
   renderSeaComments();
@@ -2750,6 +2792,7 @@ if (auth && db) {
       if (window.__kaiSetUser) window.__kaiSetUser(null);
     }
     startChat();
+    if (user) loadCargo(user);
   });
 
   var chatStarted = false;
@@ -2794,6 +2837,30 @@ if (auth && db) {
     if (!id) return;
     try { await deleteDoc(doc(db, "islandChat", id)); } catch (e) {}
   };
+  /* OHANA船の積載 (members): seaShips/{uid} =
+       { items: [{ itemId, name, img, href }], updatedAt }.
+     seaShips is a NEW collection: until the Firestore rules allow
+     the owner read/write on it, these calls fail quietly and the
+     classic script's device-local copy keeps the ship working. */
+  window.__kaiCargoSave = async function (items) {
+    if (!meUser || !db) return;
+    try {
+      var clean = (items || []).map(function (e) {
+        var img = e.img || "";
+        if (img.indexOf("data:") === 0 && img.length > 60000) img = "";
+        return { itemId: e.id, name: e.name || "", img: img, href: e.href || "" };
+      });
+      await setDoc(doc(db, "seaShips", meUser.uid), { items: clean, updatedAt: serverTimestamp() }, { merge: true });
+    } catch (e) {}
+  };
+  async function loadCargo(user) {
+    try {
+      var cs = await getDoc(doc(db, "seaShips", user.uid));
+      var citems = cs.exists() ? (cs.data().items || []) : [];
+      var mapped = citems.map(function (e) { return { id: e.itemId, name: e.name || "", img: e.img || "", href: e.href || "", via: "積載" }; });
+      if (window.__kaiSetCargo) window.__kaiSetCargo(mapped);
+    } catch (e) {}
+  }
   window.__kaiSignIn = async function () {
     try { await signInWithPopup(auth, new GoogleAuthProvider()); }
     catch (e) { window.open(MYPAGE_BASE + "login.html", "_blank", "noopener"); }
