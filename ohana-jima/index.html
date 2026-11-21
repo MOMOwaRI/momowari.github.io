@@ -603,6 +603,14 @@ input[type="text"], input[type="email"], input[type="search"], input[type="tel"]
 .pBub .pbIn img { filter:saturate(1.06) contrast(1.02); }
 @keyframes pbIn { from { scale:.2; opacity:0; } to { scale:1; opacity:1; } }
 #bagMsgEmail { width:100%; box-sizing:border-box; border:1.5px solid #d9c9a3; border-radius:10px; padding:8px; font:inherit; font-size:13.5px; color:#4a3826; background:#fff; margin-bottom:6px; }
+
+/* ===== plaza like the sea: wide pannable world / speech in a soap bubble (2026-11-21) ===== */
+#parkWorld { position:absolute; top:0; left:0; height:100%; background:#a9d18e url('park-bg.jpg') center 45%/cover no-repeat; will-change:transform; }
+#parkStage.inview { touch-action:none; }
+#parkBubble { left:50%; top:40px; transform:translateX(-50%); width:164px; height:132px; max-width:none; border-radius:50%; border:1.5px solid rgba(255,255,255,.55); background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.5), rgba(255,255,255,.05) 42%), radial-gradient(circle at 72% 82%, rgba(140,230,255,.28), rgba(140,230,255,0) 55%), radial-gradient(circle at 50% 50%, rgba(255,190,230,.10), rgba(120,200,255,.10)); box-shadow:inset -10px -14px 24px rgba(110,210,255,.30), inset 8px 10px 18px rgba(255,255,255,.35), 0 14px 30px rgba(0,24,48,.28); color:#1d4258; font-size:12px; font-weight:600; line-height:1.55; display:flex; align-items:center; justify-content:center; text-align:center; padding:22px 28px; box-sizing:border-box; text-shadow:0 1px 0 rgba(255,255,255,.5); animation:pkBob 3.8s ease-in-out infinite alternate; }
+#parkBubble:after { display:none; }
+#parkStage.inview #parkBubble { top:44px; }
+@keyframes pkBob { from { margin-top:0; } to { margin-top:10px; } }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "OHANA島", "url": "https://momowari.github.io/ohana-jima/", "inLanguage": "ja", "description": "愛媛県松山市の味酒町・萱町・平和通あたりの実在の街並みを水彩の絵で再現したウェブ上の島。ストリートビューのように歩いて回ることができ、MAHALOビル、阿沼美神社、庚申庵、萱町商店街、フジグラン松山、古町駅、城山公園、道後温泉本館、大街道、銀天街、松山城、松山市駅、JR松山駅などを掲載。ヒトモノコトをつなぐOHANAシェア＊プロジェクトの活動とつながっている。", "isPartOf": {"@type": "WebSite", "name": "OHANAシェア＊プロジェクト", "url": "https://momowari.github.io/OHANA-share/"}, "author": {"@type": "Person", "name": "MOMOwaRI"}}</script>
 </head>
@@ -1611,7 +1619,7 @@ window.renderParkResidents = function(users) {
 window.renderParkStage = function(users) {
   const stage = document.getElementById("parkStage"); if (!stage) return;
   let catLayer = document.getElementById("parkCatsLayer");
-  if (!catLayer) { catLayer = document.createElement("div"); catLayer.id = "parkCatsLayer"; stage.appendChild(catLayer); }
+  if (!catLayer) { catLayer = document.createElement("div"); catLayer.id = "parkCatsLayer"; (document.getElementById("parkWorld") || stage).appendChild(catLayer); }
   if (!catLayer.childElementCount) {
     [["cat-muse-walk.png", "left:9%;bottom:20%", 44, "sway"], ["cat-white-sit.png", "right:10%;bottom:29%", 56, "breath"], ["cat-tabby-sit.png", "left:30%;bottom:26%", 48, "breath"], ["cat-calico-sit.png", "right:26%;bottom:6%", 50, "breath"]].forEach((c, ci) => {
       const d = document.createElement("div"); d.className = "pCat " + c[3]; d.style.cssText = "position:absolute;" + c[1];
@@ -1641,12 +1649,12 @@ window.renderParkStage = function(users) {
   });
   if (!myParkPos) { const mp = window.__myPark || {}; const px = typeof mp.parkX === "number" ? mp.parkX : 57, py = typeof mp.parkY === "number" ? mp.parkY : 6; myParkPos = parkClamp(px, py); }
   let mine = document.getElementById("parkMe");
-  if (!mine) { mine = document.createElement("div"); mine.id = "parkMe"; mine.className = "pMe"; mine.innerHTML = '<div id="parkMeBubble"></div><img alt=""><span class="tag"></span>'; stage.appendChild(mine); }
+  if (!mine) { mine = document.createElement("div"); mine.id = "parkMe"; mine.className = "pMe"; mine.innerHTML = '<div id="parkMeBubble"></div><img alt=""><span class="tag"></span>'; (document.getElementById("parkWorld") || stage).appendChild(mine); }
   mine.style.left = myParkPos.x + "%"; mine.style.bottom = myParkPos.y + "%"; mine.style.zIndex = String(101 - Math.round(myParkPos.y * 2));
   mine.querySelector("img").src = window.__myAvaUrl || "av-player.png";
   mine.querySelector(".tag").textContent = (window.__myPark && window.__myPark.nickname) || (window.__loggedIn ? "あなた" : "ゲスト");
   if (!parkClickBound) { parkClickBound = true;
-    stage.addEventListener("click", (e) => { if (!document.querySelector(".stage.parkmode")) return; if (e.target.closest(".pFig") || e.target.closest(".pMe") || e.target.closest("#parkBubble")) return; const r = stage.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width * 100; const y = (1 - (e.clientY - r.top) / r.height) * 100; if (window.parkMoveTo) window.parkMoveTo(x, y); });
+    stage.addEventListener("click", (e) => { if (!document.querySelector(".stage.parkmode")) return; if (e.target.closest(".pFig") || e.target.closest(".pMe") || e.target.closest("#parkBubble")) return; if (window.__parkDraggedAt && Date.now() - window.__parkDraggedAt < 300) return; const r = stage.getBoundingClientRect(); const x = ((e.clientX - r.left) - (window.__parkPan || 0)) / (window.__parkWorldW || r.width) * 100; const y = (1 - (e.clientY - r.top) / r.height) * 100; if (window.parkMoveTo) window.parkMoveTo(x, y); });
   }
 };
 let myParkPos = null, parkClickBound = false, parkSyncTO = null;
@@ -1674,6 +1682,13 @@ window.enterParkView = function() {
   if (!window.__parkView) {
     window.__parkView = true; st.classList.add("parkmode");
     st.insertBefore(ps, document.getElementById("chatFeed")); ps.classList.add("inview");
+    let w = document.getElementById("parkWorld");
+    if (!w) { w = document.createElement("div"); w.id = "parkWorld"; }
+    ps.appendChild(w);
+    ["parkBubble", "parkFigs", "parkCatsLayer", "parkMe"].forEach((id) => { const n = document.getElementById(id); if (n) w.appendChild(n); });
+    const pimg = new Image();
+    const psetup = () => { const sw = ps.clientWidth, sh = ps.clientHeight; const iw = pimg.naturalWidth || 1600, ih = pimg.naturalHeight || 900; const worldW = Math.max(Math.round(sw * 1.6), Math.round(sh * iw / ih)); w.style.width = worldW + "px"; window.__parkWorldW = worldW; window.__parkPan = Math.round((sw - worldW) / 2); w.style.transform = "translateX(" + window.__parkPan + "px)"; };
+    pimg.onload = psetup; pimg.src = "park-bg.jpg"; if (pimg.complete && pimg.naturalWidth) psetup();
     const pn = document.getElementById("placeName"); if (pn) pn.textContent = "\u{1F333} 城山公園（みんなの広場）";
     const snm = document.getElementById("sceneName"); if (snm) snm.textContent = "\u{1F333} 城山公園（みんなの広場）";
     const eb = document.getElementById("exitBtn"); if (eb) { eb.style.display = "block"; eb.textContent = "出口"; eb.onclick = () => { if (window.goScene) window.goScene("front"); }; }
@@ -1689,6 +1704,8 @@ window.exitParkView = function() {
   if (!window.__parkView) return; window.__parkView = false;
   const st = document.querySelector(".stage"); const ps = document.getElementById("parkStage"); const card = document.getElementById("parkTalk");
   if (st) st.classList.remove("parkmode");
+  const pw = document.getElementById("parkWorld");
+  if (pw && ps) { ["parkBubble", "parkFigs", "parkCatsLayer", "parkMe"].forEach((id) => { const n = document.getElementById(id); if (n) ps.appendChild(n); }); pw.remove(); window.__parkPan = 0; window.__parkWorldW = 0; }
   if (ps && card) { ps.classList.remove("inview"); card.insertBefore(ps, document.getElementById("parkFrom")); }
   if (card) card.style.display = "none";
 };
@@ -2084,6 +2101,24 @@ $("btnProfSave").addEventListener("click", async () => {
   if (tk && stg) stg.after(tk);
   var dp = document.getElementById("destPark");
   if (dp) dp.addEventListener("click", function() { if (window.stopWalk) window.stopWalk(); });
+})();
+</script>
+
+<script>
+(function () {
+  var ps = document.getElementById("parkStage"); if (!ps) return;
+  var drag = null, moved = false;
+  ps.addEventListener("pointerdown", function (e) { if (!window.__parkView) return; drag = { x: e.clientX, pan: window.__parkPan || 0 }; moved = false; });
+  window.addEventListener("pointermove", function (e) {
+    if (!drag) return;
+    var dx = e.clientX - drag.x;
+    if (Math.abs(dx) > 6) moved = true;
+    var w = document.getElementById("parkWorld"); if (!w) return;
+    var sw = ps.clientWidth, ww = window.__parkWorldW || sw;
+    var np = Math.max(sw - ww, Math.min(0, drag.pan + dx));
+    window.__parkPan = np; w.style.transform = "translateX(" + np + "px)";
+  });
+  window.addEventListener("pointerup", function () { if (drag && moved) window.__parkDraggedAt = Date.now(); drag = null; });
 })();
 </script>
 </body>
