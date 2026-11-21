@@ -245,7 +245,7 @@
   #placeName { position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:8; background:rgba(255,253,247,.93); color:#4c3d22; font-size:13.5px; font-weight:700; padding:7px 14px; border-radius:999px; box-shadow:0 3px 10px rgba(90,60,10,.25); pointer-events:auto; cursor:pointer; white-space:nowrap; max-width:44%; overflow:hidden; text-overflow:ellipsis; }
   #placeName::after { content:" ▾"; }
   #sceneName { cursor:pointer; }
-  #chatFeed{position:absolute;right:10px;bottom:10px;z-index:7;width:min(300px,74vw);display:flex;flex-direction:column;gap:5px}
+  #chatFeed{position:absolute;right:10px;bottom:52px;z-index:7;width:min(300px,74vw);display:flex;flex-direction:column;gap:5px}
   #tourCap{position:absolute;left:10px;bottom:58px;z-index:7;max-width:min(430px,58vw);background:rgba(255,253,247,.95);border:1.5px solid #ecd9ae;color:#4c3d22;font-size:13.5px;line-height:1.6;padding:9px 13px;border-radius:14px;box-shadow:0 4px 12px rgba(90,60,10,.25);pointer-events:none}
   #feedHead{display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(46,32,10,.72);color:#ffd98a;font-size:12px;font-weight:700;padding:5px 6px 5px 11px;border-radius:999px;box-shadow:0 3px 8px rgba(40,25,5,.25)}
   #feedMin{background:rgba(255,253,247,.16);border:none;color:#fff;font-size:12px;width:22px;height:22px;border-radius:50%;cursor:pointer;line-height:1}
@@ -262,25 +262,26 @@
   #feedRow input{flex:1;min-width:0;font-family:inherit;font-size:13px;padding:8px 11px;border:1.5px solid #d9a441;border-radius:999px;background:rgba(255,253,247,.96)}
   #feedRow button{font:inherit;font-size:13px;font-weight:700;color:#fff;background:#f2a93b;border:none;border-radius:999px;padding:8px 13px;cursor:pointer}
   #feedNote{margin:0;font-size:11.5px;color:#fff;background:rgba(46,32,10,.6);padding:4px 9px;border-radius:9px;align-self:flex-end}
-  #sceneSns { position:absolute; left:10px; bottom:48px; z-index:7; display:flex; gap:8px; }
+  #sceneSns { position:absolute; left:10px; bottom:120px; z-index:7; display:flex; gap:8px; }
   #sceneSns button { width:38px; height:38px; border-radius:50%; border:2px solid #fff; background:#fff; box-shadow:0 3px 10px rgba(90,60,10,.35); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; position:relative; animation:snsHop 2.6s ease-in-out infinite; }
   #sceneSns button:nth-child(2) { animation-delay:.35s; }
   #sceneSns button:nth-child(3) { animation-delay:.7s; }
   #sceneSns button::after { content:""; position:absolute; top:-3px; right:-3px; width:11px; height:11px; border-radius:50%; background:#e5484d; border:2px solid #fff; }
   #sceneSns button.seen { animation:none; }
   #sceneSns button.seen::after { display:none; }
-  #prodBubble { position:absolute; left:10px; bottom:96px; z-index:7; align-items:center; gap:8px; background:rgba(255,253,247,.94); border:1.5px solid #ecd9ae; border-radius:999px; padding:5px 12px 5px 5px; box-shadow:0 4px 14px rgba(60,40,10,.25); cursor:pointer; font:inherit; max-width:min(330px,74vw); transition:opacity .45s; }
+  #prodBubble { position:absolute; left:10px; bottom:166px; z-index:7; align-items:center; gap:8px; background:rgba(255,253,247,.94); border:1.5px solid #ecd9ae; border-radius:999px; padding:5px 12px 5px 5px; box-shadow:0 4px 14px rgba(60,40,10,.25); cursor:pointer; font:inherit; max-width:min(330px,74vw); transition:opacity .45s; }
   #prodBubble img { width:40px; height:40px; border-radius:50%; object-fit:cover; flex:none; }
   #prodBubble .pbName { font-size:12px; color:#4a3826; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   #prodBubble .pbPrice { font-size:12px; font-weight:700; color:#0068B7; white-space:nowrap; }
   /* === 海と統一：1画面・スクロールなし／アイコンのみ === */
   html, body { height:100%; overflow:hidden !important; }
-  #panorama { height:calc(100vh - 86px); height:calc(100dvh - 86px); min-height:320px; }
+  #panorama { height:100vh; height:100dvh; min-height:320px; }
+  .wrap { padding:0 !important; }
   #destMenu { max-height:min(74dvh, 620px); overflow-y:auto; }
   #destMenu .destItem { padding:8px 12px; font-size:14.5px; }
-  #authBar { background:transparent; border:none; box-shadow:none; padding:0; }
-  #bagBtn { background:none; border:none; cursor:pointer; padding:2px; line-height:0; filter:drop-shadow(0 1px 2px rgba(8,30,50,.65)) drop-shadow(0 4px 12px rgba(8,30,50,.35)); }
-  #bagBtn svg { width:36px; height:36px; display:block; }
+  #authBar { background:transparent !important; border:none !important; box-shadow:none !important; padding:0 !important; }
+  #bagBtn { background:none; border:none; cursor:pointer; padding:2px; line-height:0; filter:drop-shadow(0 1px 2px rgba(8,30,50,.6)) drop-shadow(0 4px 10px rgba(8,30,50,.3)); }
+  #bagBtn svg { width:34px; height:34px; display:block; }
   #bagPanel { position:absolute; top:46px; right:0; background:rgba(255,253,247,.97); border:1.5px solid #ecd9ae; border-radius:12px; padding:6px; flex-direction:column; gap:2px; min-width:178px; box-shadow:0 10px 26px rgba(60,40,10,.28); z-index:40; }
   #bagPanel button { background:none; border:none; text-align:left; font:inherit; font-size:14px; color:#4a3826; padding:8px 10px; cursor:pointer; border-radius:8px; box-shadow:none; }
   #bagPanel button:hover { background:#faf1dc; }
@@ -289,12 +290,15 @@
   #chatFeed.min #feedHead span { display:none; }
   #chatFeed.min #feedMin { width:48px; height:48px; background:transparent; box-shadow:none; }
   #feedMin svg { width:34px; height:34px; display:block; filter:drop-shadow(0 1px 2px rgba(8,30,50,.6)) drop-shadow(0 4px 10px rgba(8,30,50,.3)); }
-  #isleLogo { position:absolute; left:12px; bottom:8px; z-index:24; font-family:"Hiragino Mincho ProN","Yu Mincho",serif; color:#fff; text-shadow:0 1px 3px rgba(20,30,50,.75), 0 2px 14px rgba(20,30,50,.45); pointer-events:none; line-height:1.15; font-size:20px; letter-spacing:.14em; }
-  #isleLogo span { display:block; font-size:9.5px; letter-spacing:.22em; opacity:.92; margin-top:2px; }
+  #isleLogo { position:absolute; left:12px; bottom:52px; z-index:24; font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif; color:#fff; text-decoration:none; line-height:1.15; text-shadow:0 2px 14px rgba(0,30,55,.45), 0 1px 3px rgba(0,30,55,.5); }
+  #isleLogo .l1 { display:block; font-weight:800; font-size:19px; letter-spacing:.07em; white-space:nowrap; }
+  #isleLogo .l1 .star { color:#ffd76a; }
+  #isleLogo .l2 { display:block; font-weight:700; font-size:19px; letter-spacing:.08em; margin-left:5.2em; opacity:.97; white-space:nowrap; }
+  #isleLogo .l3 { display:block; margin-top:4px; font-size:12px; font-weight:600; letter-spacing:.18em; color:#ffd76a; text-align:center; opacity:.95; }
   .stage #bigMapSec { position:absolute; inset:8px; z-index:34; margin:0; display:none; overflow-y:auto; }
   .stage #bigMap { height:min(56dvh, 500px); }
-  .stage #shopPanel, .stage #cartPanel, .stage #chat { position:absolute; left:50%; transform:translateX(-50%); bottom:6px; width:min(700px,96%); max-height:84%; overflow-y:auto; z-index:31; margin:0; }
-  .stage #parkTalk { position:absolute; left:50%; transform:translateX(-50%); bottom:6px; width:min(700px,96%); z-index:29; margin:0; }
+  .stage #shopPanel, .stage #cartPanel, .stage #chat { position:absolute; left:50%; transform:translateX(-50%); bottom:50px; width:min(700px,96%); max-height:84%; overflow-y:auto; z-index:31; margin:0; }
+  .stage #parkTalk { position:absolute; left:50%; transform:translateX(-50%); bottom:50px; width:min(700px,96%); z-index:29; margin:0; }
   @keyframes snsHop { 0%, 82%, 100% { transform:translateY(0); } 88% { transform:translateY(-8px); } 94% { transform:translateY(0); } 97% { transform:translateY(-4px); } }
   #shopLinkBtn { position:absolute; top:10px; right:10px; z-index:8; display:none; background:#d96c8a; color:#fff; border:none; font-family:inherit; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(120,40,70,.4); cursor:pointer; }
   .zpost img{animation: avidle 3.4s ease-in-out infinite}
@@ -378,7 +382,7 @@
   <p class="vh" data-ed="disc" style="margin:10px auto 0;max-width:730px;background:#fff8e6;border:1.5px solid #d9a441;border-radius:10px;padding:7px 10px;font-size:clamp(7.5px,2.15vw,12.5px);white-space:nowrap;color:#7a5a16">※ この島は、水彩の絵で再現したものです。AI生成のため実際のお店や風景とは異なります。</p>
 
 
-  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button id="bagBtn" type="button" aria-label="カバン（マイページ）"><svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 19.5h21l-1.5 17.7a2.6 2.6 0 0 1-2.6 2.3H17.6a2.6 2.6 0 0 1-2.6-2.3L13.5 19.5Z" fill="rgba(174,233,255,.14)"/><path d="M18.5 19.5v-3a5.5 5.5 0 0 1 11 0v3"/></svg></button><div id="bagPanel" style="display:none"><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 ガイドツアー（自動で進む）</button></div><div id="sceneSns"></div><div id="isleLogo">OHANA島<span>松山みたいな、小さな島</span></div><button id="prodBubble" type="button" style="display:none" title="MAHALO セレクト商品"><img id="pbImg" alt=""><span class="pbName" id="pbName"></span><span class="pbPrice" id="pbPrice"></span></button><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
+  <div class="stage"><div id="panorama"></div><div id="fxLayer"></div><div id="meAv"><img src="av-player.png" alt=""></div><div id="othersAv"></div><div id="placeName"></div><div id="authBar"><span class="who vh" id="authState" data-i18n="guestState">🐾 ゲストとして散歩中</span><button id="bagBtn" type="button" aria-label="カバン（マイページ）"><svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 19.5h21l-1.5 17.7a2.6 2.6 0 0 1-2.6 2.3H17.6a2.6 2.6 0 0 1-2.6-2.3L13.5 19.5Z" fill="rgba(174,233,255,.14)"/><path d="M18.5 19.5v-3a5.5 5.5 0 0 1 11 0v3"/></svg></button><div id="bagPanel" style="display:none"><button class="act small" id="btnLogin" type="button" data-i18n="login">メンバー登録（無料）</button><button class="act sub small" id="btnProfile" type="button" style="display:none" data-i18n="profileBtn">プロフィール</button><button class="act sub small" id="btnLogout" type="button" style="display:none" data-i18n="logout">ログアウト</button></div></div><div id="destMenu" style="display:none"><button type="button" class="destItem destKai" id="destKai">🌊 OHANA海</button><button type="button" class="destItem destPark" id="destPark" data-i18n="parkTitle">🌳 城山公園（みんなの広場）</button><button type="button" class="destItem" id="destMap" data-i18n="mapBtn">🗺 MAPを見る</button><button type="button" class="destItem" id="destTour" data-i18n="walk">🧭 自動島巡り</button></div><div id="sceneSns"></div><a id="isleLogo" href="https://momowari.github.io/OHANA-share/" aria-label="OHANAシェア＊プロジェクト"><span class="l1">OHANAシェア<span class="star">＊</span></span><span class="l2">プロジェクト</span><span class="l3">OHANA島</span></a><button id="prodBubble" type="button" style="display:none" title="MAHALO セレクト商品"><img id="pbImg" alt=""><span class="pbName" id="pbName"></span><span class="pbPrice" id="pbPrice"></span></button><div id="tourCap" style="display:none"></div><div id="chatFeed" class="min"><div id="feedHead"><span data-i18n="chatTitle">OHANAの声</span><button id="feedMin" type="button" aria-label="チャットを開く">💬</button></div><div id="feedBody" style="display:none"><div id="feedMsgs"></div><div id="feedRow"><input id="isleInput" type="text" placeholder="ひとこと書いてね" maxlength="200" data-i18n-ph="chatPh"><button id="chatSend" type="button" data-i18n="chatSend">送る</button></div><p id="feedNote" style="display:none">書くにはログインしてね</p></div></div>
     <div id="talkPanel">
       <button id="talkClose" type="button" aria-label="閉じる">×</button>
       <h3 id="talkTitle">話しかける</h3>
@@ -400,7 +404,7 @@
         <button class="act" type="submit">聞く</button>
       </form>
     </div>
-  <div id="sceneName">MAHALOの店前</div>
+  <div id="sceneName" class="vh">MAHALOの店前</div>
   <div id="placeBar"><label for="placeSel" data-i18n="selLabel">📍 場所を選ぶ</label><select id="placeSel" aria-label="場所を選ぶ"></select></div>
   <div class="btns" id="shopBtns" style="display:none">
     <button class="act" id="btnTalk">店員さんと話す</button>
@@ -414,7 +418,7 @@
     <div style="padding:0 10px">
       <div id="twNavi"><div id="twNaviMain">行き先を選んでください</div><div id="twNaviSub">下のプルダウンか、地図の名前をタップ</div></div>
       <select id="twDestSel" aria-label="行き先を選ぶ"><option value="">📍 行き先を選ぶ</option></select>
-      <div id="twBar"><p id="twMsg">実際の地図の上を、アバターが道案内で歩きます。着いたら「入る」で、その場所を上のビューで見られます。城山公園は、みんなの広場です。</p><button class="act" id="twStop" type="button" style="display:none">止まる</button><button class="act" id="twEnter" type="button" disabled>入る（360°で見る）</button></div>
+      <div id="twBar"><p id="twMsg">実際の地図の上を、アバターが道案内で歩きます。着いたら、その場所のビューに切り替わります。城山公園は、みんなの広場です。</p><button class="act" id="twStop" type="button" style="display:none">止まる</button></div>
     </div>
   </div>
   <style>
@@ -831,7 +835,7 @@ function tourCapShow(id) {
   if (!walkTimer || !t) { cap.style.display = "none"; return; }
   cap.textContent = t; cap.style.display = "";
 }
-function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; const __bw = document.getElementById("destTour"); if (__bw) __bw.textContent = "🧭 ガイドツアー（自動で進む）"; const __tc = document.getElementById("tourCap"); if (__tc) __tc.style.display = "none"; } meSet(false); }
+function stopWalk() { walkIdx = -1; if (walkTimer) { clearInterval(walkTimer); walkTimer = null; const __bw = document.getElementById("destTour"); if (__bw) __bw.textContent = "🧭 自動島巡り"; const __tc = document.getElementById("tourCap"); if (__tc) __tc.style.display = "none"; } meSet(false); }
 function walkStep() {
   if (walking) return;
   if (walkIdx < 0) walkIdx = ROUTE.indexOf(curScene);
@@ -939,12 +943,16 @@ window.CHAT_SVG = '<svg viewBox="0 0 48 48" fill="none" stroke="#aee9ff" stroke-
   const menu = document.getElementById("destMenu");
   if (menu && typeof SHORT !== "undefined") {
     const order = ["front", "stairs", "counter", "elua", "lea", "pharmacy", "jinja", "koshin", "yaoya", "tamago", "kayamachi2", "kayamachi", "fuji", "furumachi", "park", "honkan", "dogoeki", "haikara", "okaido", "gintengai", "castle", "cityst", "jrst"];
-    const parkBtn = document.getElementById("destPark"), mapBtn = document.getElementById("destMap");
+    const parkBtn = document.getElementById("destPark"), mapBtn = document.getElementById("destMap"), tourBtn = document.getElementById("destTour");
+    if (parkBtn) menu.appendChild(parkBtn);
+    if (mapBtn) menu.appendChild(mapBtn);
+    if (tourBtn) menu.appendChild(tourBtn);
+    const sep = document.createElement("div"); sep.style.cssText = "border-top:1.5px dashed #e0d0a8;margin:2px 2px 0"; menu.appendChild(sep);
     order.forEach((id) => {
-      if (id === "park") { if (parkBtn && mapBtn) menu.insertBefore(parkBtn, mapBtn); return; }
+      if (id === "park") return;
       const b = document.createElement("button"); b.type = "button"; b.className = "destItem"; b.textContent = SHORT[id] || id;
       b.addEventListener("click", () => { closeDestMenu(); window.goScene(id); });
-      if (mapBtn) menu.insertBefore(b, mapBtn);
+      menu.appendChild(b);
     });
   }
 })();
@@ -1632,7 +1640,7 @@ $("btnProfSave").addEventListener("click", async () => {
   const TW_NAME = { front:"MAHALOビル", jinja:"阿沼美神社", koshin:"庚申庵", yaoya:"丸五青果", tamago:"平野鶏卵", pharmacy:"レデイ薬局", fuji:"フジグラン", furumachi:"古町駅", kayamachi:"萱町商店街", park:"城山公園", honkan:"道後温泉本館", dogoeki:"道後温泉駅", haikara:"道後ハイカラ通り", okaido:"大街道", gintengai:"銀天街", castle:"松山城", cityst:"松山市駅", jrst:"JR松山駅" };
   const TW_EMOJI = { front:"🏢", jinja:"⛩", koshin:"🏡", yaoya:"🥬", tamago:"🥚", pharmacy:"💊", fuji:"🛒", furumachi:"🚃", kayamachi:"🏮", park:"🌳", honkan:"♨️", dogoeki:"🚉", haikara:"🏮", okaido:"🛍️", gintengai:"🏬", castle:"🏯", cityst:"🚉", jrst:"🚃" };
   const TW_DOOR = { front:[33.84552,132.75547], jinja:[33.84598,132.75641], koshin:[33.84385,132.75470], yaoya:[33.84628,132.75668], tamago:[33.84696,132.75666], pharmacy:[33.84510,132.75520], fuji:[33.84470,132.75330], furumachi:[33.84700,132.75530], kayamachi:[33.84556,132.75687], park:[33.84066,132.76240], honkan:[33.85160,132.78600], dogoeki:[33.84972,132.78500], haikara:[33.85080,132.78580], okaido:[33.84480,132.77030], gintengai:[33.84430,132.76800], castle:[33.84557,132.76530], cityst:[33.83996,132.76235], jrst:[33.83990,132.75170] };
-  const twMsg = document.getElementById("twMsg"), twEnter = document.getElementById("twEnter"), twStop = document.getElementById("twStop");
+  const twMsg = document.getElementById("twMsg"), twStop = document.getElementById("twStop");
   const twNaviMain = document.getElementById("twNaviMain"), twNaviSub = document.getElementById("twNaviSub");
   const twMap = L.map("bigMap", { scrollWheelZoom: false, minZoom: 14, maxBounds: [[33.8385,132.7495],[33.8560,132.7920]], maxBoundsViscosity: 1 }).setView([33.84552, 132.75547], 17);
   window.__twMap = twMap;
@@ -1672,7 +1680,7 @@ $("btnProfSave").addEventListener("click", async () => {
   function twMarkSel(id){ const sel = document.getElementById("twDestSel"); if (sel) sel.value = id || ""; }
   function twArrive(placeId){
     twStop.style.display = "none"; twLine.setLatLngs([]);
-    if (placeId){ twAtPlace = placeId; twEnter.disabled = false;
+    if (placeId){ twAtPlace = placeId;
       twNaviMain.textContent = "📍 " + TW_NAME[placeId] + " に着きました";
       twMsg.textContent = "";
       if (placeId === "park"){ twNaviSub.textContent = "みんなの広場を開きました"; setTimeout(() => { if (window.openPlaza) window.openPlaza(); }, 500); }
@@ -1687,7 +1695,7 @@ $("btnProfSave").addEventListener("click", async () => {
     for (let i = 0; i < coords.length - 1; i++){ const a = coords[i], b = coords[i+1], L2 = twDM(a, b), n = Math.max(1, Math.round(L2 / 7));
       for (let k = 1; k <= n; k++) steps.push([a[0]+(b[0]-a[0])*k/n, a[1]+(b[1]-a[1])*k/n]); }
     if (!steps.length){ twWalking = false; twArrive(placeId); return; }
-    twWalking = true; twAtPlace = null; twEnter.disabled = true; twStop.style.display = "";
+    twWalking = true; twAtPlace = null; twStop.style.display = "";
     twNaviMain.textContent = "🚶 " + TW_NAME[placeId] + " へ向かっています";
     twNaviSub.textContent = "あと約 " + Math.round(distM) + "m"; twMsg.textContent = "";
     const goingDown = coords[coords.length-1][1] < twMy[1];
@@ -1705,7 +1713,7 @@ $("btnProfSave").addEventListener("click", async () => {
   }
   async function twGo(id){
     twMarkSel(id);
-    twAtPlace = null; twEnter.disabled = true;
+    twAtPlace = null;
     twNaviMain.textContent = TW_NAME[id] + " への道を調べています…"; twNaviSub.textContent = "";
     const d = TW_DOOR[id], target = [d[1], d[0]];
     try { const r = await twRoute(twMy, target);
@@ -1725,7 +1733,6 @@ $("btnProfSave").addEventListener("click", async () => {
     if (best) twGo(best);
     else if (!twWalking) { twNaviMain.textContent = "行き先は下のプルダウンから選んでね"; twNaviSub.textContent = "地図の名前をタップしても行けます"; }
   });
-  twEnter.addEventListener("click", () => { if (twAtPlace === "park"){ if (window.openPlaza) window.openPlaza(); } else if (twAtPlace && window.goScene) window.goScene(twAtPlace); });
 })();
 </script>
 </body>
