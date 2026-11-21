@@ -1090,6 +1090,39 @@
       .owner-row .bs{ font-size:.76rem; color:rgba(255,255,255,.75); }
       .owner-row .ghost-btn{ margin-left:auto; flex:none; }
       .bag-item .row-msg{ margin-left:auto; flex:none; }
+
+      /* ---------- icons over words + fixed panel geometry (final) ----------
+         Actions an icon can say are icons now; words stay only where
+         words are the meaning (ship tabs, account, place names).
+         Every panel's inside is pinned horizontally: no sideways
+         scroll, no sway, nothing wider than its panel — vertical
+         scroll only, and the sea's motion never leaks in. */
+      .sr-only{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0; }
+      .icn{ width:22px; height:22px; flex:none; display:block; }
+      .cta-btn svg.icn{ width:27px; height:27px; }
+      .comment-send{ display:grid; place-items:center; padding:.55rem .5rem; }
+      .comment-send svg.icn{ width:21px; height:21px; }
+      .edit-top-btn{ text-decoration:none; font-size:1.12rem; }
+      .upload-main svg{ width:30px; height:30px; }
+      #pageBtn svg.icn{ width:20px; height:20px; }
+      .ghost-btn svg.icn{ display:inline-block; vertical-align:-5px; }
+      .cf-del svg{ width:15px; height:15px; display:block; }
+      .cf-del.cf-armed{ background:rgba(255,80,80,.45); opacity:1 !important; }
+      .sheet, .voice-panel, .place-pulldown{ overflow-x:hidden; touch-action:pan-y; }
+      /* cargo rows: one fixed geometry at any count, any name length */
+      .bag-item{
+        height:4.5rem; min-height:4.5rem; padding:.45rem .6rem; gap:.65rem; overflow:hidden;
+      }
+      .bag-item img{ width:52px; height:52px; border-radius:10px; background:rgba(255,255,255,.12); }
+      .bag-item > div{ flex:1 1 auto; min-width:0; }
+      .bag-item .bn, .bag-item .bs{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      .bag-item .row-msg, .owner-row .ghost-btn{
+        width:auto; margin-top:0; padding:.35rem .3rem; text-decoration:none; white-space:nowrap;
+      }
+      .bag-item .row-msg svg.icn, .owner-row .ghost-btn svg.icn{ width:21px; height:21px; }
+      .owner-row{ min-height:3.4rem; overflow:hidden; }
+      .owner-row > div{ flex:1 1 auto; min-width:0; }
+      .owner-row .bn, .owner-row .bs{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 </style>
   </head>
   <body>
@@ -1173,7 +1206,7 @@
         <p class="empty-note" id="seaCommentEmpty">まだひとことはないよ。</p>
         <div class="comment-form">
           <input type="text" id="seaCommentInput" maxlength="80" placeholder="ひとこと残す" aria-label="海へのコメントを書く" />
-          <button class="comment-send" id="seaCommentSend" type="button">残す</button>
+          <button class="comment-send" id="seaCommentSend" type="button" aria-label="残す"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 L11 13"/><path d="M21.5 2.5 L14.8 21.5 L11 13 L2.5 9.2 Z"/></svg><span class="sr-only">残す</span></button>
         </div>
       </div>
 
@@ -1186,7 +1219,7 @@
     <section class="sheet" id="sheetItem" role="dialog" aria-modal="true" aria-labelledby="itemName" hidden>
       <div class="grabber"></div>
       <button class="close-x" type="button" data-close aria-label="閉じる">✕</button>
-      <button class="edit-top-btn" id="editBtn" type="button" hidden>✎ 編集する</button>
+      <button class="edit-top-btn" id="editBtn" type="button" hidden aria-label="編集する">✎<span class="sr-only">編集する</span></button>
       <h2 id="itemName"></h2>
       <div class="item-hero"><img id="itemImg" alt="" /></div>
       <div class="meta-row">
@@ -1205,11 +1238,11 @@
         </button>
       </div>
       <div class="msg-box"><span class="from" id="itemMsgFrom">放流した人から</span><span id="itemMsg"></span></div>
-      <button class="cta-btn" id="pickBtn" type="button">
-          <span id="pickBtnLabel">船に乗せる</span>
+      <button class="cta-btn" id="pickBtn" type="button" aria-label="船に乗せる"><svg class="icn" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4 v22"/><path d="M24 6 L38 24 L24 24 Z" fill="currentColor" fill-opacity=".22"/><path d="M24 12 L13 24 L24 24 Z" fill="currentColor" fill-opacity=".1"/><path d="M7 30 L41 30 L36 41 Q24 45 12 41 Z" fill="currentColor" fill-opacity=".16"/></svg>
+          <span id="pickBtnLabel" class="sr-only">船に乗せる</span>
         </button>
       <div class="action-tabs" role="tablist" aria-label="このモノへの行き先">
-        <button class="action-tab" id="pageBtn" type="button" role="tab" aria-selected="false">ページを見に行く ›</button>
+        <button class="action-tab" id="pageBtn" type="button" role="tab" aria-selected="false" aria-label="ページを見に行く"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 4.5 H19.5 V10.5"/><path d="M19 5 L11.5 12.5"/><path d="M19.5 14.5 V19 A1.5 1.5 0 0 1 18 20.5 H5 A1.5 1.5 0 0 1 3.5 19 V6 A1.5 1.5 0 0 1 5 4.5 H9.5"/></svg><span class="sr-only">ページを見に行く</span></button>
       </div>
       <div class="comments">
         <div class="comments-title">コメント</div>
@@ -1217,7 +1250,7 @@
         <p class="empty-note" id="commentEmpty">まだコメントはないよ。</p>
         <div class="comment-form">
           <input type="text" id="commentInput" maxlength="80" placeholder="ひとこと残す" aria-label="コメントを書く" />
-          <button class="comment-send" id="commentSend" type="button">残す</button>
+          <button class="comment-send" id="commentSend" type="button" aria-label="残す"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 L11 13"/><path d="M21.5 2.5 L14.8 21.5 L11 13 L2.5 9.2 Z"/></svg><span class="sr-only">残す</span></button>
         </div>
       </div>
     </section>
@@ -1242,7 +1275,7 @@
       <p id="msgAbout"></p>
       <label class="flabel" for="msgText">文面（そのまま送っても、直してもOK）</label>
       <textarea id="msgText" rows="5" maxlength="500"></textarea>
-      <button class="cta-btn" id="msgSendBtn" type="button">このまま送る</button>
+      <button class="cta-btn" id="msgSendBtn" type="button" aria-label="このまま送る"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 L11 13"/><path d="M21.5 2.5 L14.8 21.5 L11 13 L2.5 9.2 Z"/></svg><span class="sr-only">このまま送る</span></button>
     </section>
 
     <!-- throw sheet -->
@@ -1251,13 +1284,13 @@
       <button class="close-x" type="button" data-close aria-label="閉じる">✕</button>
       <h2 id="throwTitle">あなたの価値を放つ</h2>
       <input type="file" id="uploadInput" accept="image/*" hidden />
-      <button class="upload-main" id="uploadBtn" type="button"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15h5.5l3-4.5h11L32.5 15H38a3.5 3.5 0 0 1 3.5 3.5v16A3.5 3.5 0 0 1 38 38H10a3.5 3.5 0 0 1-3.5-3.5v-16A3.5 3.5 0 0 1 10 15z"/><circle cx="24" cy="26.5" r="7.2"/></svg><span>写真をアップロードする</span></button>
+      <button class="upload-main" id="uploadBtn" type="button" aria-label="写真をアップロードする"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15h5.5l3-4.5h11L32.5 15H38a3.5 3.5 0 0 1 3.5 3.5v16A3.5 3.5 0 0 1 38 38H10a3.5 3.5 0 0 1-3.5-3.5v-16A3.5 3.5 0 0 1 10 15z"/><circle cx="24" cy="26.5" r="7.2"/></svg><span class="sr-only">写真をアップロードする</span></button>
       <img class="upload-preview" id="uploadPreview" alt="アップロードした写真" hidden />
       <input type="text" id="uploadName" maxlength="30" placeholder="モノの名前（例：ベビー服 80cm）" hidden />
       <div class="pick-grid" id="throwGrid" role="group" aria-label="放すモノの写真"></div>
       <label class="flabel" for="throwMsg">次の人へのひとこと（任意）</label>
       <textarea id="throwMsg" rows="2" maxlength="60" placeholder="例：まだ使えます。どなたか使ってください"></textarea>
-      <button class="cta-btn" id="doThrowBtn" type="button">海へ放流する</button>
+      <button class="cta-btn" id="doThrowBtn" type="button" aria-label="海へ放流する"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 9q2.5-2.5 5 0t5 0 5 0 5 0"/><path d="M2 15q2.5-2.5 5 0t5 0 5 0 5 0"/></svg><span class="sr-only">海へ放流する</span></button>
     </section>
 
     <!-- bag sheet: OHANA船 — コイン / 放流 / 積載 / 好き の4つのタブで切り替え、
@@ -1304,12 +1337,12 @@
       <h2 id="editTitle">モノを編集する</h2>
       <div class="item-hero"><img id="editImg" alt="" /></div>
       <input type="file" id="editUploadInput" accept="image/*" hidden />
-      <button class="ghost-btn" id="editUploadBtn" type="button" style="margin-top:0">画像を追加・変更する</button>
+      <button class="ghost-btn" id="editUploadBtn" type="button" style="margin-top:0" aria-label="画像を追加・変更する"><svg class="icn" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15h5.5l3-4.5h11L32.5 15H38a3.5 3.5 0 0 1 3.5 3.5v16A3.5 3.5 0 0 1 38 38H10a3.5 3.5 0 0 1-3.5-3.5v-16A3.5 3.5 0 0 1 10 15z"/><circle cx="24" cy="26.5" r="7.2"/></svg><span class="sr-only">画像を追加・変更する</span></button>
       <label class="flabel" for="editName">名前</label>
       <input type="text" id="editName" maxlength="30" style="margin-top:0" />
       <label class="flabel" for="editMsg">次の人へのひとこと</label>
       <textarea id="editMsg" rows="2" maxlength="60"></textarea>
-      <button class="cta-btn" id="editSaveBtn" type="button">保存する</button>
+      <button class="cta-btn" id="editSaveBtn" type="button" aria-label="保存する"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5 L9.8 17.8 L19.5 6.5"/></svg><span class="sr-only">保存する</span></button>
     </section>
 
     <script>
@@ -2483,8 +2516,10 @@
         var del = document.createElement("span");
         del.className = "cf-del";
         del.setAttribute("data-del", cm.id);
-        del.textContent = "消す";
-        del.style.cssText = "margin-left:8px;font-size:11px;opacity:.75;cursor:pointer;text-decoration:underline;";
+        del.setAttribute("role", "button");
+        del.setAttribute("aria-label", "消す");
+        del.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6.5 H19"/><path d="M10 6 V4.2 H14 V6"/><path d="M6.8 6.5 L7.7 18.6 A1.6 1.6 0 0 0 9.3 20 H14.7 A1.6 1.6 0 0 0 16.3 18.6 L17.2 6.5"/><path d="M10.2 10.5 V16 M13.8 10.5 V16"/></svg>';
+        del.style.cssText = "margin-left:8px;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;opacity:.85;cursor:pointer;flex:none;";
         d.appendChild(del);
       }
       list.appendChild(d);
@@ -2502,9 +2537,9 @@
     if (!del) return;
     if (del.dataset.arm !== "1"){
       del.dataset.arm = "1";
-      del.dataset.label = del.textContent;
-      del.textContent = "本当に消す";
-      setTimeout(function(){ if (del.isConnected && del.dataset.arm === "1"){ del.dataset.arm = ""; del.textContent = del.dataset.label || "消す"; } }, 3000);
+      del.classList.add("cf-armed");
+      del.setAttribute("aria-label", "本当に消す");
+      setTimeout(function(){ if (del.isConnected && del.dataset.arm === "1"){ del.dataset.arm = ""; del.classList.remove("cf-armed"); del.setAttribute("aria-label", "消す"); } }, 3000);
       return;
     }
     if (window.__kaiDeleteChat) window.__kaiDeleteChat(del.getAttribute("data-del"));
@@ -2817,7 +2852,8 @@
         var mb = document.createElement("button");
         mb.type = "button";
         mb.className = "ghost-btn row-msg";
-        mb.textContent = "持ち主へメッセージ";
+        mb.setAttribute("aria-label", "持ち主へメッセージ");
+        mb.innerHTML = '<svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M4 7.5 L12 13 L20 7.5"/></svg>' + '<span class="sr-only">持ち主へメッセージ</span>';
         mb.addEventListener("click", function(e){ e.stopPropagation(); openMsgSheet([it]); });
         d.appendChild(mb);
       }
@@ -2841,7 +2877,8 @@
         var gb = document.createElement("button");
         gb.type = "button";
         gb.className = "ghost-btn";
-        gb.textContent = "まとめてメッセージ";
+        gb.setAttribute("aria-label", "まとめてメッセージ");
+        gb.innerHTML = '<svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M4 7.5 L12 13 L20 7.5"/></svg>' + '<span class="sr-only">まとめてメッセージ</span>';
         gb.addEventListener("click", function(){ openMsgSheet(items); });
         row.appendChild(gb);
         oa.appendChild(row);
