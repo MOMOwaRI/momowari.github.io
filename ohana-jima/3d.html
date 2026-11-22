@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>OHANA島 3D（試作）</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none;font-family:system-ui,sans-serif}
+canvas{display:block}
+#top{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:8px;right:8px;display:flex;gap:8px;align-items:center;z-index:2}
+select{flex:1;padding:9px;border-radius:12px;border:0;background:rgba(255,255,255,.88);color:#4a2c3a;font-size:14px}
+a{background:rgba(255,255,255,.88);color:#4a2c3a;padding:9px 12px;border-radius:12px;font-size:13px;text-decoration:none}
+#name{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);left:50%;transform:translateX(-50%);background:rgba(255,255,255,.85);color:#4a2c3a;padding:6px 14px;border-radius:99px;font-size:13px;z-index:2}
+#fade{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .28s;z-index:1}
+</style></head><body>
+<div id="fade"></div>
+<div id="top"><select id="sel"></select><a href="./">← 今の島</a></div>
+<div id="name"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const P=f=>'mahalo-pano-'+f+'.jpg';
+// [画像, 名前, 初期yaw]
+const S={
+kayamachi:['kayamachi3','萱町商店街',0],kayamachi2:['kayamachi2','萱町商店街（なかほど）',0],yaoya:['yaoya2','丸五青果の前',120],
+tamago:['tamago','平野鶏卵の前',-20],jinja:['jinja4','阿沼美神社',-40],koshin:['koshin3','庚申庵',10],front:['front6','MAHALOの店前',-15],
+stairs:['stairs3','MAHALOの外階段',-60],counter:['counter','MAHALO店内',-10],elua:['elua5','elua Mahalo',0],lea:['lea2','Lea Mahalo',0],
+pharmacy:['pharmacy4','レデイ薬局 宮西店',-20],fuji:['fuji','フジグラン松山',-10],furumachi:['furumachi','古町駅',0],
+honkan:['honkan','道後温泉本館',45],dogoeki:['dogoeki','道後温泉駅',0],haikara:['haikara','道後ハイカラ通り',0],
+okaido:['okaido','大街道',0],gintengai:['gintengai','銀天街',0],castle:['castle','松山城',0],cityst:['cityst','松山市駅',0],jrst:['jrst','JR松山駅',0]};
+// [行き先, yaw, pitch, 表示名, 着いた先で向くyaw]
+const E={
+kayamachi:[['kayamachi2',0,-17,'北へ',0]],
+kayamachi2:[['yaoya',0,-17,'北へ',120],['kayamachi',178,-17,'南へ',180]],
+yaoya:[['tamago',100,-17,'北へ',-20],['jinja',-100,-17,'西へ',-40],['kayamachi2',175,-17,'南へ',180]],
+tamago:[['yaoya',175,-17,'南へ',120]],
+jinja:[['front',-163,-17,'西へ',-15],['yaoya',163,-17,'東へ',120]],
+koshin:[['front',170,-17,'北へ',-15]],
+front:[['elua',-25,-8,'elua Mahalo',0],['lea',8,-8,'Lea Mahalo',0],['stairs',58,-10,'MAHALO（美容室）',-60],['pharmacy',170,-22,'南へ',-20],['jinja',88,-12,'東へ',-40],['koshin',-148,-6,'南西へ',10],['fuji',-104,-14,'西へ',-10],['furumachi',-52,-16,'北へ',0]],
+pharmacy:[['front',168,-10,'北へ',-15]],
+fuji:[['front',150,-17,'東へ',-15],['furumachi',-135,-12,'北東へ',-10]],
+furumachi:[['front',170,-17,'南へ',-15],['fuji',-150,-17,'南西へ',-10]],
+lea:[['front',170,-17,'出口',-15]],
+stairs:[['counter',-82,-2,'MAHALO（美容室）',40],['front',-105,-42,'出口',-15]],
+counter:[['front',172,-17,'出口',-15]],elua:[['front',170,-17,'出口',-15]],
+dogoeki:[['haikara',150,-17,'北東へ',0]],
+haikara:[['honkan',5,-17,'北東へ',45],['dogoeki',178,-17,'南西へ',0]],
+honkan:[['haikara',-165,-17,'南西へ',0]],
+okaido:[['gintengai',60,-17,'南へ',0]],
+gintengai:[['okaido',-160,-17,'北へ',0],['cityst',15,-17,'南へ',0]],
+cityst:[['gintengai',-150,-17,'北へ',180]],castle:[],jrst:[]};
+// 試作：立体として置く猫（[yaw, pitch, 画像, 大きさ]）
+const CATS={front:[[25,-15,'cat-calico-sit.png',22]],kayamachi:[[-30,-16,'cat-white-walk.png',24]],jinja:[[60,-15,'cat-black-sit.png',20]],koshin:[[-40,-14,'cat-tabby-sit.png',20]]};
+
+const R=new THREE.WebGLRenderer({antialias:true});R.setSize(innerWidth,innerHeight);R.setPixelRatio(Math.min(devicePixelRatio,2));document.body.prepend(R.domElement);
+const Sc=new THREE.Scene(),Cam=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,1000);
+const geo=new THREE.SphereGeometry(500,64,40);geo.scale(-1,1,1);
+const mat=new THREE.MeshBasicMaterial({color:0xffffff});const sphere=new THREE.Mesh(geo,mat);Sc.add(sphere);
+const TL=new THREE.TextureLoader(),cache={};
+function tex(url){return new Promise(r=>{if(cache[url])return r(cache[url]);TL.load(url,t=>{t.anisotropy=R.capabilities.getMaxAnisotropy();cache[url]=t;r(t)},undefined,()=>r(null))})}
+const rad=d=>d*Math.PI/180;
+function dir(yaw,pitch,r){const y=rad(yaw),p=rad(pitch);return new THREE.Vector3(-Math.cos(y)*Math.cos(p),Math.sin(p),-Math.sin(y)*Math.cos(p)).multiplyScalar(r)}
+function label(text){const c=document.createElement('canvas');c.width=300;c.height=130;const g=c.getContext('2d');
+  g.fillStyle='rgba(255,255,255,.92)';g.beginPath();g.moveTo(150,6);g.lineTo(190,52);g.lineTo(110,52);g.fill();
+  g.fillRect(20,58,260,60);
+  g.fillStyle='#4a2c3a';g.font='bold 30px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(text,150,89,250);
+  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthTest:false}));s.scale.set(26,11.3,1);return s}
+let dyn=[],hot=[],cur='front',yaw=-15,pitch=0,busy=false;
+const fade=document.getElementById('fade'),nameEl=document.getElementById('name'),sel=document.getElementById('sel');
+sel.innerHTML=Object.keys(S).map(k=>`<option value="${k}">${S[k][1]}</option>`).join('');
+async function go(id,ey){
+  if(busy||!S[id])return;busy=true;fade.style.opacity=1;
+  const [t]=await Promise.all([tex(P(S[id][0])),new Promise(r=>setTimeout(r,280))]);
+  if(t){mat.map=t;mat.needsUpdate=true}
+  dyn.forEach(o=>Sc.remove(o));dyn=[];hot=[];cur=id;sel.value=id;nameEl.textContent=S[id][1];
+  yaw=(ey!=null)?ey:S[id][2];pitch=-2;
+  (E[id]||[]).forEach(e=>{const s=label(e[3]);s.position.copy(dir(e[1],e[2],100));s.userData.go=e;Sc.add(s);dyn.push(s);hot.push(s)});
+  (CATS[id]||[]).forEach(c=>{TL.load(c[2],ct=>{const s=new THREE.Sprite(new THREE.SpriteMaterial({map:ct,transparent:true}));s.scale.set(c[3],c[3],1);s.position.copy(dir(c[0],c[1],95));Sc.add(s);dyn.push(s)})});
+  fade.style.opacity=0;busy=false;
+  (E[id]||[]).forEach(e=>tex(P(S[e[0]][0])));
+}
+sel.onchange=()=>go(sel.value);
+// 操作：ドラッグで見回す／タップで矢印
+let down=null,moved=0;
+const ray=new THREE.Raycaster(),m2=new THREE.Vector2();
+R.domElement.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY};moved=0});
+addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-down.x,dy=e.clientY-down.y;moved+=Math.abs(dx)+Math.abs(dy);
+  const k=Cam.fov/innerHeight;yaw-=dx*k;pitch=Math.max(-85,Math.min(85,pitch+dy*k));down={x:e.clientX,y:e.clientY}});
+addEventListener('pointerup',e=>{if(down&&moved<8){m2.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);ray.setFromCamera(m2,Cam);
+  const h=ray.intersectObjects(hot)[0];if(h){const g=h.object.userData.go;go(g[0],g[4])}}down=null});
+addEventListener('wheel',e=>{Cam.fov=Math.max(40,Math.min(100,Cam.fov+e.deltaY*.05));Cam.updateProjectionMatrix()});
+addEventListener('resize',()=>{R.setSize(innerWidth,innerHeight);Cam.aspect=innerWidth/innerHeight;Cam.updateProjectionMatrix()});
+(function loop(){Cam.rotation.set(rad(pitch),rad(90-yaw),0,'YXZ');R.render(Sc,Cam);requestAnimationFrame(loop)})();
+go('front',-15);
+</script></body></html>
