@@ -88,5 +88,5 @@ addEventListener('pointerup',e=>{if(down&&moved<8){m2.set(e.clientX/innerWidth*2
 addEventListener('wheel',e=>{Cam.fov=Math.max(40,Math.min(100,Cam.fov+e.deltaY*.05));Cam.updateProjectionMatrix()});
 addEventListener('resize',()=>{R.setSize(innerWidth,innerHeight);Cam.aspect=innerWidth/innerHeight;Cam.updateProjectionMatrix()});
 (function loop(){Cam.rotation.set(rad(pitch),rad(90-yaw),0,'YXZ');R.render(Sc,Cam);requestAnimationFrame(loop)})();
-go('front',-15);
+const h0=location.hash.slice(1);go(S[h0]?h0:'front',S[h0]?null:-15);
 </script></body></html>
