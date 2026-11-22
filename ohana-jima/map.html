@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>OHANA島 マップ（試作）</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<style>
+html,body{margin:0;height:100%;overflow:hidden;font-family:system-ui,sans-serif;background:#f6e9e0}
+#map{position:fixed;inset:0}
+#paper{position:fixed;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.3;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/><feColorMatrix values='0 0 0 0 .9  0 0 0 0 .85  0 0 0 0 .78  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+#vig{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 62%,rgba(200,150,140,.3))}
+.chip{background:rgba(255,252,246,.9);color:#5a3a3a;border-radius:14px;padding:8px 12px;font-size:13px;border:0}
+#bar{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:8px;right:8px;display:flex;gap:8px;align-items:center}
+#bar .chip{flex:none}#stamp{flex:1;text-align:center}
+#stick{position:fixed;left:22px;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);width:110px;height:110px;border-radius:50%;background:rgba(255,252,246,.8);display:none}
+#knob{position:absolute;left:35px;top:35px;width:40px;height:40px;border-radius:50%;background:#e58aa6}
+#sheet{position:fixed;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);display:none;padding:14px;border-radius:18px;background:rgba(255,252,246,.96);color:#5a3a3a;box-shadow:0 4px 18px rgba(120,70,70,.25)}
+#sheet b{font-size:16px}#sheet .row{display:flex;gap:8px;margin-top:10px}
+#sheet a,#sheet button{flex:1;text-align:center;padding:10px;border-radius:12px;border:0;font-size:14px;text-decoration:none;background:#e58aa6;color:#fff}
+#sheet button.s{background:#eadbd3;color:#5a3a3a}
+.stop{width:40px;height:40px;border-radius:50%;background:#fff;border:3px solid #e58aa6;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 8px rgba(120,70,70,.35)}
+.stop.done{border-color:#7fc08a;background:#f1fbef}
+.me{height:76px;display:block;filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+#toast{position:fixed;top:30%;left:50%;transform:translateX(-50%);background:rgba(255,252,246,.95);color:#5a3a3a;padding:14px 22px;border-radius:18px;font-size:18px;display:none}
+</style></head><body>
+<div id="map"></div><div id="paper"></div><div id="vig"></div>
+<div id="bar"><button class="chip" id="mode">🕹 画面で歩く</button><div class="chip" id="stamp">スタンプ 0</div><button class="chip" id="north">🧭</button></div>
+<div id="stick"><div id="knob"></div></div>
+<div id="sheet"></div><div id="toast"></div>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+// 座標は index.html の道案内マップと同じ値（[場所名, 絵文字, 緯度, 経度, 個別リンク]）
+const STOPS={
+front:['MAHALOビル','💖',33.84556,132.75534],jinja:['阿沼美神社','⛩',33.84616,132.75641],koshin:['庚申庵','🌸',33.84368,132.75468],
+yaoya:['丸五青果','🍅',33.84630,132.75690],tamago:['平野鶏卵','🥚',33.84701,132.75683],kayamachi:['萱町商店街','🏮',33.84556,132.75687],
+pharmacy:['レデイ薬局 宮西店','💊',33.84530,132.75527],fuji:['フジグラン松山','🛍',33.84492,132.75328],furumachi:['古町駅','🚉',33.84709,132.75526],
+park:['城山公園（みんなの広場）','🌳',33.84170,132.76510,'./'],
+honkan:['道後温泉本館','♨️',33.85194,132.78639],dogoeki:['道後温泉駅','🚃',33.84972,132.78500],haikara:['道後ハイカラ通り','🏮',33.85080,132.78580],
+okaido:['大街道','🛍',33.84480,132.77030],gintengai:['銀天街','🏬',33.84430,132.76800],castle:['松山城','🏯',33.84557,132.76530],
+cityst:['松山市駅','🚉',33.83996,132.76235],jrst:['JR松山駅','🚉',33.83990,132.75170]};
+const AV_STILL='av-player.png',AV_WALK='av-player-wf.png';window.__myAvaUrl=null;
+let me={lat:33.84556,lng:132.75534},gps=false,visited={};
+try{visited=JSON.parse(localStorage.getItem('ohana-stamps')||'{}')}catch(e){}
+const map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/liberty',center:[me.lng,me.lat],zoom:17.3,pitch:62,bearing:-20,maxPitch:75,attributionControl:{compact:true}});
+map.on('load',()=>{ // 水彩っぽい淡い色に塗り替え
+  map.getStyle().layers.forEach(l=>{try{const id=l.id.toLowerCase();
+    if(l.type==='background')map.setPaintProperty(l.id,'background-color','#f6eadf');
+    else if(l.type==='fill'&&id.includes('water'))map.setPaintProperty(l.id,'fill-color','#bfe0ee');
+    else if(l.type==='fill'&&/park|wood|grass|green|landcover/.test(id))map.setPaintProperty(l.id,'fill-color','#d3e9bc');
+    else if(l.type==='fill-extrusion'){map.setPaintProperty(l.id,'fill-extrusion-color','#f6d9cb');map.setPaintProperty(l.id,'fill-extrusion-opacity',.9)}
+    else if(l.type==='line'&&id.includes('water'))map.setPaintProperty(l.id,'line-color','#bfe0ee');
+  }catch(e){}});
+});
+// 分身
+const meEl=document.createElement('img');meEl.className='me';meEl.src=AV_STILL;meEl.alt='あなたの分身';
+const meMk=new maplibregl.Marker({element:meEl,anchor:'bottom'}).setLngLat([me.lng,me.lat]).addTo(map);
+// ストップ
+const sheet=document.getElementById('sheet'),stampEl=document.getElementById('stamp'),toast=document.getElementById('toast');
+const dist=(a,b,c,d)=>{const R=6371000,r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return Math.hypot(x,y)*R};
+function upd(){stampEl.textContent='スタンプ '+Object.keys(visited).length+' / '+Object.keys(STOPS).length}
+const els={};
+Object.keys(STOPS).forEach(id=>{const [n,e,la,ln]=STOPS[id];const el=document.createElement('div');el.className='stop'+(visited[id]?' done':'');el.textContent=e;els[id]=el;
+  el.onclick=ev=>{ev.stopPropagation();open(id)};new maplibregl.Marker({element:el}).setLngLat([ln,la]).addTo(map)});
+function open(id){const [n,e,la,ln]=STOPS[id],d=Math.round(dist(me.lat,me.lng,la,ln));
+  sheet.innerHTML=`<b>${e} ${n}</b><div style="margin-top:4px;font-size:13px">${visited[id]?'✅ スタンプ済み':'いま '+(d>=1000?(d/1000).toFixed(1)+'km':d+'m')+'（50m以内でスタンプ）'}</div>
+  <div class="row"><a href="${STOPS[id][4]||('3d.html#'+id)}">${STOPS[id][4]?'広場へ':'中を見る'}</a><button class="s" onclick="sheet.style.display='none'">閉じる</button></div>`;sheet.style.display='block'}
+map.on('click',()=>sheet.style.display='none');
+function check(){Object.keys(STOPS).forEach(id=>{if(visited[id])return;const s=STOPS[id];if(dist(me.lat,me.lng,s[2],s[3])<50){visited[id]=Date.now();els[id].classList.add('done');
+  try{localStorage.setItem('ohana-stamps',JSON.stringify(visited))}catch(e){}
+  toast.textContent='✨ '+s[0]+' スタンプ！';toast.style.display='block';setTimeout(()=>toast.style.display='none',1800);upd()}})}
+upd();
+function setMe(lat,lng,fly){me={lat,lng};meMk.setLngLat([lng,lat]);if(fly)map.easeTo({center:[lng,lat],duration:700});else map.jumpTo({center:[lng,lat]});check()}
+// 歩き方：画面スティック／GPS
+const stick=document.getElementById('stick'),knob=document.getElementById('knob'),modeBtn=document.getElementById('mode');let mx=0,my=0,watch=null;
+stick.style.display='block';
+function setStick(t){const b=stick.getBoundingClientRect();let dx=t.clientX-b.left-55,dy=t.clientY-b.top-55;const d=Math.hypot(dx,dy),m=45;if(d>m){dx*=m/d;dy*=m/d}mx=dx/m;my=dy/m;knob.style.transform=`translate(${dx}px,${dy}px)`}
+stick.addEventListener('pointerdown',e=>{stick.setPointerCapture(e.pointerId);setStick(e)});
+stick.addEventListener('pointermove',e=>{if(e.buttons||e.pressure)setStick(e)});
+stick.addEventListener('pointerup',()=>{mx=my=0;knob.style.transform=''});
+modeBtn.onclick=()=>{gps=!gps;modeBtn.textContent=gps?'📍 GPSで歩く':'🕹 画面で歩く';stick.style.display=gps?'none':'block';
+  if(gps){if(!navigator.geolocation){alert('この端末ではGPSが使えません');gps=false;return}
+    watch=navigator.geolocation.watchPosition(p=>setMe(p.coords.latitude,p.coords.longitude,true),()=>{alert('位置情報が許可されていません');gps=false;modeBtn.textContent='🕹 画面で歩く';stick.style.display='block'},{enableHighAccuracy:true})}
+  else if(watch!=null){navigator.geolocation.clearWatch(watch);watch=null}};
+document.getElementById('north').onclick=()=>map.easeTo({bearing:0,duration:500});
+let last=performance.now(),wf=0,wt=0;
+function ava(walk){const still=window.__myAvaUrl||AV_STILL,frame=window.__myAvaUrl||AV_WALK;meEl.src=walk?(wf?frame:still):still}
+window.addEventListener('ohana-ava',()=>ava(false));
+(function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;
+  if(!gps&&(mx||my)){const th=map.getBearing()*Math.PI/180,sp=14; // m/s（歩く速さ）
+    const e=Math.sin(th)*(-my)+Math.cos(th)*mx,n=Math.cos(th)*(-my)-Math.sin(th)*mx;
+    setMe(me.lat+n*sp*dt/111320,me.lng+e*sp*dt/(111320*Math.cos(me.lat*Math.PI/180)),false)}
+  wt+=dt;const mv=!gps&&(mx||my);if(mv&&wt>.36){wt=0;wf=wf?0:1;ava(true)}else if(!mv&&wf){wf=0;ava(false)}
+  requestAnimationFrame(loop)})(last);
+</script><script type="module">
+// Firebase（ohana-share）。apiKeyは同じサイトの index.html から読み取ります（公開されている値）
+let FB_CONFIG = null;
+try {
+  const html = await (await fetch("index.html", { cache: "no-store" })).text();
+  const m = html.match(/apiKey\s*:\s*["']([^"']+)["']/);
+  if (m) FB_CONFIG = { apiKey: m[1], authDomain: "ohana-share.firebaseapp.com", projectId: "ohana-share", storageBucket: "ohana-share.firebasestorage.app", messagingSenderId: "825904150210", appId: "1:825904150210:web:4ae90f047ac8cc761cad5b" };
+} catch (e) {}
+if (FB_CONFIG) {
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+  const { getAuth, onAuthStateChanged } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+  const { getFirestore, doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+  const app = initializeApp(FB_CONFIG), auth = getAuth(app), db = getFirestore(app);
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    try {
+      const snap = await getDoc(doc(db, "islandUsers", user.uid));
+      if (snap.exists() && snap.data().avaUrl) { window.__myAvaUrl = snap.data().avaUrl; window.dispatchEvent(new Event("ohana-ava")); }
+    } catch (e) {}
+  });
+}
+</script>
+</body></html>
