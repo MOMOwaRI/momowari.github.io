@@ -1315,7 +1315,7 @@
       </div>
       <label class="flabel" for="msgText">文面（そのまま送っても、直してもOK）</label>
       <textarea id="msgText" rows="5" maxlength="500"></textarea>
-      <button class="cta-btn" id="msgSendBtn" type="button" aria-label="このまま送る"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 L11 13"/><path d="M21.5 2.5 L14.8 21.5 L11 13 L2.5 9.2 Z"/></svg><span class="sr-only">このまま送る</span></button>
+      <button class="cta-btn" id="msgSendBtn" type="button" aria-label="このまま送る"><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 L11 13"/><path d="M21.5 2.5 L14.8 21.5 L11 13 L2.5 9.2 Z"/></svg><span>このまま送る</span></button>
     </section>
 
     <!-- throw sheet -->
@@ -1361,7 +1361,7 @@
         <p class="empty-note" id="thrownEmpty">あなたの価値を放ってみませんか？</p>
       </div>
       <div id="tabItems">
-        <button class="cta-btn" id="bagMsgAllBtn" type="button" aria-label="持ち主へまとめてメッセージ" hidden><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 L11 13"/><path d="M21.5 2.5 L14.8 21.5 L11 13 L2.5 9.2 Z"/></svg><span class="sr-only">持ち主へまとめてメッセージ</span></button>
+        <button class="cta-btn" id="bagMsgAllBtn" type="button" aria-label="持ち主へまとめてメッセージ" hidden><svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5 L11 13"/><path d="M21.5 2.5 L14.8 21.5 L11 13 L2.5 9.2 Z"/></svg><span>持ち主へメッセージ</span></button>
         <div class="bag-list" id="bagList"></div>
         <p class="empty-note" id="bagEmpty">発見しに行こう。</p>
       </div>
@@ -2501,7 +2501,9 @@
     $("#itemKind").textContent = b.data.kind || "モノ";
     $("#itemMsgFrom").textContent = b.data.kind === "ヒト" ? "この人から" : (b.data.kind === "コト" ? "このコトから" : "放流した人から");
     /* 船に乗せる is for everything — モノもヒトもコトも全部。
-       ページを見に行く is its own separate button, for everyone. */
+       ページを見に行く is its own separate button, shown only
+       when this item has a page of its own. */
+    $("#pageBtn").hidden = !(b.data && b.data.page);
     $("#pickBtnLabel").textContent = "船に乗せる";
     renderComments(b.data.id);
     sndPop();
@@ -2710,7 +2712,12 @@
   });
   $("#pageBtn").addEventListener("click", function(){
     if (!selectedItem) return;
-    window.open(selectedItem.data.page || sellerUrlFor(selectedItem.data.from), "_blank", "noopener");
+    /* ページを見に行く is that item's OWN page, never the
+       seller's page (2026-11-24: the seller fallback landed
+       people on the ヒト page). The seller's page stays on
+       the seller-name button. */
+    var u = selectedItem.data.page || "";
+    if (u) window.open(u, "_blank", "noopener");
   });
   $("#pickBtn").addEventListener("click", function(){
     if (!selectedItem) return;
@@ -3064,14 +3071,18 @@
     return d ? (d.from || "") : "";
   }
   function ownerKnown(entry){ return ownerNameFor(entry) === "MOMOwaRI"; }
+  /* 2026-11-24 本人指示「わからない時は私宛でいいよ 運営宛」:
+     持ち主の連絡先が分からないモノは、運営(MOMOwaRI)宛に届ける。
+     自分のモノと、運営本人が運営宛に送る形になるものは除く。 */
   function reachableCargo(){
     var groups = {}, order = [];
     state.bag.forEach(function(it){
       var o = ownerNameFor(it);
-      if (o && o !== currentUserName && ownerKnown(it)){
-        if (!groups[o]){ groups[o] = []; order.push(o); }
-        groups[o].push(it);
-      }
+      if (o && currentUserName && o === currentUserName) return;
+      var dest = ownerKnown(it) ? o : "MOMOwaRI";
+      if (currentUserName && dest === currentUserName) return;
+      if (!groups[dest]){ groups[dest] = []; order.push(dest); }
+      groups[dest].push(it);
     });
     return order.map(function(o){ return { owner:o, items:groups[o] }; });
   }
@@ -3087,7 +3098,8 @@
     var all = [];
     msgGroups.forEach(function(g){ all = all.concat(g.items); });
     $("#msgTo").textContent = "\u6301\u3061\u4e3b\u3078\u306e\u30e1\u30c3\u30bb\u30fc\u30b8";
-    $("#msgAbout").textContent = all.length + "\u4ef6\u306e\u30e2\u30ce\u306b\u3064\u3044\u3066";
+    var hasFallback = all.some(function(it){ return !ownerKnown(it); });
+    $("#msgAbout").textContent = all.length + "\u4ef6\u306e\u30e2\u30ce\u306b\u3064\u3044\u3066" + (hasFallback ? "\uff08\u6301\u3061\u4e3b\u304c\u5206\u304b\u3089\u306a\u3044\u30e2\u30ce\u306f\u904b\u55b6\u306b\u5c4a\u304d\u307e\u3059\uff09" : "");
     $("#msgGuestMail").hidden = isLoggedInWithIsland;
     msgTemplateText = msgTemplate(all);
     $("#msgText").value = msgTemplateText;
