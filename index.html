@@ -392,6 +392,20 @@ footer{margin-top:36px}
 .static-about p{margin:0 0 8px}
 .static-about .about-links{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px}
 .static-about .about-links a{color:#b06a1b}
+/* ハンバーガーメニュー */
+.top-actions{position:fixed;top:10px;right:max(10px,calc(50% - 350px));z-index:97;display:flex;gap:8px;align-items:center}
+.top-actions #mypage-btn{position:static}
+#menu-btn{width:42px;height:42px;flex:0 0 auto;border-radius:50%;background:#fff;border:2px solid #e07b24;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
+#menu-btn span{display:block;width:18px;height:2px;background:#b3541e;border-radius:2px;transition:transform .2s,opacity .2s}
+#menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+#menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+#site-menu{position:fixed;top:60px;right:max(10px,calc(50% - 350px));z-index:97;width:min(78vw,290px);background:#fff;border:1px solid #eadfce;border-radius:16px;box-shadow:0 16px 34px -16px rgba(120,70,20,.4);padding:8px}
+#site-menu[hidden]{display:none}
+#site-menu a{display:block;padding:11px 12px;text-decoration:none;color:#5b4a42;font-weight:700;font-size:14.5px;border-radius:10px}
+#site-menu a+a{border-top:1px solid #f4e9d6}
+#site-menu a:active{background:#fff6ec}
+.muse-form-btn{display:inline-block;background:#e8590c;color:#fff;font-weight:800;border-radius:999px;padding:9px 22px;text-decoration:none}
 </style>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -403,7 +417,20 @@ footer{margin-top:36px}
 </head>
 <body>
 
+<div class="top-actions">
+<button id="menu-btn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span></span></button>
 <a data-lid="momowari-github-io-ohana-share-login-html" id="mypage-btn" href="https://momowari.github.io/OHANA-share/login.html">マイページ</a>
+</div>
+<nav id="site-menu" hidden aria-label="サイトメニュー">
+<a href="#sns-note">SNS・note</a>
+<a href="#ohana">OHANAシェア＊プロジェクト</a>
+<a href="#lea">Lea Mahalo（雑貨＆古着）</a>
+<a href="#eyes">Eyes MAHALO（まつげパーマ）</a>
+<a href="#mahalo">美容室 MAHALO</a>
+<a href="#faq">よくある質問</a>
+<a href="#muse-invite">こんなページを作りませんか</a>
+<a href="https://lit.link/momowari">lit.link（リンク集）</a>
+</nav>
 
 <header class="hero-head" aria-label="MOMOwaRIのご案内">
   <span class="kick mfu" style="--md:0s">松山市味酒町｜MAHALOビル</span>
@@ -703,6 +730,7 @@ footer{margin-top:36px}
     <p class="muse-code">招待コード：<strong>UL8AHT</strong></p>
     <p class="muse-plus">招待コードを使うと、ほぼ無制限に使えるようになります！</p>
     <p><a class="muse-btn" href="https://muse.ai/join">Museをはじめる</a></p>
+    <p>作るのが難しそうな方は、こちらからご相談ください。<br><a class="muse-form-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSf9pS2a8UX2i38yFBIkzghl09c_GjwcZAAt3GQFwSeEZCWCWw/viewform" target="_blank" rel="noopener">ページ作りの相談はこちら（無料）</a></p>
     <p class="muse-how">招待コードの入れ方<br>
     アプリ：Museアプリの設定 →「Redeem token」から入力（登録してから48時間以内）<br>
     Web：muse.ai の設定 → General → Usage →「Redeem invite code」から入力</p>
@@ -1574,6 +1602,22 @@ try {
     }).catch(function(){ return null; });
   };
 } catch(e){}
+</script>
+<script>
+(function(){
+  var btn = document.getElementById('menu-btn');
+  var menu = document.getElementById('site-menu');
+  if(!btn || !menu) return;
+  function close(){ menu.hidden = true; btn.setAttribute('aria-expanded','false'); }
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = menu.hidden;
+    if(open){ menu.hidden = false; btn.setAttribute('aria-expanded','true'); } else { close(); }
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) close(); });
+  document.addEventListener('click', function(e){ if(!menu.hidden && !menu.contains(e.target)) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+})();
 </script>
 </body>
 </html>
