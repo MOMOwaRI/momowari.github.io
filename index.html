@@ -393,14 +393,24 @@ footer{margin-top:36px}
 .static-about .about-links{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px}
 .static-about .about-links a{color:#b06a1b}
 /* ハンバーガーメニュー */
-.top-actions{position:fixed;top:10px;right:max(10px,calc(50% - 350px));z-index:97;display:flex;gap:8px;align-items:center}
-.top-actions #mypage-btn{position:static}
-#menu-btn{width:42px;height:42px;flex:0 0 auto;border-radius:50%;background:#fff;border:2px solid #e07b24;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
-#menu-btn span{display:block;width:18px;height:2px;background:#b3541e;border-radius:2px;transition:transform .2s,opacity .2s}
+/* OHANA統一：上部バー・下部帯・BOT吹き出し（2026-11-28） */
+body{padding-top:38px!important}
+#topbar-strip{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:38px;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-bottom:1.5px solid #e9ba77;box-shadow:0 2px 10px rgba(190,130,40,.16);z-index:79;display:flex;align-items:stretch}
+#topbar-strip #menu-btn{flex:0 0 auto;width:auto;height:auto;padding:0 13px;border-radius:0;background:transparent;box-shadow:none;border:none;border-right:1px solid rgba(190,130,50,.32);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+#topbar-strip #menu-btn span{display:block;width:18px;height:2px;background:#7a4a08;border-radius:2px;transition:transform .2s,opacity .2s}
 #menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 #menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
 #menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-#site-menu{position:fixed;top:60px;right:max(10px,calc(50% - 350px));z-index:97;width:min(78vw,290px);background:#fff;border:1px solid #eadfce;border-radius:16px;box-shadow:0 16px 34px -16px rgba(120,70,20,.4);padding:8px}
+#topbar-strip #mypage-btn{position:static;flex:1;display:flex;align-items:center;justify-content:center;border:none;border-left:1px solid rgba(190,130,50,.32);border-radius:0;background:transparent;box-shadow:none;padding:0 8px;text-decoration:none;color:#7a4a08;font-size:.82rem;font-weight:500;white-space:nowrap}
+#site-menu{position:fixed;top:42px;left:10px;z-index:97;width:min(78vw,290px);background:#fff;border:1px solid #eadfce;border-radius:16px;box-shadow:0 16px 34px -16px rgba(120,70,20,.4);padding:8px}
+.oband{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:720px;bottom:0;z-index:72;background:linear-gradient(180deg,#fff1dc,#ffe5b8);border-top:1.5px solid #e9ba77;box-shadow:0 -2px 10px rgba(190,130,40,.16);display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px)}
+.oband a{flex:1;background:none;border:none;font:inherit;font-weight:700;font-size:.78rem;color:#7a4a08;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 2px;text-align:center;white-space:nowrap}
+.oband a+a{border-left:1px solid rgba(190,130,50,.32)}
+#botBtn{display:none!important}
+#bot-bubble{position:fixed;right:max(14px,calc(50% - 374px));bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:65;width:56px;height:56px;border-radius:50%;background:#e07b24;border:none;cursor:pointer;box-shadow:0 8px 22px rgba(146,84,20,.35);display:flex;align-items:center;justify-content:center;padding:0}
+#bot-bubble svg{width:30px;height:30px;fill:#fff}
+#bot-bubble:active{opacity:.85}
+.w{padding-bottom:96px}
 #site-menu[hidden]{display:none}
 #site-menu a{display:block;padding:11px 12px;text-decoration:none;color:#5b4a42;font-weight:700;font-size:14.5px;border-radius:10px}
 #site-menu a+a{border-top:1px solid #f4e9d6}
@@ -417,7 +427,7 @@ footer{margin-top:36px}
 </head>
 <body>
 
-<div class="top-actions">
+<div id="topbar-strip">
 <button id="menu-btn" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span></span></button>
 <a data-lid="momowari-github-io-ohana-share-login-html" id="mypage-btn" href="https://momowari.github.io/OHANA-share/login.html">マイページ</a>
 </div>
@@ -1619,5 +1629,7 @@ try {
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
 })();
 </script>
+<nav class="oband" aria-label="下部メニュー"><a href="https://momowari.github.io/ohana-jima/kai.html" target="_blank" rel="noopener">OHANA海🐠へ</a><a href="https://line.me/ti/g2/mYaTcXbtKn2WFAAAY09vy4sDh9AoXGKvsavFCQ" target="_blank" rel="noopener">LINEオープンチャット</a></nav>
+<button id="bot-bubble" type="button" aria-label="MOMOwaRIに質問する" onclick="event.stopPropagation();document.getElementById('botBtn').click()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg></button>
 </body>
 </html>
